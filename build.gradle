@@ -2,18 +2,23 @@ plugins {
     id 'org.springframework.boot' version '2.6.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'jacoco'
 }
 
-group = 'kr.co'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "17"
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+group = 'kr.co.toonzip'
+version = 'v0.0.1'
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
 }
-
 repositories {
     mavenCentral()
 }
@@ -32,7 +37,20 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-tasks.named('test') {
+test {
     useJUnitPlatform()
+    jacoco {
+        destinationFile = layout.buildDirectory.file('jacoco/jacocoTest.exec').get().asFile
+        classDumpDir = layout.buildDirectory.dir('jacoco/classpathdumps').get().asFile
+    }
+    finalizedBy 'jacocoTestReport'
 }
-targetCompatibility = JavaVersion.VERSION_17
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
