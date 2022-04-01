@@ -14,3 +14,14 @@ spring:
     url: jdbc:mysql://localhost:3306/toonzip_core?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowMultiQueries=true&autoReconnection=true&characterEncoding=UTF-8
     username: root
     password:
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher # Swagger Bug 처리
+
+cors:
+  allowed-origins: "*"
+  allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+  allowed-headers: "*"
+  max-age: 3600
+  apply-url-range: "/**"
