@@ -14,3 +14,7 @@ spring:
     url: jdbc:mysql://localhost:3306/toonzip_core?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowMultiQueries=true&autoReconnection=true&characterEncoding=UTF-8
     username: root
     password:
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher # Swagger Bug 처리
