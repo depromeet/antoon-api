@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @EnableConfigurationProperties(CorsProperties.class)
 @RequiredArgsConstructor
 public class CorsConfig implements WebMvcConfigurer {
+    private static final String ADAPTING_URL = "/**";
 
     @NotNull
     private final CorsProperties corsProperties;
@@ -30,7 +31,7 @@ public class CorsConfig implements WebMvcConfigurer {
         config.addAllowedMethod(corsProperties.getAllowedMethods());
         config.addAllowedOrigin(corsProperties.getAllowedOrigins());
         config.setMaxAge(corsProperties.getMaxAge());
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration(ADAPTING_URL, config);
         return new CorsFilter(source);
     }
 }

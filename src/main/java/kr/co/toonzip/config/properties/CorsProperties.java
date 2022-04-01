@@ -14,8 +14,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @ConfigurationProperties(prefix = "cors")
 public class CorsProperties {
-
-    private static final String COMMA = ",";
     @NotBlank
     private String allowedOrigins;
     @NotBlank
