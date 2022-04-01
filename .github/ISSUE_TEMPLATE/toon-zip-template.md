@@ -1,7 +1,7 @@
 ---
 
-name: Angel baby issue template
-about: Angel baby issue template
+name: toonzip issue template
+about: toonzip issue template
 title: ''
 labels: ''
 assignees: ''
@@ -15,6 +15,10 @@ assignees: ''
     ex) [Member] 로그인 기능 구현
 -->
 
+### 👥 작업에 참여한 인원
+<!-- 작업에 관계된 인원을 멘션으로 걸어주세요. -->
+
+
 
 ### 📑 작업 사항
 <!-- 진행할 작업 목록을 작성해주세요. -->
@@ -22,5 +26,5 @@ assignees: ''
 
 
 ### 📋 이슈 혹은 고려할 점
-<!-- 발생한 이슈 혹은 고려할 부분 -->
+<!-- 발생한 이슈 혹은 고려할 부분을 작성해주세요. -->
 
