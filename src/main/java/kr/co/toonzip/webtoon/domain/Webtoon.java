@@ -51,4 +51,8 @@ public class Webtoon extends BaseEntity {
         this.url = url;
         this.genre = genre;
     }
+
+    public boolean isEqualsTitle(String title) {
+        return this.title.equals(title);
+    }
 }

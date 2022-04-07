@@ -10,6 +10,6 @@ public class WebtoonDailyJob {
     private final WebtoonCrawlingFacade webtoonCrawlingFacade;
 
     public void run() {
-        webtoonCrawlingFacade.crawling();
+        webtoonCrawlingFacade.crawlingWebtoon();
     }
 }

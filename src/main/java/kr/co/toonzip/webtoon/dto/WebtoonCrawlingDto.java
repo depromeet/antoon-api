@@ -8,8 +8,8 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public class WebtoonCrawlingBundle {
-    private final List<WebtoonCrawlingDetail> bundle;
+public class WebtoonCrawlingDto {
+    private final List<WebtoonCrawlingDetail> dto;
 
     @Getter
     @Builder

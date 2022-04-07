@@ -8,7 +8,7 @@ import kr.co.toonzip.webtoon.domain.Webtoon;
 import kr.co.toonzip.webtoon.domain.WebtoonPublishDay;
 import kr.co.toonzip.webtoon.domain.WebtoonSnapshot;
 import kr.co.toonzip.webtoon.domain.vo.Platform;
-import kr.co.toonzip.webtoon.dto.WebtoonCrawlingBundle;
+import kr.co.toonzip.webtoon.dto.WebtoonCrawlingDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,53 +24,47 @@ public class WebtoonCrawlingFacade {
     private final WebtoonCrawling webtoonCrawling;
 
     @Transactional
-    public void crawling() {
-        var webtoonList = webtoonService.findAll();
-        var crawling = webtoonCrawling.crawling();
+    public void crawlingWebtoon() {
+        var insertedWebtoons = webtoonService.findAll();
+        var crawlingWebtoons = webtoonCrawling.crawling();
 
-        Long save = null;
-
-        for (var detail : crawling.getBundle()) {
-
-            boolean check = true;
-            for (var webtoon : webtoonList) {
-                //
-                if (webtoon.getTitle().equals(detail.getTitle())) {
-                    webtoon.update(
-                            detail.getTitle(),
-                            detail.getContent(),
-                            detail.getWriter(),
-                            detail.getThumbnail(),
-                            detail.getUrl(),
-                            detail.getGenre()
+        crawlingWebtoons.getDto()
+                .stream()
+                .filter(crawlingWebtton -> isNotUpdated(insertedWebtoons, crawlingWebtton))
+                .forEach(crawlingWebtton -> {
+                    Long webtoonId = webtoonService.save(
+                            Webtoon.builder()
+                                    .title(crawlingWebtton.getTitle())
+                                    .content(crawlingWebtton.getContent())
+                                    .writer(crawlingWebtton.getWriter())
+                                    .url(crawlingWebtton.getUrl())
+                                    .thumbnail(crawlingWebtton.getThumbnail())
+                                    .genre(crawlingWebtton.getGenre())
+                                    .platform(Platform.NAVER)
+                                    .build()
                     );
+                    webtoonPublishDayService.save(new WebtoonPublishDay(crawlingWebtton.getDay(), webtoonId));
+                    webtoonSnapshotService.save(new WebtoonSnapshot(crawlingWebtton.getScore(), webtoonId));
+                });
+    }
 
-                    save = webtoon.getId();
-                    check = false;
-                    break;
-                }
+    private boolean isNotUpdated(
+            List<Webtoon> insertedWebtoons,
+            WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton
+    ) {
+        for (var webtoon : insertedWebtoons) {
+            if (webtoon.isEqualsTitle(crawlingWebtton.getTitle())) {
+                webtoon.update(
+                        crawlingWebtton.getTitle(),
+                        crawlingWebtton.getContent(),
+                        crawlingWebtton.getWriter(),
+                        crawlingWebtton.getThumbnail(),
+                        crawlingWebtton.getUrl(),
+                        crawlingWebtton.getGenre()
+                );
+                return false;
             }
-
-            if (check) {
-                var build = Webtoon.builder()
-                        .title(detail.getTitle())
-                        .content(detail.getContent())
-                        .writer(detail.getWriter())
-                        .url(detail.getUrl())
-                        .thumbnail(detail.getThumbnail())
-                        .genre(detail.getGenre())
-                        .platform(Platform.NAVER)
-                        .build();
-
-                save = webtoonService.save(build);
-            }
-
-
-            var webtoonPublishDay = new WebtoonPublishDay(detail.getDay(), save);
-            webtoonPublishDayService.save(webtoonPublishDay);
-
-            var webtoonSnapshot1 = new WebtoonSnapshot(detail.getScore(), save);
-            webtoonSnapshotService.save(webtoonSnapshot1);
         }
+        return true;
     }
 }

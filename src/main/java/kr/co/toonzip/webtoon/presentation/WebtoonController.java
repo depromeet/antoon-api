@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebtoonController {
     private final WebtoonCrawlingFacade webtoonCrawlingFacade;
 
+    /**
+     * For Crawling Test
+     **/
     @PostMapping("/test-crawling")
     public void test() {
-        webtoonCrawlingFacade.crawling();
+        webtoonCrawlingFacade.crawlingWebtoon();
     }
 }

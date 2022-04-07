@@ -1,6 +1,6 @@
 package kr.co.toonzip.webtoon.crawling;
 
-import kr.co.toonzip.webtoon.dto.WebtoonCrawlingBundle;
+import kr.co.toonzip.webtoon.dto.WebtoonCrawlingDto;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -14,37 +14,37 @@ import java.util.ArrayList;
 public class NaverWebtoonCrawling implements WebtoonCrawling {
 
     @Override
-    public WebtoonCrawlingBundle crawling() {
+    public WebtoonCrawlingDto crawling() {
 
-        var requests = new ArrayList<WebtoonCrawlingBundle.WebtoonCrawlingDetail>();
+        var bundle = new ArrayList<WebtoonCrawlingDto.WebtoonCrawlingDetail>();
 
         try {
-            var naverWebtoonDocument = Jsoup.connect("https://comic.naver.com/webtoon/weekday").get();
-            var dailyWebtoonElements = naverWebtoonDocument.select("div.list_area.daily_all div.col");
+            var naverWeekendWebtoonDocument = Jsoup.connect(WebtoonCrawlingValue.NAVER_WEEKEND_URL).get();
+            var webtoonElements = naverWeekendWebtoonDocument.select(WebtoonCrawlingValue.NAVER_WEEKEND_ELEMENTS);
 
-            for (var element : dailyWebtoonElements) {
-                var eachUrlElements = element.select("ul li div.thumb a");
+            for (var weekendWebtoons : webtoonElements) {
+                var eachUrlElements = weekendWebtoons.select(WebtoonCrawlingValue.NAVER_ALL_URLS);
 
-                for (Element eeeee : eachUrlElements) {
-                    var url = "https://comic.naver.com" + eeeee.attr("href");
+                for (Element webtoon : eachUrlElements) {
+                    var url = WebtoonCrawlingValue.NAVER_WEBTOON_DOMIN + webtoon.attr(WebtoonCrawlingValue.NAVER_WEBTOON_URL_ATTRIBUTE_KEY);
+                    var day = weekendWebtoons.getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTOON_DAT_ATTRIBUTE_KEY).text().substring(0, 1);
 
-                    var day = element.getElementsByTag("h4").text().substring(0, 1);
+                    var webtoonDetailDocument = Jsoup.connect(url).get();
 
-                    var innerDocument = Jsoup.connect(url).get();
+                    var score = webtoonDetailDocument.select(WebtoonCrawlingValue.NAVER_WEBTTON_SCORE[0])
+                            .get(0)
+                            .getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTTON_SCORE[1])
+                            .text();
 
-                    var element1 = innerDocument.select("div.rating_type").get(0);
+                    var innerElements = webtoonDetailDocument.select(WebtoonCrawlingValue.NAVER_INNSER_ELEMENTS);
+                    for (var innerElement : innerElements) {
+                        var title = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_TITLE).text();
+                        var content = innerElement.getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTOON_CONTENT).get(0).text();
+                        var writer = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_WRITER).text();
+                        var thumbnail = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[0]).attr(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[1]);
+                        var genre = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_GENRE).text();
 
-                    var score = element1.getElementsByTag("strong").text();
-
-                    var innerElements = innerDocument.select("div.comicinfo");
-                    for (var ee : innerElements) {
-                        var title = ee.select("span.title").text();
-                        var content = ee.getElementsByTag("p").get(0).text();
-                        var writer = ee.select("span.wrt_nm").text();
-                        var thumbnail = ee.select("div.thumb img").attr("src");
-                        var genre = ee.select("span.genre").text();
-
-                        requests.add(WebtoonCrawlingBundle.WebtoonCrawlingDetail.builder()
+                        bundle.add(WebtoonCrawlingDto.WebtoonCrawlingDetail.builder()
                                 .title(title)
                                 .content(content)
                                 .writer(writer)
@@ -54,16 +54,15 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                                 .score(Double.parseDouble(score))
                                 .day(day)
                                 .build());
+
+                        log.info("[Naver Webtoon Crawling] url-> {} / title -> {}", url, title);
                     }
                 }
-
             }
         } catch (IOException e) {
-            log.error("[Webtoon Crawling Error] Naver Webtoon Error {}", e.getCause());
-            e.printStackTrace();
+            log.error("[Naver Webtoon Crawling Error] {}", e.getCause());
         }
 
-        return new WebtoonCrawlingBundle(requests);
+        return new WebtoonCrawlingDto(bundle);
     }
-
 }
