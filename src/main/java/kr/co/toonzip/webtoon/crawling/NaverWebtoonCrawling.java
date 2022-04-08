@@ -44,18 +44,11 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                         var thumbnail = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[0]).attr(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[1]);
                         var genre = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_GENRE).text();
 
-                        bundle.add(WebtoonCrawlingDto.WebtoonCrawlingDetail.builder()
-                                .title(title)
-                                .content(content)
-                                .writer(writer)
-                                .thumbnail(thumbnail)
-                                .genre(genre)
-                                .url(url)
-                                .score(Double.parseDouble(score))
-                                .day(day)
-                                .build());
+                        bundle.add(new WebtoonCrawlingDto.WebtoonCrawlingDetail(
+                                title, content, writer, genre, thumbnail, url, Double.parseDouble(score), day
+                        ));
 
-                        log.info("[Naver Webtoon Crawling] url-> {} / title -> {}", url, title);
+                        log.info("[Naver Webtoon Crawling] url-> {} / title -> {} / content -> {}", url, title, content);
                     }
                 }
             }

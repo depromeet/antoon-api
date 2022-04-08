@@ -19,6 +19,7 @@ public class Webtoon extends BaseEntity {
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private String writer;

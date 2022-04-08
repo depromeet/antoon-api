@@ -28,23 +28,23 @@ public class WebtoonCrawlingFacade {
         var insertedWebtoons = webtoonService.findAll();
         var crawlingWebtoons = webtoonCrawling.crawling();
 
-        crawlingWebtoons.getDto()
+        crawlingWebtoons.dto()
                 .stream()
                 .filter(crawlingWebtton -> isNotUpdated(insertedWebtoons, crawlingWebtton))
                 .forEach(crawlingWebtton -> {
                     Long webtoonId = webtoonService.save(
                             Webtoon.builder()
-                                    .title(crawlingWebtton.getTitle())
-                                    .content(crawlingWebtton.getContent())
-                                    .writer(crawlingWebtton.getWriter())
-                                    .url(crawlingWebtton.getUrl())
-                                    .thumbnail(crawlingWebtton.getThumbnail())
-                                    .genre(crawlingWebtton.getGenre())
+                                    .title(crawlingWebtton.title())
+                                    .content(crawlingWebtton.content())
+                                    .writer(crawlingWebtton.writer())
+                                    .url(crawlingWebtton.url())
+                                    .thumbnail(crawlingWebtton.thumbnail())
+                                    .genre(crawlingWebtton.genre())
                                     .platform(Platform.NAVER)
                                     .build()
                     );
-                    webtoonPublishDayService.save(new WebtoonPublishDay(crawlingWebtton.getDay(), webtoonId));
-                    webtoonSnapshotService.save(new WebtoonSnapshot(crawlingWebtton.getScore(), webtoonId));
+                    webtoonPublishDayService.save(new WebtoonPublishDay(crawlingWebtton.day(), webtoonId));
+                    webtoonSnapshotService.save(new WebtoonSnapshot(crawlingWebtton.score(), webtoonId));
                 });
     }
 
@@ -53,14 +53,14 @@ public class WebtoonCrawlingFacade {
             WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton
     ) {
         for (var webtoon : insertedWebtoons) {
-            if (webtoon.isEqualsTitle(crawlingWebtton.getTitle())) {
+            if (webtoon.isEqualsTitle(crawlingWebtton.title())) {
                 webtoon.update(
-                        crawlingWebtton.getTitle(),
-                        crawlingWebtton.getContent(),
-                        crawlingWebtton.getWriter(),
-                        crawlingWebtton.getThumbnail(),
-                        crawlingWebtton.getUrl(),
-                        crawlingWebtton.getGenre()
+                        crawlingWebtton.title(),
+                        crawlingWebtton.content(),
+                        crawlingWebtton.writer(),
+                        crawlingWebtton.thumbnail(),
+                        crawlingWebtton.url(),
+                        crawlingWebtton.genre()
                 );
                 return false;
             }
