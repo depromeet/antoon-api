@@ -19,7 +19,7 @@ public class Webtoon extends BaseEntity {
 
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
     private String content;
 
     private String writer;
@@ -28,29 +28,25 @@ public class Webtoon extends BaseEntity {
 
     private String thumbnail;
 
-    private String genre;
-
     @Enumerated(EnumType.STRING)
     private Platform platform;
 
     @Builder
-    public Webtoon(String title, String content, String writer, String url, String thumbnail, String genre, Platform platform) {
+    public Webtoon(String title, String content, String writer, String url, String thumbnail, Platform platform) {
         this.title = title;
         this.content = content;
         this.writer = writer;
         this.url = url;
         this.thumbnail = thumbnail;
-        this.genre = genre;
         this.platform = platform;
     }
 
-    public void update(String title, String content, String writer, String thumbnail, String url, String genre) {
+    public void update(String title, String content, String writer, String thumbnail, String url) {
         this.title = title;
         this.content = content;
         this.writer = writer;
         this.thumbnail = thumbnail;
         this.url = url;
-        this.genre = genre;
     }
 
     public boolean isEqualsTitle(String title) {

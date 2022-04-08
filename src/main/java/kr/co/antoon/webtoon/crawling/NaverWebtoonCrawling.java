@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -50,7 +51,7 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                                 writer,
                                 url,
                                 thumbnail,
-                                genre,
+                                List.of(genre.split(", ")),
                                 Double.parseDouble(score),
                                 day
                         ));

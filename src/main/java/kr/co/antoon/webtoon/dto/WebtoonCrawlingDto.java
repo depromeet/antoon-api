@@ -11,7 +11,7 @@ public record WebtoonCrawlingDto(
             String writer,
             String url,
             String thumbnail,
-            String genre,
+            List<String> genre,
             Double score,
             String day
     ) { }
