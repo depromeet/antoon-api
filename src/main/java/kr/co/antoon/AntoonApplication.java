@@ -1,11 +1,11 @@
-package kr.co.toonzip;
+package kr.co.antoon;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ToonzipApplication {
+public class AntoonApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ToonzipApplication.class, args);
+        SpringApplication.run(AntoonApplication.class, args);
     }
 }

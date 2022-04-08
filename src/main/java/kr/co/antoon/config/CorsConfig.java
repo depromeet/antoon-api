@@ -1,6 +1,6 @@
-package kr.co.toonzip.config;
+package kr.co.antoon.config;
 
-import kr.co.toonzip.config.properties.CorsProperties;
+import kr.co.antoon.config.properties.CorsProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,6 @@
-package kr.co.toonzip.error.exception;
+package kr.co.antoon.error.exception;
 
-import kr.co.toonzip.error.dto.ErrorMessage;
+import kr.co.antoon.error.dto.ErrorMessage;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 

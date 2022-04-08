@@ -1,4 +1,4 @@
-package kr.co.toonzip.common.presentation;
+package kr.co.antoon.common.presentation;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

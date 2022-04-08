@@ -1,4 +1,4 @@
-package kr.co.toonzip.error.dto;
+package kr.co.antoon.error.dto;
 
 import lombok.Getter;
 

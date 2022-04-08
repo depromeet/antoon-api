@@ -1,7 +1,7 @@
 ---
 
-name: toonzip issue template
-about: toonzip issue template
+name: antoon issue template
+about: antoon issue template
 title: ''
 labels: ''
 assignees: ''

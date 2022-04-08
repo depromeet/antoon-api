@@ -1,4 +1,4 @@
-package kr.co.toonzip.config;
+package kr.co.antoon.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -37,13 +37,13 @@ public class SwaggerConfig {
                         ServerWebExchange.class
                 )
                 .apiInfo(new ApiInfo(
-                                "TOON ZIP TITLE",
-                                "TOON ZIP CORE API",
+                                "ANTOON TITLE",
+                                "ANTOON CORE API",
                                 "v.1.0",
                                 "urn:tos",
                                 new Contact(
-                                        "TOON ZIP",
-                                        "https://github.com/depromeet/toonzip-api",
+                                        "ANTOON",
+                                        "https://github.com/depromeet/antoon-api",
                                         "wrjssmjdhappy@gmail.com"
                                 ),
                                 "Apache2.0",
@@ -54,7 +54,7 @@ public class SwaggerConfig {
                 .produces(new HashSet<>(Arrays.asList("application/json", "application/xml")))
                 .consumes(new HashSet<>(Arrays.asList("application/json", "application/xml")))
                 .securitySchemes(List.of(new ApiKey(
-                        "TOONZIP-API",
+                        "ANTOON-API",
                         "Authorization",
                         "header"
                 )))

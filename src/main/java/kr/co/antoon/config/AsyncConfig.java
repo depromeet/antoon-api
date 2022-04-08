@@ -1,4 +1,4 @@
-package kr.co.toonzip.config;
+package kr.co.antoon.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;

@@ -10,7 +10,7 @@ jacoco {
     reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
 }
 
-group = 'kr.co.toonzip'
+group = 'kr.co.antoon'
 version = 'v0.0.1'
 java.sourceCompatibility = JavaVersion.VERSION_17
 

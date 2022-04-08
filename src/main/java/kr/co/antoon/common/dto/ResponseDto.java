@@ -1,4 +1,4 @@
-package kr.co.toonzip.common.dto;
+package kr.co.antoon.common.dto;
 
 import org.springframework.http.ResponseEntity;
 

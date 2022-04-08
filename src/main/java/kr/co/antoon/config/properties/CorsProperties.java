@@ -1,4 +1,4 @@
-package kr.co.toonzip.config.properties;
+package kr.co.antoon.config.properties;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

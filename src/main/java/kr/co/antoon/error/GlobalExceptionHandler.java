@@ -1,7 +1,7 @@
-package kr.co.toonzip.error;
+package kr.co.antoon.error;
 
-import kr.co.toonzip.error.dto.ErrorDto;
-import kr.co.toonzip.error.exception.BusinessException;
+import kr.co.antoon.error.dto.ErrorDto;
+import kr.co.antoon.error.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

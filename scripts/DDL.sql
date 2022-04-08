@@ -1,1 +1,3 @@
-create database toonzip_core character set utf8mb4 collate utf8mb4_general_ci;
+CREATE DATABASE antoon_core CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+USE antoon_core;
