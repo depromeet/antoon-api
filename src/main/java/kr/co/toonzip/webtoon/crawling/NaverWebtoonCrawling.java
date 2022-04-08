@@ -37,7 +37,7 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                             .text();
 
                     var innerElements = webtoonDetailDocument.select(WebtoonCrawlingValue.NAVER_INNSER_ELEMENTS);
-                    for (var innerElement : innerElements) {
+                    innerElements.forEach(innerElement -> {
                         var title = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_TITLE).text();
                         var content = innerElement.getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTOON_CONTENT).get(0).text();
                         var writer = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_WRITER).text();
@@ -45,14 +45,22 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                         var genre = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_GENRE).text();
 
                         bundle.add(new WebtoonCrawlingDto.WebtoonCrawlingDetail(
-                                title, content, writer, genre, thumbnail, url, Double.parseDouble(score), day
+                                title,
+                                content,
+                                writer,
+                                url,
+                                thumbnail,
+                                genre,
+                                Double.parseDouble(score),
+                                day
                         ));
 
-                        log.info("[Naver Webtoon Crawling] url-> {} / title -> {} / content -> {}", url, title, content);
-                    }
+                        log.info("[Naver Webtoon Crawling] title-> {} / url -> {}", title, url);
+                    });
                 }
             }
         } catch (IOException e) {
+            // TODO : Webhook Salck Cruiser
             log.error("[Naver Webtoon Crawling Error] {}", e.getCause());
         }
 

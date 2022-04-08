@@ -1,7 +1,5 @@
 package kr.co.toonzip.webtoon.dto;
 
-import lombok.Getter;
-
 import java.util.List;
 
 public record WebtoonCrawlingDto(
