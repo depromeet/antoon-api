@@ -42,7 +42,7 @@ public class SwaggerConfig {
                                 "v.1.0",
                                 "urn:tos",
                                 new Contact(
-                                        "ANTOON ZIP",
+                                        "ANTOON",
                                         "https://github.com/depromeet/antoon-api",
                                         "wrjssmjdhappy@gmail.com"
                                 ),
