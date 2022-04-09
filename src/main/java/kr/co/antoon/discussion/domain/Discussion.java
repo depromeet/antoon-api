@@ -2,6 +2,7 @@ package kr.co.antoon.discussion.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,11 @@ public class Discussion extends BaseEntity {
     private Long webtoonId;
 
     private Long memberId;
+
+    @Builder
+    public Discussion(String content, Long webtoonId, Long memberId) {
+        this.content = content;
+        this.webtoonId = webtoonId;
+        this.memberId = memberId;
+    }
 }
