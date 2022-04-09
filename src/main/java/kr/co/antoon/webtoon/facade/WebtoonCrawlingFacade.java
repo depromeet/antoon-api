@@ -27,12 +27,12 @@ public class WebtoonCrawlingFacade {
 
     @Transactional
     public void crawlingWebtoon() {
-        var insertedWebtoons = webtoonService.findAll();
+        var existsWebtoons = webtoonService.findAll();
         var crawlingWebtoons = webtoonCrawling.crawling();
 
         crawlingWebtoons.dto()
                 .stream()
-                .filter(crawlingWebtton -> isNotUpdated(insertedWebtoons, crawlingWebtton))
+                .filter(crawlingWebtton -> isNotUpdated(existsWebtoons, crawlingWebtton))
                 .forEach(crawlingWebtton -> {
                     Long webtoonId = webtoonService.save(
                             Webtoon.builder()
@@ -44,18 +44,18 @@ public class WebtoonCrawlingFacade {
                                     .build()
                     );
 
-                    List<WebtoonGenre> webtoonGenres = crawlingWebtton.genre()
+                    List<WebtoonGenre> genres = crawlingWebtton.genre()
                             .stream()
                             .map(w -> new WebtoonGenre(Category.of(w), webtoonId))
                             .collect(Collectors.toList());
 
-                    List<WebtoonWriter> webtoonWriters = crawlingWebtton.writer()
+                    List<WebtoonWriter> writers = crawlingWebtton.writer()
                             .stream()
                             .map(w -> new WebtoonWriter(w, webtoonId))
                             .collect(Collectors.toList());
 
-                    webtoonWriterService.saveAll(webtoonWriters);
-                    webtoonGenreService.saveAll(webtoonGenres);
+                    webtoonWriterService.saveAll(writers);
+                    webtoonGenreService.saveAll(genres);
                     webtoonPublishDayService.save(crawlingWebtton.day(), webtoonId);
                     webtoonSnapshotService.save(crawlingWebtton.score(), webtoonId);
                 });
