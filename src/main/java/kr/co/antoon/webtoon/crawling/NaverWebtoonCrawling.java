@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -43,7 +44,7 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                         var content = innerElement.getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTOON_CONTENT).get(0).text();
                         var writer = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_WRITER).text();
                         var thumbnail = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[0]).attr(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[1]);
-                        var genre = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_GENRE).text();
+                        var genres = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_GENRE).text().split(",");
 
                         bundle.add(new WebtoonCrawlingDto.WebtoonCrawlingDetail(
                                 title,
@@ -51,7 +52,9 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                                 writer,
                                 url,
                                 thumbnail,
-                                List.of(genre.split(", ")),
+                                Arrays.stream(genres)
+                                        .map(genre -> genre.replace(" ", ""))
+                                        .collect(Collectors.toList()),
                                 Double.parseDouble(score),
                                 day
                         ));

@@ -13,7 +13,7 @@ public enum Category {
     OMNIBUS("옴니버스"),
     STORY("스토리"),
     ACTION("액션"),
-    EPISODE("애피소드"),
+    EPISODE("에피소드"),
     GAG("개그"),
     EVERYDAY("일상"),
     DRAMA("드라마"),
@@ -27,9 +27,12 @@ public enum Category {
     private final String description;
 
     public static Category of(String description) {
-        return Arrays.stream(Category.values())
+        System.out.println("origin > " + description);
+        Category result = Arrays.stream(Category.values())
                 .filter(c -> c.getDescription().equals(description))
                 .findAny()
                 .orElse(NONE);
+        System.out.println("result > " + result);
+        return result;
     }
 }
