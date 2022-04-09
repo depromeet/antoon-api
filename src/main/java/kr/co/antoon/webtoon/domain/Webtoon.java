@@ -29,6 +29,8 @@ public class Webtoon extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Platform platform;
 
+    private Boolean active;
+
     @Builder
     public Webtoon(String title, String content, String url, String thumbnail, Platform platform) {
         this.title = title;
@@ -36,6 +38,7 @@ public class Webtoon extends BaseEntity {
         this.url = url;
         this.thumbnail = thumbnail;
         this.platform = platform;
+        this.active = true;
     }
 
     public void update(String title, String content, String thumbnail, String url) {

@@ -2,7 +2,9 @@ package kr.co.antoon.webtoon.facade;
 
 import kr.co.antoon.webtoon.application.*;
 import kr.co.antoon.webtoon.crawling.WebtoonCrawling;
-import kr.co.antoon.webtoon.domain.*;
+import kr.co.antoon.webtoon.domain.Webtoon;
+import kr.co.antoon.webtoon.domain.WebtoonGenre;
+import kr.co.antoon.webtoon.domain.WebtoonWriter;
 import kr.co.antoon.webtoon.domain.vo.Category;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
@@ -59,7 +61,6 @@ public class WebtoonCrawlingFacade {
                 });
     }
 
-    // todo : 수정 필요
     private boolean isNotUpdated(
             List<Webtoon> insertedWebtoons,
             WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton
