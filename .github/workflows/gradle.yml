@@ -34,9 +34,3 @@ jobs:
       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
       with:
         arguments: build
-
-    - name: Docker image build
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        push: true
