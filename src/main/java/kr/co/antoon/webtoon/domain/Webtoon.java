@@ -22,8 +22,6 @@ public class Webtoon extends BaseEntity {
     @Lob
     private String content;
 
-    private String writer;
-
     private String url;
 
     private String thumbnail;
@@ -32,10 +30,9 @@ public class Webtoon extends BaseEntity {
     private Platform platform;
 
     @Builder
-    public Webtoon(String title, String content, String writer, String url, String thumbnail, Platform platform) {
+    public Webtoon(String title, String content, String url, String thumbnail, Platform platform) {
         this.title = title;
         this.content = content;
-        this.writer = writer;
         this.url = url;
         this.thumbnail = thumbnail;
         this.platform = platform;

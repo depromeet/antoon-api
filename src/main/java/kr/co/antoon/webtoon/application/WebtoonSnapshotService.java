@@ -12,7 +12,8 @@ public class WebtoonSnapshotService {
     private final WebtoonSnapshotRepository webtoonSnapshotRepository;
 
     @Transactional
-    public Long save(WebtoonSnapshot webtoonSnapshot) {
-        return webtoonSnapshotRepository.save(webtoonSnapshot).getId();
+    public void save(Double score, Long webtoonId) {
+        var webtoonSnapshot = new WebtoonSnapshot(score, webtoonId);
+        webtoonSnapshotRepository.save(webtoonSnapshot);
     }
 }

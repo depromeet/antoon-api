@@ -44,18 +44,18 @@ public class WebtoonCrawlingFacade {
 
                     List<WebtoonGenre> webtoonGenres = crawlingWebtton.genre()
                             .stream()
-                            .map(wg -> new WebtoonGenre(Category.of(wg), webtoonId))
+                            .map(w -> new WebtoonGenre(Category.of(w), webtoonId))
                             .collect(Collectors.toList());
 
                     List<WebtoonWriter> webtoonWriters = crawlingWebtton.writer()
                             .stream()
-                            .map(ww -> new WebtoonWriter(ww, webtoonId))
+                            .map(w -> new WebtoonWriter(w, webtoonId))
                             .collect(Collectors.toList());
 
                     webtoonWriterService.saveAll(webtoonWriters);
                     webtoonGenreService.saveAll(webtoonGenres);
-                    webtoonPublishDayService.save(new WebtoonPublishDay(crawlingWebtton.day(), webtoonId));
-                    webtoonSnapshotService.save(new WebtoonSnapshot(crawlingWebtton.score(), webtoonId));
+                    webtoonPublishDayService.save(crawlingWebtton.day(), webtoonId);
+                    webtoonSnapshotService.save(crawlingWebtton.score(), webtoonId);
                 });
     }
 
