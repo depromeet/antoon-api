@@ -22,15 +22,15 @@ public class WebtoonCrawlingFacade {
     private final WebtoonPublishDayService webtoonPublishDayService;
     private final WebtoonSnapshotService webtoonSnapshotService;
     private final WebtoonGenreService webtoonGenreService;
-    private final WebtoonCrawling webtoonCrawling;
     private final WebtoonWriterService webtoonWriterService;
+    private final WebtoonCrawling webtoonCrawling;
 
     @Transactional
     public void crawlingWebtoon() {
         var existsWebtoons = webtoonService.findAll();
-        var crawlingWebtoons = webtoonCrawling.crawling();
 
-        crawlingWebtoons.dto()
+        webtoonCrawling.crawling()
+                .crawlingWebtoons()
                 .stream()
                 .filter(crawlingWebtton -> isNotUpdated(existsWebtoons, crawlingWebtton))
                 .forEach(crawlingWebtton -> {
@@ -46,14 +46,17 @@ public class WebtoonCrawlingFacade {
 
                     List<WebtoonGenre> genres = crawlingWebtton.genre()
                             .stream()
-                            .map(w -> new WebtoonGenre(Category.of(w), webtoonId))
+                            .map(genre -> new WebtoonGenre(Category.of(genre), webtoonId))
                             .collect(Collectors.toList());
 
                     List<WebtoonWriter> writers = crawlingWebtton.writer()
                             .stream()
-                            .map(w -> new WebtoonWriter(w, webtoonId))
+                            .map(writer -> new WebtoonWriter(writer, webtoonId))
                             .collect(Collectors.toList());
 
+                    /**
+                     * 비동기로 처리 진행 필요
+                     **/
                     webtoonWriterService.saveAll(writers);
                     webtoonGenreService.saveAll(genres);
                     webtoonPublishDayService.save(crawlingWebtton.day(), webtoonId);
