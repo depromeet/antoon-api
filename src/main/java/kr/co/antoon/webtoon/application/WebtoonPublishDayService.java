@@ -12,7 +12,8 @@ public class WebtoonPublishDayService {
     private final WebtoonPublishDayRepository webtoonPublishDayRepository;
 
     @Transactional
-    public void save(WebtoonPublishDay webtoonPublishDay) {
+    public void save(String day, Long webtoonId) {
+        var webtoonPublishDay = new WebtoonPublishDay(day, webtoonId);
         webtoonPublishDayRepository.save(webtoonPublishDay);
     }
 }

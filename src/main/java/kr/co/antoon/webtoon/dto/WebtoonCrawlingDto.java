@@ -3,16 +3,16 @@ package kr.co.antoon.webtoon.dto;
 import java.util.List;
 
 public record WebtoonCrawlingDto(
-        List<WebtoonCrawlingDetail> dto
+        List<WebtoonCrawlingDetail> crawlingWebtoons
 ) {
     public record WebtoonCrawlingDetail(
             String title,
             String content,
-            String writer,
+            List<String> writer,
             String url,
             String thumbnail,
-            String genre,
+            List<String> genre,
             Double score,
             String day
-    ) { }
+    ) {}
 }
