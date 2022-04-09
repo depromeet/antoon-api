@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,14 +43,14 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                     innerElements.forEach(innerElement -> {
                         var title = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_TITLE).text();
                         var content = innerElement.getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTOON_CONTENT).get(0).text();
-                        var writer = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_WRITER).text();
+                        var writer = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_WRITER).text().split(" / ");
                         var thumbnail = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[0]).attr(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[1]);
                         var genres = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_GENRE).text().split(",");
 
                         bundle.add(new WebtoonCrawlingDto.WebtoonCrawlingDetail(
                                 title,
                                 content,
-                                writer,
+                                List.of(writer),
                                 url,
                                 thumbnail,
                                 Arrays.stream(genres)

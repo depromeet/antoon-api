@@ -8,11 +8,11 @@ public record WebtoonCrawlingDto(
     public record WebtoonCrawlingDetail(
             String title,
             String content,
-            String writer,
+            List<String> writer,
             String url,
             String thumbnail,
             List<String> genre,
             Double score,
             String day
-    ) { }
+    ) {}
 }

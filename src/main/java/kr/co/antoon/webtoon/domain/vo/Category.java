@@ -27,12 +27,9 @@ public enum Category {
     private final String description;
 
     public static Category of(String description) {
-        System.out.println("origin > " + description);
-        Category result = Arrays.stream(Category.values())
+        return Arrays.stream(Category.values())
                 .filter(c -> c.getDescription().equals(description))
                 .findAny()
                 .orElse(NONE);
-        System.out.println("result > " + result);
-        return result;
     }
 }

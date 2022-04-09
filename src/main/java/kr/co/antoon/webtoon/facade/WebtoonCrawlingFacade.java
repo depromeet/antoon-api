@@ -1,14 +1,8 @@
 package kr.co.antoon.webtoon.facade;
 
-import kr.co.antoon.webtoon.application.WebtoonGenreService;
-import kr.co.antoon.webtoon.application.WebtoonPublishDayService;
-import kr.co.antoon.webtoon.application.WebtoonService;
-import kr.co.antoon.webtoon.application.WebtoonSnapshotService;
+import kr.co.antoon.webtoon.application.*;
 import kr.co.antoon.webtoon.crawling.WebtoonCrawling;
-import kr.co.antoon.webtoon.domain.Webtoon;
-import kr.co.antoon.webtoon.domain.WebtoonGenre;
-import kr.co.antoon.webtoon.domain.WebtoonPublishDay;
-import kr.co.antoon.webtoon.domain.WebtoonSnapshot;
+import kr.co.antoon.webtoon.domain.*;
 import kr.co.antoon.webtoon.domain.vo.Category;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
@@ -27,6 +21,7 @@ public class WebtoonCrawlingFacade {
     private final WebtoonSnapshotService webtoonSnapshotService;
     private final WebtoonGenreService webtoonGenreService;
     private final WebtoonCrawling webtoonCrawling;
+    private final WebtoonWriterService webtoonWriterService;
 
     @Transactional
     public void crawlingWebtoon() {
@@ -41,7 +36,6 @@ public class WebtoonCrawlingFacade {
                             Webtoon.builder()
                                     .title(crawlingWebtton.title())
                                     .content(crawlingWebtton.content())
-                                    .writer(crawlingWebtton.writer())
                                     .url(crawlingWebtton.url())
                                     .thumbnail(crawlingWebtton.thumbnail())
                                     .platform(Platform.NAVER)
@@ -53,12 +47,19 @@ public class WebtoonCrawlingFacade {
                             .map(wg -> new WebtoonGenre(Category.of(wg), webtoonId))
                             .collect(Collectors.toList());
 
+                    List<WebtoonWriter> webtoonWriters = crawlingWebtton.writer()
+                            .stream()
+                            .map(ww -> new WebtoonWriter(ww, webtoonId))
+                            .collect(Collectors.toList());
+
+                    webtoonWriterService.saveAll(webtoonWriters);
                     webtoonGenreService.saveAll(webtoonGenres);
                     webtoonPublishDayService.save(new WebtoonPublishDay(crawlingWebtton.day(), webtoonId));
                     webtoonSnapshotService.save(new WebtoonSnapshot(crawlingWebtton.score(), webtoonId));
                 });
     }
 
+    // todo : 수정 필요
     private boolean isNotUpdated(
             List<Webtoon> insertedWebtoons,
             WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton
@@ -68,7 +69,6 @@ public class WebtoonCrawlingFacade {
                 webtoon.update(
                         crawlingWebtton.title(),
                         crawlingWebtton.content(),
-                        crawlingWebtton.writer(),
                         crawlingWebtton.thumbnail(),
                         crawlingWebtton.url()
                 );

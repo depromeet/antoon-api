@@ -41,10 +41,9 @@ public class Webtoon extends BaseEntity {
         this.platform = platform;
     }
 
-    public void update(String title, String content, String writer, String thumbnail, String url) {
+    public void update(String title, String content, String thumbnail, String url) {
         this.title = title;
         this.content = content;
-        this.writer = writer;
         this.thumbnail = thumbnail;
         this.url = url;
     }
