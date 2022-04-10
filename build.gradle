@@ -10,7 +10,7 @@ jacoco {
     reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
 }
 
-group = 'kr.co.toonzip'
+group = 'kr.co.antoon'
 version = 'v0.0.1'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -40,7 +40,12 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+<<<<<<< HEAD
     testImplementation 'org.springframework.security:spring-security-test'
+=======
+
+    implementation 'org.jsoup:jsoup:1.14.3'
+>>>>>>> staging
 }
 
 test {
