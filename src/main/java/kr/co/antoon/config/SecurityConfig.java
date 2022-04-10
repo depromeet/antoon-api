@@ -1,9 +1,9 @@
 package kr.co.toonzip.config;
 
-import kr.co.toonzip.security.token.JwtFilter;
-import kr.co.toonzip.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import kr.co.toonzip.security.oauth2.OAuth2AuthenticationSuccessHandler;
-import kr.co.toonzip.security.oauth2.application.CustomOAuth2UserService;
+import kr.co.antoon.security.token.JwtFilter;
+import kr.co.antoon.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
+import kr.co.antoon.security.oauth2.OAuth2AuthenticationSuccessHandler;
+import kr.co.antoon.security.oauth2.application.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
