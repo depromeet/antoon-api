@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "종목토론방 API")
@@ -31,7 +32,7 @@ public class DiscussionController {
     @PostMapping("/{webtoonId}/discussions")
     public ResponseEntity<DiscussionCreateResponse> create(
             @PathVariable Long webtoonId,
-            @RequestBody DiscussionCreateRequest request
+            @Validated @RequestBody DiscussionCreateRequest request
     ) {
         Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
         return ResponseDto.created(discussionFacade.register(memberId, webtoonId, request));
@@ -55,7 +56,10 @@ public class DiscussionController {
 
     @ApiOperation(value = "종목토론방 댓글 수정", notes = SwaggerNote.DISCUSSION_UPDATE_NOTE)
     @PatchMapping("/discussions/{discussionId}")
-    public ResponseEntity<DiscussionUpdateResponse> update(@PathVariable Long discussionId, @RequestBody DiscussionUpdateRequest request) {
+    public ResponseEntity<DiscussionUpdateResponse> update(
+            @PathVariable Long discussionId,
+            @Validated @RequestBody DiscussionUpdateRequest request
+    ) {
         var response = discussionService.update(discussionId, request);
         return ResponseDto.ok(response);
     }

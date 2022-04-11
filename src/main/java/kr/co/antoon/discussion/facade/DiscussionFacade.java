@@ -1,7 +1,6 @@
 package kr.co.antoon.discussion.facade;
 
 import kr.co.antoon.discussion.application.DiscussionService;
-import kr.co.antoon.discussion.domain.Discussion;
 import kr.co.antoon.discussion.dto.request.DiscussionCreateRequest;
 import kr.co.antoon.discussion.dto.response.DiscussionCreateResponse;
 import kr.co.antoon.webtoon.application.WebtoonService;
