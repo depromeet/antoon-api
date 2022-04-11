@@ -65,4 +65,9 @@ public class DiscussionService {
                 discussion.getMemberId()
         );
     }
+
+    @Transactional
+    public void delete(Long id) {
+        discussionRepository.deleteById(id);
+    }
 }

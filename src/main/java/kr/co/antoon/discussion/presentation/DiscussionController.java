@@ -59,4 +59,11 @@ public class DiscussionController {
         var response = discussionService.update(discussionId, request);
         return ResponseDto.ok(response);
     }
+
+    @ApiOperation(value = "종목토론방 댓글 삭제", notes = SwaggerNote.DISCUSSION_DELETE_NOTE)
+    @DeleteMapping("/discussions/{discussionId}")
+    public ResponseEntity<Void> delete(@PathVariable Long discussionId) {
+        discussionService.delete(discussionId);
+        return ResponseDto.noContent();
+    }
 }

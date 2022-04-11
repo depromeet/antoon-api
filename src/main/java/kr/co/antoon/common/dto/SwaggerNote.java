@@ -56,12 +56,20 @@ public class SwaggerNote {
     public final static String DISCUSSION_UPDATE_NOTE = """
             종목토론방에 댓글 업데이트 조회
             PATCH /api/v1/webtoons/discussions/{discussionId}
-            
+                        
             Response Body
             {
                 "discussionId" : 1, // 종목토론 댓글 Id
                 "content" :  "이 웹툰 꿀잼", // 댓글 내용
                 "memberId" : 1 // 사용자 Id
             }           
+            """;
+
+    public final static String DISCUSSION_DELETE_NOTE = """
+            종목토론방에 댓글 삭제
+            DELETE /api/v1/webtoons/discussions/{discussionId}
+                        
+            Response Body
+            None
             """;
 }
