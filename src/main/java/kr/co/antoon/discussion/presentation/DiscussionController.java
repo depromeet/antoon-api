@@ -31,10 +31,12 @@ public class DiscussionController {
         return ResponseDto.created(discussionFacade.register(memberId, webtoonId, request));
     }
 
-    @ApiOperation(value = "종목토론방 댓글 단건 조회", notes = "")
+    @ApiOperation(value = "종목토론방 댓글 단건 조회", notes = SwaggerNote.DISCUSSION_READ_ONE_NOTE)
     @GetMapping("/discussions/{discussionId}")
     public ResponseEntity<DiscussionReadResponse> findOne(@PathVariable Long discussionId) {
         var response = discussionService.findById(discussionId);
         return ResponseDto.ok(response);
     }
+
+
 }
