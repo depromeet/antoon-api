@@ -19,6 +19,9 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher # Swagger Bug 처리
 
+  spring.profiles.includes : oauth
+
+
 cors:
   allowed-origins: "*"
   allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
