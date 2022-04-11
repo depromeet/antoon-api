@@ -7,8 +7,10 @@ import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.discussion.application.DiscussionService;
 import kr.co.antoon.discussion.dto.request.DiscussionCreateRequest;
+import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.discussion.dto.response.DiscussionCreateResponse;
 import kr.co.antoon.discussion.dto.response.DiscussionReadResponse;
+import kr.co.antoon.discussion.dto.response.DiscussionUpdateResponse;
 import kr.co.antoon.discussion.facade.DiscussionFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -51,4 +53,10 @@ public class DiscussionController {
         return PageDto.ok(response);
     }
 
+    @ApiOperation(value = "종목토론방 댓글 수정", notes = SwaggerNote.DISCUSSION_UPDATE_NOTE)
+    @PatchMapping("/discussions/{discussionId}")
+    public ResponseEntity<DiscussionUpdateResponse> update(@PathVariable Long discussionId, @RequestBody DiscussionUpdateRequest request) {
+        var response = discussionService.update(discussionId, request);
+        return ResponseDto.ok(response);
+    }
 }

@@ -31,4 +31,8 @@ public class Discussion extends BaseEntity {
         this.webtoonId = webtoonId;
         this.memberId = memberId;
     }
+
+    public void update(String content) {
+        this.content = content;
+    }
 }

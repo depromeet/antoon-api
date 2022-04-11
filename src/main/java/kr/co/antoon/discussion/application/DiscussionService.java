@@ -1,7 +1,9 @@
 package kr.co.antoon.discussion.application;
 
 import kr.co.antoon.discussion.domain.Discussion;
+import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.discussion.dto.response.DiscussionReadResponse;
+import kr.co.antoon.discussion.dto.response.DiscussionUpdateResponse;
 import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
@@ -48,5 +50,19 @@ public class DiscussionService {
                         discussion.getContent(),
                         discussion.getMemberId()
                 ));
+    }
+
+    @Transactional
+    public DiscussionUpdateResponse update(Long id, DiscussionUpdateRequest request) {
+        Discussion discussion = discussionRepository.findById(id)
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR, HttpStatus.NOT_FOUND));
+
+        discussion.update(request.content());
+
+        return new DiscussionUpdateResponse(
+                discussion.getId(),
+                discussion.getContent(),
+                discussion.getMemberId()
+        );
     }
 }
