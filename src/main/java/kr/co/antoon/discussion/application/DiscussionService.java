@@ -6,6 +6,8 @@ import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,5 +38,15 @@ public class DiscussionService {
                 discussion.getContent(),
                 discussion.getMemberId()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public Page<DiscussionReadResponse> findAll(Pageable pageable) {
+        return discussionRepository.findAll(pageable)
+                .map(discussion -> new DiscussionReadResponse(
+                        discussion.getId(),
+                        discussion.getContent(),
+                        discussion.getMemberId()
+                ));
     }
 }
