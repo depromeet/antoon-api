@@ -4,13 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
+import kr.co.antoon.member.domain.User;
 import kr.co.antoon.oauth.domain.KakaoProfile;
 import kr.co.antoon.oauth.dto.KakaoOauthToken;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,7 +23,7 @@ public class OauthService {
 //    connection 생성
 //    POST로 보낼 Body 작성
 //    받아온 결과 JSON 파싱 (Gson)
-    public KakaoOauthToken getKakaoAccessToken (String code) {
+      public KakaoOauthToken getKakaoAccessToken (String code) {
         String access_Token = "";
         String refresh_Token = "";
         String token_type = "";
@@ -100,9 +99,10 @@ public class OauthService {
         return kakaoOauthToken;
     }
 
-    public void createKakaoUser(String token) {
+    public User createKakaoUser(String token) {
 
         String reqURL = "https://kapi.kakao.com/v2/user/me";
+        User user = null;
 
         //access_token을 이용하여 사용자 정보 조회
         try {
@@ -137,15 +137,24 @@ public class OauthService {
             if(hasEmail){
                 email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
             }
+            String name = element.getAsJsonObject().get("properties").getAsJsonObject().get("nickname").getAsString();
+            String img = element.getAsJsonObject().get("properties").getAsJsonObject().get("profile_image").getAsString();
 
             System.out.println("id : " + id);
             System.out.println("email : " + email);
+
+            user = User.builder()
+                    .name(name)
+                    .email(email)
+                    .profileImg(img)
+                    .build();
 
             br.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return user;
     }
 
     public KakaoProfile getKakaoProfile(String accessToken){

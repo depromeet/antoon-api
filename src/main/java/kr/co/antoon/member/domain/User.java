@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseEntity {
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,19 +21,24 @@ public class Member extends BaseEntity {
 
     @Column(nullable = false)
     private String email;
-    private String picture;
-    private String role = "ROLE_USER";
+
+    @Column
+    private String profileImg;
+
+    @Column
+    private String refreshToken;
 
     @Builder
-    public Member(String name, String email, String picture) {
+    public User(String name, String email, String profileImg, String refreshToken) {
         this.name = name;
         this.email = email;
-        this.picture = picture;
+        this.profileImg = profileImg;
+        this.refreshToken = refreshToken;
     }
 
-    public Member update(String name, String picture) {
+    public User update(String name, String profileImg) {
         this.name = name;
-        this.picture = picture;
+        this.profileImg = profileImg;
 
         return this;
     }
