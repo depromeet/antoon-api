@@ -1,14 +1,11 @@
-package kr.co.toonzip.config;
+package kr.co.antoon.config;
 
+import kr.co.antoon.security.oauth2.handler.OAuth2SuccessHandler;
 import kr.co.antoon.security.token.JwtFilter;
-import kr.co.antoon.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import kr.co.antoon.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import kr.co.antoon.security.oauth2.application.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public JwtFilter jwtFilter() {
@@ -29,19 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public HttpCookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository() {
-        return new HttpCookieOAuth2AuthorizationRequestRepository();
-    }
-
-    @Bean
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
     }
 
     @Override
@@ -59,10 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                         .anyRequest().authenticated()
                 .and()
-                    .oauth2Login()
+                .oauth2Login()
                         .authorizationEndpoint()
-                        .baseUri("/oauth2/authorization")
-                        .authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository())
+                        .baseUri("/oauth2/authorization")  // endpoint 정의 (해당 컨트롤러에서 provider에 대한 로그인화면으로 redirect)
                 .and()
                     .redirectionEndpoint()
                     .baseUri("/*/oauth2/code/*")
@@ -70,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .userInfoEndpoint()
                     .userService(customOAuth2UserService)
                 .and()
-                    .successHandler(oAuth2AuthenticationSuccessHandler);
+                    .successHandler(oAuth2SuccessHandler);
         http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
