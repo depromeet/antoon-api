@@ -2,6 +2,7 @@ package kr.co.antoon.user.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
 import kr.co.antoon.user.domain.vo.Role;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
     @Id

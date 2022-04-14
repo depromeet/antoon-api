@@ -3,9 +3,7 @@ package kr.co.antoon.user.presentation;
 import kr.co.antoon.user.application.AuthService;
 import kr.co.antoon.user.dto.response.TokenResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,9 +18,8 @@ public class AuthController {
     private final AuthService authService;
 
     @GetMapping("/refresh")
-    public TokenResponse refreshToken (HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public TokenResponse refreshToken (HttpServletRequest request, HttpServletResponse response) {
         String token = request.getHeader("Authorization");
         return authService.refresh(token);
     }
-
 }
