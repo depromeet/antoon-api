@@ -1,52 +1,40 @@
 package kr.co.antoon.oauth.presentation;
 
-import com.nimbusds.jwt.JWT;
-import kr.co.antoon.member.domain.User;
-import kr.co.antoon.member.infrastructure.UserRepository;
-import kr.co.antoon.oauth.application.OauthService;
-import kr.co.antoon.oauth.dto.KakaoOauthToken;
+import kr.co.antoon.oauth.application.TokenService;
+import kr.co.antoon.oauth.dto.Token;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 public class OauthController {
+    private final TokenService tokenService;
 
-    private final OauthService oauthService;
-    private final UserRepository userRepository;
-    private final Environment env;
+    @GetMapping("/token/expired")
+    public String auth() {
+        throw new RuntimeException();
+    }
 
-    @ResponseBody
-    @GetMapping("/login/oauth2/code/kakao")
-    public ResponseEntity<String> kakaoCallback(@RequestParam String code) { //프론트에서 넘겨준 코드
-        System.out.println(code);
-        KakaoOauthToken kakaoOauthToken = oauthService.getKakaoAccessToken(code);
-        User user = oauthService.createKakaoUser(kakaoOauthToken.getAccess_token());
-        Optional<User> users = userRepository.findByEmail(user.getEmail());
+    @GetMapping("/token/refresh")
+    public String refreshAuth(HttpServletRequest request, HttpServletResponse response) {
+        String token = request.getHeader("Refresh");
 
-        // 서비스에 등록된 회원이 아니라면
-        if (users.isEmpty()) {
-            User newUser = User.builder()
-                    .name(user.getName())
-                    .email(user.getEmail())
-                    .profileImg(user.getProfileImg())
-                    .refreshToken(kakaoOauthToken.getRefresh_token())
-                    .build();
-            // 회원가입
-            userRepository.save(newUser);
-        } else {
-            // 로그인
-            return new ResponseEntity<String>(kakaoOauthToken.getRefresh_token(), HttpStatus.OK);
+        if (token != null && tokenService.verifyToken(token)) {
+            String email = tokenService.getUid(token);
+            Token newToken = tokenService.generateToken(email, "USER");
+
+            response.addHeader("Auth", newToken.getToken());
+            response.addHeader("Refresh", newToken.getRefreshToken());
+            response.setContentType("application/json;charset=UTF-8");
+
+            return "HAPPY NEW TOKEN";
         }
 
-        return new ResponseEntity(HttpStatus.OK);
+        throw new RuntimeException();
     }
+
 }
