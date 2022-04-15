@@ -23,13 +23,12 @@ public class WebtoonCrawlingFacade {
     private final WebtoonSnapshotService webtoonSnapshotService;
     private final WebtoonGenreService webtoonGenreService;
     private final WebtoonWriterService webtoonWriterService;
-    private final WebtoonCrawling webtoonCrawling;
+    private final List<WebtoonCrawling> webtoonCrawlingList;
 
     @Transactional
     public void crawlingWebtoon() {
         var existsWebtoons = webtoonService.findAll();
-
-        webtoonCrawling.crawling()
+        webtoonCrawlingList.forEach(webtoonCrawling -> webtoonCrawling.crawling()
                 .crawlingWebtoons()
                 .stream()
                 .filter(crawlingWebtton -> isNotUpdated(existsWebtoons, crawlingWebtton))
@@ -61,7 +60,8 @@ public class WebtoonCrawlingFacade {
                     webtoonGenreService.saveAll(genres);
                     webtoonPublishDayService.save(crawlingWebtton.day(), webtoonId);
                     webtoonSnapshotService.save(crawlingWebtton.score(), webtoonId);
-                });
+                })
+        );
     }
 
     private boolean isNotUpdated(
