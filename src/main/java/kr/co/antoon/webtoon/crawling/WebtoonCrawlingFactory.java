@@ -3,7 +3,6 @@ package kr.co.antoon.webtoon.crawling;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.webtoon.domain.vo.Platform;
-import org.springframework.http.HttpStatus;
 
 public class WebtoonCrawlingFactory {
 
