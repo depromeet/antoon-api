@@ -1,7 +1,7 @@
 package kr.co.antoon.webtoon.facade;
 
 import kr.co.antoon.webtoon.application.*;
-import kr.co.antoon.webtoon.crawling.WebtoonCrawling;
+import kr.co.antoon.webtoon.crawling.WebtoonCrawlingFactory;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.WebtoonGenre;
 import kr.co.antoon.webtoon.domain.WebtoonWriter;
@@ -23,13 +23,13 @@ public class WebtoonCrawlingFacade {
     private final WebtoonSnapshotService webtoonSnapshotService;
     private final WebtoonGenreService webtoonGenreService;
     private final WebtoonWriterService webtoonWriterService;
-    private final WebtoonCrawling webtoonCrawling;
 
     @Transactional
-    public void crawlingWebtoon() {
+    public void crawlingWebtoon(Platform platform) {
         var existsWebtoons = webtoonService.findAll();
 
-        webtoonCrawling.crawling()
+        WebtoonCrawlingFactory.of(platform)
+                .crawling()
                 .crawlingWebtoons()
                 .stream()
                 .filter(crawlingWebtton -> isNotUpdated(existsWebtoons, crawlingWebtton))
@@ -44,21 +44,16 @@ public class WebtoonCrawlingFacade {
                                     .build()
                     );
 
-                    List<WebtoonGenre> genres = crawlingWebtton.genre()
-                            .stream()
-                            .map(genre -> new WebtoonGenre(Category.of(genre), webtoonId))
-                            .collect(Collectors.toList());
-
-                    List<WebtoonWriter> writers = crawlingWebtton.writer()
+                    webtoonWriterService.saveAll(crawlingWebtton.writer()
                             .stream()
                             .map(writer -> new WebtoonWriter(writer, webtoonId))
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toList()));
 
-                    /**
-                     * 비동기로 처리 진행 필요
-                     **/
-                    webtoonWriterService.saveAll(writers);
-                    webtoonGenreService.saveAll(genres);
+                    webtoonGenreService.saveAll(crawlingWebtton.genre()
+                            .stream()
+                            .map(genre -> new WebtoonGenre(Category.of(genre), webtoonId))
+                            .collect(Collectors.toList()));
+
                     webtoonPublishDayService.save(crawlingWebtton.day(), webtoonId);
                     webtoonSnapshotService.save(crawlingWebtton.score(), webtoonId);
                 });
