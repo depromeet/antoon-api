@@ -11,7 +11,7 @@ public class WebtoonCrawlingFactory {
         return switch (platform) {
             case NAVER -> new NaverWebtoonCrawling();
             case KAKAO -> new NaverWebtoonCrawling(); // TODO KAKAO 웹툰으로 바꿔주세요!!
-            default -> throw new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_TYPE_ERROR, HttpStatus.NOT_FOUND);
+            default -> throw new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_TYPE_ERROR);
         };
     }
 }
