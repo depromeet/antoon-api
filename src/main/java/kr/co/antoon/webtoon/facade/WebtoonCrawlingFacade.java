@@ -1,12 +1,11 @@
 package kr.co.antoon.webtoon.facade;
 
-import kr.co.antoon.webtoon.application.WebtoonPublishDayService;
-import kr.co.antoon.webtoon.application.WebtoonService;
-import kr.co.antoon.webtoon.application.WebtoonSnapshotService;
+import kr.co.antoon.webtoon.application.*;
 import kr.co.antoon.webtoon.crawling.WebtoonCrawling;
 import kr.co.antoon.webtoon.domain.Webtoon;
-import kr.co.antoon.webtoon.domain.WebtoonPublishDay;
-import kr.co.antoon.webtoon.domain.WebtoonSnapshot;
+import kr.co.antoon.webtoon.domain.WebtoonGenre;
+import kr.co.antoon.webtoon.domain.WebtoonWriter;
+import kr.co.antoon.webtoon.domain.vo.Category;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -21,30 +21,46 @@ public class WebtoonCrawlingFacade {
     private final WebtoonService webtoonService;
     private final WebtoonPublishDayService webtoonPublishDayService;
     private final WebtoonSnapshotService webtoonSnapshotService;
+    private final WebtoonGenreService webtoonGenreService;
+    private final WebtoonWriterService webtoonWriterService;
     private final WebtoonCrawling webtoonCrawling;
 
     @Transactional
     public void crawlingWebtoon() {
-        var insertedWebtoons = webtoonService.findAll();
-        var crawlingWebtoons = webtoonCrawling.crawling();
+        var existsWebtoons = webtoonService.findAll();
 
-        crawlingWebtoons.dto()
+        webtoonCrawling.crawling()
+                .crawlingWebtoons()
                 .stream()
-                .filter(crawlingWebtton -> isNotUpdated(insertedWebtoons, crawlingWebtton))
+                .filter(crawlingWebtton -> isNotUpdated(existsWebtoons, crawlingWebtton))
                 .forEach(crawlingWebtton -> {
                     Long webtoonId = webtoonService.save(
                             Webtoon.builder()
                                     .title(crawlingWebtton.title())
                                     .content(crawlingWebtton.content())
-                                    .writer(crawlingWebtton.writer())
                                     .url(crawlingWebtton.url())
                                     .thumbnail(crawlingWebtton.thumbnail())
-                                    .genre(crawlingWebtton.genre())
                                     .platform(Platform.NAVER)
                                     .build()
                     );
-                    webtoonPublishDayService.save(new WebtoonPublishDay(crawlingWebtton.day(), webtoonId));
-                    webtoonSnapshotService.save(new WebtoonSnapshot(crawlingWebtton.score(), webtoonId));
+
+                    List<WebtoonGenre> genres = crawlingWebtton.genre()
+                            .stream()
+                            .map(genre -> new WebtoonGenre(Category.of(genre), webtoonId))
+                            .collect(Collectors.toList());
+
+                    List<WebtoonWriter> writers = crawlingWebtton.writer()
+                            .stream()
+                            .map(writer -> new WebtoonWriter(writer, webtoonId))
+                            .collect(Collectors.toList());
+
+                    /**
+                     * 비동기로 처리 진행 필요
+                     **/
+                    webtoonWriterService.saveAll(writers);
+                    webtoonGenreService.saveAll(genres);
+                    webtoonPublishDayService.save(crawlingWebtton.day(), webtoonId);
+                    webtoonSnapshotService.save(crawlingWebtton.score(), webtoonId);
                 });
     }
 
@@ -57,10 +73,8 @@ public class WebtoonCrawlingFacade {
                 webtoon.update(
                         crawlingWebtton.title(),
                         crawlingWebtton.content(),
-                        crawlingWebtton.writer(),
                         crawlingWebtton.thumbnail(),
-                        crawlingWebtton.url(),
-                        crawlingWebtton.genre()
+                        crawlingWebtton.url()
                 );
                 return false;
             }

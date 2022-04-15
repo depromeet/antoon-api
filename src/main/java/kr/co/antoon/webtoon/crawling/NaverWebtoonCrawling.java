@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -40,27 +43,32 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                     innerElements.forEach(innerElement -> {
                         var title = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_TITLE).text();
                         var content = innerElement.getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTOON_CONTENT).get(0).text();
-                        var writer = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_WRITER).text();
+                        var writer = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_WRITER).text().split(" / ");
                         var thumbnail = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[0]).attr(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[1]);
-                        var genre = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_GENRE).text();
+                        var genre = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_GENRE).text().split(",");
+
+                        List<String> genres = Arrays.stream(genre)
+                                .map(g -> g.replace(" ", ""))
+                                .collect(Collectors.toList());
 
                         bundle.add(new WebtoonCrawlingDto.WebtoonCrawlingDetail(
-                                title,
-                                content,
-                                writer,
-                                url,
-                                thumbnail,
-                                genre,
-                                Double.parseDouble(score),
-                                day
-                        ));
+                                        title,
+                                        content,
+                                        List.of(writer),
+                                        url,
+                                        thumbnail,
+                                        genres,
+                                        Double.parseDouble(score),
+                                        day
+                                )
+                        );
 
                         log.info("[Naver Webtoon Crawling] title-> {} / url -> {}", title, url);
                     });
                 }
             }
         } catch (IOException e) {
-            // TODO : Webhook Salck Cruiser
+            // TODO : Webhook Slack Cruiser
             log.error("[Naver Webtoon Crawling Error] {}", e.getCause());
         }
 
