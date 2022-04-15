@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import kr.co.antoon.oauth.dto.Token;
+import kr.co.antoon.oauth.dto.TokenDto;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -20,8 +20,7 @@ public class TokenService {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-//    @Override
-    public Token generateToken(String uid, String role) {
+    public TokenDto generateToken(String uid, String role) {
         long tokenPeriod = 1000L * 60L * 10L;
         long refreshPeriod = 1000L * 60L * 60L * 24L * 30L * 3L;
 
@@ -29,7 +28,7 @@ public class TokenService {
         claims.put("role", role);
 
         Date now = new Date();
-        return new Token(
+        return new TokenDto(
                 Jwts.builder()
                         .setClaims(claims)
                         .setIssuedAt(now)
@@ -44,7 +43,6 @@ public class TokenService {
                         .compact());
     }
 
-//    @Override
     public boolean verifyToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser()
@@ -58,7 +56,6 @@ public class TokenService {
         }
     }
 
-//    @Override
     public String getUid(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }

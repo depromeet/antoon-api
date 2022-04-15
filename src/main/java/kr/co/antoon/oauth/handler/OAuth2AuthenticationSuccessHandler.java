@@ -2,7 +2,7 @@ package kr.co.antoon.oauth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.antoon.oauth.application.TokenService;
-import kr.co.antoon.oauth.dto.Token;
+import kr.co.antoon.oauth.dto.TokenDto;
 import kr.co.antoon.oauth.dto.UserDto;
 import kr.co.antoon.oauth.dto.UserRequestMapper;
 import lombok.RequiredArgsConstructor;
@@ -25,56 +25,30 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final UserRequestMapper userRequestMapper;
     private final ObjectMapper objectMapper;
 
-//    @Override
-//    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-//                                        Authentication authentication) throws IOException {
-//        OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
-//        UserDto userDto = userRequestMapper.toDto(oAuth2User);
-//
-//        //로그인 성공 시
-//        String url = makeRedirectUrl(tokenProvider.createToken(authentication));
-//        Token token = tokenService.generateToken(userDto.getEmail(), "USER");
-//        log.info("{}", token);
-//
-//        writeTokenResponse(response, token);
-//
-//        if (response.isCommitted()) {
-//            logger.debug("응답이 이미 커밋된 상태입니다. " + url + "로 리다이렉트하도록 바꿀 수 없습니다.");
-//            return;
-//        }
-//        getRedirectStrategy().sendRedirect(request, response, url);
-//    }
-//
-//    private String makeRedirectUrl(String token) {
-//        return UriComponentsBuilder.fromUriString("http://localhost:8080/oauth2/redirect")
-//                .queryParam("token", token)
-//                .build().toUriString();
-//    }
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
         UserDto userDto = userRequestMapper.toDto(oAuth2User);
 
-        // 최초 로그인이라면 회원가입 처리를 한다.
+        // TODO : 최초 로그인이라면 회원가입 처리를 한다.
 
-        Token token = tokenService.generateToken(userDto.getEmail(), "USER");
+        TokenDto token = tokenService.generateToken(userDto.getEmail(), "USER");
         log.info("{}", token);
 
         writeTokenResponse(response, token);
     }
 
-    private void writeTokenResponse(HttpServletResponse response, Token token)
+    private void writeTokenResponse(HttpServletResponse response, TokenDto tokenDto)
             throws IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        response.addHeader("Auth", token.getToken());
-        response.addHeader("Refresh", token.getRefreshToken());
+        response.addHeader("Auth", tokenDto.getToken());
+        response.addHeader("Refresh", tokenDto.getRefreshToken());
         response.setContentType("application/json;charset=UTF-8");
 
         var writer = response.getWriter();
-        writer.println(objectMapper.writeValueAsString(token));
+        writer.println(objectMapper.writeValueAsString(tokenDto));
         writer.flush();
     }
 }

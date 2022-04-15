@@ -28,7 +28,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2Attribute oAuth2Attribute =
                 OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        log.info("{}", oAuth2Attribute);
+        log.info("OAuth2Attribute : {}", oAuth2Attribute);
 
         var memberAttribute = oAuth2Attribute.convertToMap();
 

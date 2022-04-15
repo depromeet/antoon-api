@@ -1,9 +1,8 @@
 package kr.co.antoon.oauth.presentation;
 
 import kr.co.antoon.oauth.application.TokenService;
-import kr.co.antoon.oauth.dto.Token;
+import kr.co.antoon.oauth.dto.TokenDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +24,7 @@ public class OauthController {
 
         if (token != null && tokenService.verifyToken(token)) {
             String email = tokenService.getUid(token);
-            Token newToken = tokenService.generateToken(email, "USER");
+            TokenDto newToken = tokenService.generateToken(email, "USER");
 
             response.addHeader("Auth", newToken.getToken());
             response.addHeader("Refresh", newToken.getRefreshToken());
