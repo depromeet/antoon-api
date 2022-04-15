@@ -29,14 +29,11 @@ public class OAuth2SuccessHandler extends
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         String accessToken = jwtTokenProvider.createAccessToken(userPrincipal.getEmail(), Role.USER);
 
-        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:8080/home")
+        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:8080/oauth2/redirect")
                 .queryParam("token", accessToken)
                 .build().toUriString();
 
-        log.info(targetUri);
-        // http://localhost:8080/home?token=eyJhbGciOiJIUzUxMiJ9.eyJz ~~
-        // 프론트에 이렇게 넘겨줌 (리디렉션할 uri와 accessToken을 파라미터로 넘겨줌.)
-        // 그리고 백에서는 http://localhost:8080/login/oauth2/code/kakao 으로 리디렉션됨.
+        log.info("targetURi : {}", targetUri);
         getRedirectStrategy().sendRedirect(request, response, targetUri);
     }
 }

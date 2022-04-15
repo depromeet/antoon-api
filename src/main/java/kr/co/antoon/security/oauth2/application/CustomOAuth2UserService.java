@@ -24,14 +24,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest){
-        OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
-        log.info("registrationId = {}",  oAuth2UserRequest.getClientRegistration().getRegistrationId());
+    public OAuth2User loadUser(OAuth2UserRequest request){
+        OAuth2User oAuth2User = super.loadUser(request);
+        log.info("registrationId = {}",  request.getClientRegistration().getRegistrationId());
         return processOAuth2User(oAuth2User);
     }
 
     // 사용자 정보 추출
-    // oAuth2User.getAttributes(): 카카오로부터 받은 JSON 형태의 사용자 정보
     private OAuth2User processOAuth2User(OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = new KakaoOAuth2UserInfo(oAuth2User.getAttributes());
         User user = userRepository.findByEmail(oAuth2UserInfo.getEmail())
@@ -43,7 +42,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     // 최초 로그인 회원가입
     private User registerUser(OAuth2UserInfo oAuth2UserInfo) {
-        String refreshToken = jwtTokenProvider.createRefreshToken(oAuth2UserInfo.getEmail());
+        String refreshToken = refreshToken(oAuth2UserInfo.getEmail());
         return userRepository.save(User.builder()
                 .name(oAuth2UserInfo.getName())
                 .email(oAuth2UserInfo.getEmail())
@@ -54,9 +53,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         );
     }
 
-    // 회원 업데이트
+    // 기존 회원 로그인
     private User updateUser(User user, OAuth2UserInfo oAuth2UserInfo) {
-        String refreshToken = jwtTokenProvider.createRefreshToken(oAuth2UserInfo.getEmail());
+        String refreshToken = refreshToken(oAuth2UserInfo.getEmail());
         return userRepository.save(
                 user.update(
                         oAuth2UserInfo.getName(),
@@ -64,5 +63,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                         refreshToken
                 )
         );
+    }
+
+    private String refreshToken(String email) {
+        return jwtTokenProvider.createRefreshToken(email);
     }
 }
