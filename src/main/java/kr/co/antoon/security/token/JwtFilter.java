@@ -23,9 +23,6 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    private CustomUserDetailService customUserDetailService;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 1. Request Header에서 토큰을 꺼냄
@@ -34,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
         // 2. 토큰 유효성 검사
         // 정상 토큰이면 해당 토큰으로 Authentication을 가져와서 SecurityContext에 저장
         if(StringUtils.hasText(token) && jwtTokenProvider.validate(token)) {
-            Authentication authentication = getAuthentication(token);
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
@@ -48,12 +45,5 @@ public class JwtFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
         return null;
-    }
-
-    private Authentication getAuthentication(String token) {
-        String email = jwtTokenProvider.getUserId(token);
-        UserDetails userDetails = customUserDetailService.loadUserByUsername(email);
-        return new UsernamePasswordAuthenticationToken(
-                userDetails, null, userDetails.getAuthorities());
     }
 }
