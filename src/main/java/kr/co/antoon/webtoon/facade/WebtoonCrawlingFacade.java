@@ -39,7 +39,7 @@ public class WebtoonCrawlingFacade {
                                     .content(crawlingWebtton.content())
                                     .url(crawlingWebtton.url())
                                     .thumbnail(crawlingWebtton.thumbnail())
-                                    .platform(Platform.NAVER)
+                                    .platform(Platform.NAVER)   // TODO: NAVER 외에 타 플랫폼이 추가될 수 있으므로 변경 필요
                                     .build()
                     );
 

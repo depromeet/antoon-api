@@ -27,7 +27,7 @@ public class KakaoWebtoonCrawlingTest {
     @Test
     @DisplayName("카카오 페이지 크롤링 테스트")
     void webtoonCrawling() {
-        Document doc = null;
+        Document doc;
         String kakaoWebtoonUrl = "https://page.kakao.com/main?categoryUid=10&subCategoryUid=10000";
         try {
             doc = Jsoup.connect(kakaoWebtoonUrl).get();
@@ -37,7 +37,7 @@ public class KakaoWebtoonCrawlingTest {
                 Elements aElements = contentElement.select("a");
 
                 for (Element aElement : aElements) {
-                    var thumbnail = aElement.select("img").attr("data-src");
+                    var thumbnail = "https:" + aElement.select("img").attr("data-src");
                     var score = aElement.select("div.css-nfxgqr").text();
                     var url = "https://page.kakao.com" + aElement.attr("href");
                     var webtoonDetailDocument = Jsoup.connect(url).get();
@@ -46,7 +46,9 @@ public class KakaoWebtoonCrawlingTest {
                     var title = innerElement.select("h2.text-ellipsis.css-jgjrt").text();
                     var dayInfoBox = innerElement.select("div.css-ymlwac").first().child(1).text().split("\\|");
                     var day = dayInfoBox[0];
-                    var writer = innerElement.select("div.css-ymlwac").first().child(2).text();
+                    var writer = innerElement.select("div.css-ymlwac").first().child(2).text().split(",");
+
+                    log.debug("[Kakao Webtoon Crawling] -> title={}, writer={}, day={}, score={}, thumbnail={}", title, writer, day, score, thumbnail);
                 });
                 }
             }

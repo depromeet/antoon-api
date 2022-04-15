@@ -18,4 +18,19 @@ public class WebtoonCrawlingValue {
     public static final String NAVER_WEBTOON_WRITER = "span.wrt_nm";
     public static final String[] NAVER_WEBTOON_THUMBAIL = {"div.thumb img", "src"};
     public static final String NAVER_WEBTOON_GENRE = "span.genre";
+
+    /**
+     * KAKAO WEBTOON CRAWLING URL AND TAG
+     */
+    public static final String KAKAO_WEBTOON_URL = "https://page.kakao.com/main?categoryUid=10&subCategoryUid=10000";
+    public static final String KAKAO_CONTENT_ELEMENTS = "div.css-19y0ur2";
+    public static final String KAKAO_WEBTOON_LINK_TAG = "a";
+    public static final String KAKAO_WEBTOON_LINK_ATTRIBUTE_KEY = "href";
+    public static final String KAKAO_WEBTOON_IMAGE_TAG = "img";
+    public static final String KAKAO_WEBTOON_IMAGE_ATTRIBUTE_KEY = "data-src";
+    public static final String KAKAO_WEBTOON_DOMAIN = "https://page.kakao.com";
+    public static final String KAKAO_INNER_ELEMENTS = "div.css-1ydjg2i";
+    public static final String KAKAO_WEBTOON_TITLE = "h2.text-ellipsis.css-jgjrt";
+    public static final String KAKAO_WEBTOON_DAY_INFO_BOX = "div.css-ymlwac";
+    public static final String KAKAO_WEBTOON_WRITER = "div.css-ymlwac";
 }
