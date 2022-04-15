@@ -39,15 +39,21 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                             .getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTTON_SCORE[1])
                             .text();
 
+                    var detailUrl = WebtoonCrawlingValue.NAVER_WEBTOON_DOMIN + webtoonDetailDocument.select("td.title a").get(0).attr("href");
+
+                    var webtoonDetailImageDocument = Jsoup.connect(detailUrl).get();
+
+                    var thumbnail = webtoonDetailImageDocument.select("div.thumb img").attr("src");
+
                     var innerElements = webtoonDetailDocument.select(WebtoonCrawlingValue.NAVER_INNSER_ELEMENTS);
                     innerElements.forEach(innerElement -> {
                         var title = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_TITLE).text();
                         var content = innerElement.getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTOON_CONTENT).get(0).text();
                         var writer = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_WRITER).text().split(" / ");
-                        var thumbnail = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[0]).attr(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[1]);
+
                         var genre = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_GENRE).text().split(",");
 
-                        List<String> genres = Arrays.stream(genre)
+                        var genres = Arrays.stream(genre)
                                 .map(g -> g.replace(" ", ""))
                                 .collect(Collectors.toList());
 
