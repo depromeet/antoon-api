@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-// UserPrincipal: Spring Security에 User 정보를 전달하기 위한 클래스
 @Getter
 public class UserPrincipal implements OAuth2User, UserDetails {
 
@@ -31,7 +30,6 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         List<GrantedAuthority> authorities = Collections.singletonList(
                 new SimpleGrantedAuthority("ROLE_USER")
         );
-
         return new UserPrincipal(
                 user.getId(),
                 user.getEmail(),

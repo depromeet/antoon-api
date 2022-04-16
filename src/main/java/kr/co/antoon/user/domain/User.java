@@ -1,18 +1,17 @@
 package kr.co.antoon.user.domain;
 
-import kr.co.toonzip.common.entity.BaseEntity;
-import kr.co.antoon.user.domain.vo.ProviderType;
+import kr.co.antoon.common.domain.BaseEntity;
 import kr.co.antoon.user.domain.vo.Role;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Getter
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
     @Id
@@ -30,25 +29,23 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private ProviderType provider;
-
-    private String providerId;
+    @Column(nullable = false)
+    private String refreshToken;
 
     @Builder
-    public User(String name, String email, String imageUrl, Role role, String password, ProviderType provider, String providerId) {
+    public User(String name, String email, String imageUrl, Role role, String refreshToken) {
         this.name = name;
         this.email = email;
         this.imageUrl = imageUrl;
         this.role = role;
-        this.provider = provider;
-        this.providerId = providerId;
+        this.refreshToken = refreshToken;
+
     }
 
-    public User update(String name, String imageUrl) {
+    public User update(String name, String imageUrl, String refreshToken) {
         this.name = name;
         this.imageUrl = imageUrl;
+        this.refreshToken = refreshToken;
         return this;
     }
 }
