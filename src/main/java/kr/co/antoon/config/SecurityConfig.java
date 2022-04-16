@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/token/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .oauth2Login().loginPage("/token/refresh")
+                .oauth2Login()
                 .successHandler(successHandler)
                 .userInfoEndpoint().userService(customOAuth2UserService);
 

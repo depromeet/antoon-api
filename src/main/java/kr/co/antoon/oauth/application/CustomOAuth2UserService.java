@@ -1,6 +1,7 @@
 package kr.co.antoon.oauth.application;
 
 import kr.co.antoon.oauth.dto.OAuth2Attribute;
+import kr.co.antoon.oauth.dto.TokenDto;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,29 +35,31 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2Attribute oAuth2Attribute =
                 OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        log.info("OAuth2Attribute : {}", oAuth2Attribute);
+        log.info("OAuth2Attribute : ", oAuth2Attribute);
 
         var memberAttribute = oAuth2Attribute.convertToMap();
 
-        registerNewUser(oAuth2Attribute); //회원가입
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                 memberAttribute, "email");
     }
 
-    private void registerNewUser(OAuth2Attribute oAuth2Attribute) {
+    private void registerNewUser(OAuth2Attribute oAuth2Attribute, TokenDto token) {
         String email = oAuth2Attribute.getEmail();
-        Optional<User> optionalUser = userRepository.findByEmail(email);
+        User optionalUser = userRepository.findByEmail(email);
 
-        if(optionalUser.isPresent()) {
+        if(optionalUser != null) {
             return;
         }
+
 
         User user = User.builder()
                 .name(oAuth2Attribute.getName())
                 .email(email)
                 .picture(oAuth2Attribute.getPicture())
+                .accessToken(token.getToken())
+                .refreshToken(token.getRefreshToken())
                 .build();
         userRepository.save(user);
     }
