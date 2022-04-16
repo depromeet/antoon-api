@@ -31,8 +31,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
         UserDto userDto = userRequestMapper.toDto(oAuth2User);
 
-        // TODO : 최초 로그인이라면 회원가입 처리를 한다.
-
         TokenDto token = tokenService.generateToken(userDto.getEmail(), "USER");
         log.info("{}", token);
 
