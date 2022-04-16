@@ -1,20 +1,25 @@
 package kr.co.antoon.batch.webtoon;
 
+import kr.co.antoon.webtoon.domain.vo.Platform;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-// @Profile("prod") 운영 배포에서만 스케쥴링 동작
+@Profile("prod")
 @Component
 @RequiredArgsConstructor
 public class WebtoonBatchScheduler {
     private final WebtoonDailyJob webtoonDailyJob;
 
-    /**
-     * WebToon Crawling 작업을 매일 오전 4시에 스케쥴링한다.
-     **/
-    @Scheduled(cron = "0 0 4 * * *")
-    public void runDailyJob() {
-        webtoonDailyJob.run();
+    @Scheduled(cron = "0 10 3 * * *")
+    public void runDailyJobNaver() {
+        webtoonDailyJob.run(Platform.NAVER);
+    }
+
+    // TODO : PLATFORM TYPE을 바꿔주세요!! 카카오로~
+    @Scheduled(cron = "0 20 3 * * *")
+    public void runDailyJobKakao() {
+        webtoonDailyJob.run(Platform.NAVER);
     }
 }

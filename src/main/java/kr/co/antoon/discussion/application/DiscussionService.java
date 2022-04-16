@@ -33,7 +33,7 @@ public class DiscussionService {
     @Transactional(readOnly = true)
     public DiscussionReadResponse findById(Long id) {
         Discussion discussion = discussionRepository.findById(id)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
 
         return new DiscussionReadResponse(
                 discussion.getId(),
@@ -55,7 +55,7 @@ public class DiscussionService {
     @Transactional
     public DiscussionUpdateResponse update(Long id, DiscussionUpdateRequest request) {
         Discussion discussion = discussionRepository.findById(id)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
 
         discussion.update(request.content());
 
