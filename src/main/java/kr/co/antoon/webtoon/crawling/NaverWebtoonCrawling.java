@@ -22,32 +22,38 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
         var bundle = new ArrayList<WebtoonCrawlingDto.WebtoonCrawlingDetail>();
 
         try {
-            var naverWeekendWebtoonDocument = Jsoup.connect(WebtoonCrawlingValue.NAVER_WEEKEND_URL).get();
-            var webtoonElements = naverWeekendWebtoonDocument.select(WebtoonCrawlingValue.NAVER_WEEKEND_ELEMENTS);
+            var naverWeekendWebtoonDocument = Jsoup.connect("https://comic.naver.com/webtoon/weekday").get();
+            var webtoonElements = naverWeekendWebtoonDocument.select("div.list_area.daily_all div.col");
 
             for (var weekendWebtoons : webtoonElements) {
-                var eachUrlElements = weekendWebtoons.select(WebtoonCrawlingValue.NAVER_ALL_URLS);
+                var eachUrlElements = weekendWebtoons.select("ul li div.thumb a");
 
                 for (Element webtoon : eachUrlElements) {
-                    var url = WebtoonCrawlingValue.NAVER_WEBTOON_DOMIN + webtoon.attr(WebtoonCrawlingValue.NAVER_WEBTOON_URL_ATTRIBUTE_KEY);
-                    var day = weekendWebtoons.getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTOON_DAT_ATTRIBUTE_KEY).text().substring(0, 1);
+                    var url = "https://comic.naver.com" + webtoon.attr("href");
+                    var day = weekendWebtoons.getElementsByTag("h4").text().substring(0, 1);
 
                     var webtoonDetailDocument = Jsoup.connect(url).get();
 
-                    var score = webtoonDetailDocument.select(WebtoonCrawlingValue.NAVER_WEBTTON_SCORE[0])
+                    var score = webtoonDetailDocument.select("div.rating_type")
                             .get(0)
-                            .getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTTON_SCORE[1])
+                            .getElementsByTag("strong")
                             .text();
 
-                    var innerElements = webtoonDetailDocument.select(WebtoonCrawlingValue.NAVER_INNSER_ELEMENTS);
-                    innerElements.forEach(innerElement -> {
-                        var title = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_TITLE).text();
-                        var content = innerElement.getElementsByTag(WebtoonCrawlingValue.NAVER_WEBTOON_CONTENT).get(0).text();
-                        var writer = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_WRITER).text().split(" / ");
-                        var thumbnail = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[0]).attr(WebtoonCrawlingValue.NAVER_WEBTOON_THUMBAIL[1]);
-                        var genre = innerElement.select(WebtoonCrawlingValue.NAVER_WEBTOON_GENRE).text().split(",");
+                    var detailUrl = "https://comic.naver.com" + webtoonDetailDocument.select("td.title a").get(0).attr("href");
 
-                        List<String> genres = Arrays.stream(genre)
+                    var webtoonDetailImageDocument = Jsoup.connect(detailUrl).get();
+
+                    var thumbnail = webtoonDetailImageDocument.select("div.thumb img").attr("src");
+
+                    var innerElements = webtoonDetailDocument.select("div.comicinfo");
+                    innerElements.forEach(innerElement -> {
+                        var title = innerElement.select("span.title").text();
+                        var content = innerElement.getElementsByTag("p").get(0).text();
+                        var writer = innerElement.select("span.wrt_nm").text().split(" / ");
+
+                        var genre = innerElement.select("span.genre").text().split(",");
+
+                        var genres = Arrays.stream(genre)
                                 .map(g -> g.replace(" ", ""))
                                 .collect(Collectors.toList());
 
