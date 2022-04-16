@@ -67,8 +67,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             throws IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        response.addHeader("Auth", tokenDto.getToken());
-        response.addHeader("Refresh", tokenDto.getRefreshToken());
+        response.addHeader("AccessToken", tokenDto.getToken());
+        response.addHeader("RefreshToken", tokenDto.getRefreshToken());
         response.setContentType("application/json;charset=UTF-8");
 
         var writer = response.getWriter();
@@ -76,3 +76,5 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         writer.flush();
     }
 }
+
+
