@@ -10,11 +10,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Slf4j
-@Component(KakaoWebtoonCrawling.KAKAO_WEBTOON)
+@Component(WebtoonCrawlingValue.KAKAO_WEBTOON)
 public class KakaoWebtoonCrawling implements WebtoonCrawling {
-
-    public static final String KAKAO_WEBTOON = "kakaoWebtoon";
-    public static final String HTTPS = "https:";
 
     @Override
     public WebtoonCrawlingDto crawling() {
@@ -29,7 +26,8 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                 var aLinkElements = contentElement.select(WebtoonCrawlingValue.KAKAO_WEBTOON_LINK_TAG);
 
                 for (Element aLinkElement : aLinkElements) {
-                    var thumbnail = HTTPS + aLinkElement.select(WebtoonCrawlingValue.KAKAO_WEBTOON_IMAGE_TAG).attr(WebtoonCrawlingValue.KAKAO_WEBTOON_IMAGE_ATTRIBUTE_KEY);
+                    var thumbnail = WebtoonCrawlingValue.HTTPS + aLinkElement.select(WebtoonCrawlingValue.KAKAO_WEBTOON_IMAGE_TAG).attr(WebtoonCrawlingValue.KAKAO_WEBTOON_IMAGE_ATTRIBUTE_KEY);
+                    var score = convertRankingToScore(aLinkElement.select(WebtoonCrawlingValue.KAKAO_WEBTOON_SCORE).text());
                     var url = WebtoonCrawlingValue.KAKAO_WEBTOON_DOMAIN + aLinkElement.attr(WebtoonCrawlingValue.KAKAO_WEBTOON_LINK_ATTRIBUTE_KEY);
                     var webtoonDetailDocument = Jsoup.connect(url).get();
 
@@ -40,9 +38,8 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                         var day = dayInfoBox[0];
                         var writer = Objects.requireNonNull(innerElement.select(WebtoonCrawlingValue.KAKAO_WEBTOON_WRITER).first()).child(2).text().split(",");
 
-                        // TODO: 추가 구현 필요 Content, Genres, Score
+                        // TODO: 추가 구현 필요 Content, Genres
                         var content = "";
-                        var score = "10.0";
                         List<String> genres = new ArrayList<>();
                         genres.add("공포");
                         genres.add("무협");
@@ -70,5 +67,17 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
         }
 
         return new WebtoonCrawlingDto(bundle);
+    }
+
+    private String convertRankingToScore(String score) {
+        switch (score) {
+            case WebtoonCrawlingValue.WEBTOON_RANKING_1 -> score = WebtoonCrawlingValue.RANKING_1_SCORE;
+            case WebtoonCrawlingValue.WEBTOON_RANKING_2 -> score = WebtoonCrawlingValue.RANKING_2_SCORE;
+            case WebtoonCrawlingValue.WEBTOON_RANKING_3 -> score = WebtoonCrawlingValue.RANKING_3_SCORE;
+            case WebtoonCrawlingValue.WEBTOON_RANKIG_4 -> score = WebtoonCrawlingValue.RANKING_4_SCORE;
+            case WebtoonCrawlingValue.WEBTOON_RANKING_5 -> score = WebtoonCrawlingValue.RANKING_5_SCORE;
+            default -> score = WebtoonCrawlingValue.DEFAULT_SCORE;
+        }
+        return score;
     }
 }
