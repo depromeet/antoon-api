@@ -30,7 +30,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final UserRequestMapper userRequestMapper;
     private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
