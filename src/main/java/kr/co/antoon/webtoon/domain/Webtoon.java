@@ -1,6 +1,7 @@
 package kr.co.antoon.webtoon.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
+import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,7 +30,7 @@ public class Webtoon extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Platform platform;
 
-    private Boolean active;
+    private ActiveStatus status;
 
     @Builder
     public Webtoon(String title, String content, String url, String thumbnail, Platform platform) {
@@ -38,7 +39,7 @@ public class Webtoon extends BaseEntity {
         this.url = url;
         this.thumbnail = thumbnail;
         this.platform = platform;
-        this.active = true;
+        this.status = ActiveStatus.PUBLISH;
     }
 
     public void update(String title, String content, String thumbnail, String url) {

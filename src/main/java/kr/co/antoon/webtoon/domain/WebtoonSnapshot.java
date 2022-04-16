@@ -4,11 +4,14 @@ import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -22,8 +25,11 @@ public class WebtoonSnapshot extends BaseEntity {
 
     private Long webtoonId;
 
+    private LocalDate snapshotTime;
+
     public WebtoonSnapshot(Double score, Long webtoonId) {
         this.score = score;
         this.webtoonId = webtoonId;
+        this.snapshotTime = LocalDate.now();
     }
 }
