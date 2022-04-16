@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class WebtoonDailyJob {
+public class WebtoonCrawlingDailyJob {
     private final WebtoonCrawlingFacade webtoonCrawlingFacade;
 
     public void run(Platform platform) {
