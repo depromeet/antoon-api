@@ -12,4 +12,16 @@ public enum GraphStatus {
     ;
 
     private final String description;
+
+    public static GraphStatus of(double oldScore, double newScore) {
+        double data = newScore - oldScore;
+
+        if (data > 0) {
+            return UP;
+        } else if (data < 0) {
+            return DOWN;
+        } else {
+            return MAINTATIN;
+        }
+    }
 }

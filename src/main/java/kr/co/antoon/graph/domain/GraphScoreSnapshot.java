@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -20,12 +22,15 @@ public class GraphScoreSnapshot extends BaseEntity {
 
     private Long webtoonId;
 
+    private LocalDateTime snapshotTime;
+
     @Enumerated(EnumType.STRING)
     private GraphStatus graphStatus;
 
     public GraphScoreSnapshot(Double graphScore, Long webtoonId, GraphStatus graphStatus) {
         this.graphScore = graphScore;
         this.webtoonId = webtoonId;
+        this.snapshotTime = LocalDateTime.now();
         this.graphStatus = graphStatus;
     }
 

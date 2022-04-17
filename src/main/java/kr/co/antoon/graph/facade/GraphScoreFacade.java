@@ -2,6 +2,7 @@ package kr.co.antoon.graph.facade;
 
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
+import kr.co.antoon.graph.domain.vo.GraphStatus;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonSnapshotService;
 import kr.co.antoon.webtoon.domain.Webtoon;
@@ -12,8 +13,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -22,18 +25,42 @@ public class GraphScoreFacade {
     private final WebtoonSnapshotService webtoonSnapshotService;
     private final WebtoonService webtoonService;
 
+    // TODO : 댓글, 좋아요에 대한 통계 자료를 추가적으로 삽입해야 함
     @Transactional
     public void snapshot() {
+        var webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH);
 
-        // 활성화된 웹툰 전체
-        List<Webtoon> webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH);
+        var webtoonSnapshots = webtoonSnapshotService.findAllBySnapshopTime(LocalDate.now());
 
-        // 웹툰 스냅샷
-        List<WebtoonSnapshot> webtoonSnapshots = webtoonSnapshotService.findAllBySnapshopTime(LocalDate.now());
+        var yesterday = LocalDateTime.now().minusDays(1);
+        var webtoonSnapshotsAboutYesterday = graphScoreSnapshotService.findAllBySnapshotTime(yesterday);
 
-        // TODO GRAPH SCORE SNAPSHOT 로직 구현 필요
 
         List<GraphScoreSnapshot> graphScoreSnapshots = new ArrayList<>();
+        for (Webtoon webtoon : webtoons) {
+            for (WebtoonSnapshot webtoonSnapshot : webtoonSnapshots) {
+                if (Objects.equals(webtoon.getId(), webtoonSnapshot.getWebtoonId())) {
+
+                    double score = webtoonSnapshot.getScore();
+
+                    GraphStatus realStatus = GraphStatus.MAINTATIN;
+
+                    for (GraphScoreSnapshot graphScoreSnapshot : webtoonSnapshotsAboutYesterday) {
+                        if (Objects.equals(webtoon.getId(), graphScoreSnapshot.getWebtoonId())) {
+                            realStatus = GraphStatus.of(graphScoreSnapshot.getGraphScore(), score);
+                        }
+                    }
+
+                    graphScoreSnapshots.add(
+                            GraphScoreSnapshot.of(
+                                    webtoonSnapshot.getScore(),
+                                    webtoon.getId(),
+                                    realStatus
+                            ));
+                }
+            }
+        }
+
 
         graphScoreSnapshotService.saveAll(graphScoreSnapshots);
     }

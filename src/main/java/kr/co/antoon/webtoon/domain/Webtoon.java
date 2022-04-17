@@ -30,6 +30,7 @@ public class Webtoon extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Platform platform;
 
+    @Enumerated(EnumType.STRING)
     private ActiveStatus status;
 
     @Builder
