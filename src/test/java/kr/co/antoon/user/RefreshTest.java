@@ -4,7 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import kr.co.antoon.security.token.JwtTokenProvider;
+import kr.co.antoon.security.token.JwtTokenProvider_haneul;
 import kr.co.antoon.user.application.AuthService;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Role;
@@ -33,7 +33,7 @@ public class RefreshTest {
     private String secretKey = "dafjakdjfkalujeijfakdjfajekjfladjflakdjflajdflajiejlfakdafafefqadfaeqf";
 
     @Spy
-    private JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(secretKey);
+    private JwtTokenProvider_haneul jwtTokenProvider = new JwtTokenProvider_haneul(secretKey);
 
     @Mock
     private UserRepository userRepository;
