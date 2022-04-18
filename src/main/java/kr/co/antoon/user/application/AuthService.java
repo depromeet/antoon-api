@@ -1,7 +1,7 @@
 package kr.co.antoon.user.application;
 
 import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.security.token.JwtTokenProvider;
+import kr.co.antoon.security.token.JwtTokenProvider_haneul;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Role;
 import kr.co.antoon.user.dto.response.TokenResponse;
@@ -18,7 +18,7 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider_haneul jwtTokenProvider;
     private final UserRepository userRepository;
 
     public TokenResponse refresh(String token) {

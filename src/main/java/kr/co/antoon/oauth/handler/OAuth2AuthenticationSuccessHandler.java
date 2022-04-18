@@ -31,35 +31,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
 
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+//    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, 
+                                        Authentication authentication)
             throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
-        UserDto userDto = userRequestMapper.toDto(oAuth2User);
-
-        // 최초 로그인 시 회원가입
-        User optionalUser = userRepository.findByEmail(userDto.getEmail());
-        TokenDto token;
-        if(optionalUser == null) {
-            token = tokenService.generateToken(userDto.getEmail(), "USER");
-            log.info("Token : ", token);
-
-            User user = User.builder()
-                    .name(userDto.getName())
-                    .email(userDto.getEmail())
-                    .picture(userDto.getPicture())
-                    .accessToken(token.getToken())
-                    .refreshToken(token.getRefreshToken())
-                    .build();
-            userRepository.save(user);
-        } else {
-            token = TokenDto.builder()
-                    .token(optionalUser.getAccessToken())
-                    .refreshToken(optionalUser.getRefreshToken())
-                    .build();
-        }
-
-        writeTokenResponse(response, token);
+        oAuth2User.getName();
+//        UserDto userDto = userRequestMapper.toDto(oAuth2
+//        writeTokenResponse(response, token);
     }
 
     private void writeTokenResponse(HttpServletResponse response, TokenDto tokenDto)

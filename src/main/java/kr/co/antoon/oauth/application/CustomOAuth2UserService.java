@@ -1,7 +1,6 @@
 package kr.co.antoon.oauth.application;
 
 import kr.co.antoon.oauth.dto.OAuth2Attribute;
-import kr.co.antoon.oauth.dto.TokenDto;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,51 +15,58 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = oAuth2UserService.loadUser(userRequest);
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
+
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+        System.out.println(userNameAttributeName);
 
         OAuth2Attribute oAuth2Attribute =
                 OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        log.info("OAuth2Attribute : ", oAuth2Attribute);
+        log.info("OAuth2Attribute : {}", oAuth2Attribute);
 
-        var memberAttribute = oAuth2Attribute.convertToMap();
+//        var memberAttribute = oAuth2Attribute.convertToMap();
 
+
+//        return new DefaultOAuth2User(
+//                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
+//                memberAttribute, "email");
+
+        saveOrUpdate(oAuth2Attribute);
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
-                memberAttribute, "email");
+                oAuth2Attribute.getAttributes(),
+                "id"
+        );
     }
 
-    private void registerNewUser(OAuth2Attribute oAuth2Attribute, TokenDto token) {
-        String email = oAuth2Attribute.getEmail();
-        User optionalUser = userRepository.findByEmail(email);
+    private void saveOrUpdate(OAuth2Attribute attributes) {
+        String refreshToken = refreshToken(attributes.getEmail());
+        User user = userRepository.findByEmail(attributes.getEmail())
+                .map(entity -> entity.update(attributes.getName(),
+                        attributes.getImageUrl(),
+                        refreshToken))
+                .orElse(attributes.toEntity());
 
-        if(optionalUser != null) {
-            return;
-        }
-
-
-        User user = User.builder()
-                .name(oAuth2Attribute.getName())
-                .email(email)
-                .picture(oAuth2Attribute.getPicture())
-                .accessToken(token.getToken())
-                .refreshToken(token.getRefreshToken())
-                .build();
         userRepository.save(user);
+    }
+
+    private String refreshToken(String email) {
+        return jwtTokenProvider.createRefreshToken(email);
     }
 }

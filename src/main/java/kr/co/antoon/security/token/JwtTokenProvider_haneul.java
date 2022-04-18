@@ -18,7 +18,7 @@ import java.util.Date;
 
 @Slf4j
 @Service
-public class JwtTokenProvider {
+public class JwtTokenProvider_haneul {
     private Key secretKey;
     private static final String BEARER_TYPE = "bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1 * 60 * 1000L;  // 1분
@@ -27,7 +27,7 @@ public class JwtTokenProvider {
     @Autowired
     private CustomUserDetailService customUserDetailService;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtTokenProvider_haneul(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
     }

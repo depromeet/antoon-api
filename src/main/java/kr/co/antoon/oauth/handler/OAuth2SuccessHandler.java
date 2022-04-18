@@ -1,11 +1,11 @@
-package kr.co.antoon.security.oauth2.handler;
+package kr.co.antoon.oauth.handler;
 
-import kr.co.antoon.security.oauth2.domain.UserPrincipal;
-import kr.co.antoon.security.token.JwtTokenProvider;
+import kr.co.antoon.security.token.JwtTokenProvider_haneul;
 import kr.co.antoon.user.domain.vo.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -21,13 +21,14 @@ import java.io.IOException;
 public class OAuth2SuccessHandler extends
         SimpleUrlAuthenticationSuccessHandler {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider_haneul jwtTokenProvider;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        String accessToken = jwtTokenProvider.createAccessToken(userPrincipal.getEmail(), Role.USER);
+        OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
+        String email = (String) oAuth2User.getAttributes().get("email");
+        String accessToken = jwtTokenProvider.createAccessToken(email, Role.USER);
 
         String targetUri = UriComponentsBuilder.fromUriString("http://localhost:8080/oauth2/redirect")
                 .queryParam("token", accessToken)

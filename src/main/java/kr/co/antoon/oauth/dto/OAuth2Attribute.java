@@ -1,5 +1,7 @@
 package kr.co.antoon.oauth.dto;
 
+import kr.co.antoon.user.domain.User;
+import kr.co.antoon.user.domain.vo.Role;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,13 +18,13 @@ public class OAuth2Attribute {
     private String attributeKey;
     private String email;
     private String name;
-    private String picture;
+    private String imageUrl;
 
-    public static OAuth2Attribute of(String provider, String attributeKey,
+    public static OAuth2Attribute of(String provider, String userNameAttributeName,
                                      Map<String, Object> attributes) {
         switch (provider) {
             case "kakao":
-                return ofKakao("email", attributes);
+                return ofKakao("id", attributes);
             default:
                 throw new RuntimeException();
         }
@@ -36,20 +38,29 @@ public class OAuth2Attribute {
         return OAuth2Attribute.builder()
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
-                .picture((String)kakaoProfile.get("profile_image_url"))
+                .imageUrl((String)kakaoProfile.get("profile_image_url"))
                 .attributes(kakaoAccount)
                 .attributeKey(attributeKey)
                 .build();
     }
 
-    public Map<String, Object> convertToMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", attributeKey);
-        map.put("key", attributeKey);
-        map.put("name", name);
-        map.put("email", email);
-        map.put("picture", picture);
-
-        return map;
+    public User toEntity() {
+        return User.builder()
+                .name(name)
+                .email(email)
+                .imageUrl(imageUrl)
+                .role(Role.USER)
+                .build();
     }
+
+//    public Map<String, Object> convertToMap() {
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("id", attributeKey);
+//        map.put("key", attributeKey);
+//        map.put("name", name);
+//        map.put("email", email);
+//        map.put("picture", picture);
+//
+//        return map;
+//    }
 }

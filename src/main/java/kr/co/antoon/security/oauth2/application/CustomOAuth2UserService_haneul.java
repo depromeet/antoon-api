@@ -3,7 +3,7 @@ package kr.co.antoon.security.oauth2.application;
 import kr.co.antoon.security.oauth2.domain.KakaoOAuth2UserInfo;
 import kr.co.antoon.security.oauth2.domain.UserPrincipal;
 import kr.co.antoon.security.oauth2.domain.OAuth2UserInfo;
-import kr.co.antoon.security.token.JwtTokenProvider;
+import kr.co.antoon.security.token.JwtTokenProvider_haneul;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Role;
 import kr.co.antoon.user.infrastructure.UserRepository;
@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+public class CustomOAuth2UserService_haneul extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider_haneul jwtTokenProvider;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request){
