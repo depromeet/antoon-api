@@ -1,6 +1,6 @@
 package kr.co.antoon.oauth.handler;
 
-import kr.co.antoon.security.token.JwtTokenProvider_haneul;
+import kr.co.antoon.oauth.application.JwtTokenProvider;
 import kr.co.antoon.user.domain.vo.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class OAuth2SuccessHandler extends
         SimpleUrlAuthenticationSuccessHandler {
 
-    private final JwtTokenProvider_haneul jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)

@@ -30,17 +30,17 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-        String userNameAttributeName = userRequest.getClientRegistration()
-                .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-        System.out.println(userNameAttributeName);
+//        String userNameAttributeName = userRequest.getClientRegistration()
+//                .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+//        System.out.println(userNameAttributeName);
 
+        // fix: userNameAttributeName 파라미터 없앰 그래도 잘돌아감
         OAuth2Attribute oAuth2Attribute =
-                OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+                OAuth2Attribute.of(registrationId, oAuth2User.getAttributes());
 
         log.info("OAuth2Attribute : {}", oAuth2Attribute);
 
 //        var memberAttribute = oAuth2Attribute.convertToMap();
-
 
 //        return new DefaultOAuth2User(
 //                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
@@ -48,10 +48,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         saveOrUpdate(oAuth2Attribute);
 
+        // fix: 세번째 인자 "email" 대신 oAuth2Attribute.getAttributeKey() 넣음 잘돌아감
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                 oAuth2Attribute.getAttributes(),
-                "id"
+                oAuth2Attribute.getAttributeKey()
         );
     }
 
@@ -61,7 +62,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .map(entity -> entity.update(attributes.getName(),
                         attributes.getImageUrl(),
                         refreshToken))
-                .orElse(attributes.toEntity());
+                .orElse(attributes.toEntity(refreshToken));
 
         userRepository.save(user);
     }

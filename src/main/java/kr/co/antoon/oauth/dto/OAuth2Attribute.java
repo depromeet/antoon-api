@@ -20,11 +20,11 @@ public class OAuth2Attribute {
     private String name;
     private String imageUrl;
 
-    public static OAuth2Attribute of(String provider, String userNameAttributeName,
+    public static OAuth2Attribute of(String provider,
                                      Map<String, Object> attributes) {
         switch (provider) {
             case "kakao":
-                return ofKakao("id", attributes);
+                return ofKakao("email", attributes);
             default:
                 throw new RuntimeException();
         }
@@ -44,12 +44,13 @@ public class OAuth2Attribute {
                 .build();
     }
 
-    public User toEntity() {
+    public User toEntity(String refreshToken) {
         return User.builder()
                 .name(name)
                 .email(email)
                 .imageUrl(imageUrl)
                 .role(Role.USER)
+                .refreshToken(refreshToken)
                 .build();
     }
 
