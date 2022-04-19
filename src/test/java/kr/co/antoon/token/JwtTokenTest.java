@@ -4,7 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import kr.co.antoon.security.token.JwtTokenProvider_haneul;
+import kr.co.antoon.oauth.application.JwtTokenProvider;
 import kr.co.antoon.user.domain.vo.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ public class JwtTokenTest {
     private String secretKey = "dafjakdjfkalujeijfakdjfajekjfladjflakdjflajdflajiejlfakdafafefqadfaeqf";
 
     @Spy
-    private JwtTokenProvider_haneul jwtTokenProvider = new JwtTokenProvider_haneul(secretKey);
+    private JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(secretKey);
 
     @Test
     @DisplayName("토큰 getUserId() - 성공")
