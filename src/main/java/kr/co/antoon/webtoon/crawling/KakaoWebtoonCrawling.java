@@ -57,15 +57,15 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
             var contentListElements = kakaoWebtoonDocument.select("div.css-19y0ur2");
 
             for (Element contentElement : contentListElements) {
-                var aLinkElements = contentElement.select("a");
+                var aElements = contentElement.select("a");
 
-                for (Element aLinkElement : aLinkElements) {
-                    var thumbnail = HTTPS + aLinkElement.select("img").attr("data-src");
-                    var score = convertRankingToScore(aLinkElement.select("div.css-nfxgqr").text());
-                    var url = KAKAO_WEBTOON_DOMAIN + aLinkElement.attr("href");
-                    var webtoonDetailDocument = Jsoup.connect(url).get();
+                for (Element aElement : aElements) {
+                    var thumbnail = HTTPS + aElement.select("img").attr("data-src");
+                    var score = convertRankingToScore(aElement.select("div.css-nfxgqr").text());
+                    var url = KAKAO_WEBTOON_DOMAIN + aElement.attr("href");
+                    var detailPageDocument = Jsoup.connect(url).get();
 
-                    var innerElements = webtoonDetailDocument.select("div.css-1ydjg2i");
+                    var innerElements = detailPageDocument.select("div.css-1ydjg2i");
                     innerElements.forEach(innerElement -> {
                         var title = innerElement.select("h2.text-ellipsis.css-jgjrt").text();
                         var dayInfoBox = Objects.requireNonNull(innerElement.select("div.css-ymlwac").first()).child(1).text().split("\\|");
@@ -111,8 +111,9 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
     private JSONObject getJsonObject(String url) {
         var eachUrlArr = url.split("=");
         var seriesId = eachUrlArr[eachUrlArr.length - 1];
-        JSONObject seriesDetail = null;
         var popupModalPageUrl = POPUP_MODAL_PAGE_URL + seriesId;
+
+        JSONObject seriesDetail = null;
         seriesDetail = getSeriesDetail(popupModalPageUrl, seriesDetail);
         return seriesDetail;
     }
@@ -137,9 +138,7 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
             String body = response.body();
             JSONObject jsonObject = new JSONObject(body);
             seriesDetail = (JSONObject) jsonObject.get("seriesdetail");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         return seriesDetail;
