@@ -30,21 +30,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-//        String userNameAttributeName = userRequest.getClientRegistration()
-//                .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-//        System.out.println(userNameAttributeName);
-
-        // fix: userNameAttributeName 파라미터 없앰 그래도 잘돌아감
         OAuth2Attribute oAuth2Attribute =
                 OAuth2Attribute.of(registrationId, oAuth2User.getAttributes());
 
         log.info("OAuth2Attribute : {}", oAuth2Attribute);
-
-//        var memberAttribute = oAuth2Attribute.convertToMap();
-
-//        return new DefaultOAuth2User(
-//                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
-//                memberAttribute, "email");
 
         saveOrUpdate(oAuth2Attribute);
 
@@ -57,7 +46,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private void saveOrUpdate(OAuth2Attribute attributes) {
-        String refreshToken = refreshToken(attributes.getEmail());
+        String refreshToken = jwtTokenProvider.createRefreshToken(attributes.getEmail());
         User user = userRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(),
                         attributes.getImageUrl(),
@@ -65,9 +54,5 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .orElse(attributes.toEntity(refreshToken));
 
         userRepository.save(user);
-    }
-
-    private String refreshToken(String email) {
-        return jwtTokenProvider.createRefreshToken(email);
     }
 }

@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @ToString
@@ -53,15 +52,4 @@ public class OAuth2Attribute {
                 .refreshToken(refreshToken)
                 .build();
     }
-
-//    public Map<String, Object> convertToMap() {
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("id", attributeKey);
-//        map.put("key", attributeKey);
-//        map.put("name", name);
-//        map.put("email", email);
-//        map.put("picture", picture);
-//
-//        return map;
-//    }
 }
