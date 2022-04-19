@@ -1,6 +1,8 @@
 package kr.co.antoon.webtoon.crawling;
 
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,8 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * Kakao Webtoon Crawling Test
@@ -46,6 +47,7 @@ public class KakaoWebtoonCrawlingTest {
                     var score = convertRankingToScore(aElement.select("div.css-nfxgqr").text());
                     var url = "https://page.kakao.com" + aElement.attr("href");
                     var webtoonDetailDocument = Jsoup.connect(url).get();
+
                     var innerElements = webtoonDetailDocument.select("div.css-1ydjg2i");
                     innerElements.forEach(innerElement -> {
                     var title = innerElement.select("h2.text-ellipsis.css-jgjrt").text();
@@ -53,35 +55,73 @@ public class KakaoWebtoonCrawlingTest {
                     var day = dayInfoBox[0];
                     var writer = innerElement.select("div.css-ymlwac").first().child(2).text().split(",");
 
-                    // content, genres
-                    // log.debug("[Kakao Webtoon Crawling] -> title={}, writer={}, day={}, score={}, thumbnail={}", title, writer, day, score, thumbnail);
+                    var eachUrlArr = url.split("=");
+                    var seriesId = eachUrlArr[eachUrlArr.length - 1];
+
+                    // TODO: Content, genres 정보는 상세 페이지의 Modal 팝업창에 표시되어 ResponseData를 통해 크롤링
+                    var content = "";
+                    var genre = "";
+                    JSONObject seriseDetail = getModalPopupData(seriesId);
+                    if (seriseDetail != null) {
+                        try {
+                            content = (String) seriseDetail.get("description");
+                            genre = (String) seriseDetail.get("sub_category");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    log.info("============= [Kakao Webtoon Crawling] ===============");
+                    log.info("title = {}", title);
+                    log.info("content = {}", content);
+                    log.info("url = {}", url);
+                    log.info("thumbnail = {}", thumbnail);
+                    log.info("genre = {}", genre);
+                    log.info("score = {}", score);
+                    log.info("day = {}", day);
+                    log.info("=====================================");
+
+                    //log.info("[Kakao Webtoon Crawling] -> title={}, content={}, genres={}, score={}, thumbnail={}", title, content, genres, score, thumbnail);
                 });
                 }
-                // getModalPopupData();
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void getModalPopupData() {
-        var popupUrl = "https://api2-page.kakao.com/api/v4/store/seriesdetail?seriesid=54727849";
-        Document popupDoc = null;
+    private JSONObject getModalPopupData(String seriesId) {
+        JSONObject seriesDetail = null;
+        var popupModalPageUrl = "https://api2-page.kakao.com/api/v4/store/seriesdetail?seriesid=" + seriesId;
+
         try {
-            Map map = new HashMap<>();
-            map.put("Host", "api2-page.kakao.com");
-            map.put("Origin", "https://page.kakao.com");
-            map.put("Accept", "application/json");
-            map.put("User-Agent", USER_AGENT);
-            Connection conn = Jsoup.connect(popupUrl)
-                    .headers(map)
-                    .userAgent(USER_AGENT)
+            String detailPagePopupModalUrl = "https://api2-page.kakao.com/api/v4/store/seriesdetail?seriesid=" + seriesId;
+            Connection.Response response = Jsoup.connect(popupModalPageUrl)
+                    .header("Accept", "application/json")
+                    .header("Accept-Encoding", "gzip, deflate, br")
+                    .header("Accept-Language", "ko,ko-KR;q=0.9,en-US;q=0.8,en;q=0.7")
+                    .header("Cache-Control", "no-cache")
+                    .header("Connection", "keep-alive")
+                    .header("Content-Length", "0")
+                    .header("Host", "api2-page.kakao.com")
+                    .header("Pragma", "no-cache")
+                    .header("Referer", "https://page.kakao.com/")
                     .method(Connection.Method.POST)
-                    .ignoreContentType(true);
-            popupDoc = conn.get();
+                    .userAgent(USER_AGENT)
+                    .ignoreContentType(true)
+                    .execute();
+
+            String body = response.body();
+            JSONObject jsonObject = new JSONObject(body);
+            seriesDetail = (JSONObject) jsonObject.get("seriesdetail");
+
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        return seriesDetail;
     }
 
     private String convertRankingToScore(String score) {
