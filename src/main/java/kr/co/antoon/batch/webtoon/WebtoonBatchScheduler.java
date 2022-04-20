@@ -17,9 +17,8 @@ public class WebtoonBatchScheduler {
         webtoonDailyJob.run(Platform.NAVER);
     }
 
-    // TODO : PLATFORM TYPE을 바꿔주세요!! 카카오로~
     @Scheduled(cron = "0 20 3 * * *")
     public void runDailyJobKakao() {
-        webtoonDailyJob.run(Platform.NAVER);
+        webtoonDailyJob.run(Platform.KAKAO);
     }
 }
