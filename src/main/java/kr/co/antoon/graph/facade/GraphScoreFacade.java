@@ -5,7 +5,6 @@ import kr.co.antoon.graph.domain.GraphScoreSnapshot;
 import kr.co.antoon.graph.domain.vo.GraphStatus;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonSnapshotService;
-import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.WebtoonSnapshot;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -35,33 +33,25 @@ public class GraphScoreFacade {
         var yesterday = LocalDateTime.now().minusDays(1);
         var webtoonSnapshotsAboutYesterday = graphScoreSnapshotService.findAllBySnapshotTime(yesterday);
 
+        var collect = webtoonSnapshots.stream()
+                .collect(Collectors.toMap(WebtoonSnapshot::getWebtoonId, ws -> ws));
 
-        List<GraphScoreSnapshot> graphScoreSnapshots = new ArrayList<>();
-        for (Webtoon webtoon : webtoons) {
-            for (WebtoonSnapshot webtoonSnapshot : webtoonSnapshots) {
-                if (Objects.equals(webtoon.getId(), webtoonSnapshot.getWebtoonId())) {
+        graphScoreSnapshotService.saveAll(webtoons.stream()
+                .filter(w -> collect.containsKey(w.getId()))
+                .map(w -> {
+                    var score = collect.get(w.getId()).getScore();
 
-                    double score = webtoonSnapshot.getScore();
+                    var status = webtoonSnapshotsAboutYesterday.stream()
+                            .filter(wsay -> Objects.equals(w.getId(), wsay.getWebtoonId()))
+                            .findFirst()
+                            .map(wsay -> GraphStatus.of(wsay.getGraphScore(), score))
+                            .orElse(GraphStatus.MAINTATIN);
 
-                    GraphStatus realStatus = GraphStatus.MAINTATIN;
-
-                    for (GraphScoreSnapshot graphScoreSnapshot : webtoonSnapshotsAboutYesterday) {
-                        if (Objects.equals(webtoon.getId(), graphScoreSnapshot.getWebtoonId())) {
-                            realStatus = GraphStatus.of(graphScoreSnapshot.getGraphScore(), score);
-                        }
-                    }
-
-                    graphScoreSnapshots.add(
-                            GraphScoreSnapshot.of(
-                                    webtoonSnapshot.getScore(),
-                                    webtoon.getId(),
-                                    realStatus
-                            ));
-                }
-            }
-        }
-
-
-        graphScoreSnapshotService.saveAll(graphScoreSnapshots);
+                    return GraphScoreSnapshot.of(
+                            score,
+                            w.getId(),
+                            status
+                    );
+                }).toList());
     }
 }
