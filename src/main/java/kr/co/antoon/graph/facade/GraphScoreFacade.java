@@ -28,18 +28,18 @@ public class GraphScoreFacade {
     public void snapshot() {
         var webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH);
 
-        var webtoonSnapshots = webtoonSnapshotService.findAllBySnapshopTime(LocalDate.now());
+        var webtoonSnapshotsAboutToday = webtoonSnapshotService.findAllBySnapshopTime(LocalDate.now());
 
         var yesterday = LocalDateTime.now().minusDays(1);
         var webtoonSnapshotsAboutYesterday = graphScoreSnapshotService.findAllBySnapshotTime(yesterday);
 
-        var collect = webtoonSnapshots.stream()
+        var webtoonSnapshots = webtoonSnapshotsAboutToday.stream()
                 .collect(Collectors.toMap(WebtoonSnapshot::getWebtoonId, ws -> ws));
 
         graphScoreSnapshotService.saveAll(webtoons.stream()
-                .filter(w -> collect.containsKey(w.getId()))
+                .filter(w -> webtoonSnapshots.containsKey(w.getId()))
                 .map(w -> {
-                    var score = collect.get(w.getId()).getScore();
+                    var score = webtoonSnapshots.get(w.getId()).getScore();
 
                     var status = webtoonSnapshotsAboutYesterday.stream()
                             .filter(wsay -> Objects.equals(w.getId(), wsay.getWebtoonId()))
