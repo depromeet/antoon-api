@@ -21,6 +21,7 @@ public class WebtoonCrawlingBatchScheduler {
     }
 
     // TODO : PLATFORM TYPE을 바꿔주세요!! 카카오로~
+
     /**
      * 매일 오전 3시 20분 스케쥴링
      **/

@@ -85,14 +85,14 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                             e.printStackTrace();
                         }
                         bundle.add(new WebtoonCrawlingDto.WebtoonCrawlingDetail(
-                                title,
-                                content,
-                                List.of(writer),
-                                url,
-                                thumbnail,
-                                genres,
-                                Double.parseDouble(score),
-                                day
+                                        title,
+                                        content,
+                                        List.of(writer),
+                                        url,
+                                        thumbnail,
+                                        genres,
+                                        Double.parseDouble(score),
+                                        day
                                 )
                         );
 
