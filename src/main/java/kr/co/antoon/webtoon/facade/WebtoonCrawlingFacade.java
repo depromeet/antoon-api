@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,7 +30,9 @@ public class WebtoonCrawlingFacade {
 
     @Transactional
     public void crawlingWebtoon(Platform platform) {
-        var existsWebtoons = webtoonService.findAll();
+        var existsWebtoons = webtoonService.findAll()
+                .stream()
+                .collect(Collectors.toMap(Webtoon::getTitle, ws -> ws));
 
         WebtoonCrawlingFactory.of(platform)
                 .crawling()
@@ -64,19 +66,18 @@ public class WebtoonCrawlingFacade {
     }
 
     private boolean isNotUpdated(
-            List<Webtoon> insertedWebtoons,
+            Map<String, Webtoon> webtoons,
             WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton
     ) {
-        for (var webtoon : insertedWebtoons) {
-            if (webtoon.isEqualsTitle(crawlingWebtton.title())) {
-                webtoon.update(
-                        crawlingWebtton.title(),
-                        crawlingWebtton.content(),
-                        crawlingWebtton.thumbnail(),
-                        crawlingWebtton.url()
-                );
-                return false;
-            }
+        if (webtoons.containsKey(crawlingWebtton.title())) {
+            webtoons.get(crawlingWebtton.title())
+                    .update(
+                            crawlingWebtton.title(),
+                            crawlingWebtton.content(),
+                            crawlingWebtton.thumbnail(),
+                            crawlingWebtton.url()
+                    );
+            return false;
         }
         return true;
     }

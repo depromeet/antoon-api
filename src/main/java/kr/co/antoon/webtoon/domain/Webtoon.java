@@ -46,7 +46,15 @@ public class Webtoon extends BaseEntity {
         this.url = url;
         this.thumbnail = thumbnail;
         this.platform = platform;
-        this.status = ActiveStatus.PUBLISH;
+        publish();
+    }
+
+    public void publish() {
+        changeStatus(ActiveStatus.PUBLISH);
+    }
+
+    private void changeStatus(ActiveStatus status) {
+        this.status = status;
     }
 
     public void update(String title, String content, String thumbnail, String url) {
@@ -54,9 +62,5 @@ public class Webtoon extends BaseEntity {
         this.content = content;
         this.thumbnail = thumbnail;
         this.url = url;
-    }
-
-    public boolean isEqualsTitle(String title) {
-        return this.title.equals(title);
     }
 }
