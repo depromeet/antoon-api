@@ -21,7 +21,8 @@ public enum Category {
     HISTORY("무협/사극"),
     SPORT("스포츠"),
     EMOTION("감성"),
-    NONE("없음");
+    NONE("없음"),
+    ;
 
     private final String description;
 

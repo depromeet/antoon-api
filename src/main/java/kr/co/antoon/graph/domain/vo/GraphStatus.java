@@ -18,10 +18,12 @@ public enum GraphStatus {
 
         if (data > 0) {
             return UP;
-        } else if (data < 0) {
-            return DOWN;
-        } else {
-            return MAINTATIN;
         }
+
+        if (data < 0) {
+            return DOWN;
+        }
+
+        return MAINTATIN;
     }
 }
