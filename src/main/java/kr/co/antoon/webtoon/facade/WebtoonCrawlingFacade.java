@@ -1,6 +1,10 @@
 package kr.co.antoon.webtoon.facade;
 
-import kr.co.antoon.webtoon.application.*;
+import kr.co.antoon.webtoon.application.WebtoonGenreService;
+import kr.co.antoon.webtoon.application.WebtoonPublishDayService;
+import kr.co.antoon.webtoon.application.WebtoonService;
+import kr.co.antoon.webtoon.application.WebtoonSnapshotService;
+import kr.co.antoon.webtoon.application.WebtoonWriterService;
 import kr.co.antoon.webtoon.crawling.WebtoonCrawlingFactory;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.WebtoonGenre;
@@ -12,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -26,7 +30,9 @@ public class WebtoonCrawlingFacade {
 
     @Transactional
     public void crawlingWebtoon(Platform platform) {
-        var existsWebtoons = webtoonService.findAll();
+        var existsWebtoons = webtoonService.findAll()
+                .stream()
+                .collect(Collectors.toMap(Webtoon::getTitle, ws -> ws));
 
         WebtoonCrawlingFactory.of(platform)
                 .crawling()
@@ -60,19 +66,18 @@ public class WebtoonCrawlingFacade {
     }
 
     private boolean isNotUpdated(
-            List<Webtoon> insertedWebtoons,
+            Map<String, Webtoon> webtoons,
             WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton
     ) {
-        for (var webtoon : insertedWebtoons) {
-            if (webtoon.isEqualsTitle(crawlingWebtton.title())) {
-                webtoon.update(
-                        crawlingWebtton.title(),
-                        crawlingWebtton.content(),
-                        crawlingWebtton.thumbnail(),
-                        crawlingWebtton.url()
-                );
-                return false;
-            }
+        if (webtoons.containsKey(crawlingWebtton.title())) {
+            webtoons.get(crawlingWebtton.title())
+                    .update(
+                            crawlingWebtton.title(),
+                            crawlingWebtton.content(),
+                            crawlingWebtton.thumbnail(),
+                            crawlingWebtton.url()
+                    );
+            return false;
         }
         return true;
     }

@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -22,8 +23,11 @@ public class WebtoonSnapshot extends BaseEntity {
 
     private Long webtoonId;
 
+    private LocalDate snapshotTime;
+
     public WebtoonSnapshot(Double score, Long webtoonId) {
         this.score = score;
         this.webtoonId = webtoonId;
+        this.snapshotTime = LocalDate.now();
     }
 }
