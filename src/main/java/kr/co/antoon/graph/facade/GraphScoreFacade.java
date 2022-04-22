@@ -45,7 +45,7 @@ public class GraphScoreFacade {
                             .filter(wsay -> Objects.equals(w.getId(), wsay.getWebtoonId()))
                             .findFirst()
                             .map(wsay -> GraphStatus.of(wsay.getGraphScore(), score))
-                            .orElse(GraphStatus.MAINTATIN);
+                            .orElse(GraphStatus.MAINTAIN);
 
                     return GraphScoreSnapshot.of(
                             score,

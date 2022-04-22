@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum GraphStatus {
     UP("상승"),
     DOWN("하락"),
-    MAINTATIN("유지"),
+    MAINTAIN("유지"),
     ;
 
     private final String description;
@@ -24,6 +24,6 @@ public enum GraphStatus {
             return DOWN;
         }
 
-        return MAINTATIN;
+        return MAINTAIN;
     }
 }

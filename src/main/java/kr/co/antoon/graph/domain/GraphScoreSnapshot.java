@@ -42,7 +42,7 @@ public class GraphScoreSnapshot extends BaseEntity {
         return switch (graphStatus) {
             case UP -> new GraphScoreSnapshot(graphScore, webtoonId, GraphStatus.UP);
             case DOWN -> new GraphScoreSnapshot(graphScore, webtoonId, GraphStatus.DOWN);
-            default -> new GraphScoreSnapshot(graphScore, webtoonId, GraphStatus.MAINTATIN);
+            default -> new GraphScoreSnapshot(graphScore, webtoonId, GraphStatus.MAINTAIN);
         };
     }
 }
