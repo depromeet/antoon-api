@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class GraphScoreBatchScheduler {
     private final GraphScoreDailyJob graphScoreDailyJob;
 
-    @Scheduled(cron = "0 0 0/4 * * *")
+    @Scheduled(cron = "0 0 0/1 * * *")
     public void runDailyJob() {
         graphScoreDailyJob.run();
     }
