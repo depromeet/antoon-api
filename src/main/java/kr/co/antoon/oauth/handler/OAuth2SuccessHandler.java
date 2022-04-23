@@ -30,19 +30,8 @@ public class OAuth2SuccessHandler extends
         String email = (String) oAuth2User.getAttributes().get("email");
         String accessToken = jwtTokenProvider.createAccessToken(email, Role.USER);
 
-//        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:8080/oauth2/redirect")
-//                .queryParam("token", accessToken)
-//                .build().toUriString();
-
-//        log.info("targetURi : {}", targetUri);
-//        getRedirectStrategy().sendRedirect(request, response, targetUri);
-
         response.setContentType("text/html;charset=UTF-8");
         response.addHeader("Authorization", accessToken);
         response.setContentType("application/json;charset=UTF-8");
-
-        var writer = response.getWriter();
-        writer.println(accessToken);
-        writer.flush();
     }
 }

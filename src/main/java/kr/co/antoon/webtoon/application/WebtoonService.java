@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,12 @@ public class WebtoonService {
     }
 
     @Transactional(readOnly = true)
+<<<<<<< HEAD
     public List<Webtoon> findAllByStatus(ActiveStatus status) {
         return webtoonRepository.findAllByStatus(status);
+=======
+    public Webtoon findById(Long id) {
+        return webtoonRepository.findById(id).get();
+>>>>>>> 436f559 (:sparkles: [Feature/WebtoonDetail] 웹툰 상세페이지 조회 api 구현)
     }
 }
