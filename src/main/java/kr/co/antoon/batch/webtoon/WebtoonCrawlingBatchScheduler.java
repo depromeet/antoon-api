@@ -20,13 +20,11 @@ public class WebtoonCrawlingBatchScheduler {
         webtoonCrawlingDailyJob.run(Platform.NAVER);
     }
 
-    // TODO : PLATFORM TYPE을 바꿔주세요!! 카카오로~
-
     /**
      * 매일 오전 3시 20분 스케쥴링
      **/
     @Scheduled(cron = "0 20 3 * * *")
     public void runDailyJobKakao() {
-        webtoonCrawlingDailyJob.run(Platform.NAVER);
+        webtoonCrawlingDailyJob.run(Platform.KAKAO);
     }
 }
