@@ -2,7 +2,9 @@ name: Antoon API GIT ACTION
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ staging ]
+  pull_request:
+    branches: [ staging ]
 
 jobs:
   build:
