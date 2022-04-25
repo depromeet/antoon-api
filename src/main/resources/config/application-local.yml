@@ -18,8 +18,8 @@ spring:
       matching-strategy: ant_path_matcher # Swagger Bug 처리
 
 cors:
-  allowed-origins: *
+  allowed-origins: "*"
   allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
-  allowed-headers: *
+  allowed-headers: "*"
   max-age: 3600
-  apply-url-range: /**
+  apply-url-range: "/**"
