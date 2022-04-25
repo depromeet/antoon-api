@@ -39,6 +39,10 @@ public class Webtoon extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ActiveStatus status;
 
+    private int joinMemberCount;
+
+    private int leaveMemberCount;
+
     @Builder
     public Webtoon(String title, String content, String url, String thumbnail, Platform platform) {
         this.title = title;
@@ -46,6 +50,8 @@ public class Webtoon extends BaseEntity {
         this.url = url;
         this.thumbnail = thumbnail;
         this.platform = platform;
+        this.joinMemberCount = 0;
+        this.leaveMemberCount = 0;
         publish();
     }
 
@@ -62,5 +68,15 @@ public class Webtoon extends BaseEntity {
         this.content = content;
         this.thumbnail = thumbnail;
         this.url = url;
+    }
+
+    public Webtoon plusJoinMemberCount() {
+        this.joinMemberCount++;
+        return this;
+    }
+
+    public Webtoon minusLeaveMemberCount() {
+        this.leaveMemberCount++;
+        return this;
     }
 }

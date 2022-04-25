@@ -1,8 +1,8 @@
 package kr.co.antoon.recommendation.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
-import kr.co.antoon.webtoon.domain.Webtoon;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,14 +19,17 @@ public class Recommendation extends BaseEntity {
 
     private Long webtoonId;
 
-    private int join;   // 탑승해요
+    private Long memberId;
 
-    private int leave;  // 잠시 떠나요
+//    private int joinMemberCount;   // 탑승한 인원 수
 
-    public Recommendation(Long id, Long webtoonId, int join, int leave) {
-        this.id = id;
+//    private int leaveMemberCount;  // 하차한 인원 수
+
+    @Builder
+    public Recommendation(Long webtoonId, Long memberId) {
         this.webtoonId = webtoonId;
-        this.join = join;
-        this.leave = leave;
+        this.memberId = memberId;
+//        this.joinMemberCount = joinMemberCount;
+//        this.leaveMemberCount = leaveCount;
     }
 }
