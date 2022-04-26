@@ -27,7 +27,9 @@ public class DiscussionFacade {
         return new DiscussionCreateResponse(
                 discussion.getId(),
                 discussion.getContent(),
-                discussion.getMemberId()
+                discussion.getMemberId(),
+                discussion.getLikeCount(),
+                false
         );
     }
 }

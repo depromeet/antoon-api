@@ -48,7 +48,8 @@ public class DiscussionController {
     @ApiOperation(value = "종목토론방 댓글 단건 조회", notes = SwaggerNote.DISCUSSION_READ_ONE_NOTE)
     @GetMapping("/discussions/{discussionId}")
     public ResponseEntity<DiscussionReadResponse> findOne(@PathVariable Long discussionId) {
-        var response = discussionService.findById(discussionId);
+        Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
+        var response = discussionService.findById(memberId, discussionId);
         return ResponseDto.ok(response);
     }
 
@@ -57,7 +58,8 @@ public class DiscussionController {
     public ResponseEntity<PageDto<DiscussionReadResponse>> findAll(
             @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var response = discussionService.findAll(pageable);
+        Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
+        var response = discussionService.findAll(memberId, pageable);
         return PageDto.ok(response);
     }
 
@@ -67,7 +69,8 @@ public class DiscussionController {
             @PathVariable Long discussionId,
             @Validated @RequestBody DiscussionUpdateRequest request
     ) {
-        var response = discussionService.update(discussionId, request);
+        Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
+        var response = discussionService.update(memberId, discussionId, request);
         return ResponseDto.ok(response);
     }
 

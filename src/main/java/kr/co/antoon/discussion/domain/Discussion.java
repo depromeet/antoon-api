@@ -25,6 +25,8 @@ public class Discussion extends BaseEntity {
 
     private Long memberId;
 
+    private int likeCount = 0;
+
     @Builder
     public Discussion(String content, Long webtoonId, Long memberId) {
         this.content = content;
@@ -34,5 +36,13 @@ public class Discussion extends BaseEntity {
 
     public void update(String content) {
         this.content = content;
+    }
+
+    public void updateLikeCount(Boolean flag) {
+        if(flag) {
+            this.likeCount += 1;
+            return;
+        }
+        this.likeCount -= 1;
     }
 }
