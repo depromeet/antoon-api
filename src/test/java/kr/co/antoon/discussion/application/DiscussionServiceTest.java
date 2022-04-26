@@ -2,6 +2,8 @@ package kr.co.antoon.discussion.application;
 
 import kr.co.antoon.discussion.domain.Discussion;
 import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
+import kr.co.antoon.like.domain.Like;
+import kr.co.antoon.like.infrastructure.LikeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,6 +22,9 @@ class DiscussionServiceTest {
     @Mock
     private DiscussionRepository discussionRepository;
 
+    @Mock
+    private LikeRepository likeRepository;
+
     @InjectMocks
     private DiscussionService discussionService;
 
@@ -27,6 +32,7 @@ class DiscussionServiceTest {
     private final Long WEBTOON_ID = 1L;
     private final String CONTENT = "TEST CONTENT";
     private final Long DISCUSSION_ID = 1L;
+    private final Long USER_ID = 1L;
 
     @Test
     public void 종목토론방_댓글_생성하기() {
@@ -50,21 +56,29 @@ class DiscussionServiceTest {
     @Test
     public void 종목토론방_댓글_상세조회() {
         // given
-        Discussion expected = Discussion.builder()
+        Discussion expected1 = Discussion.builder()
                 .memberId(MEMBER_ID)
                 .webtoonId(WEBTOON_ID)
                 .content(CONTENT)
                 .build();
 
+        Like expected2 = Like.builder()
+                .userId(USER_ID)
+                .discussionId(DISCUSSION_ID)
+                .build();
+
         Mockito.when(discussionRepository.findById(anyLong()))
-                .thenReturn(Optional.of(expected));
+                .thenReturn(Optional.of(expected1));
+
+        Mockito.when(likeRepository.findByUserIdAndDiscussionId(anyLong(), anyLong()))
+                .thenReturn(Optional.of(expected2));
 
         // when
-        var actual = discussionService.findById(DISCUSSION_ID);
+        var actual = discussionService.findById(USER_ID, DISCUSSION_ID);
 
         // then
         assertEquals(
-                expected.getContent(),
+                expected1.getContent(),
                 actual.content()
 
         );
