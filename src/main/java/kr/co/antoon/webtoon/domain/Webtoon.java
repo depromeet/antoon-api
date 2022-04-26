@@ -75,7 +75,7 @@ public class Webtoon extends BaseEntity {
         return this;
     }
 
-    public Webtoon minusLeaveMemberCount() {
+    public Webtoon plusLeaveMemberCount() {
         this.leaveMemberCount++;
         return this;
     }

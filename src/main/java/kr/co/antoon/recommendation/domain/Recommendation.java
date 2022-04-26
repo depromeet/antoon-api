@@ -21,15 +21,9 @@ public class Recommendation extends BaseEntity {
 
     private Long memberId;
 
-//    private int joinMemberCount;   // 탑승한 인원 수
-
-//    private int leaveMemberCount;  // 하차한 인원 수
-
     @Builder
     public Recommendation(Long webtoonId, Long memberId) {
         this.webtoonId = webtoonId;
         this.memberId = memberId;
-//        this.joinMemberCount = joinMemberCount;
-//        this.leaveMemberCount = leaveCount;
     }
 }

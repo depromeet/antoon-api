@@ -14,26 +14,36 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 @Service
 public class RecommendationService {
-
     private final WebtoonRepository webtoonRepository;
     private final RecommendationRepository recommendationRepository;
 
     @Transactional
-    public Long joinUpdate(Long webtoonId, Long memberId) {
+    public boolean updateJoinStatus(Long webtoonId, Long memberId) {
         Webtoon webtoon = webtoonRepository.findById(webtoonId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_ERROR));
-        
         Recommendation recommendation = recommendationRepository.findByMemberIdAndWebtoonId().orElse(null);
 
         // 이미 탑승해요 버튼을 눌러서 탑승 중인 경우 탑승이 안됨
         if (recommendation != null) {
-           
+           return false;
         } else {    // 탑승 중이 아닌 경우
             recommendationRepository.save(new Recommendation(webtoonId, memberId));
             webtoonRepository.save(webtoon.plusJoinMemberCount());
+            return true;
         }
     }
 
-    public Long leaveUpdate(Long webtoonId, Long memberId) {
+    public boolean updateLeaveStatus(Long webtoonId, Long memberId) {
+        Webtoon webtoon = webtoonRepository.findById(webtoonId)
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_ERROR));
+        Recommendation recommendation = recommendationRepository.findByMemberIdAndWebtoonId().orElse(null);
+
+        if (recommendation != null) {
+            return false;
+        } else {
+            recommendationRepository.save(new Recommendation(webtoonId, memberId));
+            webtoonRepository.save(webtoon.plusLeaveMemberCount());
+            return true;
+        }
     }
 }
