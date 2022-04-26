@@ -24,14 +24,6 @@ repositories {
     mavenCentral()
 }
 
-if (project.hasProperty('prod')) {
-    apply from: 'profile_prod.gradle'
-} else if (project.hasProperty('staging')) {
-    apply from: 'profile_staging.gradle'
-} else {
-    apply from: 'profile_local.gradle'
-}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-quartz'
