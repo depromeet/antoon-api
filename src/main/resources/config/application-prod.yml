@@ -3,14 +3,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    show-sql: true
     open-in-view: false
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/antoon_core?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowMultiQueries=true&autoReconnection=true&characterEncoding=UTF-8
-    username: root
+    url:
+    username:
     password:
 
   mvc:
