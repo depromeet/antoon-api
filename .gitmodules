@@ -1,0 +1,3 @@
+[submodule "selab-blog-api-secret-key"]
+	path = selab-blog-api-secret-key
+	url = https://github.com/selab-hs/selab-blog-api-secret-key
