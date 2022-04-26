@@ -27,7 +27,7 @@ jobs:
 
       # Build Gradle
       - name: Build with gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean profile_local
 
       # Login DockerHub
       - name: Login to dockerHub
