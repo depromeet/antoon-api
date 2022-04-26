@@ -29,6 +29,7 @@ public class LikeService {
                         .discussionId(discussionId)
                         .build()
                 );
+        likeRepository.save(like);
         discussion.updateLikeCount(like.getFlag());
     }
 }
