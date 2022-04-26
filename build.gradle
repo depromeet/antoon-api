@@ -19,8 +19,17 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
+
 repositories {
     mavenCentral()
+}
+
+if (project.hasProperty('prod')) {
+    apply from: 'profile_prod.gradle'
+} else if (project.hasProperty('staging')) {
+    apply from: 'profile_staging.gradle'
+} else {
+    apply from: 'profile_local.gradle'
 }
 
 dependencies {
@@ -53,7 +62,7 @@ test {
 }
 
 jacocoTestReport {
-    dependsOn test // tests are required to run before generating the report
+    dependsOn test
     reports {
         xml.required = false
         csv.required = false
