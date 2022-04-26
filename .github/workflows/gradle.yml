@@ -27,7 +27,7 @@ jobs:
 
       # Build Gradle
       - name: Build with gradle
-        run: ./gradlew build bootRun --args='--spring.profiles.active=staging'
+        run: ./gradlew build --args='--spring.profiles.active=staging'
 
       # Login DockerHub
       - name: Login to dockerHub
