@@ -80,8 +80,6 @@ public class KakaoWebtoonCrawlingTest {
                     log.info("score = {}", score);
                     log.info("day = {}", day);
                     log.info("=====================================");
-
-                    //log.info("[Kakao Webtoon Crawling] -> title={}, content={}, genres={}, score={}, thumbnail={}", title, content, genres, score, thumbnail);
                 });
                 }
 

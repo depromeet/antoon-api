@@ -79,4 +79,13 @@ public class Webtoon extends BaseEntity {
         this.leaveMemberCount++;
         return this;
     }
+
+    public Webtoon minusJoimMemberCount() {
+        this.joinMemberCount--;
+        return this;
+    }
+
+    public void updateJoinCount() {
+        this.joinMemberCount += 1;
+    }
 }

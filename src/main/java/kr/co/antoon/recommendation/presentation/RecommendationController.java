@@ -15,7 +15,7 @@ public class RecommendationController {
     private final RecommendationService recommendationService;
 
     @ApiOperation(value = "탑승해요")
-    @PatchMapping("/join/{webtoonId}")
+    @PostMapping("/join/{webtoonId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean joinUpdate(@PathVariable Long webtoonId) {
         Long memberId = 1L; // TODO: AuthenticationUtil에서 가져오도록 추후 변경
@@ -23,7 +23,7 @@ public class RecommendationController {
     }
 
     @ApiOperation(value = "하차해요")
-    @PatchMapping("/leave/{webtoonId}")
+    @PostMapping("/leave/{webtoonId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean leaveUpdate(@PathVariable Long webtoonId) {
         Long memberId = 1L; // TODO: AuthenticationUtil에서 가져오도록 추후 변경
