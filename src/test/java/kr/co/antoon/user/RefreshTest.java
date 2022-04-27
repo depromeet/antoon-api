@@ -62,7 +62,7 @@ public class RefreshTest {
         );
 
         // when
-        TokenResponse tokenResponse = authService.refresh(accessToken);
+        TokenResponse tokenResponse = authService.refresh(accessToken, refreshToken);
 
         // then
         assertThat(tokenResponse.accessToken()).isNotNull();
@@ -73,13 +73,14 @@ public class RefreshTest {
     void refreshFailBecauseNotExistUser() {
         // given
         String accessToken = jwtTokenProvider.createAccessToken("test", Role.USER);
+        String refreshToken = jwtTokenProvider.createRefreshToken("test");
         given(
                 userRepository.findByEmail("test")
         ).willReturn(Optional.empty());
 
         // when & then
         Assertions.assertThrows(NotExistsException.class, () -> {
-           authService.refresh(accessToken);
+           authService.refresh(accessToken, refreshToken);
         });
     }
 
@@ -112,7 +113,7 @@ public class RefreshTest {
 
         // when & then
         Assertions.assertThrows(TokenExpiredException.class, () -> {
-            authService.refresh(accessToken);
+            authService.refresh(accessToken, refreshToken);
         });
     }
 }

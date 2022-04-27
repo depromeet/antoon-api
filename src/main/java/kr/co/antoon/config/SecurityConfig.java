@@ -6,6 +6,7 @@ import kr.co.antoon.oauth.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -34,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin().disable()
                     .httpBasic().disable()
                     .authorizeRequests()
-                        .antMatchers("/oauth2/**")
+                        .antMatchers("/api/v1/**")
                         .permitAll()
                         .anyRequest().authenticated()
                 .and()

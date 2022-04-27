@@ -20,9 +20,22 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthController {
     private final AuthService authService;
 
-    @GetMapping("/refresh")
+    @PostMapping("/refresh")
     public TokenResponse refreshToken (HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getHeader("Authorization");
-        return authService.refresh(token);
+        String access = request.getHeader("Authorization");
+        String refresh = request.getHeader("Refresh");
+        log.info("[access] : "+access);
+        log.info("[refresh] : "+refresh);
+        return authService.refresh(access, refresh);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity logout(HttpServletRequest request) {
+        String access = request.getHeader("Authorization");
+        String refresh = request.getHeader("Refresh");
+        log.info("[access] : "+access);
+        log.info("[refresh] : "+refresh);
+        authService.revokeToken(access, refresh);
+        return ResponseEntity.ok().body("로그아웃 성공!");
     }
 }
