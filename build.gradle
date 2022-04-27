@@ -19,6 +19,7 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
+
 repositories {
     mavenCentral()
 }
@@ -40,7 +41,12 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    configurations{
+        testImplementation.exclude(group: 'com.vaadin.external.google', module: 'android-json')
+    }
+
     implementation 'org.jsoup:jsoup:1.14.3'
+    implementation 'org.json:json:20200518'
 }
 
 test {
@@ -53,7 +59,7 @@ test {
 }
 
 jacocoTestReport {
-    dependsOn test // tests are required to run before generating the report
+    dependsOn test
     reports {
         xml.required = false
         csv.required = false
