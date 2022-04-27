@@ -2,6 +2,7 @@ package kr.co.antoon.recommendation.presentation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.recommendation.application.RecommendationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,19 +15,19 @@ import org.springframework.web.bind.annotation.*;
 public class RecommendationController {
     private final RecommendationService recommendationService;
 
-    @ApiOperation(value = "탑승해요")
-    @PostMapping("/join/{webtoonId}")
+    @ApiOperation(value = "탑승해요", notes = SwaggerNote.RECOMMENDATION_JOIN)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean joinUpdate(@PathVariable Long webtoonId) {
-        Long memberId = 1L; // TODO: AuthenticationUtil에서 가져오도록 추후 변경
-        return recommendationService.updateJoinStatus(webtoonId, memberId);
+    @PatchMapping("/join/{webtoonId}")
+    public boolean updateJoinStatus(@PathVariable Long webtoonId) {
+        Long userId = 1L;  // TODO: Authentication에서 USER ID 조회하도록 변경
+        return recommendationService.updateJoinStatus(userId, webtoonId);
     }
 
-    @ApiOperation(value = "하차해요")
-    @PostMapping("/leave/{webtoonId}")
+    @ApiOperation(value = "하차해요", notes = SwaggerNote.RECOMMENDATION_LEAVE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean leaveUpdate(@PathVariable Long webtoonId) {
-        Long memberId = 1L; // TODO: AuthenticationUtil에서 가져오도록 추후 변경
-        return recommendationService.updateLeaveStatus(webtoonId, memberId);
+    @PatchMapping("/leave/{webtoonId}")
+    public boolean updateLeaveStatus(@PathVariable Long webtoonId) {
+        Long userId = 1L;  // TODO: Authentication에서 USER ID 조회하도록 변경
+        return recommendationService.updateLeaveStatus(userId, webtoonId);
     }
 }

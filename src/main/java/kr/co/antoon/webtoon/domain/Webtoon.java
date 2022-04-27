@@ -8,13 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 
 @Getter
 @Entity
@@ -24,24 +18,31 @@ public class Webtoon extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
     @Lob
+    @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
     private String url;
 
+    @Column(nullable = false)
     private String thumbnail;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Platform platform;
 
     @Enumerated(EnumType.STRING)
     private ActiveStatus status;
 
-    private int joinMemberCount;
+    @Column(nullable = false)
+    private int joinUserCount = 0;
 
-    private int leaveMemberCount;
+    @Column(nullable = false)
+    private int leaveUserCount = 0;
 
     @Builder
     public Webtoon(String title, String content, String url, String thumbnail, Platform platform) {
@@ -50,8 +51,6 @@ public class Webtoon extends BaseEntity {
         this.url = url;
         this.thumbnail = thumbnail;
         this.platform = platform;
-        this.joinMemberCount = 0;
-        this.leaveMemberCount = 0;
         publish();
     }
 
@@ -70,22 +69,23 @@ public class Webtoon extends BaseEntity {
         this.url = url;
     }
 
-    public Webtoon plusJoinMemberCount() {
-        this.joinMemberCount++;
+    public Webtoon plusJoinCount() {
+        this.joinUserCount++;
         return this;
     }
 
-    public Webtoon plusLeaveMemberCount() {
-        this.leaveMemberCount++;
+    public Webtoon plusLeaveCount() {
+        this.leaveUserCount++;
         return this;
     }
 
-    public Webtoon minusJoimMemberCount() {
-        this.joinMemberCount--;
+    public Webtoon minusJoinCount() {
+        this.joinUserCount--;
         return this;
     }
-
-    public void updateJoinCount() {
-        this.joinMemberCount += 1;
+    
+    public Webtoon minusLeaveCount() {
+        this.leaveUserCount--;
+        return this;
     }
 }
