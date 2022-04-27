@@ -26,6 +26,7 @@ public class RecommendationService {
         Recommendation recommendation = recommendationRepository.findByUserIdAndWebtoonId(userId, webtoonId)
                 .orElse(null);
 
+        // 탑승 중인 경우
         if (recommendation != null) {
            return false;
         } else {
@@ -43,6 +44,7 @@ public class RecommendationService {
         Recommendation recommendation = recommendationRepository.findByUserIdAndWebtoonId(userId, webtoonId)
                 .orElse(null);
 
+        // 하차 중인 경우
         if (recommendation != null) {
             return false;
         } else {
@@ -59,7 +61,6 @@ public class RecommendationService {
                 .stream()
                 .filter(r -> r.getStatus().equals(RecommendationStatus.JOINED))
                 .collect(Collectors.toList());
-
 
         for (Recommendation recommendation : joinedRecommendations) {
             Long webtoonId = recommendation.getWebtoonId();

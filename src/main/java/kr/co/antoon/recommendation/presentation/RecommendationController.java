@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "탑승/하차 API")
 @RestController
-@RequestMapping("/api/v1/recommendation")
+@RequestMapping("/api/v1/recommendations")
 @RequiredArgsConstructor
 public class RecommendationController {
     private final RecommendationService recommendationService;

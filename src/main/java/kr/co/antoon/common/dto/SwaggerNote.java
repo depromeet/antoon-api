@@ -75,11 +75,11 @@ public class SwaggerNote {
 
     public static final String RECOMMENDATION_JOIN = """
             웹툰 상세페이지 > 탑승해요 API
-            PATCH /api/v1/recommendation/join/{webtonId}
+            PATCH /api/v1/recommendations/join/{webtonId}
             
             """;
     public static final String RECOMMENDATION_LEAVE = """
             웹툰 상세페이지 > 하차해요 API
-            PATCH /api/v1/recommendation/leave/{webtoonId}
+            PATCH /api/v1/recommendations/leave/{webtoonId}
             """;
 }

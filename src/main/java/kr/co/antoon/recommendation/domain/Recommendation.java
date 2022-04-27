@@ -20,15 +20,15 @@ public class Recommendation extends BaseEntity {
 
     private Long webtoonId;
 
-    private Long memberId;
+    private Long userId;
 
     @Enumerated(EnumType.STRING)
     private RecommendationStatus status;
 
     @Builder
-    public Recommendation(Long webtoonId, Long memberId) {
+    public Recommendation(Long webtoonId, Long userId) {
         this.webtoonId = webtoonId;
-        this.memberId = memberId;
+        this.userId = userId;
     }
 
     public void changeStatus(RecommendationStatus status) {
