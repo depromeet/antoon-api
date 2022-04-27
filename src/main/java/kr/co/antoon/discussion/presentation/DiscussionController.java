@@ -49,7 +49,7 @@ public class DiscussionController {
     @GetMapping("/discussions/{discussionId}")
     public ResponseEntity<DiscussionReadResponse> findOne(@PathVariable Long discussionId) {
         Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
-        var response = discussionService.findById(memberId, discussionId);
+        var response = discussionFacade.findById(memberId, discussionId);
         return ResponseDto.ok(response);
     }
 
@@ -59,7 +59,7 @@ public class DiscussionController {
             @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
-        var response = discussionService.findAll(memberId, pageable);
+        var response = discussionFacade.findAll(memberId, pageable);
         return PageDto.ok(response);
     }
 
@@ -70,7 +70,7 @@ public class DiscussionController {
             @Validated @RequestBody DiscussionUpdateRequest request
     ) {
         Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
-        var response = discussionService.update(memberId, discussionId, request);
+        var response = discussionFacade.update(memberId, discussionId, request);
         return ResponseDto.ok(response);
     }
 

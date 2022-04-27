@@ -33,56 +33,27 @@ public class DiscussionService {
     }
 
     @Transactional(readOnly = true)
-    public DiscussionReadResponse findById(Long memberId, Long discussionId) {
-        Discussion discussion = discussionRepository.findById(discussionId)
+    public Discussion findById(Long discussionId) {
+        return discussionRepository.findById(discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
-
-        return new DiscussionReadResponse(
-                discussion.getId(),
-                discussion.getContent(),
-                discussion.getMemberId(),
-                discussion.getLikeCount(),
-                isUserLike(memberId, discussionId)
-        );
     }
 
     @Transactional(readOnly = true)
-    public Page<DiscussionReadResponse> findAll(Long memberId, Pageable pageable) {
-        return discussionRepository.findAll(pageable)
-                .map(discussion -> new DiscussionReadResponse(
-                        discussion.getId(),
-                        discussion.getContent(),
-                        discussion.getMemberId(),
-                        discussion.getLikeCount(),
-                        isUserLike(memberId, discussion.getId())
-                ));
+    public Page<Discussion> findAll(Pageable pageable) {
+        return discussionRepository.findAll(pageable);
     }
 
     @Transactional
-    public DiscussionUpdateResponse update(Long memberId, Long discussionId, DiscussionUpdateRequest request) {
+    public Discussion update(Long discussionId, DiscussionUpdateRequest request) {
         Discussion discussion = discussionRepository.findById(discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
 
         discussion.update(request.content());
-
-        return new DiscussionUpdateResponse(
-                discussion.getId(),
-                discussion.getContent(),
-                discussion.getMemberId(),
-                discussion.getLikeCount(),
-                isUserLike(memberId, discussion.getId())
-        );
+        return discussion;
     }
 
     @Transactional
     public void delete(Long id) {
         discussionRepository.deleteById(id);
-    }
-
-    @Transactional(readOnly = true)
-    public Boolean isUserLike(Long userId, Long discussionId) {
-        Like like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
-        return like.getFlag();
     }
 }
