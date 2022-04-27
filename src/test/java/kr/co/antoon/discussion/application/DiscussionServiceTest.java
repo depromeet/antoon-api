@@ -62,25 +62,16 @@ class DiscussionServiceTest {
                 .content(CONTENT)
                 .build();
 
-        Like expected2 = Like.builder()
-                .userId(USER_ID)
-                .discussionId(DISCUSSION_ID)
-                .build();
-
         Mockito.when(discussionRepository.findById(anyLong()))
                 .thenReturn(Optional.of(expected1));
 
-        Mockito.when(likeRepository.findByUserIdAndDiscussionId(anyLong(), anyLong()))
-                .thenReturn(Optional.of(expected2));
-
         // when
-        var actual = discussionService.findById(USER_ID, DISCUSSION_ID);
+        var actual = discussionService.findById(DISCUSSION_ID);
 
         // then
         assertEquals(
                 expected1.getContent(),
-                actual.content()
-
+                actual.getContent()
         );
     }
 }

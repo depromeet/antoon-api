@@ -1,8 +1,6 @@
 package kr.co.antoon.like.application;
 
 import kr.co.antoon.discussion.domain.Discussion;
-import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
-import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.like.domain.Like;
 import kr.co.antoon.like.infrastructure.LikeRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -17,16 +15,12 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class LikeServiceTest {
 
     @Mock
     private LikeRepository likeRepository;
-
-    @Mock
-    private DiscussionRepository discussionRepository;
 
     @InjectMocks
     private LikeService likeService;
@@ -47,11 +41,6 @@ public class LikeServiceTest {
                 .content(CONTENT)
                 .build();
 
-        given(discussionRepository.findById(anyLong())
-        ).willReturn(
-                Optional.ofNullable(mockDiscussion)
-        );
-
         given(likeRepository.findByUserIdAndDiscussionId(anyLong(), anyLong())
         ).willReturn(
                 Optional.empty()
@@ -59,7 +48,7 @@ public class LikeServiceTest {
 
         // when & then
         assertDoesNotThrow(() -> {
-            likeService.saveOrUpdate(USER_ID, DISCUSSION_ID);
+            likeService.saveOrUpdate(mockDiscussion, USER_ID, DISCUSSION_ID);
         });
     }
 
@@ -78,11 +67,6 @@ public class LikeServiceTest {
                 .discussionId(DISCUSSION_ID)
                 .build();
 
-        given(discussionRepository.findById(anyLong())
-        ).willReturn(
-                Optional.ofNullable(mockDiscussion)
-        );
-
         given(likeRepository.findByUserIdAndDiscussionId(anyLong(), anyLong())
         ).willReturn(
                 Optional.ofNullable(mockLike)
@@ -90,22 +74,7 @@ public class LikeServiceTest {
 
         // when & then
         assertDoesNotThrow(() -> {
-            likeService.saveOrUpdate(USER_ID, DISCUSSION_ID);
-        });
-    }
-
-    @Test
-    @DisplayName("좋아요 생성/업데이트 - 실패(존재 하지 않는 댓글)")
-    void likeFailBecauseNotExistDiscussion() {
-        // given
-        given(discussionRepository.findById(anyLong())
-        ).willReturn(
-                Optional.empty()
-        );
-
-        // when & then
-        assertThrows(NotExistsException.class, () -> {
-           likeService.saveOrUpdate(USER_ID, DISCUSSION_ID);
+            likeService.saveOrUpdate(mockDiscussion, USER_ID, DISCUSSION_ID);
         });
     }
 }
