@@ -41,7 +41,12 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    configurations{
+        testImplementation.exclude(group: 'com.vaadin.external.google', module: 'android-json')
+    }
+
     implementation 'org.jsoup:jsoup:1.14.3'
+    implementation 'org.json:json:20200518'
 }
 
 test {
