@@ -1,6 +1,7 @@
 package kr.co.antoon.recommendation.application;
 
 import kr.co.antoon.error.dto.ErrorMessage;
+import kr.co.antoon.error.exception.common.AlreadyExistsException;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.recommendation.domain.Recommendation;
 import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
@@ -20,7 +21,7 @@ public class RecommendationService {
     private final RecommendationRepository recommendationRepository;
 
     @Transactional
-    public boolean updateJoinStatus(Long userId, Long webtoonId) {
+    public void updateJoinStatus(Long userId, Long webtoonId) {
         Webtoon webtoon = webtoonRepository.findById(webtoonId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_ERROR));
         Recommendation recommendation = recommendationRepository.findByUserIdAndWebtoonId(userId, webtoonId)
@@ -28,17 +29,15 @@ public class RecommendationService {
 
         // 탑승 중인 경우
         if (recommendation != null) {
-           return false;
+            throw new AlreadyExistsException(ErrorMessage.ALREADY_JOINED_ERROR);
         } else {
-            recommendationRepository.save(new Recommendation(webtoonId, userId));
-            recommendation.changeStatus(RecommendationStatus.JOINED);
+            recommendationRepository.save(new Recommendation(webtoonId, userId, RecommendationStatus.JOINED));
             webtoonRepository.save(webtoon.plusJoinCount());
-            return true;
         }
     }
 
     @Transactional
-    public boolean updateLeaveStatus(Long userId, Long webtoonId) {
+    public void updateLeaveStatus(Long userId, Long webtoonId) {
         Webtoon webtoon = webtoonRepository.findById(webtoonId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_ERROR));
         Recommendation recommendation = recommendationRepository.findByUserIdAndWebtoonId(userId, webtoonId)
@@ -46,12 +45,10 @@ public class RecommendationService {
 
         // 하차 중인 경우
         if (recommendation != null) {
-            return false;
+            throw new AlreadyExistsException((ErrorMessage.ALREADY_LEAVED_ERROR));
         } else {
-            recommendationRepository.save(new Recommendation(webtoonId, userId));
-            recommendation.changeStatus(RecommendationStatus.LEAVED);
+            recommendationRepository.save(new Recommendation(webtoonId, userId, RecommendationStatus.LEAVED));
             webtoonRepository.save(webtoon.plusLeaveCount());
-            return true;
         }
     }
 

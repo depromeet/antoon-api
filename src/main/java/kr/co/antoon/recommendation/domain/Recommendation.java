@@ -26,9 +26,10 @@ public class Recommendation extends BaseEntity {
     private RecommendationStatus status;
 
     @Builder
-    public Recommendation(Long webtoonId, Long userId) {
+    public Recommendation(Long webtoonId, Long userId, RecommendationStatus status) {
         this.webtoonId = webtoonId;
         this.userId = userId;
+        this.status = status;
     }
 
     public void changeStatus(RecommendationStatus status) {
