@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class RecommendationFacade {
     private final RecommendationService recommendationService;
 
-    public void deleteAll() {
+    public void deleteAllRecommendationStatus() {
         recommendationService.deleteAll();
     }
 }

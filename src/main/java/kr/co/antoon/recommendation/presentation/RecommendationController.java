@@ -2,10 +2,12 @@ package kr.co.antoon.recommendation.presentation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.recommendation.application.RecommendationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "탑승/하차 API")
