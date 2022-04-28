@@ -81,20 +81,23 @@ public class RecommendationControllerTest {
 //    }
 
 
-    @DisplayName("다른 회원이 같은 웹툰의 탑승해요 버튼을 누를 경우 - 성공")
-    @Test
-    void updateJoinCount() throws Exception {
-        // given
-        Long webtoonId = 1L;
-        Long userId = 2L;
-
-        // when
-        mockMvc.perform(patch("/api/v1/recommendations/join/{userId}/{webtoonId}", userId, webtoonId)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-
-        // then
-        Webtoon webtoon = webtoonRepository.findById(webtoonId).get();
-        assertThat(webtoon.getJoinUserCount()).isEqualTo(2);
-    }
+//    @DisplayName("다른 회원이 같은 웹툰의 탑승해요 버튼을 누를 경우 - 성공")
+//    @Test
+//    void updateJoinCount() throws Exception {
+//        // given
+//        Long webtoonId = webtoonRepository.findAll().get(0).getId();
+//        log.info("webtoonId : {}", webtoonId);
+//
+//        Long userId = 0L;
+//        userId++;
+//
+//        // when
+//        mockMvc.perform(patch("/api/v1/recommendations/join/{userId}/{webtoonId}", userId, webtoonId)
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNoContent());
+//
+//        // then
+//        Webtoon webtoon = webtoonRepository.findById(webtoonId).get();
+//        assertThat(webtoon.getJoinUserCount()).isEqualTo(2);
+//    }
 }
