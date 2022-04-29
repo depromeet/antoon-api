@@ -62,7 +62,7 @@ public class RefreshTest {
         );
 
         // when
-        TokenResponse tokenResponse = authService.refresh(accessToken, refreshToken);
+        TokenResponse tokenResponse = authService.refresh(refreshToken);
 
         // then
         assertThat(tokenResponse.accessToken()).isNotNull();
@@ -80,7 +80,7 @@ public class RefreshTest {
 
         // when & then
         Assertions.assertThrows(NotExistsException.class, () -> {
-           authService.refresh(accessToken, refreshToken);
+           authService.refresh(refreshToken);
         });
     }
 
@@ -113,7 +113,7 @@ public class RefreshTest {
 
         // when & then
         Assertions.assertThrows(TokenExpiredException.class, () -> {
-            authService.refresh(accessToken, refreshToken);
+            authService.refresh(refreshToken);
         });
     }
 }

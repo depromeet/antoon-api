@@ -26,20 +26,16 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RedisTemplate redisTemplate;
 
-    public TokenResponse refresh(String accessToken, String refreshToken) {
-        String userId = jwtTokenProvider.getUserId(accessToken);
+    public TokenResponse refresh(String refreshToken) {
+        String userId = jwtTokenProvider.getUserId(refreshToken);
         User user = userRepository.findByEmail(userId)
                 .orElseThrow(()-> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
-
-        if (jwtTokenProvider.validate(accessToken)) { //아직 유효한 accessToken인 경우 다시 return
-            return new TokenResponse(accessToken);
-        }
 
         String refreshTokenDB = user.getRefreshToken(); //db에서 refreshToken 가져와서 검사
         if (!jwtTokenProvider.validate(refreshTokenDB)) {
             throw new TokenExpiredException(ErrorMessage.EXPIRED_TOKEN);
         }
-        log.info("[userId refresh] : " + userId);
+
         String redisRT = (String)redisTemplate.opsForValue().get("RT: " + userId); //redis refreshToken
         // (추가) 로그아웃되어 Redis 에 RefreshToken 이 존재하지 않는 경우 처리
         if(ObjectUtils.isEmpty(refreshToken)) {
@@ -59,21 +55,18 @@ public class AuthService {
         redisTemplate.opsForValue().set("RT: "+user.getEmail(), newRefreshToken,
                 jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
 
-        return new TokenResponse(newAccessToken);
+        return new TokenResponse(newAccessToken, newRefreshToken);
     }
 
     public void revokeToken(String access, String refresh) {
-        log.info("[access service] : "+access);
-        log.info("[refresh service] : "+refresh);
-        if(!jwtTokenProvider.validate(access)) { //만료 검사
+        if(!jwtTokenProvider.validate(access)) { //유효성 검사
             throw new TokenExpiredException(ErrorMessage.NOT_VALIDATE_TOKEN);
         }
 
         String userId = jwtTokenProvider.getUserId(access);
         User user = userRepository.findByEmail(userId)
                 .orElseThrow(()-> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
-        log.info("logout userID : "+ userId);
-        log.info("RT: " + userId);
+
         if (redisTemplate.opsForValue().get("RT: " + userId) != null) {
             // Refresh Token 삭제
             redisTemplate.delete("RT: " + userId);

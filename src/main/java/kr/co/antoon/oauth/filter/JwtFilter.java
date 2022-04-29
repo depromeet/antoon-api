@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -27,21 +27,19 @@ public class JwtFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-    private RedisTemplate redisTemplate;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTemplate redisTemplate;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 1. Request Header에서 토큰을 꺼냄
         String token = resolveToken(request);
-
-        // 2. 토큰 유효성 검사
+        log.info("filter access : " + token);
         // 정상 토큰이면 해당 토큰으로 Authentication을 가져와서 SecurityContext에 저장
         if(StringUtils.hasText(token) && jwtTokenProvider.validate(token)) {
             String isLogout = (String)redisTemplate.opsForValue().get(token); //로그아웃 확인
-            log.info("ObjectUtils.isEmpty(isLogout): {}", ObjectUtils.isEmpty(isLogout));
+
             if (ObjectUtils.isEmpty(isLogout)) {
-                log.info("logout 상태 아님 !!");
                 // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext 에 저장
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);

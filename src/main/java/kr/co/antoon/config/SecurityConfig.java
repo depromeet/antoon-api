@@ -1,6 +1,7 @@
 package kr.co.antoon.config;
 
 import kr.co.antoon.oauth.application.CustomOAuth2UserService;
+import kr.co.antoon.oauth.application.JwtTokenProvider;
 import kr.co.antoon.oauth.filter.JwtFilter;
 import kr.co.antoon.oauth.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +19,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTemplate redisTemplate;
 
-    @Bean
-    public JwtFilter jwtFilter() {
-        return new JwtFilter();
-    }
+//    @Bean
+//    public JwtFilter jwtFilter(JwtTokenProvider jwtTokenProvider) {
+//        return new JwtFilter();
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,6 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .userService(customOAuth2UserService)
                 .and()
                     .successHandler(oAuth2SuccessHandler);
-        http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
     }
 }
