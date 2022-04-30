@@ -27,8 +27,6 @@ public class AuthController {
     public TokenResponse refreshToken (HttpServletRequest request, HttpServletResponse response) {
         String access = request.getHeader("Authorization");
         String refresh = request.getHeader("Refresh");
-        log.info("[access] : "+access);
-        log.info("[refresh] : "+refresh);
         return authService.refresh(refresh); //refresh 토큰만 갖고 accessToken 재발급
     }
 

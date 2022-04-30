@@ -31,11 +31,6 @@ public class AuthService {
         User user = userRepository.findByEmail(userId)
                 .orElseThrow(()-> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
-        String refreshTokenDB = user.getRefreshToken(); //db에서 refreshToken 가져와서 검사
-        if (!jwtTokenProvider.validate(refreshTokenDB)) {
-            throw new TokenExpiredException(ErrorMessage.EXPIRED_TOKEN);
-        }
-
         String redisRT = (String)redisTemplate.opsForValue().get("RT: " + userId); //redis refreshToken
         // (추가) 로그아웃되어 Redis 에 RefreshToken 이 존재하지 않는 경우 처리
         if(ObjectUtils.isEmpty(refreshToken)) {

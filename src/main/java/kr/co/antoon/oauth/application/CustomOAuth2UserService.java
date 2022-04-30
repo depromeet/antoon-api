@@ -52,9 +52,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String refreshToken = jwtTokenProvider.createRefreshToken(attributes.getEmail());
         User user = userRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(),
-                        attributes.getImageUrl(),
-                        refreshToken))
-                .orElse(attributes.toEntity(refreshToken));
+                        attributes.getImageUrl()))
+                .orElse(attributes.toEntity());
 
         userRepository.save(user);
 
