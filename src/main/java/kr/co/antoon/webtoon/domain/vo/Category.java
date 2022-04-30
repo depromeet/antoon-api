@@ -8,7 +8,6 @@ import java.util.Arrays;
 @Getter
 @RequiredArgsConstructor
 public enum Category {
-
     THRILLER("스릴러"),
     OMNIBUS("옴니버스"),
     STORY("스토리"),
@@ -22,7 +21,8 @@ public enum Category {
     HISTORY("무협/사극"),
     SPORT("스포츠"),
     EMOTION("감성"),
-    NONE("없음");
+    NONE("없음"),
+    ;
 
     private final String description;
 

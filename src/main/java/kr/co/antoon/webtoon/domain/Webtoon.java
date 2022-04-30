@@ -1,13 +1,20 @@
 package kr.co.antoon.webtoon.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
+import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Getter
 @Entity
@@ -29,7 +36,8 @@ public class Webtoon extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Platform platform;
 
-    private Boolean active;
+    @Enumerated(EnumType.STRING)
+    private ActiveStatus status;
 
     @Builder
     public Webtoon(String title, String content, String url, String thumbnail, Platform platform) {
@@ -38,7 +46,19 @@ public class Webtoon extends BaseEntity {
         this.url = url;
         this.thumbnail = thumbnail;
         this.platform = platform;
-        this.active = true;
+        publish();
+    }
+
+    public ActiveStatus getStatus(){
+        return this.status;
+    }
+
+    public void publish() {
+        changeStatus(ActiveStatus.PUBLISH);
+    }
+
+    private void changeStatus(ActiveStatus status) {
+        this.status = status;
     }
 
     public void update(String title, String content, String thumbnail, String url) {
@@ -46,9 +66,5 @@ public class Webtoon extends BaseEntity {
         this.content = content;
         this.thumbnail = thumbnail;
         this.url = url;
-    }
-
-    public boolean isEqualsTitle(String title) {
-        return this.title.equals(title);
     }
 }

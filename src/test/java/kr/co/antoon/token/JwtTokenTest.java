@@ -24,6 +24,7 @@ public class JwtTokenTest {
     @Spy
     private JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(secretKey);
 
+
     @Test
     @DisplayName("토큰 getUserId() - 성공")
     void getUserIdSuccess() {

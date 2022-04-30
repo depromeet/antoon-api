@@ -3,13 +3,14 @@ package kr.co.antoon.webtoon.application;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.webtoon.domain.Webtoon;
+import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.infrastructure.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +32,16 @@ public class WebtoonService {
         if (webtoonRepository.existsById(id)) {
             throw new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_ERROR);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<Webtoon> findAllByStatus(ActiveStatus status) {
+        return webtoonRepository.findAllByStatus(status);
+    }
+
+    @Transactional(readOnly = true)
+    public Webtoon findById(Long id) {
+        return webtoonRepository.findById(id)                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
+
     }
 }

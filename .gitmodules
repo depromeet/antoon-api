@@ -1,0 +1,4 @@
+[submodule "antoon-api-secret"]
+	path = src/main/resources/config
+	url = https://github.com/depromeet/antoon-api-secret
+	branch = main
