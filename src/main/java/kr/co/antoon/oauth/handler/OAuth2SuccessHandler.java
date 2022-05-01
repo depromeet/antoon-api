@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
@@ -37,20 +38,18 @@ public class OAuth2SuccessHandler extends
             throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
         String email = (String) oAuth2User.getAttributes().get("email");
-        String accessToken = jwtTokenProvider.createAccessToken(email, Role.USER);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()-> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
-        String refreshToken = (String)redisTemplate.opsForValue().get("RT: " + email); //redis
+        String accessToken = jwtTokenProvider.createAccessToken(user.getId().toString(), Role.USER);
+        String refreshToken = jwtTokenProvider.createRefreshToken(Long.toString(user.getId()));
+        redisTemplate.opsForValue().set("RT: "+user.getId(), refreshToken,
+                jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
 
         response.setContentType("text/html;charset=UTF-8");
         response.addHeader("Authorization", accessToken);
-        response.addHeader("Refresh",refreshToken);
+        response.addHeader("Refresh", refreshToken);
 
         response.setContentType("application/json;charset=UTF-8");
-
-        var writer = response.getWriter();
-        writer.println(accessToken);
-
-
-        writer.flush();
     }
 }

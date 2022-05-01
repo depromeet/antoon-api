@@ -44,8 +44,8 @@ public class AuthService {
             throw new TokenExpiredException(ErrorMessage.NOT_VALIDATE_TOKEN);
         }
 
-        String newAccessToken = jwtTokenProvider.createAccessToken(user.getEmail(), Role.USER);
-        String newRefreshToken = jwtTokenProvider.createRefreshToken(user.getEmail());
+        String newAccessToken = jwtTokenProvider.createAccessToken(String.valueOf(user.getId()), Role.USER);
+        String newRefreshToken = jwtTokenProvider.createRefreshToken(String.valueOf(user.getId()));
 
         //redis refreshToken 갱신
         redisTemplate.opsForValue().set("RT: "+user.getId(), newRefreshToken,
