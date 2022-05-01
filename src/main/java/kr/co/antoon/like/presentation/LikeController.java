@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.like.facade.LikeFacade;
+import kr.co.antoon.oauth.config.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +23,7 @@ public class LikeController {
 
     @ApiOperation(value = "댓글 좋아요", notes = "*NOTE 추가 해주세요!!*")
     @PutMapping("/discussions/{discussionId}/likes")
-    public ResponseEntity<Void> create(@PathVariable Long discussionId) {
-        Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
+    public ResponseEntity<Void> create(@PathVariable Long discussionId, @AuthUser Long memberId) {
         likeFacade.saveOrUpdate(memberId, discussionId);
         return ResponseDto.noContent();
     }
