@@ -12,6 +12,7 @@ public enum ErrorMessage {
     NOT_EXISTS_WEBTOON_ERROR("존재하지 않는 웹툰입니다."),
     NOT_EXISTS_DISCUSSION_ERROR("존재하지 않는 댓글입니다."),
     NOT_EXISTS_WEBTOON_PLATFORM_TYPE_ERROR("존재하지 않는 웹툰 플랫폼입니다."),
+    NOT_VALIDATE_TOKEN("유효하지 않은 토큰입니다.")
     ;
 
     private final String description;
