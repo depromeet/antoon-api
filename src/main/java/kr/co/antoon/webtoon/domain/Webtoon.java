@@ -54,6 +54,10 @@ public class Webtoon extends BaseEntity {
         publish();
     }
 
+    public ActiveStatus getStatus(){
+        return this.status;
+    }
+
     public void publish() {
         changeStatus(ActiveStatus.PUBLISH);
     }
