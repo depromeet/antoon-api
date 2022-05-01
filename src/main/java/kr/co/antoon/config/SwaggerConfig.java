@@ -63,6 +63,20 @@ public class SwaggerConfig {
     }
 
     public String[] whiteListInSwagger() {
-        return "/swagger,/v2/api-docs,/swagger-resources,/swagger-resources/**,/configuration/ui,/configuration/security,/swagger-ui.html,/webjars/**,/v3/api-docs/**,/swagger-ui/**,/swagger".split(",");
+        return new String[]{
+                "/swagger",
+                "/swagger-ui/springfox.css",
+                "/swagger-ui/swagger-ui-bundle.js",
+                "/swagger-ui/springfox.js",
+                "/swagger-ui/swagger-ui-standalone-preset.js",
+                "/swagger-ui/swagger-ui.css",
+                "/swagger-resources/configuration/ui",
+                "/swagger-ui/favicon-32x32.png",
+                "/swagger-resources/configuration/security",
+                "/swagger-resources",
+                "/v2/api-docs",
+                "/swagger-ui/index.html",
+                "/favicon.ico"
+        };
     }
 }
