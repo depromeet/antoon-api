@@ -1,7 +1,6 @@
 package kr.co.antoon.common.dto;
 
 public class SwaggerNote {
-
     public final static String DISCUSSION_CREATE_NOTE = """
             종목토론방에 댓글 달기
             POST /api/v1/webtoons/{webtoonId}/discussions            
@@ -73,12 +72,13 @@ public class SwaggerNote {
             None
             """;
 
-    public static final String RECOMMENDATION_JOIN = """
+    public final static String RECOMMENDATION_JOIN = """
             웹툰 상세페이지 > 탑승해요 API
             PATCH /api/v1/recommendations/join/{webtonId}
-            
+                        
             """;
-    public static final String RECOMMENDATION_LEAVE = """
+
+    public final static String RECOMMENDATION_LEAVE = """
             웹툰 상세페이지 > 하차해요 API
             PATCH /api/v1/recommendations/leave/{webtoonId}
             """;

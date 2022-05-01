@@ -2,13 +2,10 @@ package kr.co.antoon.discussion.application;
 
 import kr.co.antoon.discussion.domain.Discussion;
 import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
-import kr.co.antoon.discussion.dto.response.DiscussionReadResponse;
-import kr.co.antoon.discussion.dto.response.DiscussionUpdateResponse;
 import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
-import kr.co.antoon.like.domain.Like;
-import kr.co.antoon.like.infrastructure.LikeRepository;
+import kr.co.antoon.discussion.infrastructure.DiscussionLikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DiscussionService {
     private final DiscussionRepository discussionRepository;
-    private final LikeRepository likeRepository;
+    private final DiscussionLikeRepository likeRepository;
 
     @Transactional
     public Discussion save(Long memberId, Long webtoonId, String content) {
@@ -45,7 +42,7 @@ public class DiscussionService {
 
     @Transactional
     public Discussion update(Long discussionId, DiscussionUpdateRequest request) {
-        Discussion discussion = discussionRepository.findById(discussionId)
+        var discussion = discussionRepository.findById(discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
 
         discussion.update(request.content());
