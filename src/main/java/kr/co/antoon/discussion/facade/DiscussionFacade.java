@@ -1,13 +1,12 @@
 package kr.co.antoon.discussion.facade;
 
+import kr.co.antoon.discussion.application.DiscussionLikeService;
 import kr.co.antoon.discussion.application.DiscussionService;
-import kr.co.antoon.discussion.domain.Discussion;
 import kr.co.antoon.discussion.dto.request.DiscussionCreateRequest;
 import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.discussion.dto.response.DiscussionCreateResponse;
 import kr.co.antoon.discussion.dto.response.DiscussionReadResponse;
 import kr.co.antoon.discussion.dto.response.DiscussionUpdateResponse;
-import kr.co.antoon.like.application.LikeService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DiscussionFacade {
     private final WebtoonService webtoonService;
-    private final LikeService likeService;
+    private final DiscussionLikeService discussionLikeService;
     private final DiscussionService discussionService;
 
     @Transactional
@@ -43,7 +42,7 @@ public class DiscussionFacade {
 
     @Transactional
     public DiscussionReadResponse findById(Long memberId, Long discussionId) {
-        var isUserLike = likeService.isUserLike(memberId, discussionId);
+        var isUserLike = discussionLikeService.isUserLike(memberId, discussionId);
         var discussion = discussionService.findById(discussionId);
         return new DiscussionReadResponse(
                 discussion.getId(),
@@ -62,13 +61,13 @@ public class DiscussionFacade {
                         discussion.getContent(),
                         discussion.getMemberId(),
                         discussion.getLikeCount(),
-                        likeService.isUserLike(memberId, discussion.getId())
+                        discussionLikeService.isUserLike(memberId, discussion.getId())
                 ));
     }
 
     @Transactional
     public DiscussionUpdateResponse update(Long memberId, Long discussionId, DiscussionUpdateRequest request) {
-        var isUserLike = likeService.isUserLike(memberId, discussionId);
+        var isUserLike = discussionLikeService.isUserLike(memberId, discussionId);
         var discussion = discussionService.update(discussionId, request);
         return new DiscussionUpdateResponse(
                 discussion.getId(),

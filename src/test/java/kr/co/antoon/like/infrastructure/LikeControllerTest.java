@@ -3,7 +3,8 @@ package kr.co.antoon.like.infrastructure;
 
 import kr.co.antoon.discussion.domain.Discussion;
 import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
-import kr.co.antoon.like.domain.Like;
+import kr.co.antoon.discussion.domain.DiscussionLike;
+import kr.co.antoon.discussion.infrastructure.DiscussionLikeRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class LikeControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private LikeRepository likeRepository;
+    private DiscussionLikeRepository likeRepository;
 
     @Autowired
     private DiscussionRepository discussionRepository;
@@ -58,7 +59,7 @@ public class LikeControllerTest {
         Discussion discussion = discussionRepository.findById(discussionId).get();
         assertThat(discussion.getLikeCount()).isEqualTo(1);
 
-        Like like = likeRepository.findById(1L).get();
+        DiscussionLike like = likeRepository.findById(1L).get();
         assertThat(like.getFlag()).isTrue();
     }
 
@@ -73,8 +74,8 @@ public class LikeControllerTest {
                         .content(CONTENT)
                         .build()
         );
-        Like mockLike = likeRepository.save(
-                Like.builder()
+        DiscussionLike mockLike = likeRepository.save(
+                DiscussionLike.builder()
                 .userId(USER_ID)
                 .discussionId(mockDiscussion.getId())
                 .build()
@@ -90,7 +91,7 @@ public class LikeControllerTest {
         Discussion discussion = discussionRepository.findById(discussionId).get();
         assertThat(discussion.getLikeCount()).isEqualTo(0);
 
-        Like like = likeRepository.findById(mockLike.getId()).get();
+        DiscussionLike like = likeRepository.findById(mockLike.getId()).get();
         assertThat(like.getFlag()).isFalse();
     }
 }

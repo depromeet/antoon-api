@@ -5,7 +5,7 @@ import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
-import kr.co.antoon.like.infrastructure.LikeRepository;
+import kr.co.antoon.discussion.infrastructure.DiscussionLikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DiscussionService {
     private final DiscussionRepository discussionRepository;
-    private final LikeRepository likeRepository;
+    private final DiscussionLikeRepository likeRepository;
 
     @Transactional
     public Discussion save(Long memberId, Long webtoonId, String content) {

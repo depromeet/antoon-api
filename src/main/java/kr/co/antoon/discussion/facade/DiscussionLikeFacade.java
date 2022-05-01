@@ -1,15 +1,15 @@
-package kr.co.antoon.like.facade;
+package kr.co.antoon.discussion.facade;
 
 import kr.co.antoon.discussion.application.DiscussionService;
-import kr.co.antoon.like.application.LikeService;
+import kr.co.antoon.discussion.application.DiscussionLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class LikeFacade {
-    private final LikeService likeService;
+public class DiscussionLikeFacade {
+    private final DiscussionLikeService likeService;
     private final DiscussionService discussionService;
 
     @Transactional

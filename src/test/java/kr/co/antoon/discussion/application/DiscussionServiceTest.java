@@ -2,8 +2,7 @@ package kr.co.antoon.discussion.application;
 
 import kr.co.antoon.discussion.domain.Discussion;
 import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
-import kr.co.antoon.like.domain.Like;
-import kr.co.antoon.like.infrastructure.LikeRepository;
+import kr.co.antoon.discussion.infrastructure.DiscussionLikeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +22,7 @@ class DiscussionServiceTest {
     private DiscussionRepository discussionRepository;
 
     @Mock
-    private LikeRepository likeRepository;
+    private DiscussionLikeRepository likeRepository;
 
     @InjectMocks
     private DiscussionService discussionService;
