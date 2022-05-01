@@ -4,8 +4,6 @@ import kr.co.antoon.webtoon.WebtoonConverter;
 import kr.co.antoon.webtoon.application.WebtoonGenreService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonWriterService;
-import kr.co.antoon.webtoon.domain.Webtoon;
-import kr.co.antoon.webtoon.domain.vo.Category;
 import kr.co.antoon.webtoon.dto.WebtoonDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,11 +18,11 @@ public class WebtoonFacade {
     private final WebtoonConverter webtoonConverter;
 
     @Transactional(readOnly = true)
-    public WebtoonDetailDto get(Long id) {
-        return webtoonConverter.toWebtoonDetailDto(
-                webtoonService.findById(id),
-                webtoonWriterService.findNameByWebtoonId(id),
-                webtoonGenreService.findCategoryByWebtoonId(id)
-        );
+    public WebtoonDetailDto getWebtoon(Long id) {
+        var webtoon = webtoonService.findById(id);
+        var writer = webtoonWriterService.findNameByWebtoonId(id);
+        var category = webtoonGenreService.findCategoryByWebtoonId(id);
+
+        return webtoonConverter.toWebtoonDetailDto(webtoon, writer, category);
     }
 }

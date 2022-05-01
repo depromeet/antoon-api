@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,10 +22,9 @@ public class WebtoonGenreService {
 
     @Transactional(readOnly = true)
     public List<Category> findCategoryByWebtoonId(Long webtoonId) {
-        return  webtoonGenreRepository.findByWebtoonId(webtoonId)
+        return webtoonGenreRepository.findAllByWebtoonId(webtoonId)
                 .stream()
                 .map(WebtoonGenre::getCategory)
                 .collect(Collectors.toList());
-
     }
 }

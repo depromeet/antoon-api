@@ -2,11 +2,11 @@ package kr.co.antoon.webtoon.crawling;
 
 import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

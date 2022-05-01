@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface WebtoonGenreRepository extends JpaRepository<WebtoonGenre, Long> {
-    List<WebtoonGenre> findByWebtoonId(Long webtoonId);
+    List<WebtoonGenre> findAllByWebtoonId(Long webtoonId);
 }

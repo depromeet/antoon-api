@@ -36,7 +36,7 @@ public class WebtoonCrawlingFacade {
 
         WebtoonCrawlingFactory.of(platform)
                 .crawling()
-                .crawlingWebtoons()
+                .webtoons()
                 .stream()
                 .filter(crawlingWebtton -> isNotUpdated(existsWebtoons, crawlingWebtton))
                 .forEach(crawlingWebtton -> {
