@@ -1,4 +1,4 @@
-name: ANTOON API GIT ACTION FOR STAGING
+name: Antoon Api Server Git-Action for STAGING
 
 on:
   push:
