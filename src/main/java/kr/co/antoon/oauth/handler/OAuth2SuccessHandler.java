@@ -1,7 +1,11 @@
 package kr.co.antoon.oauth.handler;
 
+import kr.co.antoon.error.dto.ErrorMessage;
+import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.oauth.application.JwtTokenProvider;
+import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Role;
+import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +29,7 @@ public class OAuth2SuccessHandler extends
         SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
-
+    private final UserRepository userRepository;
     private final RedisTemplate redisTemplate;
 
     @Override

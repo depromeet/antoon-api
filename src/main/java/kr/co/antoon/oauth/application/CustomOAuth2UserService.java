@@ -51,15 +51,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private void saveOrUpdate(OAuth2Attribute attributes) {
-        String refreshToken = jwtTokenProvider.createRefreshToken(attributes.getEmail());
         User user = userRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(),
                         attributes.getImageUrl()))
                 .orElse(attributes.toEntity());
-
         userRepository.save(user);
-
-        redisTemplate.opsForValue().set("RT: "+user.getEmail(), refreshToken,
-                jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
     }
 }
