@@ -80,3 +80,13 @@ jacocoTestReport {
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
+
+defaultTasks("bootRun")
+
+if (project.hasProperty('prod')) {
+    apply from: 'profile_prod.gradle'
+} else if (project.hasProperty('staging')) {
+    apply from: 'profile_staging.gradle'
+} else {
+    apply from: 'profile_local.gradle'
+}
