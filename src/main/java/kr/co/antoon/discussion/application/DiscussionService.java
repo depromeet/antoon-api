@@ -7,6 +7,8 @@ import kr.co.antoon.discussion.dto.response.DiscussionUpdateResponse;
 import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.like.domain.Like;
+import kr.co.antoon.like.infrastructure.LikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DiscussionService {
     private final DiscussionRepository discussionRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional
     public Discussion save(Long memberId, Long webtoonId, String content) {
@@ -30,39 +33,23 @@ public class DiscussionService {
     }
 
     @Transactional(readOnly = true)
-    public DiscussionReadResponse findById(Long id) {
-        Discussion discussion = discussionRepository.findById(id)
+    public Discussion findById(Long discussionId) {
+        return discussionRepository.findById(discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
-
-        return new DiscussionReadResponse(
-                discussion.getId(),
-                discussion.getContent(),
-                discussion.getMemberId()
-        );
     }
 
     @Transactional(readOnly = true)
-    public Page<DiscussionReadResponse> findAll(Pageable pageable) {
-        return discussionRepository.findAll(pageable)
-                .map(discussion -> new DiscussionReadResponse(
-                        discussion.getId(),
-                        discussion.getContent(),
-                        discussion.getMemberId()
-                ));
+    public Page<Discussion> findAll(Pageable pageable) {
+        return discussionRepository.findAll(pageable);
     }
 
     @Transactional
-    public DiscussionUpdateResponse update(Long id, DiscussionUpdateRequest request) {
-        Discussion discussion = discussionRepository.findById(id)
+    public Discussion update(Long discussionId, DiscussionUpdateRequest request) {
+        Discussion discussion = discussionRepository.findById(discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
 
         discussion.update(request.content());
-
-        return new DiscussionUpdateResponse(
-                discussion.getId(),
-                discussion.getContent(),
-                discussion.getMemberId()
-        );
+        return discussion;
     }
 
     @Transactional
