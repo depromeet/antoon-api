@@ -2,12 +2,9 @@ package kr.co.antoon.discussion.application;
 
 import kr.co.antoon.discussion.domain.Discussion;
 import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
-import kr.co.antoon.discussion.dto.response.DiscussionReadResponse;
-import kr.co.antoon.discussion.dto.response.DiscussionUpdateResponse;
 import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
-import kr.co.antoon.like.domain.Like;
 import kr.co.antoon.like.infrastructure.LikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

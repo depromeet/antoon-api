@@ -24,7 +24,6 @@ import java.util.List;
 @EnableSwagger2
 @RequiredArgsConstructor
 public class SwaggerConfig {
-
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
