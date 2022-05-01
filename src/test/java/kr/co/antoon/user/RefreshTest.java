@@ -4,13 +4,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import kr.co.antoon.security.token.JwtTokenProvider;
-import kr.co.antoon.user.application.AuthService;
+import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.oauth.application.AuthService;
+import kr.co.antoon.oauth.application.JwtTokenProvider;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Role;
-import kr.co.antoon.user.dto.response.TokenResponse;
-import kr.co.antoon.user.exception.TokenExpiredException;
-import kr.co.antoon.user.exception.UserNotExistException;
+import kr.co.antoon.oauth.dto.TokenResponse;
+import kr.co.antoon.oauth.exception.TokenExpiredException;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -78,7 +78,7 @@ public class RefreshTest {
         ).willReturn(Optional.empty());
 
         // when & then
-        Assertions.assertThrows(UserNotExistException.class, () -> {
+        Assertions.assertThrows(NotExistsException.class, () -> {
            authService.refresh(accessToken);
         });
     }

@@ -1,4 +1,4 @@
-package kr.co.antoon.user.exception;
+package kr.co.antoon.oauth.exception;
 
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.BusinessException;

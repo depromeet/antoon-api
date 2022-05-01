@@ -1,20 +1,19 @@
-package kr.co.antoon.user.presentation;
+package kr.co.antoon.oauth.presentation;
 
-import kr.co.antoon.user.application.AuthService;
-import kr.co.antoon.user.dto.response.TokenResponse;
+import kr.co.antoon.oauth.application.AuthService;
+import kr.co.antoon.oauth.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@RequestMapping("/api/v1/auth")
+@Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/auth")
 public class AuthController {
-
     private final AuthService authService;
 
     @GetMapping("/refresh")

@@ -1,4 +1,4 @@
-package kr.co.antoon.user.dto.response;
+package kr.co.antoon.oauth.dto;
 
 public record TokenResponse (
         String accessToken

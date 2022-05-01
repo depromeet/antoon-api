@@ -1,11 +1,12 @@
 package kr.co.antoon.oauth.dto;
 
+import kr.co.antoon.user.domain.User;
+import kr.co.antoon.user.domain.vo.Role;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @ToString
@@ -16,13 +17,17 @@ public class OAuth2Attribute {
     private String attributeKey;
     private String email;
     private String name;
-    private String picture;
+    private String imageUrl;
 
-    public static OAuth2Attribute of(String provider, String attributeKey,
+    public static OAuth2Attribute of(String provider,
                                      Map<String, Object> attributes) {
         switch (provider) {
             case "kakao":
                 return ofKakao("email", attributes);
+            case "google":
+                return ofGoogle("sub", attributes);
+            case "naver":
+                return ofNaver("id", attributes);
             default:
                 throw new RuntimeException();
         }
@@ -36,20 +41,43 @@ public class OAuth2Attribute {
         return OAuth2Attribute.builder()
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
-                .picture((String)kakaoProfile.get("profile_image_url"))
+                .imageUrl((String)kakaoProfile.get("profile_image_url"))
                 .attributes(kakaoAccount)
                 .attributeKey(attributeKey)
                 .build();
     }
 
-    public Map<String, Object> convertToMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", attributeKey);
-        map.put("key", attributeKey);
-        map.put("name", name);
-        map.put("email", email);
-        map.put("picture", picture);
+    private static OAuth2Attribute ofNaver(String attributeKey,
+                                           Map<String, Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
-        return map;
+        return OAuth2Attribute.builder()
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .imageUrl((String) response.get("profile_image"))
+                .attributes(response)
+                .attributeKey(attributeKey)
+                .build();
+    }
+
+    private static OAuth2Attribute ofGoogle(String attributeKey,
+                                            Map<String, Object> attributes) {
+        return OAuth2Attribute.builder()
+                .name((String) attributes.get("name"))
+                .email((String) attributes.get("email"))
+                .imageUrl((String)attributes.get("picture"))
+                .attributes(attributes)
+                .attributeKey(attributeKey)
+                .build();
+    }
+
+    public User toEntity(String refreshToken) {
+        return User.builder()
+                .name(name)
+                .email(email)
+                .imageUrl(imageUrl)
+                .role(Role.USER)
+                .refreshToken(refreshToken)
+                .build();
     }
 }
