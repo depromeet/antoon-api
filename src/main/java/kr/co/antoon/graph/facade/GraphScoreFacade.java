@@ -23,7 +23,6 @@ public class GraphScoreFacade {
     private final WebtoonSnapshotService webtoonSnapshotService;
     private final WebtoonService webtoonService;
 
-    // TODO : 댓글, 좋아요에 대한 통계 자료를 추가적으로 삽입해야 함
     @Transactional
     public void snapshot() {
         var webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH);

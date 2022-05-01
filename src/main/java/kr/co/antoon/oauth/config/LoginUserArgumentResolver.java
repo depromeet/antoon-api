@@ -16,14 +16,14 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean isLoginUserAnnotation = parameter.getParameterAnnotation(LoginUser.class) != null;
-        boolean isUserId = Long.class.equals(parameter.getParameterType());
-        return isLoginUserAnnotation && isUserId;
+        boolean isLoginUserAnnotation = parameter.getParameterAnnotation(AuthUser.class) != null;
+        boolean isUserEmail = String.class.equals(parameter.getParameterType());
+        return isLoginUserAnnotation && isUserEmail;
     }
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal();

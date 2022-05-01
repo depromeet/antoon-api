@@ -1,8 +1,9 @@
 package kr.co.antoon.like.application;
 
+import kr.co.antoon.discussion.application.DiscussionLikeService;
 import kr.co.antoon.discussion.domain.Discussion;
-import kr.co.antoon.like.domain.Like;
-import kr.co.antoon.like.infrastructure.LikeRepository;
+import kr.co.antoon.discussion.domain.DiscussionLike;
+import kr.co.antoon.discussion.infrastructure.DiscussionLikeRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 public class LikeServiceTest {
 
     @Mock
-    private LikeRepository likeRepository;
+    private DiscussionLikeRepository likeRepository;
 
     @InjectMocks
-    private LikeService likeService;
+    private DiscussionLikeService likeService;
 
     private final Long MEMBER_ID = 1L;
     private final Long WEBTOON_ID = 1L;
@@ -62,7 +63,7 @@ public class LikeServiceTest {
                 .content(CONTENT)
                 .build();
 
-        Like mockLike = Like.builder()
+        DiscussionLike mockLike = DiscussionLike.builder()
                 .userId(USER_ID)
                 .discussionId(DISCUSSION_ID)
                 .build();

@@ -24,7 +24,6 @@ import java.util.List;
 @EnableSwagger2
 @RequiredArgsConstructor
 public class SwaggerConfig {
-
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -61,5 +60,9 @@ public class SwaggerConfig {
                 .select()
                 .paths(PathSelectors.regex("/api/.*"))
                 .build();
+    }
+
+    public String[] whiteListInSwagger() {
+        return "/swagger,/v2/api-docs,/swagger-resources,/swagger-resources/**,/configuration/ui,/configuration/security,/swagger-ui.html,/webjars/**,/v3/api-docs/**,/swagger-ui/**,/swagger".split(",");
     }
 }

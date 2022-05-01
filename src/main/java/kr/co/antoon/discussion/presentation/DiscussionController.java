@@ -12,6 +12,7 @@ import kr.co.antoon.discussion.dto.response.DiscussionCreateResponse;
 import kr.co.antoon.discussion.dto.response.DiscussionReadResponse;
 import kr.co.antoon.discussion.dto.response.DiscussionUpdateResponse;
 import kr.co.antoon.discussion.facade.DiscussionFacade;
+import kr.co.antoon.oauth.config.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -39,16 +40,18 @@ public class DiscussionController {
     @PostMapping("/{webtoonId}/discussions")
     public ResponseEntity<DiscussionCreateResponse> create(
             @PathVariable Long webtoonId,
-            @Validated @RequestBody DiscussionCreateRequest request
+            @Validated @RequestBody DiscussionCreateRequest request,
+            @AuthUser Long memberId
     ) {
-        Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
         return ResponseDto.created(discussionFacade.register(memberId, webtoonId, request));
     }
 
     @ApiOperation(value = "종목토론방 댓글 단건 조회", notes = SwaggerNote.DISCUSSION_READ_ONE_NOTE)
     @GetMapping("/discussions/{discussionId}")
-    public ResponseEntity<DiscussionReadResponse> findOne(@PathVariable Long discussionId) {
-        Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
+    public ResponseEntity<DiscussionReadResponse> findOne(
+            @PathVariable Long discussionId,
+            @AuthUser Long memberId
+    ) {
         var response = discussionFacade.findById(memberId, discussionId);
         return ResponseDto.ok(response);
     }
@@ -56,9 +59,9 @@ public class DiscussionController {
     @ApiOperation(value = "종목토론방 댓글 페이지 조회", notes = SwaggerNote.DISCUSSION_READL_ALL_NOTE)
     @GetMapping("/discussions")
     public ResponseEntity<PageDto<DiscussionReadResponse>> findAll(
-            @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @AuthUser Long memberId
     ) {
-        Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
         var response = discussionFacade.findAll(memberId, pageable);
         return PageDto.ok(response);
     }
@@ -67,9 +70,9 @@ public class DiscussionController {
     @PatchMapping("/discussions/{discussionId}")
     public ResponseEntity<DiscussionUpdateResponse> update(
             @PathVariable Long discussionId,
-            @Validated @RequestBody DiscussionUpdateRequest request
+            @Validated @RequestBody DiscussionUpdateRequest request,
+            @AuthUser Long memberId
     ) {
-        Long memberId = 1L; // TODO Auth로 Id 받아야 합니다
         var response = discussionFacade.update(memberId, discussionId, request);
         return ResponseDto.ok(response);
     }

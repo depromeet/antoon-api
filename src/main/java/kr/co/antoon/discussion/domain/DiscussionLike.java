@@ -1,18 +1,19 @@
-package kr.co.antoon.like.domain;
+package kr.co.antoon.discussion.domain;
 
-import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Getter
 @Entity
-@Table(name = "likes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Like {
+public class DiscussionLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +26,12 @@ public class Like {
     private Long discussionId;
 
     @Builder
-    public Like(Long userId, Long discussionId) {
+    public DiscussionLike(Long userId, Long discussionId) {
         this.userId = userId;
         this.discussionId = discussionId;
     }
 
-    public Like update() {
+    public DiscussionLike update() {
         this.flag = !this.flag;
         return this;
     }

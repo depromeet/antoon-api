@@ -6,4 +6,4 @@ public record DiscussionUpdateResponse(
         Long memberId,
         int likeCount,
         Boolean isUserLike
-) { }
+) {}
