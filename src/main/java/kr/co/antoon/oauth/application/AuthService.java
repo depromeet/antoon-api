@@ -28,8 +28,8 @@ public class AuthService {
     private final RedisTemplate redisTemplate;
 
     public TokenResponse refresh(String refreshToken) {
-        String userId = jwtTokenProvider.getUserId(refreshToken);
-        User user = userRepository.findByEmail(userId)
+        Long userId = jwtTokenProvider.getUserId(refreshToken);
+        User user = userRepository.findById(userId)
                 .orElseThrow(()-> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
         String redisRT = (String)redisTemplate.opsForValue().get("RT: " + userId); //redis refreshToken
@@ -48,7 +48,7 @@ public class AuthService {
         String newRefreshToken = jwtTokenProvider.createRefreshToken(user.getEmail());
 
         //redis refreshToken 갱신
-        redisTemplate.opsForValue().set("RT: "+user.getEmail(), newRefreshToken,
+        redisTemplate.opsForValue().set("RT: "+user.getId(), newRefreshToken,
                 jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
 
         return new TokenResponse(newAccessToken, newRefreshToken);
@@ -59,8 +59,8 @@ public class AuthService {
             throw new TokenExpiredException(ErrorMessage.NOT_VALIDATE_TOKEN);
         }
 
-        String userId = jwtTokenProvider.getUserId(access);
-        User user = userRepository.findByEmail(userId)
+        Long userId = jwtTokenProvider.getUserId(access);
+        User user = userRepository.findById(userId)
                 .orElseThrow(()-> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
         if (redisTemplate.opsForValue().get("RT: " + userId) != null) {

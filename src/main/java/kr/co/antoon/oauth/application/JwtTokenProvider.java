@@ -52,11 +52,6 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String getUserId(String token) {
-        Claims claims = getClaims(token);
-        return claims.getSubject();
-    }
-
     public boolean validate(String token) {
         try {
             return getClaims(token)
@@ -73,6 +68,10 @@ public class JwtTokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public Long getUserId(String token) {
+        return Long.parseLong(getClaims(token).getSubject());
     }
 
     public Authentication getAuthentication(String token) {
