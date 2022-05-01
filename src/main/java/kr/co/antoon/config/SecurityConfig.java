@@ -20,6 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate redisTemplate;
+    private final SwaggerConfig swaggerConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
+                .antMatchers(swaggerConfig.whiteListInSwagger()).permitAll()
                 .antMatchers("/api/v1/**")
                 .permitAll()
                 .anyRequest().authenticated()
