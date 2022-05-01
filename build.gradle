@@ -18,6 +18,11 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
 }
 repositories {
     mavenCentral()
@@ -58,6 +63,8 @@ dependencies {
         testImplementation.exclude(group: 'com.vaadin.external.google', module: 'android-json')
     }
 
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
     implementation 'org.jsoup:jsoup:1.14.3'
     implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -81,7 +88,7 @@ jacocoTestReport {
     }
 }
 
-defaultTasks("bootRun")
+defaultTasks("build")
 
 if (project.hasProperty('prod')) {
     apply from: 'profile_prod.gradle'
