@@ -1,3 +1,4 @@
+/*
 package kr.co.antoon.like.infrastructure;
 
 
@@ -95,3 +96,4 @@ public class LikeControllerTest {
         assertThat(like.getFlag()).isFalse();
     }
 }
+*/
