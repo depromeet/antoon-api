@@ -45,7 +45,7 @@ public class DiscussionService {
 
     @Transactional
     public Discussion update(Long discussionId, DiscussionUpdateRequest request) {
-        Discussion discussion = discussionRepository.findById(discussionId)
+        var discussion = discussionRepository.findById(discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
 
         discussion.update(request.content());

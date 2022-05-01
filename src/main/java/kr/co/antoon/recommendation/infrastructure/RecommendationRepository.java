@@ -8,7 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface RecommendationRepository extends JpaRepository<Recommendation, Long> {
-
     Optional<Recommendation> findByUserIdAndWebtoonId(long userId, long webtoonId);
-
 }

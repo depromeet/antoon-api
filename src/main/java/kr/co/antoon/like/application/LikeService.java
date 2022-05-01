@@ -13,12 +13,11 @@ import javax.transaction.Transactional;
 @Service
 @RequiredArgsConstructor
 public class LikeService {
-
     private final LikeRepository likeRepository;
 
     @Transactional
     public void saveOrUpdate(Discussion discussion, Long memberId, Long discussionId) {
-        Like like = likeRepository.findByUserIdAndDiscussionId(memberId, discussionId)
+        var like = likeRepository.findByUserIdAndDiscussionId(memberId, discussionId)
                 .map(Like::update)
                 .orElse(Like.builder()
                         .userId(memberId)
@@ -31,7 +30,7 @@ public class LikeService {
 
     @Transactional
     public Boolean isUserLike(Long userId, Long discussionId) {
-        Like like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId)
+        var like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
         return like.getFlag();
     }

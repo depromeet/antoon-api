@@ -43,8 +43,8 @@ public class DiscussionFacade {
 
     @Transactional
     public DiscussionReadResponse findById(Long memberId, Long discussionId) {
-        Boolean isUserLike = likeService.isUserLike(memberId, discussionId);
-        Discussion discussion = discussionService.findById(discussionId);
+        var isUserLike = likeService.isUserLike(memberId, discussionId);
+        var discussion = discussionService.findById(discussionId);
         return new DiscussionReadResponse(
                 discussion.getId(),
                 discussion.getContent(),
@@ -68,8 +68,8 @@ public class DiscussionFacade {
 
     @Transactional
     public DiscussionUpdateResponse update(Long memberId, Long discussionId, DiscussionUpdateRequest request) {
-        Boolean isUserLike = likeService.isUserLike(memberId, discussionId);
-        Discussion discussion = discussionService.update(discussionId, request);
+        var isUserLike = likeService.isUserLike(memberId, discussionId);
+        var discussion = discussionService.update(discussionId, request);
         return new DiscussionUpdateResponse(
                 discussion.getId(),
                 discussion.getContent(),

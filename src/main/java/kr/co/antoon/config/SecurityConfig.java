@@ -5,7 +5,6 @@ import kr.co.antoon.oauth.application.JwtTokenProvider;
 import kr.co.antoon.oauth.filter.JwtFilter;
 import kr.co.antoon.oauth.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
