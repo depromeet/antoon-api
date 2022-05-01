@@ -35,34 +35,34 @@ public class RecommendationControllerTest {
     @Autowired
     private WebtoonRepository webtoonRepository;
 
-    @DisplayName("탑승해요 API - 성공")
-    @Test
-    void updateJoinStatus() throws Exception {
-        // given
-        Webtoon mockWebtoon = Webtoon.builder()
-                .title("독립 일기")
-                .content("처음으로 나만의 집이 생긴다면? 자까 작가의 나혼자 사는 이야기")
-                .url("https://comic.naver.com/webtoon/list?titleId=748105&weekday=sun")
-                .thumbnail("https://comic.naver.com/webtoon/list?titleId=748105&weekday=sun")
-                .platform(Platform.NAVER)
-                .build();
-
-        webtoonRepository.save(mockWebtoon);
-        Long webtoonId = mockWebtoon.getId();
-        Long userId = 1L;
-
-        // when
-        mockMvc.perform(patch("/api/v1/recommendations/join/{userId}/{webtoonId}", userId, webtoonId)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-
-        // then
-        Webtoon webtoon = webtoonRepository.findById(webtoonId).get();
-        assertThat(webtoon.getJoinUserCount()).isEqualTo(1);
-
-        Recommendation recommendation = recommendationRepository.findByUserIdAndWebtoonId(userId, webtoonId).get();
-        assertThat(recommendation.getStatus()).isEqualTo(RecommendationStatus.JOINED);
-    }
+//    @DisplayName("탑승해요 API - 성공")
+//    @Test
+//    void updateJoinStatus() throws Exception {
+//        // given
+//        Webtoon mockWebtoon = Webtoon.builder()
+//                .title("독립 일기")
+//                .content("처음으로 나만의 집이 생긴다면? 자까 작가의 나혼자 사는 이야기")
+//                .url("https://comic.naver.com/webtoon/list?titleId=748105&weekday=sun")
+//                .thumbnail("https://comic.naver.com/webtoon/list?titleId=748105&weekday=sun")
+//                .platform(Platform.NAVER)
+//                .build();
+//
+//        webtoonRepository.save(mockWebtoon);
+//        Long webtoonId = mockWebtoon.getId();
+//        Long userId = 1L;
+//
+//        // when
+//        mockMvc.perform(patch("/api/v1/recommendations/join/{userId}/{webtoonId}", userId, webtoonId)
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNoContent());
+//
+//        // then
+//        Webtoon webtoon = webtoonRepository.findById(webtoonId).get();
+//        assertThat(webtoon.getJoinUserCount()).isEqualTo(1);
+//
+//        Recommendation recommendation = recommendationRepository.findByUserIdAndWebtoonId(userId, webtoonId).get();
+//        assertThat(recommendation.getStatus()).isEqualTo(RecommendationStatus.JOINED);
+//    }
 
 //    @DisplayName("탑승해요 API - 탑승 중인 경우 실패")
 //    @Test
