@@ -10,6 +10,8 @@ public enum ErrorMessage {
     NOT_EXISTS_WEBTOON_ERROR("존재하지 않는 웹툰입니다."),
     NOT_EXISTS_DISCUSSION_ERROR("존재하지 않는 댓글입니다."),
     NOT_EXISTS_WEBTOON_PLATFORM_TYPE_ERROR("존재하지 않는 웹툰 플랫폼입니다."),
+    ALREADY_JOINED_ERROR("이미 탑승 중입니다."),
+    ALREADY_LEAVED_ERROR("이미 하차 중입니다")
     ;
 
     private final String description;
