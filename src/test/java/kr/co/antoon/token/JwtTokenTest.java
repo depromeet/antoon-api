@@ -24,13 +24,12 @@ public class JwtTokenTest {
     @Spy
     private JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(secretKey);
 
-
     @Test
     @DisplayName("토큰 getUserId() - 성공")
     void getUserIdSuccess() {
-        String accessToken = jwtTokenProvider.createAccessToken("test", Role.USER);
+        String accessToken = jwtTokenProvider.createAccessToken("test@naver.com", Role.USER);
         String userId = jwtTokenProvider.getUserId(accessToken);
-        assertThat(userId).isEqualTo("test");
+        assertThat(userId).isEqualTo("test@naver.com");
     }
 
     @Test

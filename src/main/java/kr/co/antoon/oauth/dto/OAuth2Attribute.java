@@ -19,8 +19,7 @@ public class OAuth2Attribute {
     private String name;
     private String imageUrl;
 
-    public static OAuth2Attribute of(String provider,
-                                     Map<String, Object> attributes) {
+    public static OAuth2Attribute of(String provider, Map<String, Object> attributes) {
         switch (provider) {
             case "kakao":
                 return ofKakao("email", attributes);
@@ -30,7 +29,7 @@ public class OAuth2Attribute {
     }
 
     protected static OAuth2Attribute ofKakao(String attributeKey,
-                                           Map<String, Object> attributes) {
+                                             Map<String, Object> attributes) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 
@@ -43,13 +42,12 @@ public class OAuth2Attribute {
                 .build();
     }
 
-    public User toEntity(String refreshToken) {
+    public User toEntity() {
         return User.builder()
                 .name(name)
                 .email(email)
                 .imageUrl(imageUrl)
                 .role(Role.USER)
-                .refreshToken(refreshToken)
                 .build();
     }
 }

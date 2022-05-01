@@ -35,7 +35,6 @@ public class RefreshTest {
     @Spy
     private JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(secretKey);
 
-
     @Mock
     private UserRepository userRepository;
 
@@ -57,13 +56,12 @@ public class RefreshTest {
                         .email("test")
                         .imageUrl("imageUrl")
                         .role(Role.USER)
-                        .refreshToken(refreshToken)
                         .build()
                 )
         );
 
         // when
-        TokenResponse tokenResponse = authService.refresh(accessToken);
+        TokenResponse tokenResponse = authService.refresh(refreshToken);
 
         // then
         assertThat(tokenResponse.accessToken()).isNotNull();
@@ -74,14 +72,15 @@ public class RefreshTest {
     void refreshFailBecauseNotExistUser() {
         // given
         String accessToken = jwtTokenProvider.createAccessToken("test", Role.USER);
+        String refreshToken = jwtTokenProvider.createRefreshToken("test");
         given(
                 userRepository.findByEmail("test")
         ).willReturn(Optional.empty());
 
         // when & then
-//        Assertions.assertThrows(NotExistException.class, () -> {
-//           authService.refresh(accessToken);
-//        });
+        Assertions.assertThrows(NotExistsException.class, () -> {
+            authService.refresh(refreshToken);
+        });
     }
 
     @Test
@@ -106,14 +105,13 @@ public class RefreshTest {
                         .email("test")
                         .imageUrl("imageUrl")
                         .role(Role.USER)
-                        .refreshToken(refreshToken)
                         .build()
                 )
         );
 
         // when & then
         Assertions.assertThrows(TokenExpiredException.class, () -> {
-            authService.refresh(accessToken);
+            authService.refresh(refreshToken);
         });
     }
 }
