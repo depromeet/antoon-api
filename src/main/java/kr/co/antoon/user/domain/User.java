@@ -33,7 +33,7 @@ public class User extends BaseEntity {
         this.imageUrl = imageUrl;
         this.role = role;
     }
-
+  
     public User update(String name, String imageUrl) {
         this.name = name;
         this.imageUrl = imageUrl;

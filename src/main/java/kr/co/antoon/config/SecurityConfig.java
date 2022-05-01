@@ -22,11 +22,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate redisTemplate;
 
-//    @Bean
-//    public JwtFilter jwtFilter(JwtTokenProvider jwtTokenProvider) {
-//        return new JwtFilter();
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()

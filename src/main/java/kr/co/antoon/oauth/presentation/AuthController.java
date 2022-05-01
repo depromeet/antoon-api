@@ -1,6 +1,7 @@
 package kr.co.antoon.oauth.presentation;
 
 import kr.co.antoon.oauth.application.AuthService;
+
 import kr.co.antoon.oauth.application.JwtTokenProvider;
 import kr.co.antoon.oauth.dto.TokenResponse;
 import kr.co.antoon.user.domain.vo.Role;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,5 +39,4 @@ public class AuthController {
         authService.revokeToken(access, refresh);
         return ResponseEntity.ok().body("로그아웃 성공!");
     }
-
 }

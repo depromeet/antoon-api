@@ -23,6 +23,10 @@ public class OAuth2Attribute {
         switch (provider) {
             case "kakao":
                 return ofKakao("email", attributes);
+            case "google":
+                return ofGoogle("sub", attributes);
+            case "naver":
+                return ofNaver("id", attributes);
             default:
                 throw new RuntimeException();
         }

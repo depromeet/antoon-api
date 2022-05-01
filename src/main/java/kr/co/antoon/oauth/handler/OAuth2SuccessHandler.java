@@ -4,7 +4,9 @@ import kr.co.antoon.oauth.application.JwtTokenProvider;
 import kr.co.antoon.user.domain.vo.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.redis.core.RedisTemplate;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -23,6 +25,7 @@ public class OAuth2SuccessHandler extends
         SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
+
     private final RedisTemplate redisTemplate;
 
     @Override
@@ -31,17 +34,19 @@ public class OAuth2SuccessHandler extends
         OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
         String email = (String) oAuth2User.getAttributes().get("email");
         String accessToken = jwtTokenProvider.createAccessToken(email, Role.USER);
+      
         String refreshToken = (String)redisTemplate.opsForValue().get("RT: " + email); //redis
 
         response.setContentType("text/html;charset=UTF-8");
         response.addHeader("Authorization", accessToken);
         response.addHeader("Refresh",refreshToken);
+
         response.setContentType("application/json;charset=UTF-8");
 
         var writer = response.getWriter();
         writer.println(accessToken);
-        writer.println(refreshToken);
-        writer.println((String)redisTemplate.opsForValue().get("RT: " + email));
+
+  
         writer.flush();
     }
 }

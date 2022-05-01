@@ -24,6 +24,7 @@ public class AuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
+
     private final RedisTemplate redisTemplate;
 
     public TokenResponse refresh(String refreshToken) {
@@ -69,5 +70,6 @@ public class AuthService {
         Long expiration = jwtTokenProvider.getExpiration(access);
         redisTemplate.opsForValue()
                 .set(access, "logout", expiration, TimeUnit.MILLISECONDS);
+
     }
 }
