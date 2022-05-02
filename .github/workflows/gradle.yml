@@ -12,11 +12,11 @@ jobs:
 
     steps:
       # Actions Sequence
-      - name: Start action
+      - name: Start action with Submodules
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
-          submodules: true
+          submodules: recursive
 
       # Set JDK Version
       - name: Set up jdk 17
