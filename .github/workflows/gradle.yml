@@ -14,6 +14,8 @@ jobs:
       # Actions Sequence
       - name: Start action
         uses: actions/checkout@v2
+        with:
+          submodules: true
 
       # Set JDK Version
       - name: Set up jdk 17
