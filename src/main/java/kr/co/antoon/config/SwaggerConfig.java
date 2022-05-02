@@ -36,7 +36,7 @@ public class SwaggerConfig {
                         ServerWebExchange.class
                 )
                 .apiInfo(new ApiInfo(
-                                "ANTOON TITLE",
+                                "ANTOON CORE API",
                                 "ANTOON CORE API",
                                 "v.1.0",
                                 "urn:tos",
