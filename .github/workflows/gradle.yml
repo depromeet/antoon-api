@@ -15,6 +15,7 @@ jobs:
       - name: Start action
         uses: actions/checkout@v2
         with:
+          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
           submodules: true
 
       # Set JDK Version
