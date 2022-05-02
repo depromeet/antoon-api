@@ -1,3 +1,4 @@
+# ANTOON-API GIT ACTION
 name: Antoon Api Server Git-Action for STAGING
 
 on:
@@ -18,7 +19,8 @@ jobs:
           token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
           submodules: true
 
-      - name: Git Sumbodule Update
+      # Submodule Update
+      - name: Git Sumbmodule Update
         run: |
           git pull --recurse-submodules
           git submodule update --remote --recursive
