@@ -5,7 +5,7 @@ import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Role;
 import kr.co.antoon.oauth.dto.TokenResponse;
-import kr.co.antoon.oauth.exception.TokenExpiredException;
+import kr.co.antoon.error.exception.oauth.TokenExpiredException;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
-import kr.co.antoon.webtoon.dto.WebtoonDetailDto;
+import kr.co.antoon.webtoon.dto.response.WebtoonDetailResponse;
 import kr.co.antoon.webtoon.facade.WebtoonFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -23,7 +23,7 @@ public class WebtoonController {
 
     @ApiOperation(value = "웹툰 상세 조회 API", notes = SwaggerNote.WEBTOON_READ_DETAIL)
     @GetMapping(value = "/{webtoonId}")
-    public ResponseEntity<WebtoonDetailDto> getWebtoonById(@PathVariable("webtoonId") Long webtoonId) {
+    public ResponseEntity<WebtoonDetailResponse> getWebtoonById(@PathVariable("webtoonId") Long webtoonId) {
         return ResponseDto.ok(webtoonFacade.getWebtoon(webtoonId));
     }
 }

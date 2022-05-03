@@ -1,4 +1,4 @@
-package kr.co.antoon.webtoon.dto;
+package kr.co.antoon.webtoon.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Builder
 @Schema(description = "웹툰 상세 설명 DTO")
-public class WebtoonDetailDto {
+public class WebtoonDetailResponse {
     @Schema(description = "제목")
     private final String title;
     @Schema(description = "소개")
