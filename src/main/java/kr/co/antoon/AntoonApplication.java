@@ -22,6 +22,6 @@ public class AntoonApplication implements ApplicationListener<ApplicationReadyEv
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        log.info("profiles = {}", Arrays.toString(environment.getActiveProfiles()));
+        log.info("Spring Server Profiles Status= {}", Arrays.toString(environment.getActiveProfiles()));
     }
 }
