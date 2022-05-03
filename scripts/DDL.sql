@@ -1,7 +1,8 @@
 CREATE DATABASE antoon_core_staging CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 CREATE DATABASE antoon_core_prod CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-USE antoon_core;
+USE antoon_core_staging;
+USE antoon_core_prod;
 
 CREATE TABLE `discussion`
 (
