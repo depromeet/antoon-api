@@ -7,6 +7,7 @@ import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.discussion.facade.DiscussionLikeFacade;
 import kr.co.antoon.oauth.config.AuthUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "종목토론방 좋아요 API")
 @RestController
-@RequestMapping("/api/v1/webtoons")
+@RequestMapping(value = "/api/v1/webtoons", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class DiscussionLikeController {
     private final DiscussionLikeFacade discussionLikeFacade;
