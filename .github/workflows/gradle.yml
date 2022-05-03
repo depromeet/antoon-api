@@ -13,41 +13,41 @@ jobs:
 
     steps:
       # Actions Sequence
-      - name: (#1) Start Action
+      - name: Start Action
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
           submodules: true
 
       # Submodule Update
-      - name: (#2) Git Sumbmodule Update
+      - name: Git Sumbmodule Update
         run: |
           git pull --recurse-submodules
           git submodule update --remote --recursive
 
       # Set JDK Version
-      - name: (#3) Set Up Jdk 17
+      - name: Set Up Jdk 17
         uses: actions/setup-java@v1
         with:
           java-version: 17
 
       # Modify Permission
-      - name: (#4) Grant Execute Permission For Gradlew
+      - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
 
       # Build Gradle
-      - name: (#5) Build With Gradle
+      - name: Build With Gradle
         run: ./gradlew clean build
 
       # Login DockerHub
-      - name: (#6) Login To DockerHub
+      - name: Login To DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       # Build Docker Container
-      - name: (#7) Docker Image Build And Push
+      - name: Docker Image Build And Push
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -55,7 +55,7 @@ jobs:
           tags: antoonapi/antoon-core-api:latest
 
       # Login AWS
-      - name: (#8) Login Aws
+      - name: Login Aws
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -63,7 +63,7 @@ jobs:
           aws-region: ap-northeast-2
 
       # Code Deploy
-      - name: (#9) Deploy Docker Image
+      - name: Deploy Docker Image
         run: aws deploy create-deployment --application-name antoon-core-api
           --deployment-config-name CodeDeployDefault.OneAtATime 
           --deployment-group-name antoon-core-api-group 
