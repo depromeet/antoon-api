@@ -56,14 +56,12 @@ jobs:
 
       # Deploy with AWS CodeDeploy
       - name: Deploy Docker Image
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          Default_region_name: ap-northeast-2
-          run: |
-            aws deploy --region ap-northeast-2 \
-            create-deployment \
-            --application-name antoon-core-api \
-            --deployment-config-name CodeDeployDefault.OneAtATime \
-            --deployment-group-name antoon-core-api-group \
-            --github-location repository=depromeet/antoon-api,commitId=${GITHUB_SHA}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+        run: aws deploy create-deployment --application-name antoon-core-api
+          --deployment-config-name CodeDeployDefault.OneAtATime 
+          --deployment-group-name antoon-core-api-group 
+          --github-location repository=depromeet/antoon-api,commitId=${GITHUB_SHA}
