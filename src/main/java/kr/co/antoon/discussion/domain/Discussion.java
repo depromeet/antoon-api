@@ -23,15 +23,15 @@ public class Discussion extends BaseEntity {
 
     private Long webtoonId;
 
-    private Long memberId;
+    private Long userId;
 
     private int likeCount = 0;
 
     @Builder
-    public Discussion(String content, Long webtoonId, Long memberId) {
+    public Discussion(String content, Long webtoonId, Long userId) {
         this.content = content;
         this.webtoonId = webtoonId;
-        this.memberId = memberId;
+        this.userId = userId;
     }
 
     public void update(String content) {
