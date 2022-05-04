@@ -7,8 +7,8 @@ files:
 
 hooks:
   BeforeInstall:
-    - location: scripts/docker/setup.sh
+    - location: scripts/beforeInstall.sh
       runas: root
   AfterInstall:
-    - location: scripts/docker/run.sh
+    - location: scripts/afterInstall.sh
       runas: root
