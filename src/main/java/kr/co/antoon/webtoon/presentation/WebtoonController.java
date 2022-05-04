@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "웹툰 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1/webtoons", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/webtoons")
 public class WebtoonController {
     private final WebtoonFacade webtoonFacade;
 

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "탑승/하차 API")
 @RestController
-@RequestMapping(value = "/api/v1/recommendations", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/recommendations")
 @RequiredArgsConstructor
 public class RecommendationController {
     private final RecommendationFacade recommendationFacade;

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "종목토론방 좋아요 API")
 @RestController
-@RequestMapping(value = "/api/v1/webtoons", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/webtoons")
 @RequiredArgsConstructor
 public class DiscussionLikeController {
     private final DiscussionLikeFacade discussionLikeFacade;

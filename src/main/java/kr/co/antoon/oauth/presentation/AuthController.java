@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @Api(tags = "Auth API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1/auth", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/auth")
 public class AuthController {
     private final AuthService authService;
 
