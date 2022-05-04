@@ -1,5 +1,5 @@
 docker pull antoonapi/antoon-core-api:latest
-docker run --publish 8081:8080 \
+docker run -d --publish 8081:8080 \
     -v /etc/localtime:/etc/localtime:ro \
     -v /usr/share/zoneinfo/Asia/Seoul:/etc/timezone:ro \
     --restart unless-stopped \
