@@ -103,4 +103,19 @@ public class SwaggerNote {
                 "platform" : NAVER // 웹툰 플랫폼(NAVER, KAKAO)
             }
             """;
+
+    public final static String WEBTOON_SEARCH = """
+            웹툰 검색 조회
+            GET /api/v1/webtoons
+            
+            Response Body
+            {
+                "data": [
+                            {
+                                "id": 1,
+                                "title": "제목"
+                            }...
+                        ],     
+            }
+            """;
 }
