@@ -6,8 +6,6 @@
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %msg %n</pattern>
         </layout>
-        <username>Error를 추앙해요</username>
-        <iconEmoji>:ab5ee777a5460cbe:</iconEmoji>
         <colorCoding>true</colorCoding>
     </appender>
 
