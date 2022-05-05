@@ -23,6 +23,7 @@ public class UserService {
                 .name(user.getName())
                 .email(user.getEmail())
                 .imageUrl(user.getImageUrl())
+                .age(user.getAge())
                 .build();
     }
 }

@@ -19,4 +19,7 @@ public class UserDetailResponse {
 
     @Schema(description = "프로필 사진")
     private final String imageUrl;
+
+    @Schema(description = "연령대")
+    private final Integer age;
 }

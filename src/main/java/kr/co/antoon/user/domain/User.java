@@ -35,17 +35,25 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(nullable = false)
+    private Integer age;
+
     @Builder
-    public User(String name, String email, String imageUrl, Role role) {
+    public User(String name, String email, String imageUrl, Role role, Integer age) {
         this.name = name;
         this.email = email;
         this.imageUrl = imageUrl;
         this.role = role;
+        this.age = age;
     }
 
     public User update(String name, String imageUrl) {
         this.name = name;
         this.imageUrl = imageUrl;
         return this;
+    }
+
+    public void updateAge(Integer age) {
+        this.age = age;
     }
 }

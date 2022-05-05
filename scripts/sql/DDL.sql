@@ -57,6 +57,7 @@ CREATE TABLE `user`
     `image_url`   varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
     `name`        varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
     `role`        varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `age`         int                                     NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
