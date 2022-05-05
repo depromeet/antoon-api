@@ -1,5 +1,6 @@
 package kr.co.antoon.user.presentation;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.user.application.UserService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(tags = "사용자 API")
 @RestController
 @RequestMapping(value = "/api/v1/users")
 @RequiredArgsConstructor

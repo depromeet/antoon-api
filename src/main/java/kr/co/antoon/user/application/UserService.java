@@ -1,6 +1,5 @@
 package kr.co.antoon.user.application;
 
-import io.swagger.annotations.Api;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.user.domain.User;
@@ -10,11 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-import static kr.co.antoon.user.converter.UserConverter.toUserDetailDto;
-
-@Api(tags = "사용자 API")
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -22,9 +16,13 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDetailResponse findById(Long id) {
-        return toUserDetailDto(
-                userRepository.findById(id)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER))
-        );
+        User user =  userRepository.findById(id)
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
+
+        return UserDetailResponse.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .imageUrl(user.getImageUrl())
+                .build();
     }
 }

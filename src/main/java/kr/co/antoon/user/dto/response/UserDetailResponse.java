@@ -19,5 +19,4 @@ public class UserDetailResponse {
 
     @Schema(description = "프로필 사진")
     private final String imageUrl;
-
 }
