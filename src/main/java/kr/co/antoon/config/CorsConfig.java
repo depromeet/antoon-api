@@ -17,23 +17,19 @@ import java.util.List;
 @EnableConfigurationProperties(CorsProperties.class)
 @RequiredArgsConstructor
 public class CorsConfig implements WebMvcConfigurer {
-    private static final String ADAPTING_URL = "/**";
-
-    @NotNull
-    private final CorsProperties corsProperties;
-
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedHeaders(List.of(corsProperties.getAllowedHeaders()));
-        corsConfig.setAllowedMethods(List.of(corsProperties.getAllowedMethods().split(",")));
-        corsConfig.setAllowedOriginPatterns(List.of(corsProperties.getAllowedOrigins()));
+        var corsConfig = new CorsConfiguration();
+
+        corsConfig.addAllowedOriginPattern(CorsConfiguration.ALL);
+        corsConfig.addAllowedHeader(CorsConfiguration.ALL);
+        corsConfig.addAllowedMethod(CorsConfiguration.ALL);
 
         corsConfig.setAllowCredentials(true);
         corsConfig.setMaxAge(corsConfig.getMaxAge());
 
-        UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
-        corsConfigSource.registerCorsConfiguration(ADAPTING_URL, corsConfig);
+        var corsConfigSource = new UrlBasedCorsConfigurationSource();
+        corsConfigSource.registerCorsConfiguration("/**", corsConfig);
         return corsConfigSource;
     }
 }
