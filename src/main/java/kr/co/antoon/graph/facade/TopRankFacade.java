@@ -23,7 +23,8 @@ public class TopRankFacade {
 
     @Transactional(readOnly = true)
     public TopRankResponse findTopRank() {
-        return new TopRankResponse(topRankService.findTopRank().stream()
+        return new TopRankResponse(topRankService.findTopRank()
+                .stream()
                 .map(tr -> new TopRankResponse.TopRankWebtooon(
                         tr.getRanking(),
                         webtoonService.findById(tr.getWebtoonId()),

@@ -20,7 +20,7 @@ public class TopRankController {
 
     @ApiOperation(value = "랭킹 조회 API", notes = "*추후 작성 필요*")
     @GetMapping
-    public ResponseEntity<TopRankResponse> getTopRankWebtoon() {
+    public ResponseEntity<TopRankResponse> getTopRankWebtoons() {
         return ResponseDto.ok(topRankFacade.findTopRank());
     }
 }
