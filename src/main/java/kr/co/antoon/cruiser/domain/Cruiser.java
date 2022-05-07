@@ -1,4 +1,4 @@
-package kr.co.antoon.common.domain.cruiser;
+package kr.co.antoon.cruiser.domain;
 
 public interface Cruiser {
     /**

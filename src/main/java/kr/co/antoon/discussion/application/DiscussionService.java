@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DiscussionService {
     private final DiscussionRepository discussionRepository;
-    private final DiscussionLikeRepository likeRepository;
 
     @Transactional
     public Discussion save(Long memberId, Long webtoonId, String content) {
@@ -52,5 +51,10 @@ public class DiscussionService {
     @Transactional
     public void delete(Long id) {
         discussionRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public long count() {
+        return discussionRepository.count();
     }
 }

@@ -1,6 +1,6 @@
-package kr.co.antoon.common.domain.cruiser;
+package kr.co.antoon.cruiser.domain;
 
-import kr.co.antoon.common.dto.SlackCruiserDto;
+import kr.co.antoon.cruiser.dto.slack.SlackCruiserRequest;
 import kr.co.antoon.config.properties.SlackCruiserProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ public class SlackCruiser implements Cruiser {
     @Override
     public void send(String content) {
         String url = slackCruiserProperties.getWebhookUri();
-        var message = new SlackCruiserDto(content);
+        var message = new SlackCruiserRequest(content);
 
         var response = new RestTemplate()
                 .postForObject(
