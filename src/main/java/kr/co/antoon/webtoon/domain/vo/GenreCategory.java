@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
-public enum Category {
+public enum GenreCategory {
     THRILLER("스릴러"),
     OMNIBUS("옴니버스"),
     STORY("스토리"),
@@ -26,8 +26,8 @@ public enum Category {
 
     private final String description;
 
-    public static Category of(String description) {
-        return Arrays.stream(Category.values())
+    public static GenreCategory of(String description) {
+        return Arrays.stream(GenreCategory.values())
                 .filter(c -> c.getDescription().equals(description))
                 .findAny()
                 .orElse(NONE);

@@ -1,7 +1,7 @@
 package kr.co.antoon.webtoon.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
-import kr.co.antoon.webtoon.domain.vo.Category;
+import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +22,11 @@ public class WebtoonGenre extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private Category category;
+    private GenreCategory category;
 
     private Long webtoonId;
 
-    public WebtoonGenre(Category category, Long webtoonId) {
+    public WebtoonGenre(GenreCategory category, Long webtoonId) {
         this.category = category;
         this.webtoonId = webtoonId;
     }
