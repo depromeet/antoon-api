@@ -46,7 +46,7 @@ public class WebtoonCrawlingFacade {
                                     .content(crawlingWebtton.content())
                                     .url(crawlingWebtton.url())
                                     .thumbnail(crawlingWebtton.thumbnail())
-                                    .platform(Platform.NAVER)
+                                    .platform(platform)
                                     .build()
                     );
 
