@@ -38,9 +38,4 @@ public class RecommendationService {
                 .filter(r -> r.getStatus().equals(status))
                 .collect(Collectors.toList());
     }
-
-    @Transactional
-    public void delete(Recommendation recommendation) {
-        recommendationRepository.delete(recommendation);
-    }
 }

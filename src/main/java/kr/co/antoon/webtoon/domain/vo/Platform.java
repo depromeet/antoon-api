@@ -10,5 +10,5 @@ public enum Platform {
     KAKAO("카카오 웹툰"),
     ;
 
-    private final String name;
+    private final String description;
 }

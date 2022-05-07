@@ -19,7 +19,7 @@ public class DiscussionLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Boolean flag = true;
+    private Boolean status = true;
 
     private Long userId;
 
@@ -32,7 +32,7 @@ public class DiscussionLike {
     }
 
     public DiscussionLike update() {
-        this.flag = !this.flag;
+        this.status = !this.status;
         return this;
     }
 }

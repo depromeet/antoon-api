@@ -20,7 +20,12 @@ public class GraphScoreSnapshotService {
     }
 
     @Transactional(readOnly = true)
-    public List<GraphScoreSnapshot> findAllBySnapshotTime(LocalDateTime localDate) {
-        return graphScoreSnapshotRepository.findAllBySnapshotTime(localDate);
+    public List<GraphScoreSnapshot> findAllBySnapshotTime(LocalDateTime localDateTime) {
+        return graphScoreSnapshotRepository.findAllBySnapshotTime(localDateTime);
+    }
+
+    @Transactional(readOnly = true)
+    public List<GraphScoreSnapshot> findTop9BySnapshotTimeAfter(LocalDateTime localDateTime) {
+        return graphScoreSnapshotRepository.findTop9BySnapshotTimeAfterOrderByGraphScoreDescScoreGapDesc(localDateTime);
     }
 }

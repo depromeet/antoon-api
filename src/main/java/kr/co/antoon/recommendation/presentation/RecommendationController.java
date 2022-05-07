@@ -7,7 +7,6 @@ import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.recommendation.facade.RecommendationFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "탑승/하차 API")
 @RestController
-@RequestMapping(value = "/api/v1/recommendations", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/recommendations")
 @RequiredArgsConstructor
 public class RecommendationController {
     private final RecommendationFacade recommendationFacade;
