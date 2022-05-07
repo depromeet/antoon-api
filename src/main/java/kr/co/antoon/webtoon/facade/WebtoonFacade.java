@@ -44,7 +44,7 @@ public class WebtoonFacade {
             .filter(webtoon -> webtoonPublishDayService.existsByWebtoonIdAndDay(webtoon.getId(), day))
             .collect(Collectors.toMap(Webtoon::getId, webtoon -> webtoon));
 
-        var webtoonDayResponses = graphScoreSnapshotService.findAllByOrderByRange()
+        var webtoonDayResponses = graphScoreSnapshotService.findAllByOrderByScoreGap()
             .stream()
             .filter(graphScoreSnapshot -> webtoons.containsKey(graphScoreSnapshot.getWebtoonId()))
             .map(graphScoreSnapshot -> {

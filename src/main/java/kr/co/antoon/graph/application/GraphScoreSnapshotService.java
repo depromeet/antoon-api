@@ -30,7 +30,7 @@ public class GraphScoreSnapshotService {
     }
 
     @Transactional(readOnly = true)
-    public List<GraphScoreSnapshot> findAllByOrderByRange() {
+    public List<GraphScoreSnapshot> findAllByOrderByScoreGap() {
         return graphScoreSnapshotRepository.findAllByOrderByScoreGapDesc();
     }
 

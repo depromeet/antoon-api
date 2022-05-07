@@ -140,14 +140,6 @@ public class SwaggerNote {
             }
             """;
 
-    public final static String DISCUSSION_LIKE_CREATE_NOTE = """
-            종목토론방에 댓글 삭제
-            PUT /api/v1/webtoons/discussions/{discussionId}/likes
-                        
-            Response Body
-            None
-            """;
-
     public final static String WEBTOON_DAY_READ_NOTE = """
             웹툰 요일별 조회
             GET /api/v1/webtoons/days?day={day}
