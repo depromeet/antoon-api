@@ -3,7 +3,7 @@ package kr.co.antoon.user.application;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.user.domain.User;
-import kr.co.antoon.user.dto.UserDetailResponse;
+import kr.co.antoon.user.dto.response.UserDetailResponse;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
