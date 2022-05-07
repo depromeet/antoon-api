@@ -1,7 +1,7 @@
 package kr.co.antoon.graph.facade;
 
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
-import kr.co.antoon.graph.application.RankService;
+import kr.co.antoon.graph.application.TopRankService;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
 import kr.co.antoon.graph.domain.vo.GraphStatus;
 import kr.co.antoon.webtoon.application.WebtoonService;
@@ -22,7 +22,7 @@ public class GraphScoreFacade {
     private final GraphScoreSnapshotService graphScoreSnapshotService;
     private final WebtoonSnapshotService webtoonSnapshotService;
     private final WebtoonService webtoonService;
-    private final RankService rankService;
+    private final TopRankService rankService;
 
     @Transactional
     public void snapshot() {
