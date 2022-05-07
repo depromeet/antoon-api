@@ -9,7 +9,7 @@ import kr.co.antoon.webtoon.crawling.WebtoonCrawlingFactory;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.WebtoonGenre;
 import kr.co.antoon.webtoon.domain.WebtoonWriter;
-import kr.co.antoon.webtoon.domain.vo.Category;
+import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +44,7 @@ public class WebtoonCrawlingFacade {
                             Webtoon.builder()
                                     .title(crawlingWebtton.title())
                                     .content(crawlingWebtton.content())
-                                    .url(crawlingWebtton.url())
+                                    .webtoonUrl(crawlingWebtton.url())
                                     .thumbnail(crawlingWebtton.thumbnail())
                                     .platform(platform)
                                     .build()
@@ -57,7 +57,7 @@ public class WebtoonCrawlingFacade {
 
                     webtoonGenreService.saveAll(crawlingWebtton.genre()
                             .stream()
-                            .map(genre -> new WebtoonGenre(Category.of(genre), webtoonId))
+                            .map(genre -> new WebtoonGenre(GenreCategory.of(genre), webtoonId))
                             .collect(Collectors.toList()));
 
                     webtoonPublishDayService.save(crawlingWebtton.day(), webtoonId);

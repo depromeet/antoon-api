@@ -23,7 +23,7 @@ public class WebtoonGenreService {
     public List<String> findCategoryByWebtoonId(Long webtoonId) {
         return webtoonGenreRepository.findAllByWebtoonId(webtoonId)
                 .stream()
-                .map(c -> c.getCategory().getDescription())
+                .map(WebtoonGenre::getGenreCategoryDescription)
                 .collect(Collectors.toList());
     }
 }

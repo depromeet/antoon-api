@@ -2,7 +2,7 @@ package kr.co.antoon.webtoon.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
-import kr.co.antoon.webtoon.domain.vo.Category;
+import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public class WebtoonDetailResponse {
     @Schema(description = "썸네일")
     private final String thumbnail;
     @Schema(description = "장르")
-    private final List<Category> genre;
+    private final List<GenreCategory> genre;
     @Schema(description = "완결 여부")
     private final ActiveStatus status;
     @Schema(description = "플랫폼")

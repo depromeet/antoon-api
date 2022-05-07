@@ -6,8 +6,3 @@
 ### Tech Stack
 
 ### Team
-
-### Convention
-
-### 
- 

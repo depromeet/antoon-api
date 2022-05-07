@@ -40,7 +40,7 @@ public class WebtoonResponse {
         this.title = webtoon.getTitle();
         this.content = webtoon.getContent();
         this.writers = writers;
-        this.url = webtoon.getUrl();
+        this.url = webtoon.getWebtoonUrl();
         this.thumbnail = webtoon.getThumbnail();
         this.activeStatus = webtoon.getStatus().getDescription();
         this.platform = webtoon.getPlatform().getDescription();

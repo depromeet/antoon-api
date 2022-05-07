@@ -10,6 +10,6 @@ public class RecommendationDailyJob {
     private final RecommendationFacade recommendationFacade;
 
     public void run() {
-        recommendationFacade.deleteAll();
+        recommendationFacade.changeAllStatus();
     }
 }
