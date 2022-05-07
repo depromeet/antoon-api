@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface WebtoonPublishDayRepository extends JpaRepository<WebtoonPublishDay, Long> {
+    boolean existsByWebtoonIdAndDay(Long wetoonId, String day);
     List<WebtoonPublishDay> findAllByWebtoonId(Long webtoonId);
 }

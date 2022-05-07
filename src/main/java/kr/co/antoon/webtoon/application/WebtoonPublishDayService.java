@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class WebtoonPublishDayService {
@@ -26,5 +28,10 @@ public class WebtoonPublishDayService {
                 .stream()
                 .map(WebtoonPublishDay::getDay)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public boolean existsByWebtoonIdAndDay(Long webtoonId, String day) {
+        return webtoonPublishDayRepository.existsByWebtoonIdAndDay(webtoonId, day);
     }
 }
