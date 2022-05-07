@@ -1,7 +1,7 @@
 package kr.co.antoon.discussion.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import kr.co.antoon.user.dto.UserDetailResponse;
+import kr.co.antoon.user.dto.response.UserDetailResponse;
 
 public record DiscussionReadResponse(
         @Schema(description = "댓글 ID")
