@@ -27,3 +27,7 @@ public class UserService {
                 .build();
     }
 }
+    public long count() {
+        return userRepository.count();
+    }
+}

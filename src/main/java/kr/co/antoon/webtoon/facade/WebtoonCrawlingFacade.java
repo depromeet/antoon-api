@@ -32,7 +32,7 @@ public class WebtoonCrawlingFacade {
     public void crawlingWebtoon(Platform platform) {
         var existsWebtoons = webtoonService.findAll()
                 .stream()
-                .collect(Collectors.toMap(Webtoon::getTitle, ws -> ws));
+                .collect(Collectors.toMap(Webtoon::getTitle, ws -> ws, (p1, p2) -> p1));
 
         WebtoonCrawlingFactory.of(platform)
                 .crawling()
@@ -46,7 +46,7 @@ public class WebtoonCrawlingFacade {
                                     .content(crawlingWebtton.content())
                                     .url(crawlingWebtton.url())
                                     .thumbnail(crawlingWebtton.thumbnail())
-                                    .platform(Platform.NAVER)
+                                    .platform(platform)
                                     .build()
                     );
 

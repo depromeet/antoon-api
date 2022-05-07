@@ -104,6 +104,7 @@ public class SwaggerNote {
             }
             """;
 
+
     public final static String USER_READ_DETAIL = """
             사용자 마이페이지 조회
             GET /api/v1/users/{userId}            
@@ -114,6 +115,21 @@ public class SwaggerNote {
                 "email" : "test@naver.com", // 사용자 이메일
                 "imageUrl" : "https://image.jpg", // 프로필 이미지 url
                 "age" : 0   // 사용자 연령대 (default=0)
+            }
+            """;
+
+    public final static String WEBTOON_SEARCH = """
+            웹툰 검색 조회
+            GET /api/v1/webtoons
+            
+            Response Body
+            {
+                "data": [
+                            {
+                                "id": 1,
+                                "title": "제목"
+                            }...
+                        ],     
             }
             """;
 }
