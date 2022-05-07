@@ -50,7 +50,7 @@ public class GraphScoreFacade {
                             .findFirst()
                             .map(wsay -> score - wsay.getGraphScore())
                             .orElse(score);
-                    
+
                     return GraphScoreSnapshot.of(
                             score,
                             gap,

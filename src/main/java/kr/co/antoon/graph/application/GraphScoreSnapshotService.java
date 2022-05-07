@@ -28,4 +28,11 @@ public class GraphScoreSnapshotService {
     public List<GraphScoreSnapshot> findTop9BySnapshotTimeAfter(LocalDateTime localDateTime) {
         return graphScoreSnapshotRepository.findTop9BySnapshotTimeAfterOrderByGraphScoreDescScoreGapDesc(localDateTime);
     }
+
+    @Transactional(readOnly = true)
+    public List<GraphScoreSnapshot> findAllByOrderByRange() {
+        return graphScoreSnapshotRepository.findAllByOrderByScoreGapDesc();
+    }
+
+
 }
