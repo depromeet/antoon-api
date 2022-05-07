@@ -45,16 +45,17 @@ public class GraphScoreFacade {
                 .map(w -> {
                     var score = webtoonSnapshots.get(w.getId()).getScore();
 
-                    var status = webtoonSnapshotsAboutYesterday.stream()
+                    var gap = webtoonSnapshotsAboutYesterday.stream()
                             .filter(wsay -> Objects.equals(w.getId(), wsay.getWebtoonId()))
                             .findFirst()
-                            .map(wsay -> GraphStatus.of(wsay.getGraphScore(), score))
-                            .orElse(GraphStatus.MAINTAIN);
-
+                            .map(wsay -> score - wsay.getGraphScore())
+                            .orElse(score);
+                    
                     return GraphScoreSnapshot.of(
                             score,
+                            gap,
                             w.getId(),
-                            status
+                            GraphStatus.of(gap)
                     );
                 }).toList());
 

@@ -35,12 +35,7 @@ public class TopRank extends BaseEntity {
     private LocalDateTime rankTime;
 
     @Builder
-    public TopRank(
-            Integer ranking,
-            Long graphScoreSnapshotId,
-            RankReason reason,
-            Long webtoonId
-    ) {
+    public TopRank(Integer ranking, Long graphScoreSnapshotId, RankReason reason, Long webtoonId) {
         this.ranking = ranking;
         this.graphScoreSnapshotId = graphScoreSnapshotId;
         this.reason = reason;

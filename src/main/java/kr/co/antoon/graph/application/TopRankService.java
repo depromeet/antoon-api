@@ -20,14 +20,13 @@ public class TopRankService {
     @Transactional
     public void saveAll(List<GraphScoreSnapshot> graphScoreSnapshots) {
         topRankRepository.saveAll(IntStream.range(0, graphScoreSnapshots.size())
-                .mapToObj(g -> TopRank.builder()
-                        .ranking(g + 1)
-                        .graphScoreSnapshotId(graphScoreSnapshots.get(g).getId())
-                        .reason(RankReason.VERSION_1)
-                        .webtoonId(graphScoreSnapshots.get(g).getWebtoonId())
-                        .build()
-                )
-                .collect(Collectors.toList()));
+                        .mapToObj(g -> TopRank.builder()
+                                .ranking(g + 1)
+                                .graphScoreSnapshotId(graphScoreSnapshots.get(g).getId())
+                                .reason(RankReason.VERSION_1)
+                                .webtoonId(graphScoreSnapshots.get(g).getWebtoonId())
+                                .build()
+                        ).collect(Collectors.toList()));
     }
 
     @Transactional
