@@ -22,14 +22,15 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Bean
     public UrlBasedCorsConfigurationSource corsSource() {
-        var source = new UrlBasedCorsConfigurationSource();
         var config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
         config.addAllowedHeader(corsProperties.getAllowedHeaders());
         config.addAllowedMethod(corsProperties.getAllowedMethods());
-        config.addAllowedOrigin(corsProperties.getAllowedOrigins());
+        config.addAllowedOriginPattern(corsProperties.getAllowedOrigins());
         config.setMaxAge(corsProperties.getMaxAge());
+
+        var source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration(ADAPTING_URL, config);
         return source;
     }
