@@ -112,7 +112,8 @@ public class SwaggerNote {
             {
                 "name" : "김테스트", //사용자 이름
                 "email" : "test@naver.com", // 사용자 이메일
-                "imageUrl" : "https://image.jpg" // 프로필 이미지 url
+                "imageUrl" : "https://image.jpg", // 프로필 이미지 url
+                "age" : 0   // 사용자 연령대 (default=0)
             }
             """;
 }
