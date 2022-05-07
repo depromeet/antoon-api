@@ -10,6 +10,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableConfigurationProperties(CorsProperties.class)
@@ -21,17 +23,17 @@ public class CorsConfig implements WebMvcConfigurer {
     private final CorsProperties corsProperties;
 
     @Bean
-    public UrlBasedCorsConfigurationSource corsSource() {
-        var config = new CorsConfiguration();
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.setAllowedHeaders(List.of(corsProperties.getAllowedHeaders()));
+        corsConfig.setAllowedMethods(List.of(corsProperties.getAllowedMethods()));
+        corsConfig.setAllowedOrigins(List.of(corsProperties.getAllowedOrigins()));
 
-        config.setAllowCredentials(true);
-        config.addAllowedHeader(corsProperties.getAllowedHeaders());
-        config.addAllowedMethod(corsProperties.getAllowedMethods());
-        config.addAllowedOriginPattern(corsProperties.getAllowedOrigins());
-        config.setMaxAge(corsProperties.getMaxAge());
+        corsConfig.setAllowCredentials(true);
+        corsConfig.setMaxAge(corsConfig.getMaxAge());
 
-        var source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration(ADAPTING_URL, config);
-        return source;
+        UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
+        corsConfigSource.registerCorsConfiguration(ADAPTING_URL, corsConfig);
+        return corsConfigSource;
     }
 }
