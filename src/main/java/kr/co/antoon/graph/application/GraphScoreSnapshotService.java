@@ -23,4 +23,6 @@ public class GraphScoreSnapshotService {
     public List<GraphScoreSnapshot> findAllBySnapshotTime(LocalDateTime localDate) {
         return graphScoreSnapshotRepository.findAllBySnapshotTime(localDate);
     }
+
+
 }
