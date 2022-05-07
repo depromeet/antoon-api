@@ -33,7 +33,7 @@ CREATE TABLE `graph_score_snapshot` (
                                         `status` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
                                         `webtoon_id` bigint DEFAULT NULL,
                                         PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+) ENGINE=InnoDB AUTO_INCREMENT=1159 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
 CREATE TABLE `recommendation` (
                                   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -106,3 +106,15 @@ CREATE TABLE `webtoon_writer` (
                                   `webtoon_id` bigint DEFAULT NULL,
                                   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+CREATE TABLE `top_rank` (
+                            `id` bigint NOT NULL AUTO_INCREMENT,
+                            `created_at` datetime DEFAULT NULL,
+                            `modified_at` datetime DEFAULT NULL,
+                            `graph_score_snapshot_id` bigint DEFAULT NULL,
+                            `rank_time` datetime DEFAULT NULL,
+                            `ranking` int DEFAULT NULL,
+                            `reason` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                            `webtoon_id` bigint DEFAULT NULL,
+                            PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci

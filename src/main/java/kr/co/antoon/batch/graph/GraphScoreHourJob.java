@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class GraphScoreDailyJob {
+public class GraphScoreHourJob {
     private final GraphScoreFacade graphScoreFacade;
 
     public void run() {
