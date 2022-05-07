@@ -4,7 +4,7 @@ import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
-import kr.co.antoon.webtoon.dto.response.WebtoonResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.infrastructure.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,10 +36,10 @@ public class WebtoonService {
     }
 
     @Transactional(readOnly = true)
-    public WebtoonResponse searchAll() {
-        return new WebtoonResponse(
+    public WebtoonAllResponse searchAll() {
+        return new WebtoonAllResponse(
                 findAll().stream()
-                        .map(WebtoonResponse.WebtoonDetail::new)
+                        .map(WebtoonAllResponse.WebtoonDetail::new)
                         .collect(Collectors.toList())
         );
     }

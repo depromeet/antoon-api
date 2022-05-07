@@ -1,7 +1,6 @@
 package kr.co.antoon.webtoon.application;
 
 import kr.co.antoon.webtoon.domain.WebtoonGenre;
-import kr.co.antoon.webtoon.domain.vo.Category;
 import kr.co.antoon.webtoon.infrastructure.WebtoonGenreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,10 +20,10 @@ public class WebtoonGenreService {
     }
 
     @Transactional(readOnly = true)
-    public List<Category> findCategoryByWebtoonId(Long webtoonId) {
+    public List<String> findCategoryByWebtoonId(Long webtoonId) {
         return webtoonGenreRepository.findAllByWebtoonId(webtoonId)
                 .stream()
-                .map(WebtoonGenre::getCategory)
+                .map(c -> c.getCategory().getDescription())
                 .collect(Collectors.toList());
     }
 }
