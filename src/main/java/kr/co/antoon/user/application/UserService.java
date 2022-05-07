@@ -16,7 +16,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDetailResponse findById(Long id) {
-        User user =  userRepository.findById(id)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
         return UserDetailResponse.builder()
@@ -26,7 +26,7 @@ public class UserService {
                 .age(user.getAge())
                 .build();
     }
-}
+
     public long count() {
         return userRepository.count();
     }
