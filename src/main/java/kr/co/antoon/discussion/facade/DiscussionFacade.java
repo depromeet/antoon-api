@@ -8,7 +8,6 @@ import kr.co.antoon.discussion.dto.response.DiscussionCreateResponse;
 import kr.co.antoon.discussion.dto.response.DiscussionReadResponse;
 import kr.co.antoon.discussion.dto.response.DiscussionUpdateResponse;
 import kr.co.antoon.user.application.UserService;
-import kr.co.antoon.user.domain.User;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -65,16 +64,15 @@ public class DiscussionFacade {
     @Transactional(readOnly = true)
     public Page<DiscussionReadResponse> findAll(Long userId, Pageable pageable) {
         return discussionService.findAll(pageable)
-                .map(discussion ->
-                        new DiscussionReadResponse(
-                        discussion.getId(),
-                        discussion.getContent(),
-                        discussion.getUserId(),
-                        userService.findById(discussion.getUserId()).getName(),
-                        userService.findById(discussion.getUserId()).getImageUrl(),
-                        discussion.getLikeCount(),
-                        discussionLikeService.isUserLike(userId, discussion.getId())
-                ));
+            .map(discussion ->
+                new DiscussionReadResponse(
+                    discussion.getId(),
+                    discussion.getContent(),
+                    discussion.getUserId(),
+                    userService.findById(discussion.getUserId()),
+                    discussion.getLikeCount(),
+                    discussionLikeService.isUserLike(userId, discussion.getId())
+            ));
     }
 
     @Transactional
