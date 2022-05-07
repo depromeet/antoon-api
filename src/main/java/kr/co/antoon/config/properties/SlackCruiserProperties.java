@@ -12,8 +12,8 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @Configuration
-@ConfigurationProperties(prefix = "crusier")
-public class SlackCrusierProperties {
+@ConfigurationProperties(prefix = "cruiser")
+public class SlackCruiserProperties {
     @NotBlank
     private String webhookUri;
 }
