@@ -52,24 +52,21 @@ public class KakaoWebtoonCrawlingTest {
                     innerElements.forEach(innerElement -> {
                     var title = innerElement.select("h2.text-ellipsis.css-jgjrt").text();
                     var dayInfoBox = innerElement.select("div.css-ymlwac").first().child(1).text().split("\\|");
-                    var day = dayInfoBox[0];
+                    var day = dayInfoBox[0].substring(0,1);
                     var writer = innerElement.select("div.css-ymlwac").first().child(2).text().split(",");
 
                     var eachUrlArr = url.split("=");
                     var seriesId = eachUrlArr[eachUrlArr.length - 1];
-
-                    // TODO: Content, genres 정보는 상세 페이지의 Modal 팝업창에 표시되어 ResponseData를 통해 크롤링
                     var content = "";
                     var genre = "";
                     JSONObject seriseDetail = getModalPopupData(seriesId);
                     if (seriseDetail != null) {
                         try {
                             content = (String) seriseDetail.get("description");
-                            genre = (String) seriseDetail.get("sub_category");
+                            genre = ((String) seriseDetail.get("sub_category")).replaceAll("만화", "");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                     log.info("============= [Kakao Webtoon Crawling] ===============");
                     log.info("title = {}", title);
