@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.constraints.NotNull;
@@ -22,7 +21,7 @@ public class CorsConfig implements WebMvcConfigurer {
     private final CorsProperties corsProperties;
 
     @Bean
-    public CorsFilter corsFilter() {
+    public UrlBasedCorsConfigurationSource corsSource() {
         var source = new UrlBasedCorsConfigurationSource();
         var config = new CorsConfiguration();
 
@@ -32,6 +31,6 @@ public class CorsConfig implements WebMvcConfigurer {
         config.addAllowedOrigin(corsProperties.getAllowedOrigins());
         config.setMaxAge(corsProperties.getMaxAge());
         source.registerCorsConfiguration(ADAPTING_URL, config);
-        return new CorsFilter(source);
+        return source;
     }
 }
