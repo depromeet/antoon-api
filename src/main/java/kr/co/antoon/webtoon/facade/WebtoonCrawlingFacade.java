@@ -44,7 +44,7 @@ public class WebtoonCrawlingFacade {
                             Webtoon.builder()
                                     .title(crawlingWebtton.title())
                                     .content(crawlingWebtton.content())
-                                    .url(crawlingWebtton.url())
+                                    .webtoonUrl(crawlingWebtton.url())
                                     .thumbnail(crawlingWebtton.thumbnail())
                                     .platform(platform)
                                     .build()

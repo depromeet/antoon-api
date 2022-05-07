@@ -24,18 +24,20 @@ public class GraphScoreSnapshot extends BaseEntity {
 
     private Double graphScore;
 
+    private Double scoreGap;
+
     private Long webtoonId;
 
     private LocalDateTime snapshotTime;
 
     @Enumerated(EnumType.STRING)
-    private GraphStatus graphStatus;
+    private GraphStatus status;
 
     public GraphScoreSnapshot(Double graphScore, Long webtoonId, GraphStatus graphStatus) {
         this.graphScore = graphScore;
         this.webtoonId = webtoonId;
         this.snapshotTime = LocalDateTime.now();
-        this.graphStatus = graphStatus;
+        this.status = graphStatus;
     }
 
     public static GraphScoreSnapshot of(Double graphScore, Long webtoonId, GraphStatus graphStatus) {

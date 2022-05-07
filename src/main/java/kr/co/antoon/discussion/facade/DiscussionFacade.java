@@ -34,7 +34,7 @@ public class DiscussionFacade {
         return new DiscussionCreateResponse(
                 discussion.getId(),
                 discussion.getContent(),
-                discussion.getMemberId(),
+                discussion.getUserId(),
                 discussion.getLikeCount(),
                 false
         );
@@ -47,7 +47,7 @@ public class DiscussionFacade {
         return new DiscussionReadResponse(
                 discussion.getId(),
                 discussion.getContent(),
-                discussion.getMemberId(),
+                discussion.getUserId(),
                 discussion.getLikeCount(),
                 isUserLike
         );
@@ -59,7 +59,7 @@ public class DiscussionFacade {
                 .map(discussion -> new DiscussionReadResponse(
                         discussion.getId(),
                         discussion.getContent(),
-                        discussion.getMemberId(),
+                        discussion.getUserId(),
                         discussion.getLikeCount(),
                         discussionLikeService.isUserLike(memberId, discussion.getId())
                 ));
@@ -72,7 +72,7 @@ public class DiscussionFacade {
         return new DiscussionUpdateResponse(
                 discussion.getId(),
                 discussion.getContent(),
-                discussion.getMemberId(),
+                discussion.getUserId(),
                 discussion.getLikeCount(),
                 isUserLike
         );

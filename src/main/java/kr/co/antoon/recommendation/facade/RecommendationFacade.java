@@ -28,7 +28,7 @@ public class RecommendationFacade {
 
         RecommendationCount recommendationCount = recommendationCountService.findByUserIdAndWebtoonId(userId, webtoonId).orElse(null);
         if (recommendationCount != null) {
-            int joinCount = recommendationCount.getJoinUserCount();
+            int joinCount = recommendationCount.getJoinCount();
             recommendationCount.plusJoinCount(joinCount++);
         } else {
             recommendationCountService.save(userId, webtoonId, 1);
@@ -45,7 +45,7 @@ public class RecommendationFacade {
 
         RecommendationCount recommendationCount = recommendationCountService.findByUserIdAndWebtoonId(userId, webtoonId).orElse(null);
         if (recommendationCount != null) {
-            int leaveCount = recommendationCount.getLeaveUserCount();
+            int leaveCount = recommendationCount.getLeaveCount();
             recommendationCount.plusLeaveCount(leaveCount++);
         } else {
             recommendationCountService.save(userId, webtoonId, 1);
@@ -59,7 +59,7 @@ public class RecommendationFacade {
             RecommendationCount recommendationCount = recommendationCountService.findByUserIdAndWebtoonId(
                     recommendation.getUserId(),
                     recommendation.getWebtoonId()).orElse(null);
-            recommendationCount.minusJoinCount(recommendationCount.getJoinUserCount() - 1);
+            recommendationCount.minusJoinCount(recommendationCount.getJoinCount() - 1);
         });
 
         recommendationService.findAllByStatus(RecommendationStatus.LEAVED).forEach(recommendation -> {
@@ -67,7 +67,7 @@ public class RecommendationFacade {
             RecommendationCount recommendationCount = recommendationCountService.findByUserIdAndWebtoonId(
                     recommendation.getUserId(),
                     recommendation.getWebtoonId()).orElse(null);
-            recommendationCount.minusLeaveCount(recommendationCount.getLeaveUserCount() - 1);
+            recommendationCount.minusLeaveCount(recommendationCount.getLeaveCount() - 1);
         });
     }
 }

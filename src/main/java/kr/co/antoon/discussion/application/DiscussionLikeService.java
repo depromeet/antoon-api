@@ -1,10 +1,10 @@
 package kr.co.antoon.discussion.application;
 
 import kr.co.antoon.discussion.domain.Discussion;
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.discussion.domain.DiscussionLike;
 import kr.co.antoon.discussion.infrastructure.DiscussionLikeRepository;
+import kr.co.antoon.error.dto.ErrorMessage;
+import kr.co.antoon.error.exception.common.NotExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +25,13 @@ public class DiscussionLikeService {
                         .build()
                 );
         likeRepository.save(like);
-        discussion.updateLikeCount(like.getFlag());
+        discussion.updateLikeCount(like.getStatus());
     }
 
     @Transactional
     public Boolean isUserLike(Long userId, Long discussionId) {
         var like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
-        return like.getFlag();
+        return like.getStatus();
     }
 }

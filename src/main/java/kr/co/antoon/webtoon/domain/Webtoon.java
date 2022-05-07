@@ -26,7 +26,7 @@ public class Webtoon extends BaseEntity {
     private String content;
 
     @Column(nullable = false)
-    private String url;
+    private String webtoonUrl;
 
     @Column(nullable = false)
     private String thumbnail;
@@ -39,10 +39,10 @@ public class Webtoon extends BaseEntity {
     private ActiveStatus status;
 
     @Builder
-    public Webtoon(String title, String content, String url, String thumbnail, Platform platform) {
+    public Webtoon(String title, String content, String webtoonUrl, String thumbnail, Platform platform) {
         this.title = title;
         this.content = content;
-        this.url = url;
+        this.webtoonUrl = webtoonUrl;
         this.thumbnail = thumbnail;
         this.platform = platform;
         publish();
@@ -64,6 +64,6 @@ public class Webtoon extends BaseEntity {
         this.title = title;
         this.content = content;
         this.thumbnail = thumbnail;
-        this.url = url;
+        this.webtoonUrl = url;
     }
 }
