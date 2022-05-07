@@ -27,7 +27,7 @@ public class CorsConfig implements WebMvcConfigurer {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowedHeaders(List.of(corsProperties.getAllowedHeaders()));
         corsConfig.setAllowedMethods(List.of(corsProperties.getAllowedMethods()));
-        corsConfig.setAllowedOrigins(List.of(corsProperties.getAllowedOrigins()));
+        corsConfig.setAllowedOriginPatterns(List.of(corsProperties.getAllowedOrigins()));
 
         corsConfig.setAllowCredentials(true);
         corsConfig.setMaxAge(corsConfig.getMaxAge());
