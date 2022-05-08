@@ -47,15 +47,24 @@ public class OAuth2SuccessHandler extends
         redisTemplate.opsForValue().set("RT: "+user.getId(), refreshToken,
                 jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
 
-        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:3000/user/signin")
-                .build().toUriString();
+//        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:3000/user/signin")
+//                .build().toUriString();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("http://localhost:3000/user/signin")
+                .append("?status=").append("success")
+                .append("?access=").append(accessToken)
+                .append("?refresh=").append(refreshToken);
+        String targetUrl = sb.toString();
 
         response.setContentType("application/json;charset=UTF-8");
         response.addHeader("Authorization", accessToken);
         response.addHeader("Refresh", refreshToken);
         response.setContentType("application/json;charset=UTF-8");
         response.addCookie(getCookie("accessToken", accessToken));
-        response.sendRedirect("http://localhost:3000/user/signin");
+        response.sendRedirect(targetUrl);
+
+
 
 //        log.info("targetURi : {}", targetUri);
 //        getRedirectStrategy().sendRedirect(request, response, targetUri);
@@ -63,9 +72,10 @@ public class OAuth2SuccessHandler extends
     }
     private Cookie getCookie(String key, String auth) {
         Cookie cookie = new Cookie(key, auth);
+        cookie.setHttpOnly(true);
         cookie.setMaxAge(7 * 24 * 60 * 60);
         cookie.setPath("/");
-//        cookie.setDomain("localhost");
+        cookie.setDomain("localhost");
         return cookie;
     }
 }
