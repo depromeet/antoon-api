@@ -5,6 +5,7 @@ import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.graph.application.TopRankService;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
 import kr.co.antoon.graph.domain.vo.GraphStatus;
+import kr.co.antoon.graph.infrastructure.GraphScoreSnapshotRepository;
 import kr.co.antoon.recommendation.application.RecommendationCountService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonSnapshotService;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,6 +28,7 @@ public class GraphScoreFacade {
     private final WebtoonService webtoonService;
     private final TopRankService rankService;
     private final RecommendationCountService recommendationCountService;
+    private final GraphScoreSnapshotRepository graphScoreSnapshotRepository;
 
     /**
      * 인기순(기준)[외부데이터]
@@ -37,15 +39,13 @@ public class GraphScoreFacade {
     @Transactional
     public void snapshot() {
         var now = LocalDateTime.now();
-        var webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH);
 
+        var webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH);
         var webtoonSnapshotsAboutToday = webtoonSnapshotService.findAllBySnapshopTime(now.toLocalDate());
 
         if (webtoonSnapshotsAboutToday.size() == 0) {
             webtoonSnapshotsAboutToday = webtoonSnapshotService.findAllBySnapshopTime(now.toLocalDate().minusDays(1));
         }
-
-        var webtoonSnapshotsAboutYesterday = graphScoreSnapshotService.findAllBySnapshotTime(now.minusDays(1));
 
         var webtoonSnapshots = webtoonSnapshotsAboutToday.stream()
                 .collect(Collectors.toMap(WebtoonSnapshot::getWebtoonId, ws -> ws));
@@ -67,11 +67,12 @@ public class GraphScoreFacade {
 
                     var graphScore = (discussionScore + recommendationScore + webtoonScore) / 1000;
 
-                    var scoregap = webtoonSnapshotsAboutYesterday.stream()
-                            .filter(wsay -> Objects.equals(webtoonId, wsay.getWebtoonId()))
-                            .findFirst()
-                            .map(wsay -> graphScore - wsay.getGraphScore())
-                            .orElse(webtoonScore);
+                    Optional<GraphScoreSnapshot> graphScoreSnapshots = graphScoreSnapshotRepository.findTop1ByWebtoonIdOrderBySnapshotTimeDesc(webtoonId);
+
+                    var scoregap = graphScore;
+                    if (graphScoreSnapshots.isPresent()) {
+                        scoregap = scoregap - graphScoreSnapshots.get().getGraphScore();
+                    }
 
                     return GraphScoreSnapshot.of(
                             graphScore,
