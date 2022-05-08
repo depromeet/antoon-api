@@ -63,7 +63,7 @@ public class OAuth2SuccessHandler extends
         response.setContentType("application/json;charset=UTF-8");
         response.addCookie(getCookie("accessToken", accessToken));
         response.addCookie(getCookie("refreshToken", refreshToken));
-        response.sendRedirect("targetUrl");
+        response.sendRedirect(targetUrl);
 
 
 //        log.info("targetURi : {}", targetUri);
