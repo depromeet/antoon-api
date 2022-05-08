@@ -47,7 +47,7 @@ public class OAuth2SuccessHandler extends
         redisTemplate.opsForValue().set("RT: "+user.getId(), refreshToken,
                 jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
 
-        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:8080/test")
+        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:3000/user/signin")
                 .build().toUriString();
 
         response.setContentType("application/json;charset=UTF-8");
@@ -65,7 +65,7 @@ public class OAuth2SuccessHandler extends
         Cookie cookie = new Cookie(key, auth);
         cookie.setMaxAge(7 * 24 * 60 * 60);
         cookie.setPath("/");
-        cookie.setDomain("localhost");
+//        cookie.setDomain("localhost");
         return cookie;
     }
 }
