@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface GraphScoreSnapshotRepository extends JpaRepository<GraphScoreSnapshot, Long> {
     List<GraphScoreSnapshot> findAllBySnapshotTime(LocalDateTime time);
+
+    List<GraphScoreSnapshot> findTop9BySnapshotTimeAfterOrderByGraphScoreDescScoreGapDesc(LocalDateTime time);
 }

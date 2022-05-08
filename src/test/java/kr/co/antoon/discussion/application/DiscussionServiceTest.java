@@ -37,7 +37,7 @@ class DiscussionServiceTest {
     public void 종목토론방_댓글_생성하기() {
         // given
         Discussion expected = Discussion.builder()
-                .memberId(MEMBER_ID)
+                .userId(MEMBER_ID)
                 .webtoonId(WEBTOON_ID)
                 .content(CONTENT)
                 .build();
@@ -56,7 +56,7 @@ class DiscussionServiceTest {
     public void 종목토론방_댓글_상세조회() {
         // given
         Discussion expected1 = Discussion.builder()
-                .memberId(MEMBER_ID)
+                .userId(MEMBER_ID)
                 .webtoonId(WEBTOON_ID)
                 .content(CONTENT)
                 .build();
