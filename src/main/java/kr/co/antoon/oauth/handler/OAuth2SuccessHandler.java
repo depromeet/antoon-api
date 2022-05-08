@@ -46,10 +46,18 @@ public class OAuth2SuccessHandler extends
         redisTemplate.opsForValue().set("RT: "+user.getId(), refreshToken,
                 jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
 
-        response.setContentType("text/html;charset=UTF-8");
+        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:3000/user/signin")
+                .build().toUriString();
+
+        response.setContentType("application/json;charset=UTF-8");
         response.addHeader("Authorization", accessToken);
         response.addHeader("Refresh", refreshToken);
 
         response.setContentType("application/json;charset=UTF-8");
+
+        log.info("targetURi : {}", targetUri);
+        getRedirectStrategy().sendRedirect(request, response, targetUri);
+
+
     }
 }
