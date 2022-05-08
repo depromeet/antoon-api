@@ -54,4 +54,9 @@ public class WebtoonService {
         return webtoonRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
     }
+
+    @Transactional(readOnly = true)
+    public List<Webtoon> findWebtoonByGenreAndStatus(String genre, ActiveStatus status) {
+        return webtoonRepository.findByGenreAndStatus(genre, status);
+    }
 }

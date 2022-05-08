@@ -132,4 +132,10 @@ public class SwaggerNote {
                         ],     
             }
             """;
+
+    public static final String WEBTOON_READ_GENRE = """
+            장르별 활성화된 웹툰 조회
+            GET /api/v1/webtoons/genre
+            
+            """;
 }
