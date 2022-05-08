@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -46,18 +47,25 @@ public class OAuth2SuccessHandler extends
         redisTemplate.opsForValue().set("RT: "+user.getId(), refreshToken,
                 jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
 
-        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:3000/user/signin")
+        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:8080/test")
                 .build().toUriString();
 
         response.setContentType("application/json;charset=UTF-8");
         response.addHeader("Authorization", accessToken);
         response.addHeader("Refresh", refreshToken);
-
         response.setContentType("application/json;charset=UTF-8");
+        response.addCookie(getCookie("accessToken", accessToken));
+        response.sendRedirect("http://localhost:3000/user/signin");
 
-        log.info("targetURi : {}", targetUri);
-        getRedirectStrategy().sendRedirect(request, response, targetUri);
+//        log.info("targetURi : {}", targetUri);
+//        getRedirectStrategy().sendRedirect(request, response, targetUri);
 
-
+    }
+    private Cookie getCookie(String key, String auth) {
+        Cookie cookie = new Cookie(key, auth);
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+        cookie.setPath("/");
+        cookie.setDomain("localhost");
+        return cookie;
     }
 }
