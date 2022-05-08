@@ -75,7 +75,7 @@ public class OAuth2SuccessHandler extends
         cookie.setHttpOnly(true);
         cookie.setMaxAge(7 * 24 * 60 * 60);
         cookie.setPath("/");
-        cookie.setDomain("localhost");
+        cookie.setDomain("api.antoon.fun");
         return cookie;
     }
 }
