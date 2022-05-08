@@ -1,9 +1,11 @@
 package kr.co.antoon.graph.facade;
 
+import kr.co.antoon.discussion.application.DiscussionService;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.graph.application.TopRankService;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
 import kr.co.antoon.graph.domain.vo.GraphStatus;
+import kr.co.antoon.recommendation.application.RecommendationCountService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonSnapshotService;
 import kr.co.antoon.webtoon.domain.WebtoonSnapshot;
@@ -21,9 +23,17 @@ import java.util.stream.Collectors;
 public class GraphScoreFacade {
     private final GraphScoreSnapshotService graphScoreSnapshotService;
     private final WebtoonSnapshotService webtoonSnapshotService;
+    private final DiscussionService discussionService;
     private final WebtoonService webtoonService;
     private final TopRankService rankService;
+    private final RecommendationCountService recommendationCountService;
 
+    /**
+     * 인기순(기준)[외부데이터]
+     * 1. 플랫폼 전체 평균 별점(50%)외부데이터 크롤링 - 하루 1번 [내부데이터]
+     * 2. 우리 사이트내 댓글수(20%)
+     * 3. 우리 사이트내 탑승(+)/하차 수(-)(30%)내부데이터 업데이트 - 60분마다
+     **/
     @Transactional
     public void snapshot() {
         var now = LocalDateTime.now();
@@ -43,22 +53,35 @@ public class GraphScoreFacade {
         graphScoreSnapshotService.saveAll(webtoons.stream()
                 .filter(w -> webtoonSnapshots.containsKey(w.getId()))
                 .map(w -> {
-                    var score = webtoonSnapshots.get(w.getId()).getScore();
+                    var webtoonId = w.getId();
 
-                    var gap = webtoonSnapshotsAboutYesterday.stream()
-                            .filter(wsay -> Objects.equals(w.getId(), wsay.getWebtoonId()))
+                    var discussionScore = discussionService.countById(webtoonId) * 1000 / 0.2;
+
+                    var recommendationCount = recommendationCountService.findTop1ByWebtoonIdOrderByCreatedAtDesc(webtoonId);
+                    var recommendationScore = 0.0;
+                    if (recommendationCount.isPresent()) {
+                        recommendationScore = recommendationCount.get().count() * 1000 / 0.3;
+                    }
+
+                    var webtoonScore = webtoonSnapshots.get(webtoonId).getScore() * 1000 / 0.5;
+
+                    var graphScore = (discussionScore + recommendationScore + webtoonScore) / 1000;
+
+                    var scoregap = webtoonSnapshotsAboutYesterday.stream()
+                            .filter(wsay -> Objects.equals(webtoonId, wsay.getWebtoonId()))
                             .findFirst()
-                            .map(wsay -> score - wsay.getGraphScore())
-                            .orElse(score);
-                    
+                            .map(wsay -> graphScore - wsay.getGraphScore())
+                            .orElse(webtoonScore);
+
                     return GraphScoreSnapshot.of(
-                            score,
-                            gap,
-                            w.getId(),
-                            GraphStatus.of(gap)
+                            graphScore,
+                            scoregap,
+                            webtoonId,
+                            GraphStatus.of(scoregap)
                     );
                 }).toList());
 
-        rankService.saveAll(graphScoreSnapshotService.findTop9BySnapshotTimeAfter(now));
+        var graphScoreSnapshots = graphScoreSnapshotService.findTop9BySnapshotTimeAfter(now);
+        rankService.saveAll(graphScoreSnapshots);
     }
 }

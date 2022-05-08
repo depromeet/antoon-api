@@ -57,4 +57,9 @@ public class DiscussionService {
     public long count() {
         return discussionRepository.count();
     }
+
+    @Transactional(readOnly = true)
+    public long countById(Long webtoonId) {
+        return discussionRepository.countByWebtoonId(webtoonId);
+    }
 }

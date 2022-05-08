@@ -28,4 +28,9 @@ public class RecommendationCountService {
                 )
         );
     }
+
+    @Transactional(readOnly = true)
+    public Optional<RecommendationCount> findTop1ByWebtoonIdOrderByCreatedAtDesc(Long webtoonId) {
+        return recommendationCountRepository.findTop1ByWebtoonIdOrderByIdDesc(webtoonId);
+    }
 }
