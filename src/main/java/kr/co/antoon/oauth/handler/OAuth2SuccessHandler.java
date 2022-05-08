@@ -50,20 +50,14 @@ public class OAuth2SuccessHandler extends
 //        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:3000/user/signin")
 //                .build().toUriString();
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("http://localhost:3000/user/signin")
-                .append("?status=").append("success")
-                .append("?access=").append(accessToken)
-                .append("?refresh=").append(refreshToken);
-        String targetUrl = sb.toString();
 
         response.setContentType("application/json;charset=UTF-8");
         response.addHeader("Authorization", accessToken);
         response.addHeader("Refresh", refreshToken);
         response.setContentType("application/json;charset=UTF-8");
         response.addCookie(getCookie("accessToken", accessToken));
-        response.sendRedirect(targetUrl);
-
+        response.addCookie(getCookie("refreshToken", refreshToken));
+        response.sendRedirect("http://localhost:3000/user/signin");
 
 
 //        log.info("targetURi : {}", targetUri);
