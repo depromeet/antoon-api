@@ -52,9 +52,7 @@ public class OAuth2SuccessHandler extends
 
         StringBuilder sb = new StringBuilder();
         sb.append("http://localhost:3000/user/signin")
-                .append("?status=").append("success")
-                .append("?access=").append(accessToken)
-                .append("?refresh=").append(refreshToken);
+                .append("?status=").append("success");
         String targetUrl = sb.toString();
 
         response.setContentType("application/json;charset=UTF-8");
