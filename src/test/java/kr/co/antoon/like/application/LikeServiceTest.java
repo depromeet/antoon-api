@@ -37,7 +37,7 @@ public class LikeServiceTest {
     void createLike() {
         // given
         Discussion mockDiscussion = Discussion.builder()
-                .memberId(MEMBER_ID)
+                .userId(MEMBER_ID)
                 .webtoonId(WEBTOON_ID)
                 .content(CONTENT)
                 .build();
@@ -58,7 +58,7 @@ public class LikeServiceTest {
     void updateLike() {
         // given
         Discussion mockDiscussion = Discussion.builder()
-                .memberId(MEMBER_ID)
+                .userId(MEMBER_ID)
                 .webtoonId(WEBTOON_ID)
                 .content(CONTENT)
                 .build();

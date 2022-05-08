@@ -28,10 +28,10 @@ public class Discussion extends BaseEntity {
     private int likeCount = 0;
 
     @Builder
-    public Discussion(String content, Long webtoonId, Long memberId) {
+    public Discussion(String content, Long webtoonId, Long userId) {
         this.content = content;
         this.webtoonId = webtoonId;
-        this.userId = memberId;
+        this.userId = userId;
     }
 
     public void update(String content) {
