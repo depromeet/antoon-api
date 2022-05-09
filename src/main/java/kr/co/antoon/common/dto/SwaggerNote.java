@@ -142,7 +142,26 @@ public class SwaggerNote {
 
     public static final String WEBTOON_READ_GENRE = """
             장르별 활성화된 웹툰 조회
-            GET /api/v1/webtoons/genre
+            GET /api/v1/webtoons/genres?genre={genre}
             
+            Response Body
+            {
+              "webtoons": [
+                {
+                  "id": 864,
+                  "title": "아빠같은 남자",
+                  "content": "“마음에 드실거예요. 아빠같은 남자거든요.” 사이코패스 성격을 숨기고 살아가는 로펌대표 묘인준은 자신의 본성을 잘 감춘 채 재력과 권력, 그리고 겉보기에 화목한 가정까지 모든 걸 갖추고 살아가고 있다. 어느 날 끔찍히 사랑하는 외동딸 수진이 아버지 묘인준에게 결혼할 남자(정이현)를 소개하게 되는데, 묘인준은 그 순간 딸의 남자가 자신과 같은 부류의 인간임을 알아본다. 자신이 이룬 모든 것의 상징과도 같은 딸을 향해 접근하는 것은 물론, 여러 의심스러운 상황에서 계속 마주치게 되는 정이현... 묘인준은 그에게 딸을 뺏길 수 없다는 생각을 하게 되지만, 자신의 두 얼굴을 들키지 않으면서 딸을 지키기란 쉽지 않다. 거기에 더해 자신과 자신의 회사 법무법인 노블의 주변에서는 끊임없이 잡음이 들려오기 시작하고, 묘인준의 내재된 본성이 서서히 모습을 드러내며 상황은 점점 복잡해진다.",
+                  "webtoonUrl": "https://comic.naver.com/webtoon/list?titleId=774451&weekday=thu",
+                  "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/774451/thumbnail/thumbnail_IMAG04_4f6a1d0e-7e60-49d3-b94d-5c5da04d7ea4.jpg",
+                  "platform": "NAVER"
+                },
+                {
+                  "id": 918,
+                  "title": "그 기사가 레이디로 사는 법",
+                  "content": "가장 가까운 친우이자 믿었던 부관의 검이 내 몸을 관통했다. 다시 눈을 떴을 땐 적국의 귀족 레이디가 되어있었다. 낯설고 연약한 타인의 몸과 잃어버린 3년의 세월, 그 사이에 망해버린 나의 조국. 배신의 아픔과 정체성의 혼란으로 정신을 차릴 수가 없었다. 그러나 나는 결국 살아가기로 했다. 루시펠라 아이딘으로써, 검을 든 귀족 레이디로서.",
+                  "webtoonUrl": "https://comic.naver.com/webtoon/list?titleId=758675&weekday=fri",
+                  "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/758675/thumbnail/thumbnail_IMAG04_184211aa-efb6-4b40-9f2d-986e05a08247.jpg",
+                  "platform": "NAVER"
+                } 
             """;
 }

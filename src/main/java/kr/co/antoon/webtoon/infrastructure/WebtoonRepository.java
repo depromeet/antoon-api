@@ -2,6 +2,7 @@ package kr.co.antoon.webtoon.infrastructure;
 
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,9 +23,13 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
             select w.* 
             from webtoon w 
             join webtoon_genre g 
-            on w.id = g.id 
+            on w.id = g.id
+            join graph_score_snapshot s
+            on w.id = s.webtoon_id
             and w.status like %:status% 
-            and g.genre like %:genre% 
-            """, nativeQuery = true)
-    List<Webtoon> findByGenreAndStatus(@Param("genre") String genre, @Param("status") ActiveStatus status);
+            and g.genre_category like %:genre%
+            order by s.score_gap desc
+            """,
+            nativeQuery = true)
+    List<Webtoon> findByGenreAndStatus(@Param("genre") String genre, @Param("status") ActiveStatus status, Pageable pageable);
 }

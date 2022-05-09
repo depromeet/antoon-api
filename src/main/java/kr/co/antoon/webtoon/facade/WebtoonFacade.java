@@ -4,15 +4,14 @@ import kr.co.antoon.webtoon.application.WebtoonGenreService;
 import kr.co.antoon.webtoon.application.WebtoonPublishDayService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonWriterService;
-import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,9 +33,9 @@ public class WebtoonFacade {
     }
 
     @Transactional(readOnly = true)
-    public WebtoonGenreResponse getWebtoonsGenreAndStatus(String genre, ActiveStatus status) {
-        var webtoons = webtoonService.findWebtoonByGenreAndStatus(genre, status);
-        return new WebtoonGenreResponse(
+    public WebtoonGenreResponse getWebtoonsGenreAndStatus(Pageable pageable, String genre) {
+        var webtoons = webtoonService.findWebtoonByGenreAndStatus(pageable, genre, ActiveStatus.PUBLISH);
+        return  new WebtoonGenreResponse(
                 webtoons.stream()
                         .map(WebtoonGenreResponse.WebtoonDetail::new)
                         .collect(Collectors.toList())
