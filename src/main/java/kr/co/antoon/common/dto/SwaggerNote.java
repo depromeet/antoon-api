@@ -103,7 +103,14 @@ public class SwaggerNote {
                 "platform" : NAVER // 웹툰 플랫폼(NAVER, KAKAO)
             }
             """;
-
+              
+    public final static String DISCUSSION_LIKE_CREATE_NOTE = """
+            종목토론방에 댓글 삭제
+            PUT /api/v1/webtoons/discussions/{discussionId}/likes
+                        
+            Response Body
+            None
+            """;
 
     public final static String USER_READ_DETAIL = """
             사용자 마이페이지 조회

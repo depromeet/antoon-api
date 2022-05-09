@@ -18,10 +18,10 @@ public class DiscussionService {
     private final DiscussionRepository discussionRepository;
 
     @Transactional
-    public Discussion save(Long memberId, Long webtoonId, String content) {
+    public Discussion save(Long userId, Long webtoonId, String content) {
         return discussionRepository.save(
                 Discussion.builder()
-                        .memberId(memberId)
+                        .userId(userId)
                         .webtoonId(webtoonId)
                         .content(content)
                         .build()
