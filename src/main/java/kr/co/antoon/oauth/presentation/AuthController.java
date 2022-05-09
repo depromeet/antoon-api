@@ -3,6 +3,7 @@ package kr.co.antoon.oauth.presentation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.ResponseDto;
+import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.application.AuthService;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.TokenResponse;
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthController {
     private final AuthService authService;
 
-    @ApiOperation(value = "refresh token API")
+    @ApiOperation(value = "refresh token API", notes = SwaggerNote.AUTH_RFRESH)
     @PostMapping("/refresh")
     public ResponseEntity<TokenResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         String refresh = request.getHeader("Refresh");

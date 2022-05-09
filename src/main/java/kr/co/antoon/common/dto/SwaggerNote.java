@@ -139,4 +139,29 @@ public class SwaggerNote {
                         ],     
             }
             """;
+
+    public final static String AUTH_RFRESH = """
+            토큰 재발급
+            POST /api/v1/auth/refresh
+            (헤더에 리프레시 토큰을 "Refresh"로 추가해서 api 요청해주세요!)
+            
+            Response Body
+            {
+                 "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2NTczMTI2MjZ9.oapnD4a2jvO4WqLprv4-1FeVpx3dWgNCDUtnrZT7-JA",
+                 "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjU3MzEyNjI2fQ.iDsaEI9JN3YYEdsaUhP-EQJBhaz4llO-wNo8kpDhgGk"
+             }
+            """;
+
+    public final static String AUTH_LOGOUT = """
+            로그아웃
+            POST /api/v1/auth/logout
+            (헤더에 리프레시 토큰을 "Refresh"로 추가해서 api 요청해주세요!)
+            
+            Request Header
+            {
+                 "Authorization": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2NTczMTI2MjZ9.oapnD4a2jvO4WqLprv4-1FeVpx3dWgNCDUtnrZT7-JA",
+                 "Refresh": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjU3MzEyNjI2fQ.iDsaEI9JN3YYEdsaUhP-EQJBhaz4llO-wNo8kpDhgGk"
+            }
+                      
+            """;
 }
