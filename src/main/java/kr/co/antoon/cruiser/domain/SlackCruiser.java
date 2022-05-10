@@ -15,7 +15,7 @@ public class SlackCruiser implements Cruiser {
 
     @Override
     public void send(String content) {
-        String url = slackCruiserProperties.getWebhookUri();
+        var url = slackCruiserProperties.getWebhookUri();
         var message = new SlackCruiserRequest(content);
 
         var response = new RestTemplate()
