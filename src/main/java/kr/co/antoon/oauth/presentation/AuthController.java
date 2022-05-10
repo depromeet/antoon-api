@@ -8,16 +8,15 @@ import kr.co.antoon.oauth.application.AuthService;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Slf4j
 @Api(tags = "Auth API")
 @RestController
 @RequiredArgsConstructor
@@ -27,17 +26,16 @@ public class AuthController {
 
     @ApiOperation(value = "refresh token API", notes = SwaggerNote.AUTH_RFRESH)
     @PostMapping("/refresh")
-    public ResponseEntity<TokenResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) {
-        String refresh = request.getHeader("Refresh");
-        return ResponseDto.ok(authService.refresh(refresh));
+    public ResponseEntity<TokenResponse> refreshToken(@RequestHeader(value = "Refresh") String refreshToken) {
+        return ResponseDto.ok(authService.refresh(refreshToken));
     }
 
     @ApiOperation(value = "logout", notes = SwaggerNote.AUTH_LOGOUT)
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(HttpServletRequest request) {
-        String access = request.getHeader("Authorization").substring(7);
-        String refresh = request.getHeader("Refresh");
-        authService.revokeToken(access, refresh);
+    public ResponseEntity<Void> logout(@RequestHeader(value = "Authorization") String access,
+                                       @RequestHeader(value = "Refresh") String refreshToken) {
+        String accessToken = access.substring(7);
+        authService.revokeToken(accessToken, refreshToken);
         return ResponseDto.noContent();
     }
 
