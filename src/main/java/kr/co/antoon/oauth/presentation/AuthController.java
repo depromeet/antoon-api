@@ -32,7 +32,7 @@ public class AuthController {
         return ResponseDto.ok(authService.refresh(refresh));
     }
 
-    @ApiOperation(value = "logout")
+    @ApiOperation(value = "logout", notes = SwaggerNote.AUTH_LOGOUT)
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         String access = request.getHeader("Authorization").substring(7);

@@ -47,8 +47,6 @@ public class OAuth2SuccessHandler extends
         redisTemplate.opsForValue().set("RT: "+user.getId(), refreshToken,
                 jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
 
-//        String targetUri = UriComponentsBuilder.fromUriString("http://localhost:3000/user/signin")
-//                .build().toUriString();
 
         StringBuilder sb = new StringBuilder();
         sb.append("http://localhost:3000/user/signin")
@@ -64,8 +62,8 @@ public class OAuth2SuccessHandler extends
         response.sendRedirect(targetUrl);
 
 
-//        log.info("targetURi : {}", targetUri);
-//        getRedirectStrategy().sendRedirect(request, response, targetUri);
+        log.info("access : {}", accessToken);
+        log.info("refresh : {}", refreshToken);
 
     }
     private Cookie getCookie(String key, String auth) {
