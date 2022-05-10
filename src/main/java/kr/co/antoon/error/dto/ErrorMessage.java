@@ -14,7 +14,8 @@ public enum ErrorMessage {
     NOT_EXISTS_WEBTOON_PLATFORM_TYPE_ERROR("존재하지 않는 웹툰 플랫폼입니다."),
     ALREADY_JOINED_ERROR("이미 탑승 중입니다."),
     ALREADY_LEAVED_ERROR("이미 하차 중입니다"),
-    NOT_VALIDATE_TOKEN("유효하지 않은 토큰입니다.")
+    NOT_VALIDATE_TOKEN("유효하지 않은 토큰입니다."),
+    NOT_EXISTS_RECOMMENDATION_COUNT("존재하지 않는 상하차 정보입니다."),
     ;
 
     private final String description;

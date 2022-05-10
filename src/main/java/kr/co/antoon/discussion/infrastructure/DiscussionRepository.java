@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DiscussionRepository extends JpaRepository<Discussion, Long> {
+    long countByWebtoonId(Long webtoonId);
 }
