@@ -65,7 +65,7 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                                         day
                                 )
                         );
-                        log.info("[Kakao Webtoon Crawling] title-> {} / url -> {}", title, url);
+                        log.info("[Kakao Webtoon Crawling] title-> {} / score -> {}", title, score);
                     });
                 }
             }
@@ -118,7 +118,6 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
             case "3위" -> score = "9.98";
             case "4위" -> score = "9.97";
             case "5위" -> score = "9.96";
-            default -> score = "0.0";
         }
         return score;
     }
