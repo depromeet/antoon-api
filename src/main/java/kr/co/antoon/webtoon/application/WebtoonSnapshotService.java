@@ -15,6 +15,11 @@ public class WebtoonSnapshotService {
     private final WebtoonSnapshotRepository webtoonSnapshotRepository;
 
     @Transactional
+    public void saveAll(List<WebtoonSnapshot> webtoonSnapshots) {
+        webtoonSnapshotRepository.saveAll(webtoonSnapshots);
+    }
+
+    @Transactional
     public void save(Double score, Long webtoonId) {
         var webtoonSnapshot = new WebtoonSnapshot(score, webtoonId);
         webtoonSnapshotRepository.save(webtoonSnapshot);
