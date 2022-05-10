@@ -40,8 +40,8 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                     innerElements.forEach(innerElement -> {
                         var title = innerElement.select("h2.text-ellipsis.css-jgjrt").text();
                         var dayInfoBox = Objects.requireNonNull(innerElement.select("div.css-ymlwac").first()).child(1).text().split("\\|");
-                        var day = dayInfoBox[0].substring(0,1);
-                        var writer = Objects.requireNonNull(innerElement.select("div.css-ymlwac").first()).child(2).text().split(",");
+                        var day = dayInfoBox[0].substring(0, 1);
+                        var writer = Objects.requireNonNull(innerElement.select("div.css-ymlwac").first()).child(2).text();
                         var content = "";
                         var genre = "";
                         var genres = new ArrayList<String>();
