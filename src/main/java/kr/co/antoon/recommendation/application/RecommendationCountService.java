@@ -14,15 +14,14 @@ public class RecommendationCountService {
     private final RecommendationCountRepository recommendationCountRepository;
 
     @Transactional(readOnly = true)
-    public Optional<RecommendationCount> findByUserIdAndWebtoonId(Long userId, Long webtoonId) {
-        return recommendationCountRepository.findByUserIdAndWebtoonId(userId, webtoonId);
+    public Optional<RecommendationCount> findByWebtoonId(Long webtoonId) {
+        return recommendationCountRepository.findByWebtoonId(webtoonId);
     }
 
     @Transactional
-    public RecommendationCount save(Long userId, Long webtoonId, int joinCount) {
+    public RecommendationCount save(Long webtoonId, int joinCount) {
         return recommendationCountRepository.save(
                 new RecommendationCount(
-                        userId,
                         webtoonId,
                         joinCount
                 )
