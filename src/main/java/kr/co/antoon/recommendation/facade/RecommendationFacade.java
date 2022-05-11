@@ -15,7 +15,6 @@ import javax.transaction.Transactional;
 @Component
 @RequiredArgsConstructor
 public class RecommendationFacade {
-    private final WebtoonService webtoonService;
     private final RecommendationService recommendationService;
     private final RecommendationCountService recommendationCountService;
 
@@ -26,12 +25,12 @@ public class RecommendationFacade {
         }
         recommendationService.save(webtoonId, userId, RecommendationStatus.JOINED);
 
-        RecommendationCount recommendationCount = recommendationCountService.findByUserIdAndWebtoonId(userId, webtoonId).orElse(null);
+        RecommendationCount recommendationCount = recommendationCountService.findByWebtoonId(webtoonId).orElse(null);
         if (recommendationCount != null) {
             int joinCount = recommendationCount.getJoinCount();
             recommendationCount.plusJoinCount(joinCount++);
         } else {
-            recommendationCountService.save(userId, webtoonId, 1);
+            recommendationCountService.save(webtoonId, 1);
         }
     }
 
@@ -43,12 +42,12 @@ public class RecommendationFacade {
 
         recommendationService.save(webtoonId, userId, RecommendationStatus.LEAVED);
 
-        RecommendationCount recommendationCount = recommendationCountService.findByUserIdAndWebtoonId(userId, webtoonId).orElse(null);
+        RecommendationCount recommendationCount = recommendationCountService.findByWebtoonId(webtoonId).orElse(null);
         if (recommendationCount != null) {
             int leaveCount = recommendationCount.getLeaveCount();
             recommendationCount.plusLeaveCount(leaveCount++);
         } else {
-            recommendationCountService.save(userId, webtoonId, 1);
+            recommendationCountService.save(webtoonId, 1);
         }
     }
 
@@ -56,16 +55,14 @@ public class RecommendationFacade {
     public void changeAllStatus() {
         recommendationService.findAllByStatus(RecommendationStatus.JOINED).forEach(recommendation -> {
             recommendation.updateRecommendationStatus(RecommendationStatus.JOIN);
-            RecommendationCount recommendationCount = recommendationCountService.findByUserIdAndWebtoonId(
-                    recommendation.getUserId(),
+            RecommendationCount recommendationCount = recommendationCountService.findByWebtoonId(
                     recommendation.getWebtoonId()).orElse(null);
             recommendationCount.minusJoinCount(recommendationCount.getJoinCount() - 1);
         });
 
         recommendationService.findAllByStatus(RecommendationStatus.LEAVED).forEach(recommendation -> {
             recommendation.updateRecommendationStatus(RecommendationStatus.LEAVE);
-            RecommendationCount recommendationCount = recommendationCountService.findByUserIdAndWebtoonId(
-                    recommendation.getUserId(),
+            RecommendationCount recommendationCount = recommendationCountService.findByWebtoonId(
                     recommendation.getWebtoonId()).orElse(null);
             recommendationCount.minusLeaveCount(recommendationCount.getLeaveCount() - 1);
         });

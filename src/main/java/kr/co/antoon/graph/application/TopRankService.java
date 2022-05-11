@@ -23,7 +23,7 @@ public class TopRankService {
                         .mapToObj(g -> TopRank.builder()
                                 .ranking(g + 1)
                                 .graphScoreSnapshotId(graphScoreSnapshots.get(g).getId())
-                                .reason(RankReason.VERSION_1)
+                                .reason(RankReason.TOTAL_SCORE)
                                 .webtoonId(graphScoreSnapshots.get(g).getWebtoonId())
                                 .build()
                         ).collect(Collectors.toList()));

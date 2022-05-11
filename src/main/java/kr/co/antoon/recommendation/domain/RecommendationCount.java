@@ -1,5 +1,6 @@
 package kr.co.antoon.recommendation.domain;
 
+import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import javax.persistence.Id;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RecommendationCount {
+public class RecommendationCount extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,15 +22,12 @@ public class RecommendationCount {
 
     private Long webtoonId;
 
-    private Long userId;
-
     private int joinCount = 0;
 
     private int leaveCount = 0;
 
     @Builder
-    public RecommendationCount(Long userId, Long webtoonId, int joinUserCount) {
-        this.userId = userId;
+    public RecommendationCount(Long webtoonId, int joinUserCount) {
         this.webtoonId = webtoonId;
         this.joinCount = joinUserCount;
     }
@@ -48,5 +46,9 @@ public class RecommendationCount {
 
     public void minusLeaveCount(int leaveCount) {
         this.leaveCount = leaveCount;
+    }
+
+    public int count() {
+        return joinCount - leaveCount;
     }
 }

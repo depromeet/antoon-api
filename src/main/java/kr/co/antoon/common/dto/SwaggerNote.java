@@ -164,4 +164,38 @@ public class SwaggerNote {
                   "platform": "NAVER"
                 } 
             """;
+
+    public final static String WEBTOON_DAY_READ_NOTE = """
+            웹툰 요일별 조회
+            GET /api/v1/webtoons/days?day={day}
+            
+            Response Body
+            {
+                "data": [
+                            {
+                                "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/783053/thumbnail/thumbnail_IMAG04_77f75c21-cdcc-4d23-bc00-1ff829d0a209.jpg",
+                                "title": "김부장",
+                                "writers": [
+                                      "박태준 만화회사",
+                                      "정종택"
+                                ],
+                                "day": "화"
+                            },
+                            {
+                                "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/703846/thumbnail/thumbnail_IMAG04_ba579f29-bb71-4003-8e07-0a0418c7b32b.jpg",
+                                "title": "여신강림",
+                                "writers": [
+                                      "야옹이"
+                                ],
+                                "day": "화"
+                            }, ...
+                        ],
+                "page": 0,
+                "size": 12,
+                "totalPages": 1,
+                "totalElements": 1,
+                "firstPage": true,
+                "lastPage": true
+            }
+            """;
 }

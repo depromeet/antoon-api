@@ -3,6 +3,7 @@ package kr.co.antoon.webtoon.application;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.webtoon.domain.Webtoon;
+import kr.co.antoon.webtoon.domain.WebtoonPublishDay;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.infrastructure.WebtoonRepository;
@@ -55,6 +56,11 @@ public class WebtoonService {
     public Webtoon findById(Long id) {
         return webtoonRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
+    }
+
+    @Transactional(readOnly = true)
+    public long countByStatus(ActiveStatus status) {
+        return webtoonRepository.countByStatus(status);
     }
 
     @Transactional(readOnly = true)

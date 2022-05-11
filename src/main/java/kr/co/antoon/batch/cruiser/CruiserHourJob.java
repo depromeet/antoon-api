@@ -12,6 +12,7 @@ public class CruiserHourJob {
     private final CruiserFacade cruiserFacade;
 
     public void run() {
-        cruiser.send(cruiserFacade.countingData());
+        var message = cruiserFacade.sendStatistics();
+        cruiser.send(message);
     }
 }

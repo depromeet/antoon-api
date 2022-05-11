@@ -32,4 +32,6 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
             """,
             nativeQuery = true)
     List<Webtoon> findByGenreAndStatus(@Param("genre") String genre, @Param("status") ActiveStatus status, Pageable pageable);
+
+    long countByStatus(ActiveStatus status);
 }
