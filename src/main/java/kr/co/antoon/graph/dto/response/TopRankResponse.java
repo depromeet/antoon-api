@@ -1,4 +1,4 @@
-package kr.co.antoon.graph.dto;
+package kr.co.antoon.graph.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import kr.co.antoon.webtoon.domain.Webtoon;
