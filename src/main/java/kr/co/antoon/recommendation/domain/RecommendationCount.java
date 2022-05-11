@@ -22,15 +22,12 @@ public class RecommendationCount extends BaseEntity {
 
     private Long webtoonId;
 
-    private Long userId;
-
     private int joinCount = 0;
 
     private int leaveCount = 0;
 
     @Builder
-    public RecommendationCount(Long userId, Long webtoonId, int joinUserCount) {
-        this.userId = userId;
+    public RecommendationCount(Long webtoonId, int joinUserCount) {
         this.webtoonId = webtoonId;
         this.joinCount = joinUserCount;
     }
