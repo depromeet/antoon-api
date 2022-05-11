@@ -2,6 +2,7 @@ package kr.co.antoon.oauth.application;
 
 import kr.co.antoon.oauth.dto.OAuth2Attribute;
 import kr.co.antoon.user.domain.User;
+import kr.co.antoon.user.domain.vo.Gender;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +56,32 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .map(entity -> entity.update(attributes.getName(),
                         attributes.getImageUrl()))
                 .orElse(attributes.toEntity());
+
         user.updateAge(0);
+        user.updateGender(Gender.NONE);
+
+        log.info("attributes : {}", attributes);
+
+        String age = attributes.getAgeRange();
+        if(age!=null) {
+            int ageRange = Integer.parseInt(age.split("~")[0]);
+            user.updateAge(ageRange);
+        }
+
+        String gender = attributes.getGender();
+        if(gender!=null) {
+            switch (gender) {
+                case "female":
+                    user.updateGender(Gender.FEMALE);
+                    break;
+                case "male":
+                    user.updateGender(Gender.MALE);
+                    break;
+                default:
+                    user.updateGender(Gender.NONE);
+            }
+        }
+
         userRepository.save(user);
     }
 }

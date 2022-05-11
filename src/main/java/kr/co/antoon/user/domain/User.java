@@ -60,4 +60,8 @@ public class User extends BaseEntity {
     public void updateAge(Integer age) {
         this.age = age;
     }
+
+    public void updateGender(Gender gender) {
+        this.gender = gender;
+    }
 }
