@@ -22,9 +22,9 @@ public class GraphScoreSnapshot extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double graphScore;
+    private int graphScore;
 
-    private Double scoreGap;
+    private int scoreGap;
 
     private Long webtoonId;
 
@@ -33,7 +33,7 @@ public class GraphScoreSnapshot extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private GraphStatus status;
 
-    public GraphScoreSnapshot(Double graphScore, Double scoreGap, Long webtoonId, GraphStatus graphStatus) {
+    public GraphScoreSnapshot(int graphScore, int scoreGap, Long webtoonId, GraphStatus graphStatus) {
         this.graphScore = graphScore;
         this.scoreGap = scoreGap;
         this.webtoonId = webtoonId;
@@ -41,11 +41,13 @@ public class GraphScoreSnapshot extends BaseEntity {
         this.status = graphStatus;
     }
 
-    public static GraphScoreSnapshot of(Double graphScore, Double scoreGap, Long webtoonId, GraphStatus graphStatus) {
+    public static GraphScoreSnapshot of(int graphScore, int scoreGap, Long webtoonId, GraphStatus graphStatus) {
         return switch (graphStatus) {
             case UP -> new GraphScoreSnapshot(graphScore, scoreGap, webtoonId, GraphStatus.UP);
             case DOWN -> new GraphScoreSnapshot(graphScore, scoreGap, webtoonId, GraphStatus.DOWN);
             default -> new GraphScoreSnapshot(graphScore, scoreGap, webtoonId, GraphStatus.MAINTAIN);
         };
     }
+
+
 }
