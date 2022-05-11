@@ -55,4 +55,9 @@ public class WebtoonService {
         return webtoonRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
     }
+
+    @Transactional(readOnly = true)
+    public long countByStatus(ActiveStatus status) {
+        return webtoonRepository.countByStatus(status);
+    }
 }

@@ -15,4 +15,6 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
      * 검색 조회를 위한 Query
      **/
     List<Webtoon> findAllByTitleContainingIgnoreCase(String title);
+
+    long countByStatus(ActiveStatus status);
 }

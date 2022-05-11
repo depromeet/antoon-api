@@ -40,8 +40,8 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                     innerElements.forEach(innerElement -> {
                         var title = innerElement.select("h2.text-ellipsis.css-jgjrt").text();
                         var dayInfoBox = Objects.requireNonNull(innerElement.select("div.css-ymlwac").first()).child(1).text().split("\\|");
-                        var day = dayInfoBox[0].substring(0,1);
-                        var writer = Objects.requireNonNull(innerElement.select("div.css-ymlwac").first()).child(2).text().split(",");
+                        var day = dayInfoBox[0].substring(0, 1);
+                        var writer = Objects.requireNonNull(innerElement.select("div.css-ymlwac").first()).child(2).text();
                         var content = "";
                         var genre = "";
                         var genres = new ArrayList<String>();
@@ -65,7 +65,7 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                                         day
                                 )
                         );
-                        log.info("[Kakao Webtoon Crawling] title-> {} / url -> {}", title, url);
+                        log.info("[Kakao Webtoon Crawling] title-> {} / score -> {}", title, score);
                     });
                 }
             }
@@ -118,7 +118,6 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
             case "3위" -> score = "9.98";
             case "4위" -> score = "9.97";
             case "5위" -> score = "9.96";
-            default -> score = "0.0";
         }
         return score;
     }

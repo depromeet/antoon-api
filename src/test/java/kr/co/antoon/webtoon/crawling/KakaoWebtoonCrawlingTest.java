@@ -12,6 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -52,8 +54,8 @@ public class KakaoWebtoonCrawlingTest {
                     innerElements.forEach(innerElement -> {
                     var title = innerElement.select("h2.text-ellipsis.css-jgjrt").text();
                     var dayInfoBox = innerElement.select("div.css-ymlwac").first().child(1).text().split("\\|");
-                    var day = dayInfoBox[0].substring(0,1);
-                    var writer = innerElement.select("div.css-ymlwac").first().child(2).text().split(",");
+                    var day = dayInfoBox[0].substring(0, 1);
+                    var writer = Objects.requireNonNull(innerElement.select("div.css-ymlwac").first()).child(2).text();
 
                     var eachUrlArr = url.split("=");
                     var seriesId = eachUrlArr[eachUrlArr.length - 1];
@@ -70,9 +72,10 @@ public class KakaoWebtoonCrawlingTest {
                     }
                     log.info("============= [Kakao Webtoon Crawling] ===============");
                     log.info("title = {}", title);
-                    log.info("content = {}", content);
+                    // log.info("content = {}", content);
                     log.info("url = {}", url);
                     log.info("thumbnail = {}", thumbnail);
+                    log.info("writer = {}", List.of(writer));
                     log.info("genre = {}", genre);
                     log.info("score = {}", score);
                     log.info("day = {}", day);

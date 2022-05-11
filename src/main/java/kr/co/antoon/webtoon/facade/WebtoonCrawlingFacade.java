@@ -8,15 +8,17 @@ import kr.co.antoon.webtoon.application.WebtoonWriterService;
 import kr.co.antoon.webtoon.crawling.WebtoonCrawlingFactory;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.WebtoonGenre;
+import kr.co.antoon.webtoon.domain.WebtoonPublishDay;
+import kr.co.antoon.webtoon.domain.WebtoonSnapshot;
 import kr.co.antoon.webtoon.domain.WebtoonWriter;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.domain.vo.Platform;
-import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,51 +36,54 @@ public class WebtoonCrawlingFacade {
                 .stream()
                 .collect(Collectors.toMap(Webtoon::getTitle, ws -> ws, (p1, p2) -> p1));
 
+        List<WebtoonPublishDay> webtoonPublishDays = new ArrayList<>();
+        List<WebtoonSnapshot> webtoonSnapshots = new ArrayList<>();
+        List<WebtoonWriter> webtoonWriters = new ArrayList<>();
+        List<WebtoonGenre> webtoonGenres = new ArrayList<>();
+
         WebtoonCrawlingFactory.of(platform)
                 .crawling()
                 .webtoons()
-                .stream()
-                .filter(crawlingWebtton -> isNotUpdated(existsWebtoons, crawlingWebtton))
                 .forEach(crawlingWebtton -> {
-                    Long webtoonId = webtoonService.save(
-                            Webtoon.builder()
-                                    .title(crawlingWebtton.title())
-                                    .content(crawlingWebtton.content())
-                                    .webtoonUrl(crawlingWebtton.url())
-                                    .thumbnail(crawlingWebtton.thumbnail())
-                                    .platform(platform)
-                                    .build()
-                    );
+                    Long webtoonId;
 
-                    webtoonWriterService.saveAll(crawlingWebtton.writer()
-                            .stream()
-                            .map(writer -> new WebtoonWriter(writer, webtoonId))
-                            .collect(Collectors.toList()));
+                    if (existsWebtoons.containsKey(crawlingWebtton.title())) {
+                        Webtoon webtoon = existsWebtoons.get(crawlingWebtton.title());
+                        webtoon.update(
+                                crawlingWebtton.title(),
+                                crawlingWebtton.content(),
+                                crawlingWebtton.thumbnail(),
+                                crawlingWebtton.url()
+                        );
+                        webtoonId = webtoon.getId();
+                    } else {
+                        webtoonId = webtoonService.save(
+                                Webtoon.builder()
+                                        .title(crawlingWebtton.title())
+                                        .content(crawlingWebtton.content())
+                                        .webtoonUrl(crawlingWebtton.url())
+                                        .thumbnail(crawlingWebtton.thumbnail())
+                                        .platform(platform)
+                                        .build()
+                        );
 
-                    webtoonGenreService.saveAll(crawlingWebtton.genre()
-                            .stream()
-                            .map(genre -> new WebtoonGenre(GenreCategory.of(genre), webtoonId))
-                            .collect(Collectors.toList()));
+                        crawlingWebtton.writer().forEach(writer ->
+                                webtoonWriters.add(new WebtoonWriter(writer, webtoonId))
+                        );
 
-                    webtoonPublishDayService.save(crawlingWebtton.day(), webtoonId);
-                    webtoonSnapshotService.save(crawlingWebtton.score(), webtoonId);
+                        crawlingWebtton.genre().forEach(genre ->
+                                webtoonGenres.add(new WebtoonGenre(GenreCategory.of(genre), webtoonId))
+                        );
+
+                        webtoonPublishDays.add(new WebtoonPublishDay(crawlingWebtton.day(), webtoonId));
+                    }
+
+                    webtoonSnapshots.add(new WebtoonSnapshot(crawlingWebtton.score(), webtoonId));
                 });
-    }
 
-    private boolean isNotUpdated(
-            Map<String, Webtoon> webtoons,
-            WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton
-    ) {
-        if (webtoons.containsKey(crawlingWebtton.title())) {
-            webtoons.get(crawlingWebtton.title())
-                    .update(
-                            crawlingWebtton.title(),
-                            crawlingWebtton.content(),
-                            crawlingWebtton.thumbnail(),
-                            crawlingWebtton.url()
-                    );
-            return false;
-        }
-        return true;
+        webtoonGenreService.saveAll(webtoonGenres);
+        webtoonWriterService.saveAll(webtoonWriters);
+        webtoonPublishDayService.saveAll(webtoonPublishDays);
+        webtoonSnapshotService.saveAll(webtoonSnapshots);
     }
 }

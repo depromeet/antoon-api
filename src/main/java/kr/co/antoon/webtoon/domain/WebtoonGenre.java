@@ -23,7 +23,7 @@ public class WebtoonGenre extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private GenreCategory genreCategory;
-
+    
     private Long webtoonId;
 
     public WebtoonGenre(GenreCategory genreCategory, Long webtoonId) {
