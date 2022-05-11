@@ -3,7 +3,7 @@ package kr.co.antoon.graph.presentation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.ResponseDto;
-import kr.co.antoon.graph.dto.TopRankResponse;
+import kr.co.antoon.graph.dto.response.TopRankResponse;
 import kr.co.antoon.graph.facade.TopRankFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -33,7 +33,7 @@ public class WebtoonCrawlingFacade {
     @Transactional
     public void crawlingWebtoon(Platform platform) {
         var existsWebtoons = webtoonService.findAll()
-                .stream()
+                .parallelStream()
                 .collect(Collectors.toMap(Webtoon::getTitle, ws -> ws, (p1, p2) -> p1));
 
         List<WebtoonPublishDay> webtoonPublishDays = new ArrayList<>();

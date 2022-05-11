@@ -1,7 +1,7 @@
 package kr.co.antoon.graph.facade;
 
 import kr.co.antoon.graph.application.TopRankService;
-import kr.co.antoon.graph.dto.TopRankResponse;
+import kr.co.antoon.graph.dto.response.TopRankResponse;
 import kr.co.antoon.webtoon.application.WebtoonGenreService;
 import kr.co.antoon.webtoon.application.WebtoonPublishDayService;
 import kr.co.antoon.webtoon.application.WebtoonService;
@@ -24,7 +24,7 @@ public class TopRankFacade {
     @Transactional(readOnly = true)
     public TopRankResponse findTopRank() {
         return new TopRankResponse(topRankService.findTopRank()
-                .stream()
+                .parallelStream()
                 .map(tr -> new TopRankResponse.TopRankWebtooon(
                         tr.getRanking(),
                         webtoonService.findById(tr.getWebtoonId()),
