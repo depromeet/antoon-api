@@ -9,12 +9,12 @@ import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @Api(tags = "Auth API")
@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/auth")
 public class AuthController {
+    private final static int ACCESS_TOKEN_LENGTH = 7;
     private final AuthService authService;
 
     @ApiOperation(value = "refresh token API", notes = SwaggerNote.AUTH_RFRESH)
@@ -34,7 +35,7 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@RequestHeader(value = "Authorization") String access,
                                        @RequestHeader(value = "Refresh") String refreshToken) {
-        String accessToken = access.substring(7);
+        String accessToken = access.substring(ACCESS_TOKEN_LENGTH);
         authService.revokeToken(accessToken, refreshToken);
         return ResponseDto.noContent();
     }

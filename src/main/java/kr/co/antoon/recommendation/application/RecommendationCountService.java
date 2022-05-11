@@ -22,10 +22,7 @@ public class RecommendationCountService {
     @Transactional
     public RecommendationCount save(Long webtoonId, int joinCount) {
         return recommendationCountRepository.save(
-                new RecommendationCount(
-                        webtoonId,
-                        joinCount
-                )
+                new RecommendationCount(webtoonId, joinCount)
         );
     }
 

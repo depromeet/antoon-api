@@ -41,37 +41,37 @@ public class WebtoonFacade {
 
     @Transactional(readOnly = true)
     public Page<WebtoonDayResponse> getWebtoonByDay(Pageable pageable, String day) {
-
-        var webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH).stream()
-            .filter(webtoon -> webtoonPublishDayService.existsByWebtoonIdAndDay(webtoon.getId(), day))
-            .collect(Collectors.toMap(Webtoon::getId, webtoon -> webtoon));
+        var webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH)
+                .parallelStream()
+                .filter(webtoon -> webtoonPublishDayService.existsByWebtoonIdAndDay(webtoon.getId(), day))
+                .collect(Collectors.toMap(Webtoon::getId, webtoon -> webtoon));
 
         var webtoonDayResponses = graphScoreSnapshotService.findAllByOrderByScoreGap()
-            .stream()
-            .filter(graphScoreSnapshot -> webtoons.containsKey(graphScoreSnapshot.getWebtoonId()))
-            .map(graphScoreSnapshot -> {
-                var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());
-                return new WebtoonDayResponse(
-                    webtoon.getThumbnail(),
-                    webtoon.getTitle(),
-                    webtoonWriterService.findNameByWebtoonId(graphScoreSnapshot.getWebtoonId()),
-                    day
-                );
-            }).toList();
+                .parallelStream()
+                .filter(graphScoreSnapshot -> webtoons.containsKey(graphScoreSnapshot.getWebtoonId()))
+                .map(graphScoreSnapshot -> {
+                    var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());
+                    return new WebtoonDayResponse(
+                            webtoon.getThumbnail(),
+                            webtoon.getTitle(),
+                            webtoonWriterService.findNameByWebtoonId(graphScoreSnapshot.getWebtoonId()),
+                            day
+                    );
+                }).toList();
 
-        int start = (int)pageable.getOffset();
-        int end = (start + pageable.getPageSize()) > webtoonDayResponses.size() ? webtoonDayResponses.size() : (start + pageable.getPageSize());
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), webtoonDayResponses.size());
         return new PageImpl<>(webtoonDayResponses.subList(start, end), pageable, webtoonDayResponses.size());
     }
 
     @Transactional(readOnly = true)
     public PageImpl<WebtoonGenreResponse> getWebtoonsGenreAndStatus(Pageable pageable, String genre) {
         var webtoons = webtoonService.findWebtoonByGenreAndStatus(pageable, genre, ActiveStatus.PUBLISH)
-                .stream()
+                .parallelStream()
                 .collect(Collectors.toMap(Webtoon::getId, webtoon -> webtoon));
 
         var webtoonGenreResponses = graphScoreSnapshotService.findAllByOrderByScoreGap()
-                .stream()
+                .parallelStream()
                 .filter(graphScoreSnapshot -> webtoons.containsKey(graphScoreSnapshot.getWebtoonId()))
                 .map(graphScoreSnapshot -> {
                     var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());

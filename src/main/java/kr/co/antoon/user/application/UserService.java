@@ -27,6 +27,7 @@ public class UserService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public long count() {
         return userRepository.count();
     }

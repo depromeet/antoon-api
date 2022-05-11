@@ -61,11 +61,6 @@ public class DiscussionService {
     }
 
     @Transactional(readOnly = true)
-    public long countById(Long webtoonId) {
-        return discussionRepository.countByWebtoonId(webtoonId);
-    }
-
-    @Transactional(readOnly = true)
     public List<DiscussionCountDto> discussionCount() {
         return discussionRepository.countAllDiscussion();
     }

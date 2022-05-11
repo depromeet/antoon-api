@@ -22,7 +22,7 @@ public class WebtoonWriterService {
     @Transactional(readOnly = true)
     public List<String> findNameByWebtoonId(Long webtoonId) {
         return webtoonWriterRepository.findAllByWebtoonId(webtoonId)
-                .stream()
+                .parallelStream()
                 .map(WebtoonWriter::getName)
                 .collect(Collectors.toList());
     }
