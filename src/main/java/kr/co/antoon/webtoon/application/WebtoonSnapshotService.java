@@ -35,4 +35,9 @@ public class WebtoonSnapshotService {
     public Optional<WebtoonSnapshot> findTop1ByWebtoonIdOrderBySnapshotTimeDesc(Long webtoonId) {
         return webtoonSnapshotRepository.findTop1ByWebtoonIdOrderBySnapshotTimeDesc(webtoonId);
     }
+
+    @Transactional(readOnly = true)
+    public long count() {
+        return webtoonSnapshotRepository.count();
+    }
 }
