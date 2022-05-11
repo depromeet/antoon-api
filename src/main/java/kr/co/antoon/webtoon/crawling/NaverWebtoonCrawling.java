@@ -47,7 +47,6 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
 
                     var innerElements = webtoonDetailDocument.select("div.comicinfo");
 
-
                     bundle.addAll(innerElements
                             .parallelStream()
                             .map(innerElement -> {
