@@ -24,11 +24,8 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
             from webtoon w 
             join webtoon_genre g 
             on w.id = g.id
-            join graph_score_snapshot s
-            on w.id = s.webtoon_id
             and w.status like %:status% 
             and g.genre_category like %:genre%
-            order by s.score_gap desc
             """,
             nativeQuery = true)
     List<Webtoon> findByGenreAndStatus(@Param("genre") String genre, @Param("status") ActiveStatus status, Pageable pageable);

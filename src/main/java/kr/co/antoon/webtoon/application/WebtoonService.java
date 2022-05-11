@@ -65,9 +65,6 @@ public class WebtoonService {
 
     @Transactional(readOnly = true)
     public List<Webtoon> findWebtoonByGenreAndStatus(Pageable pageable, String genre, ActiveStatus status) {
-        int start = (int) pageable.getOffset();
-        int end = (start + pageable.getPageSize());
-        Pageable paging = PageRequest.of(start, end);
-        return webtoonRepository.findByGenreAndStatus(genre, status, paging);
+        return webtoonRepository.findByGenreAndStatus(genre, status, pageable);
     }
 }
