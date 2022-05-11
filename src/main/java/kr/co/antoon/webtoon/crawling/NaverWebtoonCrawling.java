@@ -46,18 +46,23 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                     var thumbnail = webtoonDetailImageDocument.select("div.thumb img").attr("src");
 
                     var innerElements = webtoonDetailDocument.select("div.comicinfo");
-                    innerElements.forEach(innerElement -> {
-                        var title = innerElement.select("span.title").text();
-                        var content = innerElement.getElementsByTag("p").get(0).text();
-                        var writer = innerElement.select("span.wrt_nm").text().split(" / ");
 
-                        var genre = innerElement.select("span.genre").text().split(",");
 
-                        var genres = Arrays.stream(genre)
-                                .map(g -> g.replace(" ", ""))
-                                .collect(Collectors.toList());
+                    bundle.addAll(innerElements
+                            .parallelStream()
+                            .map(innerElement -> {
+                                var title = innerElement.select("span.title").text();
+                                var content = innerElement.getElementsByTag("p").get(0).text();
+                                var writer = innerElement.select("span.wrt_nm").text().split(" / ");
+                                var genre = innerElement.select("span.genre").text().split(",");
 
-                        bundle.add(new WebtoonCrawlingDto.WebtoonCrawlingDetail(
+                                var genres = Arrays.stream(genre)
+                                        .map(g -> g.replace(" ", ""))
+                                        .collect(Collectors.toList());
+
+                                log.info("[Naver Webtoon Crawling] title-> {} / url -> {}", title, url);
+
+                                return new WebtoonCrawlingDto.WebtoonCrawlingDetail(
                                         title,
                                         content,
                                         List.of(writer),
@@ -66,15 +71,11 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                                         genres,
                                         Double.parseDouble(score),
                                         day
-                                )
-                        );
-
-                        log.info("[Naver Webtoon Crawling] title-> {} / url -> {}", title, url);
-                    });
+                                );
+                            }).toList());
                 }
             }
         } catch (IOException e) {
-            // TODO : Webhook Slack Cruiser
             log.error("[Naver Webtoon Crawling Error] {}", e.getCause());
         }
 
