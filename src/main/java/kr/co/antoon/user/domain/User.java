@@ -1,6 +1,7 @@
 package kr.co.antoon.user.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
+import kr.co.antoon.user.domain.vo.Gender;
 import kr.co.antoon.user.domain.vo.Role;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -31,6 +32,9 @@ public class User extends BaseEntity {
     private String email;
 
     private String imageUrl;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Enumerated(EnumType.STRING)
     private Role role;
