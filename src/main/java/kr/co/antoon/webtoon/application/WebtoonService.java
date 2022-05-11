@@ -3,6 +3,7 @@ package kr.co.antoon.webtoon.application;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.webtoon.domain.Webtoon;
+import kr.co.antoon.webtoon.domain.WebtoonPublishDay;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.infrastructure.WebtoonRepository;

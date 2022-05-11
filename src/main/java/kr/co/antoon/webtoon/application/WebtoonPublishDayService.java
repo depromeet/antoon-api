@@ -26,4 +26,9 @@ public class WebtoonPublishDayService {
                 .map(WebtoonPublishDay::getDay)
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public boolean existsByWebtoonIdAndDay(Long webtoonId, String day) {
+        return webtoonPublishDayRepository.existsByWebtoonIdAndDay(webtoonId, day);
+    }
 }
