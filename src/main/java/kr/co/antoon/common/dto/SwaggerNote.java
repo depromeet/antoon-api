@@ -140,6 +140,49 @@ public class SwaggerNote {
             }
             """;
 
+    public static final String WEBTOON_READ_GENRE = """
+            장르별 활성화된 웹툰 조회
+            GET /api/v1/webtoons/genres?genre={genre}
+            
+            Response Body
+            
+                    "data": [
+                      {
+                        "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/749639/thumbnail/thumbnail_IMAG04_da2eeb2c-c0ce-4433-bc82-e489df37993f.jpg",
+                        "title": "남주의 첫날밤을 가져버렸다",
+                        "graphScore": 649,
+                        "scoreGap": 100,
+                        "writers": [
+                          "티바",
+                          "MSG",
+                          "황도톨"
+                        ],
+                        "platform": "NAVER",
+                        "genre": "ACTION"
+                      },
+                      {
+                        "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/784248/thumbnail/thumbnail_IMAG04_ed49d316-2291-4ac2-be6c-1b407acbb0e8.jpg",
+                        "title": "내가 키운 S급들",
+                        "graphScore": 648,
+                        "scoreGap": 100,
+                        "writers": [
+                          "seri",
+                          "비완",
+                          "근서"
+                        ],
+                        "platform": "NAVER",
+                        "genre": "ACTION"
+                      },
+                    ],
+                    "page": 0,
+                    "size": 12,
+                    "totalPages": 9,
+                    "totalElements": 108,
+                    "firstPage": true,
+                    "lastPage": false
+                  }
+            """;
+
     public final static String WEBTOON_DAY_READ_NOTE = """
             웹툰 요일별 조회
             GET /api/v1/webtoons/days?day={day}

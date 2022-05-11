@@ -1,13 +1,15 @@
 package kr.co.antoon.webtoon.facade;
 
+import kr.co.antoon.common.Utility;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.webtoon.application.WebtoonGenreService;
 import kr.co.antoon.webtoon.application.WebtoonPublishDayService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonWriterService;
+import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
+import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonResponse;
 import kr.co.antoon.webtoon.domain.Webtoon;
-import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -60,5 +62,32 @@ public class WebtoonFacade {
         int start = (int)pageable.getOffset();
         int end = (start + pageable.getPageSize()) > webtoonDayResponses.size() ? webtoonDayResponses.size() : (start + pageable.getPageSize());
         return new PageImpl<>(webtoonDayResponses.subList(start, end), pageable, webtoonDayResponses.size());
+    }
+
+    @Transactional(readOnly = true)
+    public PageImpl<WebtoonGenreResponse> getWebtoonsGenreAndStatus(Pageable pageable, String genre) {
+        var webtoons = webtoonService.findWebtoonByGenreAndStatus(pageable, genre, ActiveStatus.PUBLISH)
+                .stream()
+                .collect(Collectors.toMap(Webtoon::getId, webtoon -> webtoon));
+
+        var webtoonGenreResponses = graphScoreSnapshotService.findAllByOrderByScoreGap()
+                .stream()
+                .filter(graphScoreSnapshot -> webtoons.containsKey(graphScoreSnapshot.getWebtoonId()))
+                .map(graphScoreSnapshot -> {
+                    var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());
+                    return new WebtoonGenreResponse(
+                            webtoon.getThumbnail(),
+                            webtoon.getTitle(),
+                            graphScoreSnapshot.getGraphScore(),
+                            Utility.getDifferencePercentage(graphScoreSnapshot.getGraphScore(), graphScoreSnapshot.getScoreGap()),
+                            webtoonWriterService.findNameByWebtoonId(graphScoreSnapshot.getWebtoonId()),
+                            webtoon.getPlatform(),
+                            genre
+                    );
+                }).toList();
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), webtoonGenreResponses.size());
+        return new PageImpl<>(webtoonGenreResponses.subList(start, end), pageable, webtoonGenreResponses.size());
     }
 }
