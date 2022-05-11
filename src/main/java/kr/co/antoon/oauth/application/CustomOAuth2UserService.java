@@ -25,9 +25,6 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final RedisTemplate redisTemplate;
-
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -43,7 +40,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         saveOrUpdate(oAuth2Attribute);
 
-        // fix: 세번째 인자 "email" 대신 oAuth2Attribute.getAttributeKey() 넣음 잘돌아감
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                 oAuth2Attribute.getAttributes(),
