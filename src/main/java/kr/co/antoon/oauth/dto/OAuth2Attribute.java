@@ -18,6 +18,8 @@ public class OAuth2Attribute {
     private String email;
     private String name;
     private String imageUrl;
+    private String gender;
+    private String ageRange;
 
     public static OAuth2Attribute of(String provider,
                                      Map<String, Object> attributes) {
@@ -42,6 +44,8 @@ public class OAuth2Attribute {
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
                 .imageUrl((String)kakaoProfile.get("profile_image_url"))
+                .gender((String) kakaoAccount.get("gender"))
+                .ageRange((String) kakaoAccount.get("age_range"))
                 .attributes(kakaoAccount)
                 .attributeKey(attributeKey)
                 .build();
