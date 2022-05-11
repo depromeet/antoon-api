@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +30,8 @@ public class GraphScoreSnapshotService {
         return graphScoreSnapshotRepository.findAllByOrderByScoreGapDesc();
     }
 
-
+    @Transactional(readOnly = true)
+    public Optional<GraphScoreSnapshot> findTop1ByWebtoonIdOrderBySnapshotTimeDesc(Long webtoonId){
+        return graphScoreSnapshotRepository.findTop1ByWebtoonIdOrderBySnapshotTimeDesc(webtoonId);
+    }
 }

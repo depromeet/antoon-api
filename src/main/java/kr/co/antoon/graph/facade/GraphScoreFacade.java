@@ -18,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static kr.co.antoon.graph.domain.ScoreAllocationCriteria.webtoonScore;
-
 @Component
 @RequiredArgsConstructor
 public class GraphScoreFacade {
@@ -29,7 +27,6 @@ public class GraphScoreFacade {
     private final WebtoonService webtoonService;
     private final TopRankService topRankService;
     private final RecommendationCountService recommendationCountService;
-    private final GraphScoreSnapshotRepository graphScoreSnapshotRepository;
 
     /**
      * 인기순(기준)[외부데이터] - 60분마다
@@ -40,17 +37,10 @@ public class GraphScoreFacade {
     @Transactional
     public void snapshot() {
         var now = LocalDateTime.now();
-
         var webtoons = webtoonService.findAll();
 
-        var webtoonSnapshotsAboutToday = webtoonSnapshotService.findAllBySnapshopTime(now.toLocalDate());
-
-        if (webtoonSnapshotsAboutToday.size() == 0) {
-            webtoonSnapshotsAboutToday = webtoonSnapshotService.findAllBySnapshopTime(now.toLocalDate().minusDays(1));
-        }
-
-        // TODO find 로직 수정 필요
         graphScoreSnapshotService.saveAll(webtoons.stream()
+                .parallel()
                 .map(w -> {
                     var webtoonId = w.getId();
 
@@ -72,7 +62,7 @@ public class GraphScoreFacade {
 
                     var graphScore = ScoreAllocationCriteria.graphScore(discussionScore, recommendationScore, webtoonScore);
 
-                    Optional<GraphScoreSnapshot> graphScoreSnapshots = graphScoreSnapshotRepository.findTop1ByWebtoonIdOrderBySnapshotTimeDesc(webtoonId);
+                    Optional<GraphScoreSnapshot> graphScoreSnapshots = graphScoreSnapshotService.findTop1ByWebtoonIdOrderBySnapshotTimeDesc(webtoonId);
 
                     var scoregap = graphScore;
                     if (graphScoreSnapshots.isPresent()) {
