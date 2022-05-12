@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = @Index(name = "webtoonId", columnList = "id"))
 public class Webtoon extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +49,7 @@ public class Webtoon extends BaseEntity {
         publish();
     }
 
-    public ActiveStatus getStatus(){
+    public ActiveStatus getStatus() {
         return this.status;
     }
 
