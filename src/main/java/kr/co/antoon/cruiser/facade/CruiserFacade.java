@@ -44,7 +44,7 @@ public class CruiserFacade {
                 .stream()
                 .map(rank -> {
                             Webtoon webtoon = webtoonService.findById(rank.getId());
-                            return "\n" + rank.getRanking() + "위 : " + webtoon.getTitle();
+                            return "\n*" + rank.getRanking() + "위* : " + webtoon.getTitle();
                         }
                 ).toList();
         return SlackCruiserResponse.topRanks(topRanks);
