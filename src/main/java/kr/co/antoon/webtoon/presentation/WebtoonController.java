@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.PageDto;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
+import kr.co.antoon.webtoon.dto.response.*;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
@@ -57,5 +58,11 @@ public class WebtoonController {
             @PageableDefault(size = 12, page = 0) Pageable pageable) {
         var response = webtoonFacade.getWebtoonsGenreAndStatus(pageable, genre);
         return PageDto.ok(response);
+    }
+
+    @ApiOperation(value = "장르별 top3 웹툰 조회 API")
+    @GetMapping(value = "/genres")
+    public ResponseEntity<WebtoonGenreAllResponse> getWebtoonsByGenres() {
+        return ResponseDto.ok(webtoonFacade.getWebtoonsGenres());
     }
 }
