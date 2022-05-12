@@ -39,7 +39,7 @@ public class OAuth2Attribute {
         return OAuth2Attribute.builder()
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
-                .imageUrl((String)kakaoProfile.get("profile_image_url"))
+                .imageUrl((String) kakaoProfile.get("profile_image_url"))
                 .gender((String) kakaoAccount.get("gender"))
                 .ageRange((String) kakaoAccount.get("age_range"))
                 .attributes(kakaoAccount)
@@ -65,7 +65,7 @@ public class OAuth2Attribute {
         return OAuth2Attribute.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
-                .imageUrl((String)attributes.get("picture"))
+                .imageUrl((String) attributes.get("picture"))
                 .attributes(attributes)
                 .attributeKey(attributeKey)
                 .build();

@@ -45,7 +45,7 @@ public class CruiserFacade {
     @Transactional(readOnly = true)
     public String topRanks() {
         var topRanks = topRankService.findTopRank()
-                .stream()
+                .parallelStream()
                 .map(rank -> {
                             Webtoon webtoon = webtoonService.findById(rank.getId());
                             return "\n*" + rank.getRanking() + "위* : " + webtoon.getTitle();
