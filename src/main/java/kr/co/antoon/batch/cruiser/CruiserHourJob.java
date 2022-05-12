@@ -12,7 +12,10 @@ public class CruiserHourJob {
     private final CruiserFacade cruiserFacade;
 
     public void run() {
-        var message = cruiserFacade.sendStatistics();
+        var message = cruiserFacade.statistics();
         cruiser.send(message);
+
+        var topRanks = cruiserFacade.topRanks();
+        cruiser.send(topRanks);
     }
 }
