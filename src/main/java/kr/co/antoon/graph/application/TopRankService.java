@@ -31,6 +31,6 @@ public class TopRankService {
 
     @Transactional
     public List<TopRank> findTopRank() {
-        return topRankRepository.findDistinctTop9ByOrderByRankTimeDesc();
+        return topRankRepository.findDistinctTop9ByOrderByRankTimeDescRankingAsc();
     }
 }
