@@ -6,15 +6,14 @@ import kr.co.antoon.common.dto.PageDto;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
-import kr.co.antoon.webtoon.dto.response.WebtoonDetailResponse;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonResponse;
 import kr.co.antoon.webtoon.facade.WebtoonFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,5 +45,14 @@ public class WebtoonController {
     @GetMapping
     public ResponseEntity<WebtoonAllResponse> getWebtoons() {
         return ResponseDto.ok(webtoonService.searchAll());
+    }
+
+    @ApiOperation(value = "장르별 활성화된 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_GENRE)
+    @GetMapping(value = "/genres/{genre}")
+    public ResponseEntity<PageDto<WebtoonGenreResponse>> getWebtoonsByGenreAndStatus(
+            @PathVariable("genre") String genre,
+            @PageableDefault(size = 12, page = 0) Pageable pageable) {
+        var response = webtoonFacade.getWebtoonsGenreAndStatus(pageable, genre);
+        return PageDto.ok(response);
     }
 }

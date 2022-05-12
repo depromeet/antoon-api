@@ -32,7 +32,12 @@ public class WebtoonSnapshotService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<WebtoonSnapshot> findBySnapshot(Long webtoonId) {
+    public Optional<WebtoonSnapshot> findTop1ByWebtoonIdOrderBySnapshotTimeDesc(Long webtoonId) {
         return webtoonSnapshotRepository.findTop1ByWebtoonIdOrderBySnapshotTimeDesc(webtoonId);
+    }
+
+    @Transactional(readOnly = true)
+    public long count() {
+        return webtoonSnapshotRepository.count();
     }
 }

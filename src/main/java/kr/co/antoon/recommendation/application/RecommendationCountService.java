@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,15 +22,17 @@ public class RecommendationCountService {
     @Transactional
     public RecommendationCount save(Long webtoonId, int joinCount) {
         return recommendationCountRepository.save(
-                new RecommendationCount(
-                        webtoonId,
-                        joinCount
-                )
+                new RecommendationCount(webtoonId, joinCount)
         );
     }
 
     @Transactional(readOnly = true)
     public Optional<RecommendationCount> findTop1ByWebtoonIdOrderByCreatedAtDesc(Long webtoonId) {
         return recommendationCountRepository.findTop1ByWebtoonIdOrderByIdDesc(webtoonId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<RecommendationCount> findAll() {
+        return recommendationCountRepository.findAll();
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/health")
 @RequiredArgsConstructor
 public class HealthController {
+
     @GetMapping
     public String health() {
         return "Health Good!";

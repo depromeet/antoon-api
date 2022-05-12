@@ -1,6 +1,7 @@
-package kr.co.antoon.graph.dto;
+package kr.co.antoon.graph.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import kr.co.antoon.graph.domain.GraphScoreSnapshot;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,10 @@ public class TopRankResponse {
     public static class TopRankWebtooon {
         @Schema(description = "순위")
         private final Integer rank;
+        @Schema(description = "웹툰 점수")
+        private final int score;
+        @Schema(description = "gap percent")
+        private final double gapPercent;
         @Schema(description = "웹툰 id")
         private final Long id;
         @Schema(description = "제목")
@@ -40,12 +45,15 @@ public class TopRankResponse {
 
         public TopRankWebtooon(
                 Integer rank,
+                GraphScoreSnapshot graphScoreSnapshot,
                 Webtoon webtoon,
                 List<String> writers,
                 List<String> genres,
                 List<String> days
         ) {
             this.rank = rank;
+            this.score = graphScoreSnapshot.getGraphScore();
+            this.gapPercent = graphScoreSnapshot.getScoreGapPercent();
             this.id = webtoon.getId();
             this.title = webtoon.getTitle();
             this.content = webtoon.getContent();

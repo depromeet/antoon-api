@@ -6,7 +6,6 @@ import kr.co.antoon.user.domain.vo.Gender;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -17,7 +16,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
@@ -25,9 +23,6 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final RedisTemplate redisTemplate;
-
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -43,7 +38,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         saveOrUpdate(oAuth2Attribute);
 
-        // fix: 세번째 인자 "email" 대신 oAuth2Attribute.getAttributeKey() 넣음 잘돌아감
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                 oAuth2Attribute.getAttributes(),
@@ -63,22 +57,17 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         log.info("attributes : {}", attributes);
 
         String age = attributes.getAgeRange();
-        if(age!=null) {
+        if (age != null) {
             int ageRange = Integer.parseInt(age.split("~")[0]);
             user.updateAge(ageRange);
         }
 
         String gender = attributes.getGender();
-        if(gender!=null) {
+        if (gender != null) {
             switch (gender) {
-                case "female":
-                    user.updateGender(Gender.FEMALE);
-                    break;
-                case "male":
-                    user.updateGender(Gender.MALE);
-                    break;
-                default:
-                    user.updateGender(Gender.NONE);
+                case "female" -> user.updateGender(Gender.FEMALE);
+                case "male" -> user.updateGender(Gender.MALE);
+                default -> user.updateGender(Gender.NONE);
             }
         }
 

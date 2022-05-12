@@ -1,16 +1,18 @@
 package kr.co.antoon.discussion.application;
 
 import kr.co.antoon.discussion.domain.Discussion;
+import kr.co.antoon.discussion.dto.DiscussionCountDto;
 import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
-import kr.co.antoon.discussion.infrastructure.DiscussionLikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +61,7 @@ public class DiscussionService {
     }
 
     @Transactional(readOnly = true)
-    public long countById(Long webtoonId) {
-        return discussionRepository.countByWebtoonId(webtoonId);
+    public List<DiscussionCountDto> discussionCount() {
+        return discussionRepository.countAllDiscussion();
     }
 }

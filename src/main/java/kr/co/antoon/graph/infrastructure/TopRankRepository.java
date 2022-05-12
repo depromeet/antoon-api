@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TopRankRepository extends JpaRepository<TopRank, Long> {
-    List<TopRank> findDistinctTop9ByOrderByRankTimeDesc();
+    List<TopRank> findDistinctTop9ByOrderByRankTimeDescRankingAsc();
 }

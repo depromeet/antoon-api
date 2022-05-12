@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -80,7 +79,10 @@ public class DiscussionController {
 
     @ApiOperation(value = "종목토론방 댓글 삭제", notes = SwaggerNote.DISCUSSION_DELETE_NOTE)
     @DeleteMapping("/discussions/{discussionId}")
-    public ResponseEntity<Void> delete(@PathVariable Long discussionId) {
+    public ResponseEntity<Void> delete(
+            @PathVariable Long discussionId,
+            @AuthUser Long memberId
+    ) {
         discussionService.delete(discussionId);
         return ResponseDto.noContent();
     }
