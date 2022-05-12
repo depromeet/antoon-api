@@ -39,9 +39,9 @@ public class Discussion extends BaseEntity {
     }
 
     public void updateLikeCount(Boolean flag) {
-        if(flag) {
+        if (flag) {
             this.likeCount += 1;
-        } else if(likeCount > 0) {
+        } else if (likeCount > 0) {
             this.likeCount -= 1;
         }
     }

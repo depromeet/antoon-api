@@ -103,7 +103,7 @@ public class SwaggerNote {
                 "platform" : NAVER // 웹툰 플랫폼(NAVER, KAKAO)
             }
             """;
-              
+
     public final static String DISCUSSION_LIKE_CREATE_NOTE = """
             종목토론방에 댓글 삭제
             PUT /api/v1/webtoons/discussions/{discussionId}/likes
@@ -128,7 +128,7 @@ public class SwaggerNote {
     public final static String WEBTOON_SEARCH = """
             웹툰 검색 조회
             GET /api/v1/webtoons
-            
+                        
             Response Body
             {
                 "data": [
@@ -143,9 +143,9 @@ public class SwaggerNote {
     public static final String WEBTOON_READ_GENRE = """
             장르별 활성화된 웹툰 조회
             GET /api/v1/webtoons/genres?genre={genre}
-            
+                        
             Response Body
-            
+                        
                     "data": [
                       {
                         "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/749639/thumbnail/thumbnail_IMAG04_da2eeb2c-c0ce-4433-bc82-e489df37993f.jpg",
@@ -186,7 +186,7 @@ public class SwaggerNote {
     public final static String WEBTOON_DAY_READ_NOTE = """
             웹툰 요일별 조회
             GET /api/v1/webtoons/days?day={day}
-            
+                        
             Response Body
             {
                 "data": [
@@ -221,7 +221,7 @@ public class SwaggerNote {
             토큰 재발급
             POST /api/v1/auth/refresh
             (헤더에 리프레시 토큰을 "Refresh"로 추가해서 api 요청해주세요!)
-            
+                        
             Response Body
             {
                  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2NTczMTI2MjZ9.oapnD4a2jvO4WqLprv4-1FeVpx3dWgNCDUtnrZT7-JA",
@@ -234,7 +234,7 @@ public class SwaggerNote {
             POST /api/v1/auth/logout
             (헤더에 리프레시 토큰과 엑세스 토큰을 추가해서 api 요청해주세요!)
             (access Token 요청 시엔 "Bearer " + accessToken 으로 추가해서 요청해주세요!
-            
+                        
             Request Header
             {
                  "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2NTczMTI2MjZ9.oapnD4a2jvO4WqLprv4-1FeVpx3dWgNCDUtnrZT7-JA",

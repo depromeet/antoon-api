@@ -1,7 +1,6 @@
 package kr.co.antoon.user.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import kr.co.antoon.user.domain.vo.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

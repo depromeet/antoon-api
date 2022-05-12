@@ -6,7 +6,6 @@ import kr.co.antoon.recommendation.application.RecommendationCountService;
 import kr.co.antoon.recommendation.application.RecommendationService;
 import kr.co.antoon.recommendation.domain.RecommendationCount;
 import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
-import kr.co.antoon.webtoon.application.WebtoonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

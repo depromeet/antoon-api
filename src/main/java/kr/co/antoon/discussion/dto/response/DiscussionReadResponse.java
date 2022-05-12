@@ -19,15 +19,22 @@ public record DiscussionReadResponse(
         @Schema(description = "사용자 좋아요 여부")
         Boolean isUserLike
 ) {
-        public DiscussionReadResponse(Long discussionId, String content, Long userId, UserDetailResponse user, int likeCount, Boolean isUserLike){
-             this(
-                  discussionId,
-                  content,
-                  userId,
-                  user.getName(),
-                  user.getImageUrl(),
-                  likeCount,
-                  isUserLike
-             );
-        }
+    public DiscussionReadResponse(
+            Long discussionId,
+            String content,
+            Long userId,
+            UserDetailResponse user,
+            int likeCount,
+            Boolean isUserLike
+    ) {
+        this(
+                discussionId,
+                content,
+                userId,
+                user.getName(),
+                user.getImageUrl(),
+                likeCount,
+                isUserLike
+        );
+    }
 }

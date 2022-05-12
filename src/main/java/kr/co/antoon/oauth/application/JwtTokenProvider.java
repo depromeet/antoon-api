@@ -1,6 +1,8 @@
 package kr.co.antoon.oauth.application;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import kr.co.antoon.user.domain.vo.Role;
@@ -16,7 +18,6 @@ import java.security.Key;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @Service

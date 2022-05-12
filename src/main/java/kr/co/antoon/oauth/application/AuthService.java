@@ -2,10 +2,10 @@ package kr.co.antoon.oauth.application;
 
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.error.exception.oauth.TokenExpiredException;
+import kr.co.antoon.oauth.dto.TokenResponse;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Role;
-import kr.co.antoon.oauth.dto.TokenResponse;
-import kr.co.antoon.error.exception.oauth.TokenExpiredException;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,17 +30,17 @@ public class AuthService {
     public TokenResponse refresh(String refreshToken) {
         Long userId = jwtTokenProvider.getUserId(refreshToken);
         User user = userRepository.findById(userId)
-                .orElseThrow(()-> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
-        String redisRT = (String)redisTemplate.opsForValue().get("RT: " + userId); //redis refreshToken
+        String redisRT = (String) redisTemplate.opsForValue().get("RT: " + userId); //redis refreshToken
         // (추가) 로그아웃되어 Redis 에 RefreshToken 이 존재하지 않는 경우 처리
-        if(ObjectUtils.isEmpty(refreshToken)) {
+        if (ObjectUtils.isEmpty(refreshToken)) {
             throw new TokenExpiredException(ErrorMessage.EXPIRED_TOKEN);
         }
         //redisRT와 받은 refreshToken이 동일한지 유효성 검사 -> 헤더에서 rt 가져와
-        if(!jwtTokenProvider.validate(redisRT)) { //만료 검사
+        if (!jwtTokenProvider.validate(redisRT)) { //만료 검사
             throw new TokenExpiredException(ErrorMessage.EXPIRED_TOKEN);
-        } else if(!redisRT.equals(refreshToken)) { //유효성 검사(사용자 일치 여부 판단)
+        } else if (!redisRT.equals(refreshToken)) { //유효성 검사(사용자 일치 여부 판단)
             throw new TokenExpiredException(ErrorMessage.NOT_VALIDATE_TOKEN);
         }
 
@@ -48,20 +48,20 @@ public class AuthService {
         String newRefreshToken = jwtTokenProvider.createRefreshToken(String.valueOf(user.getId()));
 
         //redis refreshToken 갱신
-        redisTemplate.opsForValue().set("RT: "+user.getId(), newRefreshToken,
+        redisTemplate.opsForValue().set("RT: " + user.getId(), newRefreshToken,
                 jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
 
         return new TokenResponse(newAccessToken, newRefreshToken);
     }
 
     public void revokeToken(String access, String refresh) {
-        if(!jwtTokenProvider.validate(access)) { //유효성 검사
+        if (!jwtTokenProvider.validate(access)) { //유효성 검사
             throw new TokenExpiredException(ErrorMessage.NOT_VALIDATE_TOKEN);
         }
 
         Long userId = jwtTokenProvider.getUserId(access);
         User user = userRepository.findById(userId)
-                .orElseThrow(()-> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
         if (redisTemplate.opsForValue().get("RT: " + userId) != null) {
             // Refresh Token 삭제

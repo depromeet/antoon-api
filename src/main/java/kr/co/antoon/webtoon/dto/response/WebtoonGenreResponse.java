@@ -12,4 +12,4 @@ public record WebtoonGenreResponse(
         List<String> writers,
         Platform platform,
         String genre
-){ }
+) { }

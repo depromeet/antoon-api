@@ -23,7 +23,7 @@ public class SlackCruiser implements Cruiser {
         var url = slackCruiserProperties.getWebhookUri();
         var message = new SlackCruiserRequest(content);
 
-        String response = webclient.build()
+        var response = webclient.build()
                 .post()
                 .uri(url)
                 .body(Mono.just(message), SlackCruiserRequest.class)

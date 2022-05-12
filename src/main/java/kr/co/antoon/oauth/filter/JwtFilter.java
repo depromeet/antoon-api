@@ -22,7 +22,6 @@ import java.util.Arrays;
 
 @RequiredArgsConstructor
 @Slf4j
-
 public class JwtFilter extends OncePerRequestFilter {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
@@ -39,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
         final var path = httpServletRequest.getServletPath();
 
         // TODO : 지워주세요..
-        if("지우세요..미안해요.." != null) {
+        if ("지우세요..미안해요.." != null) {
             if (!Arrays.stream(swaggerConfig.whiteListInSwagger()).toList().contains(path) && !"/health".equals(path)) {
                 String token = resolveToken(request);
                 log.info("filter access : " + token);

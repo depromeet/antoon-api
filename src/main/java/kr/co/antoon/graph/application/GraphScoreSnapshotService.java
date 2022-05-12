@@ -43,7 +43,7 @@ public class GraphScoreSnapshotService {
     }
 
     @Transactional(readOnly = true)
-    public GraphScoreSnapshot findById(Long id){
+    public GraphScoreSnapshot findById(Long id) {
         return graphScoreSnapshotRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_GRAPH_SCORE_ERROR));
     }

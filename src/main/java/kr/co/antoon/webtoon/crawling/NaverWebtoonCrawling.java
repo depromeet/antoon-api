@@ -75,7 +75,7 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                 }
             }
         } catch (IOException e) {
-            log.error("[Naver Webtoon Crawling Error] {}", e.getCause());
+            log.error("[Naver Webtoon Crawling Error] {}", e.getCause().toString());
         }
 
         return new WebtoonCrawlingDto(bundle);
