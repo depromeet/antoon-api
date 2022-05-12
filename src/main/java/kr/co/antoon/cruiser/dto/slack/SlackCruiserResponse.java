@@ -11,7 +11,8 @@ public class SlackCruiserResponse {
             long discussionCount,
             long publishWebtoonCount,
             long pauseWebtoonCount,
-            long webtoonSnapshotCount
+            long webtoonSnapshotCount,
+            long graphScoreSnapshotCount
     ) {
         return String.format("""
                         :deal-with-it: *%s 개미는 오늘도 알림!* :deal-with-it:
@@ -22,7 +23,7 @@ public class SlackCruiserResponse {
                         - 비활성화된 웹툰 : %d건
                         - 전체 웹툰 : %d건
                         - 웹툰 스냅샷 : %d건
-                            
+                        - 그래프 스냅샷 : %d건    
                         """,
                 Utility.now("yyyy-MM-dd HH:mm"),
                 userCount,
@@ -30,7 +31,8 @@ public class SlackCruiserResponse {
                 publishWebtoonCount,
                 pauseWebtoonCount,
                 publishWebtoonCount + pauseWebtoonCount,
-                webtoonSnapshotCount
+                webtoonSnapshotCount,
+                graphScoreSnapshotCount
         );
     }
 

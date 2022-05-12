@@ -2,6 +2,7 @@ package kr.co.antoon.cruiser.facade;
 
 import kr.co.antoon.cruiser.dto.slack.SlackCruiserResponse;
 import kr.co.antoon.discussion.application.DiscussionService;
+import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.graph.application.TopRankService;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.webtoon.application.WebtoonService;
@@ -20,6 +21,7 @@ public class CruiserFacade {
     private final WebtoonService webtoonService;
     private final WebtoonSnapshotService webtoonSnapshotService;
     private final TopRankService topRankService;
+    private final GraphScoreSnapshotService graphScoreSnapshotService;
 
     @Transactional(readOnly = true)
     public String statistics() {
@@ -28,13 +30,15 @@ public class CruiserFacade {
         var publishWebtoonCount = webtoonService.countByStatus(ActiveStatus.PUBLISH);
         var pauseWebtoonCount = webtoonService.countByStatus(ActiveStatus.PAUSE);
         var webtoonSnapshotCount = webtoonSnapshotService.count();
+        var graphScoreSnapshotCount = graphScoreSnapshotService.count();
 
         return SlackCruiserResponse.dataStatistics(
                 userCount,
                 discussionCount,
                 publishWebtoonCount,
                 pauseWebtoonCount,
-                webtoonSnapshotCount
+                webtoonSnapshotCount,
+                graphScoreSnapshotCount
         );
     }
 

@@ -34,4 +34,9 @@ public class GraphScoreSnapshotService {
     public Optional<GraphScoreSnapshot> findTop1ByWebtoonIdOrderBySnapshotTimeDesc(Long webtoonId) {
         return graphScoreSnapshotRepository.findTop1ByWebtoonIdOrderBySnapshotTimeDesc(webtoonId);
     }
+
+    @Transactional(readOnly = true)
+    public long count() {
+        return graphScoreSnapshotRepository.count();
+    }
 }
