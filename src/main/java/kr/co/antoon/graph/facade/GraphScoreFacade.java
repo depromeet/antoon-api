@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static kr.co.antoon.graph.domain.ScoreAllocationCriteria.discussionScore;
+
 @Component
 @RequiredArgsConstructor
 public class GraphScoreFacade {
@@ -37,7 +39,6 @@ public class GraphScoreFacade {
      **/
     @Transactional
     public void snapshot() {
-        var now = LocalDateTime.now();
         var webtoons = webtoonService.findAll();
         var recommendationCounts = recommendationCountService.findAll()
                 .parallelStream()
@@ -61,22 +62,24 @@ public class GraphScoreFacade {
                 .map(w -> {
                     var webtoonId = w.getId();
 
-                    var webtoonScore = ScoreAllocationCriteria.DEFAULT_WEBTOON_SCORE;
+                    var webtoonScoreCount = 0.0;
                     var webtoonSnapshot = webtoonSnapshotService.findTop1ByWebtoonIdOrderBySnapshotTimeDesc(webtoonId);
                     if (webtoonSnapshot.isPresent()) {
-                        webtoonScore = ScoreAllocationCriteria.webtoonScore(webtoonSnapshot.get().getScore());
+                        webtoonScoreCount = webtoonSnapshot.get().getScore();
                     }
+                    var webtoonScore = ScoreAllocationCriteria.webtoonScore(webtoonScoreCount);
 
                     var discussionScore = 0L;
                     if (!Objects.isNull(discussionCounts.get(webtoonId))) {
                         discussionScore = discussionCounts.get(webtoonId).getDiscussionCount();
                     }
+                    discussionScore = discussionScore(discussionScore);
 
-                    var recommendationScore = ScoreAllocationCriteria.DEFAULT_RECOMMENDATION_SCORE;
+                    var count = 0;
                     if (recommendationCounts.containsKey(webtoonId)) {
-                        int count = recommendationCounts.get(webtoonId).count();
-                        recommendationScore = ScoreAllocationCriteria.recommendationScore(count);
+                        count = recommendationCounts.get(webtoonId).count();
                     }
+                    var recommendationScore = ScoreAllocationCriteria.recommendationScore(count);
 
                     var graphScore = ScoreAllocationCriteria.graphScore((int) discussionScore, recommendationScore, webtoonScore);
 
@@ -100,6 +103,7 @@ public class GraphScoreFacade {
                     );
                 }).toList());
 
+        var now = LocalDateTime.now();
         var graphScoreSnapshots = graphScoreSnapshotService.findTop9BySnapshotTimeAfter(now);
         topRankService.saveAll(graphScoreSnapshots);
     }

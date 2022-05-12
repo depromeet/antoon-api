@@ -1,8 +1,6 @@
 package kr.co.antoon.graph.domain;
 
 public class ScoreAllocationCriteria {
-    public static int DEFAULT_WEBTOON_SCORE = 100;
-
     public static int webtoonScore(Double score) {
         return (int) (score * 100 / 2);
     }
@@ -22,8 +20,6 @@ public class ScoreAllocationCriteria {
             return 50;
         }
     }
-
-    public static int DEFAULT_RECOMMENDATION_SCORE = 100;
 
     public static int recommendationScore(int count) {
         if (count > 10) {
