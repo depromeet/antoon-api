@@ -1,5 +1,7 @@
 package kr.co.antoon.graph.application;
 
+import kr.co.antoon.error.dto.ErrorMessage;
+import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
 import kr.co.antoon.graph.infrastructure.GraphScoreSnapshotRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +40,11 @@ public class GraphScoreSnapshotService {
     @Transactional(readOnly = true)
     public long count() {
         return graphScoreSnapshotRepository.count();
+    }
+
+    @Transactional(readOnly = true)
+    public GraphScoreSnapshot findById(Long id){
+        return graphScoreSnapshotRepository.findById(id)
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_GRAPH_SCORE_ERROR));
     }
 }

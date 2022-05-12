@@ -83,13 +83,18 @@ public class GraphScoreFacade {
                     var graphScoreSnapshots = graphScoreSnapshotService.findTop1ByWebtoonIdOrderBySnapshotTimeDesc(webtoonId);
 
                     var scoregap = graphScore;
+                    var oldGraphScore = graphScore;
                     if (graphScoreSnapshots.isPresent()) {
                         scoregap = scoregap - graphScoreSnapshots.get().getGraphScore();
+                        oldGraphScore = graphScoreSnapshots.get().getGraphScore();
                     }
+
+                    var graphScorePercent = (graphScore - oldGraphScore) / oldGraphScore * 100.0;
 
                     return GraphScoreSnapshot.of(
                             graphScore,
                             scoregap,
+                            graphScorePercent,
                             webtoonId,
                             GraphStatus.of(scoregap)
                     );
