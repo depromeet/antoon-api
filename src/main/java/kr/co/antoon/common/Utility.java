@@ -9,7 +9,7 @@ public class Utility {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
     }
 
-    public static double getDifferencePercentage(int score, int gap) {
-        return gap * 1.0 / score * 100;
+    public static double getDifferencePercentage(int graphScore, int scoreGap) {
+        return scoreGap * 1.0 / graphScore * 100.0;
     }
 }

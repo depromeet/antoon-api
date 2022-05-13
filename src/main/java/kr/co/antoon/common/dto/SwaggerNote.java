@@ -243,21 +243,56 @@ public class SwaggerNote {
                       
             """;
     public static final String WEBTOON_READ_RANKING_NOTE = """
-            
+            현재 시간 기준으로 상승 중인 웹툰 조회
+            GET /api/v1/webtoons/top-up
             
             {
-              "webtoons": [
-                {
-                  "thumnail": "https://dn-img-page.kakao.com/download/resource?kid=cbOcrh/hzhOeyLVuz/o3mzWEkKKAuJOLWv6bYJxK&filename=th2",
-                  "title": "도굴왕",
-                  "scoreGap": 100
-                },
-                {
-                  "thumnail": "https://dn-img-page.kakao.com/download/resource?kid=ceQX6q/hzmU2m9nxu/dJoslDiIylEt2nzmoSCCeK&filename=th2",
-                  "title": "당신의 이해를 돕기 위하여",
-                  "scoreGap": 100
-                }
-              ]
-            }
+               "webtoons": [
+                 {
+                   "id": 602,
+                   "url": "https://page.kakao.com/home?seriesId=53190884",
+                   "thumbnail": "https://dn-img-page.kakao.com/download/resource?kid=cbOcrh/hzhOeyLVuz/o3mzWEkKKAuJOLWv6bYJxK&filename=th2",
+                   "title": "도굴왕",
+                   "score": 650,
+                   "scoreGapPercent": 0,
+                   "snapshotTime": "2022-05-13T03:59:01",
+                   "activeStatus": "연재",
+                   "platform": "KAKAO"
+                 },
+                 {
+                   "id": 605,
+                   "url": "https://page.kakao.com/home?seriesId=58777646",
+                   "thumbnail": "https://dn-img-page.kakao.com/download/resource?kid=KWNVT/hzp2f362bW/NWT2ViqCrkIlWJhAlPwQp1&filename=th2",
+                   "title": "백작가의 사생아가 결혼하면",
+                   "score": 650,
+                   "scoreGapPercent": 0,
+                   "snapshotTime": "2022-05-13T03:59:01",
+                   "activeStatus": "연재",
+                   "platform": "KAKAO"
+                 },
+                 {
+                   "id": 617,
+                   "url": "https://page.kakao.com/home?seriesId=58663937",
+                   "thumbnail": "https://dn-img-page.kakao.com/download/resource?kid=c9BidG/hzhOhJV5W3/ApkqR0bIKHmF8faTtNCm60&filename=th2",
+                   "title": "남편님, 다시 결혼해 주세요!",
+                   "score": 650,
+                   "scoreGapPercent": 0,
+                   "snapshotTime": "2022-05-13T03:59:02",
+                   "activeStatus": "연재",
+                   "platform": "KAKAO"
+                 },
+                 {
+                   "id": 539,
+                   "url": "https://page.kakao.com/home?seriesId=56657309",
+                   "thumbnail": "https://dn-img-page.kakao.com/download/resource?kid=ceQX6q/hzmU2m9nxu/dJoslDiIylEt2nzmoSCCeK&filename=th2",
+                   "title": "당신의 이해를 돕기 위하여",
+                   "score": 650,
+                   "scoreGapPercent": 0,
+                   "snapshotTime": "2022-05-11T22:55:13",
+                   "activeStatus": "연재",
+                   "platform": "KAKAO"
+                 }
+               ]
+             }
             """;
 }

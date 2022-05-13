@@ -107,9 +107,15 @@ public class WebtoonFacade {
                 .forEachOrdered(graphScoreSnapshot -> {
                     var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());
                     responses.add(new WebtoonRankingAllResponse.WebtoonRankingResponse(
+                            webtoon.getId(),
+                            webtoon.getWebtoonUrl(),
                             webtoon.getThumbnail(),
                             webtoon.getTitle(),
-                            Utility.getDifferencePercentage(graphScoreSnapshot.getGraphScore(), graphScoreSnapshot.getScoreGap())
+                            graphScoreSnapshot.getGraphScore(),
+                            graphScoreSnapshot.getScoreGapPercent(),
+                            graphScoreSnapshot.getSnapshotTime(),
+                            webtoon.getStatus().getDescription(),
+                            webtoon.getPlatform()
                     ));
                 });
         return new WebtoonRankingAllResponse(responses);
