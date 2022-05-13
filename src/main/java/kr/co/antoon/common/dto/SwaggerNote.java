@@ -242,4 +242,6 @@ public class SwaggerNote {
             }
                       
             """;
+    public static final String WEBTOON_READ_RANKING_NOTE = """
+            """;
 }

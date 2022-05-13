@@ -10,6 +10,7 @@ import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -89,5 +92,26 @@ public class WebtoonFacade {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), webtoonGenreResponses.size());
         return new PageImpl<>(webtoonGenreResponses.subList(start, end), pageable, webtoonGenreResponses.size());
+    }
+
+    @Transactional(readOnly = true)
+    public WebtoonRankingAllResponse getWebtoonsByTopUp() {
+        List<WebtoonRankingAllResponse.WebtoonRankingResponse> responses = new ArrayList<>();
+        var webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH)
+                .stream()
+                .collect(Collectors.toMap(Webtoon::getId, webtoon -> webtoon));
+
+        graphScoreSnapshotService.findAllByOrderByScoreGap()
+                .stream()
+                .limit(10)
+                .forEachOrdered(graphScoreSnapshot -> {
+                    var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());
+                    responses.add(new WebtoonRankingAllResponse.WebtoonRankingResponse(
+                            webtoon.getThumbnail(),
+                            webtoon.getTitle(),
+                            Utility.getDifferencePercentage(graphScoreSnapshot.getGraphScore(), graphScoreSnapshot.getScoreGap())
+                    ));
+                });
+        return new WebtoonRankingAllResponse(responses);
     }
 }
