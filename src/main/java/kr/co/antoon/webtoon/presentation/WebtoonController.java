@@ -60,7 +60,7 @@ public class WebtoonController {
         return PageDto.ok(response);
     }
 
-    @ApiOperation(value = "장르별 top3 웹툰 조회 API")
+    @ApiOperation(value = "장르별 top3 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_GENRES)
     @GetMapping(value = "/genres")
     public ResponseEntity<WebtoonGenreAllResponse> getWebtoonsByGenres() {
         return ResponseDto.ok(webtoonFacade.getWebtoonsGenres());
