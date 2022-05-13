@@ -95,7 +95,7 @@ public class WebtoonFacade {
     }
 
     @Transactional(readOnly = true)
-    public WebtoonRankingAllResponse getWebtoonsByTopUp() {
+    public WebtoonRankingAllResponse getWebtoonsByTopUpper() {
         List<WebtoonRankingAllResponse.WebtoonRankingResponse> responses = new ArrayList<>();
         var webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH)
                 .stream()
