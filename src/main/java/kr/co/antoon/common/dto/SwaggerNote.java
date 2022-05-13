@@ -243,5 +243,21 @@ public class SwaggerNote {
                       
             """;
     public static final String WEBTOON_READ_RANKING_NOTE = """
+            
+            
+            {
+              "webtoons": [
+                {
+                  "thumnail": "https://dn-img-page.kakao.com/download/resource?kid=cbOcrh/hzhOeyLVuz/o3mzWEkKKAuJOLWv6bYJxK&filename=th2",
+                  "title": "도굴왕",
+                  "scoreGap": 100
+                },
+                {
+                  "thumnail": "https://dn-img-page.kakao.com/download/resource?kid=ceQX6q/hzmU2m9nxu/dJoslDiIylEt2nzmoSCCeK&filename=th2",
+                  "title": "당신의 이해를 돕기 위하여",
+                  "scoreGap": 100
+                }
+              ]
+            }
             """;
 }
