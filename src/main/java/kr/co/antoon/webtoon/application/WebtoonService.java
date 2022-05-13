@@ -62,7 +62,7 @@ public class WebtoonService {
     }
 
     @Transactional(readOnly = true)
-    public List<Webtoon> findWebtoonByGenreAndStatus(Pageable pageable, String genre, ActiveStatus status) {
-        return webtoonRepository.findByGenreAndStatus(genre, status, pageable);
+    public List<Webtoon> findWebtoonByGenreAndStatus(String genre, ActiveStatus status) {
+        return webtoonRepository.findByGenreAndStatus(genre, status);
     }
 }

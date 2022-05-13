@@ -242,4 +242,24 @@ public class SwaggerNote {
             }
                       
             """;
+
+    public final static String WEBTOON_READ_GENRES = """
+            메인페이지 장르별 웹툰 조회 
+            GET /api/v1/webtoons/genres
+           
+            Response Body
+            "webtoons": [
+                {
+                    "genre": "https://shared-comic.pstatic.net/thumb/webtoon/785250/thumbnail/thumbnail_IMAG04_b2a285d6-0172-44cc-bfb0-ea5eaab41f1a.jpg",
+                    "thumbnail": "EVERYDAY"
+                },
+                {
+                    "genre": "https://shared-comic.pstatic.net/thumb/webtoon/725586/thumbnail/thumbnail_IMAG04_147bdc44-14ef-4a49-81d0-aeec09b898be.jpg",
+                    "thumbnail": "EVERYDAY"
+                },
+                {
+                    "genre": "https://shared-comic.pstatic.net/thumb/webtoon/784140/thumbnail/thumbnail_IMAG04_fdda97b7-d253-4918-8f18-3c1f207c5ab3.jpg",
+                    "thumbnail": "EVERYDAY"
+                },        
+            """;
 }
