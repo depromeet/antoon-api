@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Slf4j
-@Component(KakaoWebtoonCrawling.KAKAO_WEBTOON)
 public class KakaoWebtoonCrawling implements WebtoonCrawling {
 
     public static final String KAKAO_WEBTOON = "KakaoWebtoon";
