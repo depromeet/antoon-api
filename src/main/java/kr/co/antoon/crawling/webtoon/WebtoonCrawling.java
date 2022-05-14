@@ -1,4 +1,4 @@
-package kr.co.antoon.crawling;
+package kr.co.antoon.crawling.webtoon;
 
 import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
 

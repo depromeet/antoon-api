@@ -1,4 +1,4 @@
-package kr.co.antoon.batch.crawling;
+package kr.co.antoon.batch.crawling.webtoon;
 
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import lombok.RequiredArgsConstructor;
