@@ -27,11 +27,6 @@ public class RecommendationCountService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<RecommendationCount> findTop1ByWebtoonIdOrderByCreatedAtDesc(Long webtoonId) {
-        return recommendationCountRepository.findTop1ByWebtoonIdOrderByIdDesc(webtoonId);
-    }
-
-    @Transactional(readOnly = true)
     public List<RecommendationCount> findAll() {
         return recommendationCountRepository.findAll();
     }

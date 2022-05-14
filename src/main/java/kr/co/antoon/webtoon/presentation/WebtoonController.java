@@ -55,7 +55,8 @@ public class WebtoonController {
     @GetMapping(value = "/genres/{genre}")
     public ResponseEntity<PageDto<WebtoonGenreResponse>> getWebtoonsByGenreAndStatus(
             @PathVariable("genre") String genre,
-            @PageableDefault(size = 12, page = 0) Pageable pageable) {
+            @PageableDefault(size = 12, page = 0) Pageable pageable
+    ) {
         var response = webtoonFacade.getWebtoonsGenreAndStatus(pageable, genre);
         return PageDto.ok(response);
     }
