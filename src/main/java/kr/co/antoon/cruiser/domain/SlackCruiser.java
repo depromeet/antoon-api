@@ -12,7 +12,6 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class SlackCruiser implements Cruiser {
     private final SlackCruiserProperties slackCruiserProperties;
