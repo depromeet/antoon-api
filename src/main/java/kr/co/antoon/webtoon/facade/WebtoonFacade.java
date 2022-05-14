@@ -112,8 +112,8 @@ public class WebtoonFacade {
                             .forEach(graphScoreSnapshot -> {
                                 var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());
                                 responses.add( new WebtoonGenreAllResponse.WebtoonGenrePreviewResponse(
-                                        webtoon.getThumbnail(),
-                                        genre.toString()
+                                        genre.toString(),
+                                        webtoon.getThumbnail()
                                 ));
                             });
                 });
