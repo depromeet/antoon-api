@@ -1,4 +1,4 @@
-package kr.co.antoon.webtoon.crawling;
+package kr.co.antoon.crawling;
 
 import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
 import lombok.extern.slf4j.Slf4j;
