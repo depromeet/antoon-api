@@ -48,8 +48,10 @@ public class GraphScoreFacade {
                                 (rc1, rc2) -> rc1
                         )
                 );
+        var now = LocalDateTime.now();
+        var before = now.minusHours(1);
 
-        var discussionCounts = discussionService.discussionCount()
+        var discussionCounts = discussionService.discussionCount(before, now)
                 .parallelStream()
                 .collect(Collectors.toMap(
                         DiscussionCountDto::getWebtoonId,
@@ -103,7 +105,6 @@ public class GraphScoreFacade {
                     );
                 }).toList());
 
-        var now = LocalDateTime.now();
         var graphScoreSnapshots = graphScoreSnapshotService.findTop9BySnapshotTimeAfter(now);
         topRankService.saveAll(graphScoreSnapshots);
     }
