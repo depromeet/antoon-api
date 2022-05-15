@@ -27,14 +27,18 @@ public class AuthController {
 
     @ApiOperation(value = "refresh token API", notes = SwaggerNote.AUTH_RFRESH)
     @PostMapping("/refresh")
-    public ResponseEntity<TokenResponse> refreshToken(@RequestHeader(value = "Refresh") String refreshToken) {
+    public ResponseEntity<TokenResponse> refreshToken(
+            @RequestHeader(value = "Refresh") String refreshToken
+    ) {
         return ResponseDto.ok(authService.refresh(refreshToken));
     }
 
     @ApiOperation(value = "logout", notes = SwaggerNote.AUTH_LOGOUT)
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@RequestHeader(value = "Authorization") String access,
-                                       @RequestHeader(value = "Refresh") String refreshToken) {
+    public ResponseEntity<Void> logout(
+            @RequestHeader(value = "Authorization") String access,
+            @RequestHeader(value = "Refresh") String refreshToken
+    ) {
         String accessToken = access.substring(ACCESS_TOKEN_LENGTH);
         authService.revokeToken(accessToken, refreshToken);
         return ResponseDto.noContent();

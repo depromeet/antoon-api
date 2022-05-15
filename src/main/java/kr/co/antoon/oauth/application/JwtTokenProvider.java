@@ -77,13 +77,14 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         return new UsernamePasswordAuthenticationToken(
-                getUserId(token), null, getAuthorities());
+                getUserId(token),
+                null,
+                getAuthorities()
+        );
     }
 
     public Collection<GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(
-                new SimpleGrantedAuthority("ROLE_USER")
-        );
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     public long getRefreshTokenExpireTime() {
@@ -92,8 +93,13 @@ public class JwtTokenProvider {
 
     public Long getExpiration(String accessToken) {
         // accessToken 남은 유효시간
-        Date expiration = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(accessToken)
-                .getBody().getExpiration();
+        Date expiration = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(accessToken)
+                .getBody()
+                .getExpiration();
+
         // 현재 시간
         long now = new Date().getTime();
         return (expiration.getTime() - now);
