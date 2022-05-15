@@ -1,4 +1,4 @@
-package kr.co.antoon.batch.crawling.webtoon;
+package kr.co.antoon.batch.crawling;
 
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import lombok.RequiredArgsConstructor;
@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component;
 @Profile("staging")
 @Component
 @RequiredArgsConstructor
-public class WebtoonCrawlingBatchScheduler {
-    private final WebtoonCrawlingDailyJob webtoonCrawlingDailyJob;
+public class CrawlingBatchScheduler {
+    private final CrawlingDailyJob crawlingDailyJob;
 
     /**
      * 매일 오전 3시 10분 스케쥴링
      **/
     @Scheduled(cron = "0 10 3 * * *")
     public void runDailyJobNaver() {
-        webtoonCrawlingDailyJob.run(Platform.NAVER);
+        crawlingDailyJob.run(Platform.NAVER);
     }
 
     /**
@@ -25,6 +25,6 @@ public class WebtoonCrawlingBatchScheduler {
      **/
     @Scheduled(cron = "0 20 3 * * *")
     public void runDailyJobKakao() {
-        webtoonCrawlingDailyJob.run(Platform.KAKAO);
+        crawlingDailyJob.run(Platform.KAKAO);
     }
 }

@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 @Profile("staging")
 @Component
 @RequiredArgsConstructor
-public class GraphScoreBatchScheduler {
-    private final GraphScoreHourJob graphScoreHourJob;
+public class GraphBatchScheduler {
+    private final GraphHourJob graphHourJob;
 
     /**
      * 1시간 마다 그래프 score를 업데이트
      **/
     @Scheduled(cron = "0 59 * * * *")
     public void runHourJob() {
-        graphScoreHourJob.run();
+        graphHourJob.run();
     }
 }
