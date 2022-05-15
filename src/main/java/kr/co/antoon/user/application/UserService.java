@@ -19,12 +19,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
-        return UserDetailResponse.builder()
-                .name(user.getName())
-                .email(user.getEmail())
-                .imageUrl(user.getImageUrl())
-                .age(user.getAge())
-                .build();
+        return new UserDetailResponse(user);
     }
 
     @Transactional(readOnly = true)
