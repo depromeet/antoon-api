@@ -21,10 +21,8 @@ import java.util.concurrent.TimeUnit;
 @Transactional
 @RequiredArgsConstructor
 public class AuthService {
-
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
-
     private final RedisTemplate redisTemplate;
 
     public TokenResponse refresh(String refreshToken) {
