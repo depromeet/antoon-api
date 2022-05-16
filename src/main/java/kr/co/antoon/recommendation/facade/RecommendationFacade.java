@@ -27,7 +27,7 @@ public class RecommendationFacade {
         RecommendationCount recommendationCount = recommendationCountService.findByWebtoonId(webtoonId).orElse(null);
         if (recommendationCount != null) {
             int joinCount = recommendationCount.getJoinCount();
-            recommendationCount.plusJoinCount(joinCount++);
+            recommendationCount.plusJoinCount(++joinCount);
         } else {
             recommendationCountService.save(webtoonId, 1);
         }
@@ -44,7 +44,7 @@ public class RecommendationFacade {
         RecommendationCount recommendationCount = recommendationCountService.findByWebtoonId(webtoonId).orElse(null);
         if (recommendationCount != null) {
             int leaveCount = recommendationCount.getLeaveCount();
-            recommendationCount.plusLeaveCount(leaveCount++);
+            recommendationCount.plusLeaveCount(++leaveCount);
         } else {
             recommendationCountService.save(webtoonId, 1);
         }
