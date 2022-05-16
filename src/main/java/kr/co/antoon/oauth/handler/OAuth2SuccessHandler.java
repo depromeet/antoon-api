@@ -64,7 +64,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
 
 
-        String targetUrl = redirectUrl + "?status=" + "success";
+        StringBuilder sb = new StringBuilder();
+        sb.append("http://localhost:3000/user/signin")
+                .append("?status=").append("success")
+                .append("?access=").append(accessToken)
+                .append("?refresh=").append(refreshToken);
+        String targetUrl = sb.toString();
 
         response.setContentType("application/json;charset=UTF-8");
         response.addHeader("Authorization", accessToken);
