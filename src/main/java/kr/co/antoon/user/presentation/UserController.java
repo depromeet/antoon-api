@@ -3,6 +3,7 @@ package kr.co.antoon.user.presentation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.SwaggerNote;
+import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,8 @@ public class UserController {
     private final UserService userService;
 
     @ApiOperation(value = "사용자 마이페이지 조회 API", notes = SwaggerNote.USER_READ_DETAIL)
-    @GetMapping(value = "/{userId}")
-    public ResponseEntity<UserDetailResponse> getUser(@PathVariable("userId") Long userId) {
-        return ResponseEntity.ok(userService.findById(userId));
+    @GetMapping
+    public ResponseEntity<UserDetailResponse> getUser(@AuthUser Long memberId) {
+        return ResponseEntity.ok(userService.findById(memberId));
     }
 }
