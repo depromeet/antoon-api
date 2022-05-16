@@ -114,7 +114,7 @@ public class SwaggerNote {
 
     public final static String USER_READ_DETAIL = """
             사용자 마이페이지 조회
-            GET /api/v1/users/{userId}            
+            GET /api/v1/users/mypage            
                         
             Response Body
             {
