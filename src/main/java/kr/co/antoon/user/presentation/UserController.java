@@ -22,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @ApiOperation(value = "사용자 마이페이지 조회 API", notes = SwaggerNote.USER_READ_DETAIL)
-    @GetMapping( "/mypage")
+    @GetMapping
     public ResponseEntity<UserDetailResponse> getUser(@AuthUser Long memberId) {
         return ResponseEntity.ok(userService.findById(memberId));
     }
