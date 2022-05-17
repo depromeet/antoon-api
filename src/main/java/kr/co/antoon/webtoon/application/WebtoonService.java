@@ -55,7 +55,7 @@ public class WebtoonService {
     @Transactional(readOnly = true)
     public Webtoon findById(Long id) {
         return webtoonRepository.findById(id)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_ERROR));
     }
 
     @Transactional(readOnly = true)
