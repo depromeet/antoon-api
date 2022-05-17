@@ -6,8 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import kr.co.antoon.oauth.config.AuthUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
@@ -52,7 +54,8 @@ public class SwaggerConfig {
                         WebSession.class,
                         ServerHttpRequest.class,
                         ServerHttpResponse.class,
-                        ServerWebExchange.class
+                        ServerWebExchange.class,
+                        AuthUser.class
                 )
                 .apiInfo(new ApiInfo(
                         "ANTOON API",
