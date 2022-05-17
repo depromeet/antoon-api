@@ -41,18 +41,18 @@ public class DiscussionController {
     public ResponseEntity<DiscussionCreateResponse> create(
             @PathVariable Long webtoonId,
             @Validated @RequestBody DiscussionCreateRequest request,
-            @AuthUser Long memberId
+            @AuthUser Long userId
     ) {
-        return ResponseDto.created(discussionFacade.register(memberId, webtoonId, request));
+        return ResponseDto.created(discussionFacade.register(userId, webtoonId, request));
     }
 
     @ApiOperation(value = "종목토론방 댓글 단건 조회", notes = SwaggerNote.DISCUSSION_READ_ONE_NOTE)
     @GetMapping("/discussions/{discussionId}")
     public ResponseEntity<DiscussionReadResponse> findOne(
             @PathVariable Long discussionId,
-            @AuthUser Long memberId
+            @AuthUser Long userId
     ) {
-        var response = discussionFacade.findById(memberId, discussionId);
+        var response = discussionFacade.findById(userId, discussionId);
         return ResponseDto.ok(response);
     }
 
@@ -60,9 +60,9 @@ public class DiscussionController {
     @GetMapping("/discussions")
     public ResponseEntity<PageDto<DiscussionReadResponse>> findAll(
             @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-            @AuthUser Long memberId
+            @AuthUser Long userId
     ) {
-        var response = discussionFacade.findAll(memberId, pageable);
+        var response = discussionFacade.findAll(userId, pageable);
         return PageDto.ok(response);
     }
 
@@ -71,9 +71,9 @@ public class DiscussionController {
     public ResponseEntity<DiscussionUpdateResponse> update(
             @PathVariable Long discussionId,
             @Validated @RequestBody DiscussionUpdateRequest request,
-            @AuthUser Long memberId
+            @AuthUser Long userId
     ) {
-        var response = discussionFacade.update(memberId, discussionId, request);
+        var response = discussionFacade.update(userId, discussionId, request);
         return ResponseDto.ok(response);
     }
 
@@ -81,7 +81,7 @@ public class DiscussionController {
     @DeleteMapping("/discussions/{discussionId}")
     public ResponseEntity<Void> delete(
             @PathVariable Long discussionId,
-            @AuthUser Long memberId
+            @AuthUser Long userId
     ) {
         discussionService.delete(discussionId);
         return ResponseDto.noContent();
