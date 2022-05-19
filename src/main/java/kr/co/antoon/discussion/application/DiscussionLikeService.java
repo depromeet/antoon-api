@@ -16,22 +16,23 @@ public class DiscussionLikeService {
     private final DiscussionLikeRepository likeRepository;
 
     @Transactional
-    public void saveOrUpdate(Discussion discussion, Long memberId, Long discussionId) {
-        var like = likeRepository.findByUserIdAndDiscussionId(memberId, discussionId)
+    public DiscussionLike saveOrUpdate(Discussion discussion, Long memberId, Long discussionId) {
+        return likeRepository.save(
+                likeRepository.findByUserIdAndDiscussionId(memberId, discussionId)
                 .map(DiscussionLike::update)
                 .orElse(DiscussionLike.builder()
                         .userId(memberId)
                         .discussionId(discussionId)
                         .build()
-                );
-        likeRepository.save(like);
-        discussion.updateLikeCount(like.getStatus());
+                )
+        );
     }
 
     @Transactional
     public Boolean isUserLike(Long userId, Long discussionId) {
-        var like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
-        return like.getStatus();
+        var like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId);
+        if (like.isPresent()) {
+            return like.get().getStatus();
+        } return false;
     }
 }
