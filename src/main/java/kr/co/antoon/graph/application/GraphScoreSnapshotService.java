@@ -3,6 +3,8 @@ package kr.co.antoon.graph.application;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
+import kr.co.antoon.graph.domain.vo.Period;
+import kr.co.antoon.graph.dto.response.GraphScoreResponse;
 import kr.co.antoon.graph.infrastructure.GraphScoreSnapshotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,5 +48,18 @@ public class GraphScoreSnapshotService {
     public GraphScoreSnapshot findById(Long id) {
         return graphScoreSnapshotRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_GRAPH_SCORE_ERROR));
+    }
+
+    @Transactional(readOnly = true)
+    public GraphScoreResponse graph(Long webtoonId, Period period) {
+        var end = LocalDateTime.now();
+        var start = end.minusDays(period.getDays());
+
+        var scores = graphScoreSnapshotRepository.findAllByWebtoonIdAndSnapshotTimeBetweenOrderByCreatedAtAsc(webtoonId, start, end)
+                .stream()
+                .map(GraphScoreResponse.GraphScoreDetail::new)
+                .toList();
+
+        return new GraphScoreResponse(scores);
     }
 }
