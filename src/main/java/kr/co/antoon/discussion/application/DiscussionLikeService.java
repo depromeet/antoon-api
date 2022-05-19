@@ -30,8 +30,9 @@ public class DiscussionLikeService {
 
     @Transactional
     public Boolean isUserLike(Long userId, Long discussionId) {
-        var like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
-        return like.getStatus();
+        var like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId);
+        if (like.isPresent()) {
+            return like.get().getStatus();
+        } return false;
     }
 }
