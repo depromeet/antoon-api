@@ -1,5 +1,5 @@
 # ANTOON CORE API
-> 앙투앙~! 개미는 오늘도 열심히 툰툰
+> 앙투앙~! 개미는 오늘도 열심히 툰툰!
 
 <img width="1117" alt="image" src="https://user-images.githubusercontent.com/50691225/168943556-7d746432-7288-4b5b-9b7a-1faf54a52961.png">
 
