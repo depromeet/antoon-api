@@ -27,8 +27,8 @@ public class UserController {
 
     @ApiOperation(value = "사용자 마이페이지 수정 API", notes = SwaggerNote.USER_UPDATE_DETAIL)
     @PatchMapping
-    public ResponseEntity<String> updateUser(@AuthUser Long memberId, @RequestBody UserDetailRequest userDetailRequest) {
+    public ResponseEntity<UserDetailResponse> updateUser(@AuthUser Long memberId, @RequestBody UserDetailRequest userDetailRequest) {
         userService.updateById(memberId, userDetailRequest);
-        return ResponseEntity.ok("success");
+        return ResponseEntity.ok(userService.findById(memberId));
     }
 }

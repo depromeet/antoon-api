@@ -35,6 +35,5 @@ public class UserService {
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
         user.update(userDetailRequest.getName(), userDetailRequest.getImageUrl());
-        userRepository.save(user);
     }
 }
