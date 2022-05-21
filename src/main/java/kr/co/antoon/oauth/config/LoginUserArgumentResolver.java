@@ -34,7 +34,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
                                   WebDataBinderFactory binderFactory) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getAuthorities());
         return new AuthInfo(
                 Long.valueOf(String.valueOf(authentication.getPrincipal())),
                 RolesFromAuthorities(authentication.getAuthorities())
