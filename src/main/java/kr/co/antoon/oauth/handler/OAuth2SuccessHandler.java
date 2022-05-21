@@ -58,7 +58,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
-        String accessToken = jwtTokenProvider.createAccessToken(user.getId().toString(), Role.USER);
+        String accessToken = jwtTokenProvider.createAccessToken(user.getId().toString(), Role.USER.getKey());
         String refreshToken = jwtTokenProvider.createRefreshToken(Long.toString(user.getId()));
         redisTemplate.opsForValue().set("RT: " + user.getId(), refreshToken,
                 jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);

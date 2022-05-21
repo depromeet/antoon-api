@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
+import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class UserController {
 
     @ApiOperation(value = "사용자 마이페이지 조회 API", notes = SwaggerNote.USER_READ_DETAIL)
     @GetMapping
-    public ResponseEntity<UserDetailResponse> getUser(@AuthUser Long memberId) {
-        return ResponseEntity.ok(userService.findById(memberId));
+    public ResponseEntity<UserDetailResponse> getUser(@AuthUser AuthInfo info) {
+        return ResponseEntity.ok(userService.findById(info.userId()));
     }
 }
