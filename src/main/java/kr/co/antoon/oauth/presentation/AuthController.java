@@ -6,6 +6,7 @@ import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.application.AuthService;
 import kr.co.antoon.oauth.config.AuthUser;
+import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.oauth.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class AuthController {
     }
 
     @GetMapping("/test")
-    public Long test(@AuthUser Long userId) {
-        return userId;
+    public AuthInfo test(@AuthUser AuthInfo info) {
+        return info;
     }
 }

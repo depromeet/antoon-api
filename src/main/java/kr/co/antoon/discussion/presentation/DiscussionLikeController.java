@@ -7,6 +7,7 @@ import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.discussion.facade.DiscussionLikeFacade;
 import kr.co.antoon.oauth.config.AuthUser;
+import kr.co.antoon.oauth.dto.AuthInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +24,8 @@ public class DiscussionLikeController {
 
     @ApiOperation(value = "댓글 좋아요", notes = SwaggerNote.DISCUSSION_LIKE_CREATE_NOTE)
     @PutMapping("/discussions/{discussionId}/likes")
-    public ResponseEntity<Void> create(@PathVariable Long discussionId, @AuthUser Long memberId) {
-        discussionLikeFacade.saveOrUpdate(memberId, discussionId);
+    public ResponseEntity<Void> create(@PathVariable Long discussionId, @AuthUser AuthInfo info) {
+        discussionLikeFacade.saveOrUpdate(info.userId(), discussionId);
         return ResponseDto.noContent();
     }
 }
