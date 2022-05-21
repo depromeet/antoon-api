@@ -34,6 +34,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
                                   WebDataBinderFactory binderFactory) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication.getAuthorities());
         return new AuthInfo(
                 Long.valueOf(String.valueOf(authentication.getPrincipal())),
                 RolesFromAuthorities(authentication.getAuthorities())
@@ -42,7 +43,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     private List<Role> RolesFromAuthorities(Collection<? extends GrantedAuthority> authorities) {
         return authorities.stream()
-                .map(authority -> Role.valueOf(authority.getAuthority()))
+                .map(authority -> Role.of(authority.getAuthority()))
                 .collect(Collectors.toList());
     }
 }
