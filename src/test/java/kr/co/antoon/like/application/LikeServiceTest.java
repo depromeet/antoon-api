@@ -50,7 +50,7 @@ public class LikeServiceTest {
 
         // when & then
         assertDoesNotThrow(() -> {
-            likeService.saveOrUpdate(mockDiscussion, USER_ID, DISCUSSION_ID);
+            likeService.saveOrUpdate(USER_ID, DISCUSSION_ID);
         });
     }
 
@@ -76,7 +76,7 @@ public class LikeServiceTest {
 
         // when & then
         assertDoesNotThrow(() -> {
-            likeService.saveOrUpdate(mockDiscussion, USER_ID, DISCUSSION_ID);
+            likeService.saveOrUpdate(USER_ID, DISCUSSION_ID);
         });
     }
 
