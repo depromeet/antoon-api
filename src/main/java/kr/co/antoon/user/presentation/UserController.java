@@ -11,9 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static kr.co.antoon.common.Utility.APPLICATION_JSON_UTF_8;
+
 @Api(tags = "사용자 API")
 @RestController
-@RequestMapping(value = "/api/v1/users")
+@RequestMapping(value = "/api/v1/users", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
 public class UserController {
 

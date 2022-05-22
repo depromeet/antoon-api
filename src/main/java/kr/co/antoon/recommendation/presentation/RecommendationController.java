@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static kr.co.antoon.common.Utility.APPLICATION_JSON_UTF_8;
+
 @Api(tags = "탑승/하차 API")
 @RestController
-@RequestMapping(value = "/api/v1/recommendations")
+@RequestMapping(value = "/api/v1/recommendations", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
 public class RecommendationController {
     private final RecommendationFacade recommendationFacade;

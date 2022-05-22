@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static kr.co.antoon.common.Utility.APPLICATION_JSON_UTF_8;
+
 @Slf4j
 @Api(tags = "Auth API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1/auth")
+@RequestMapping(value = "/api/v1/auth", produces = APPLICATION_JSON_UTF_8)
 public class AuthController {
     private final static int ACCESS_TOKEN_LENGTH = 7;
     private final AuthService authService;

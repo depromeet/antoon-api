@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static kr.co.antoon.common.Utility.APPLICATION_JSON_UTF_8;
+
 @Api(tags = "랭킹 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/top-ranks")
+@RequestMapping(value = "/api/v1/top-ranks", produces = APPLICATION_JSON_UTF_8)
 public class TopRankController {
     private final TopRankFacade topRankFacade;
 
