@@ -2,6 +2,9 @@ package kr.co.antoon.webtoon.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import kr.co.antoon.common.Utility;
+import kr.co.antoon.graph.domain.GraphScoreSnapshot;
+import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 
 import java.util.List;
@@ -56,4 +59,21 @@ public record WebtoonGenreResponse(
                 value = "장르"
         )
         String genre
-) { }
+) {
+    public WebtoonGenreResponse(
+            Webtoon webtoon,
+            GraphScoreSnapshot graphScoreSnapshot,
+            List<String> writers,
+            String genre
+    ) {
+        this(
+                webtoon.getThumbnail(),
+                webtoon.getTitle(),
+                graphScoreSnapshot.getGraphScore(),
+                Utility.getDifferencePercentage(graphScoreSnapshot.getGraphScore(), graphScoreSnapshot.getScoreGap()),
+                writers,
+                webtoon.getPlatform(),
+                genre
+        );
+    }
+}

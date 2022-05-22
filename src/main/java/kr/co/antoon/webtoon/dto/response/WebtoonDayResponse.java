@@ -2,6 +2,7 @@ package kr.co.antoon.webtoon.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import kr.co.antoon.webtoon.domain.Webtoon;
 
 import java.util.List;
 
@@ -34,4 +35,13 @@ public record WebtoonDayResponse(
                 value = "연재요일"
         )
         String day
-) { }
+) {
+    public WebtoonDayResponse(Webtoon webtoon, List<String> writers, String day) {
+        this(
+                webtoon.getThumbnail(),
+                webtoon.getTitle(),
+                writers,
+                day
+        );
+    }
+}

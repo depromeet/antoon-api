@@ -1,8 +1,6 @@
 package kr.co.antoon.webtoon.facade;
 
-import kr.co.antoon.common.Utility;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
-import kr.co.antoon.webtoon.application.WebtoonGenreService;
 import kr.co.antoon.webtoon.application.WebtoonPublishDayService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonWriterService;
@@ -44,12 +42,9 @@ public class WebtoonFacade {
                 .filter(graphScoreSnapshot -> webtoons.containsKey(graphScoreSnapshot.getWebtoonId()))
                 .map(graphScoreSnapshot -> {
                     var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());
-                    return new WebtoonDayResponse(
-                            webtoon.getThumbnail(),
-                            webtoon.getTitle(),
-                            webtoonWriterService.findNameByWebtoonId(graphScoreSnapshot.getWebtoonId()),
-                            day
-                    );
+                    var writers = webtoonWriterService.findNameByWebtoonId(graphScoreSnapshot.getWebtoonId());
+
+                    return new WebtoonDayResponse(webtoon, writers, day);
                 }).toList();
 
         int start = (int) pageable.getOffset();
@@ -68,15 +63,9 @@ public class WebtoonFacade {
                 .filter(graphScoreSnapshot -> webtoons.containsKey(graphScoreSnapshot.getWebtoonId()))
                 .map(graphScoreSnapshot -> {
                     var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());
-                    return new WebtoonGenreResponse(
-                            webtoon.getThumbnail(),
-                            webtoon.getTitle(),
-                            graphScoreSnapshot.getGraphScore(),
-                            Utility.getDifferencePercentage(graphScoreSnapshot.getGraphScore(), graphScoreSnapshot.getScoreGap()),
-                            webtoonWriterService.findNameByWebtoonId(graphScoreSnapshot.getWebtoonId()),
-                            webtoon.getPlatform(),
-                            genre
-                    );
+                    var writers = webtoonWriterService.findNameByWebtoonId(graphScoreSnapshot.getWebtoonId());
+
+                    return new WebtoonGenreResponse(webtoon, graphScoreSnapshot, writers, genre);
                 }).toList();
 
         int start = (int) pageable.getOffset();

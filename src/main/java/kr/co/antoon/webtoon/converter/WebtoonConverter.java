@@ -1,9 +1,13 @@
 package kr.co.antoon.webtoon.converter;
 
+import kr.co.antoon.common.Utility;
+import kr.co.antoon.graph.domain.GraphScoreSnapshot;
+import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
 import kr.co.antoon.webtoon.dto.WebtoonNativeDto;
+import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
