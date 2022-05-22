@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.stream.Collectors;
-
 @Component
 @RequiredArgsConstructor
 public class TopRankFacade {
@@ -25,6 +23,6 @@ public class TopRankFacade {
                         tr.getRanking(),
                         graphScoreSnapshotService.findById(tr.getGraphScoreSnapshotId()),
                         webtoonService.findDetailWebtoon(tr.getWebtoonId())
-                )).collect(Collectors.toList()));
+                )).toList());
     }
 }

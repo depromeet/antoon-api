@@ -1,8 +1,10 @@
 package kr.co.antoon.discussion.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import kr.co.antoon.discussion.domain.Discussion;
+import kr.co.antoon.user.dto.response.UserDetailResponse;
 
-public record DiscussionUpdateResponse(
+public record DiscussionResponse(
         @Schema(description = "댓글 ID")
         Long discussionId,
         @Schema(description = "댓글 내용")
@@ -17,4 +19,16 @@ public record DiscussionUpdateResponse(
         int likeCount,
         @Schema(description = "사용자 좋아요 여부")
         Boolean isUserLike
-) {}
+) {
+    public DiscussionResponse(Discussion discussion, UserDetailResponse user, Boolean isUserLike) {
+        this(
+                discussion.getId(),
+                discussion.getContent(),
+                discussion.getUserId(),
+                user.name(),
+                user.imageUrl(),
+                discussion.getLikeCount(),
+                isUserLike
+        );
+    }
+}

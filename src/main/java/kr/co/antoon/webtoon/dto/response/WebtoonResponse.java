@@ -1,31 +1,83 @@
 package kr.co.antoon.webtoon.dto.response;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import kr.co.antoon.webtoon.domain.Webtoon;
+import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
+import kr.co.antoon.webtoon.domain.vo.Platform;
 
 import java.util.List;
 
-@Schema(description = "공통 Response")
+@ApiModel("웹툰 공통 Response")
 public record WebtoonResponse(
-        @Schema(description = "웹툰 id")
+        @ApiModelProperty(
+                position = 1,
+                example = "1",
+                value = "webtoon id"
+        )
         Long id,
-        @Schema(description = "제목")
+
+        @ApiModelProperty(
+                position = 2,
+                example = "약한영웅",
+                value = "webtoon title"
+        )
         String title,
-        @Schema(description = "소개")
+
+        @ApiModelProperty(
+                position = 3,
+                example = "약한영웅의 반칙",
+                value = "webtoon content"
+        )
         String content,
-        @Schema(description = "작가")
+
+        @ApiModelProperty(
+                position = 4,
+                example = "['나나은', '김동건']",
+                value = "작가"
+        )
         List<String> writers,
-        @Schema(description = "웹툰 url")
+
+        @ApiModelProperty(
+                position = 5,
+                example = "https://comic.naver.com/webtoon/list?titleId=794154&no=4&weekday=",
+                value = "웹툰 url"
+        )
         String url,
-        @Schema(description = "썸네일")
+
+        @ApiModelProperty(
+                position = 6,
+                example = "https://shared-comic.pstatic.net/thumb/webtoon/794154/thumbnail/thumbnail_IMAG06_889def63-5f8e-4aa8-b007-97a3d86aca68.jpg",
+                value = "웹툰 썸네일"
+        )
         String thumbnail,
-        @Schema(description = "웹툰 상태")
-        String activeStatus,
-        @Schema(description = "웹툰 플랫폼")
-        String platform,
-        @Schema(description = "웹툰 정르")
+
+        @ApiModelProperty(
+                position = 7,
+                example = "https://shared-comic.pstatic.net/thumb/webtoon/794154/thumbnail/thumbnail_IMAG06_889def63-5f8e-4aa8-b007-97a3d86aca68.jpg",
+                value = "웹툰 썸네일"
+        )
+        ActiveStatus activeStatus,
+
+        @ApiModelProperty(
+                position = 8,
+                example = "NAVER",
+                value = "웹툰 플랫폼"
+        )
+        Platform platform,
+
+        @ApiModelProperty(
+                position = 9,
+                example = "EVERYDAY",
+                value = "장르"
+        )
         List<String> genres,
-        @Schema(description = "웹툰 연재요일")
+
+        @ApiModelProperty(
+                position = 10,
+                example = "['월', '수']",
+                value = "연재 요일"
+        )
         List<String> days
 ) {
     public WebtoonResponse(
@@ -41,8 +93,8 @@ public record WebtoonResponse(
                 writers,
                 webtoon.getWebtoonUrl(),
                 webtoon.getThumbnail(),
-                webtoon.getStatus().getDescription(),
-                webtoon.getPlatform().getDescription(),
+                webtoon.getStatus(),
+                webtoon.getPlatform(),
                 genres,
                 days
         );

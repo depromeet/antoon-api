@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +23,6 @@ public class WebtoonSnapshotService {
     public void save(Double score, Long webtoonId) {
         var webtoonSnapshot = new WebtoonSnapshot(score, webtoonId);
         webtoonSnapshotRepository.save(webtoonSnapshot);
-    }
-
-    @Transactional(readOnly = true)
-    public List<WebtoonSnapshot> findAllBySnapshopTime(LocalDate time) {
-        return webtoonSnapshotRepository.findAllBySnapshotTime(time);
     }
 
     @Transactional(readOnly = true)

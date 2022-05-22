@@ -1,6 +1,6 @@
-package kr.co.antoon.crawling.webtoon;
+package kr.co.antoon.crawling;
 
-import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
+import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -57,7 +57,7 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                                         .map(g -> g.replace(" ", ""))
                                         .collect(Collectors.toList());
 
-                                log.info("[Naver Webtoon Crawling] title-> {} / url -> {}", title, url);
+                              //  log.info("[Naver Webtoon Crawling] title-> {} / url -> {}", title, url);
 
                                 return new WebtoonCrawlingDto.WebtoonCrawlingDetail(
                                         title,

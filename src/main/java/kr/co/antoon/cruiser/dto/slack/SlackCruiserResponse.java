@@ -9,6 +9,7 @@ public class SlackCruiserResponse {
     public static String dataStatistics(
             long userCount,
             long discussionCount,
+            long discussionLikeCount,
             long publishWebtoonCount,
             long pauseWebtoonCount,
             long webtoonSnapshotCount,
@@ -19,15 +20,17 @@ public class SlackCruiserResponse {
                                         
                         - 사용자 : %d건
                         - 종목토론 : %d건
+                        - 종목토론 좋아요 : %d건
                         - 활성화된 웹툰 : %d건
                         - 비활성화된 웹툰 : %d건
                         - 전체 웹툰 : %d건
-                        - 웹툰 스냅샷 : %d건
-                        - 그래프 스냅샷 : %d건    
+                        - 웹툰 스냅샷 [1일 기준] : %d건
+                        - 그래프 스냅샷 [1시간 기준] : %d건
                         """,
                 Utility.now("yyyy-MM-dd HH:mm"),
                 userCount,
                 discussionCount,
+                discussionLikeCount,
                 publishWebtoonCount,
                 pauseWebtoonCount,
                 publishWebtoonCount + pauseWebtoonCount,

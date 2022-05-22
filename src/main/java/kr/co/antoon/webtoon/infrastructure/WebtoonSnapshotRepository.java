@@ -10,7 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface WebtoonSnapshotRepository extends JpaRepository<WebtoonSnapshot, Long> {
-    List<WebtoonSnapshot> findAllBySnapshotTime(LocalDate time);
-
     Optional<WebtoonSnapshot> findTop1ByWebtoonIdOrderBySnapshotTimeDesc(Long webtoonId);
 }

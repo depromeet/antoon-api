@@ -6,6 +6,7 @@ import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 
 import java.util.List;
+import java.util.Set;
 
 @Schema(description = "Webtoon 상세 DTO")
 public record WebtoonDto(
@@ -18,9 +19,9 @@ public record WebtoonDto(
         String platformDescription,
         ActiveStatus status,
         String statusDescription,
-        List<GenreDto> genres,
-        List<PublishDayDto> publishDays,
-        List<WriterDto> writers
+        Set<GenreDto> genres,
+        Set<PublishDayDto> publishDays,
+        Set<WriterDto> writers
 ) {
     public record GenreDto(
             Long webtoonGenreId,

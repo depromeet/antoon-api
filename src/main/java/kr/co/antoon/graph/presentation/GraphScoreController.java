@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static kr.co.antoon.common.Utility.APPLICATION_JSON_UTF_8;
+
 @Api(tags = "그래프 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping(value = "/api/v1", produces = APPLICATION_JSON_UTF_8)
 public class GraphScoreController {
     private final GraphScoreSnapshotService graphScoreSnapshotService;
 
