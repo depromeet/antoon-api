@@ -51,7 +51,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: antoonapi/antoon-core-api:${{ github.sha }}
+          tags: antoonapi/antoon-core-api:staging
           build-args: ACTIVE=staging
 
       # Build Docker Container - Main Branch
@@ -61,7 +61,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: antoonapi/antoon-core-api:${{ github.sha }}
+          tags: antoonapi/antoon-core-api:prod
           build-args: ACTIVE=prod
 
       # Login AWS
