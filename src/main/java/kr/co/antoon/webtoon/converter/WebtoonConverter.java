@@ -2,7 +2,7 @@ package kr.co.antoon.webtoon.converter;
 
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.Platform;
-import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
+import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
 import kr.co.antoon.webtoon.dto.WebtoonNativeDto;
 

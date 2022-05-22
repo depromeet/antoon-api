@@ -1,6 +1,6 @@
-package kr.co.antoon.crawling.webtoon;
+package kr.co.antoon.crawling;
 
-import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
+import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 
 /**
  * @apiNote webtoon crawling

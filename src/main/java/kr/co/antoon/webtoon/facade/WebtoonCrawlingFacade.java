@@ -1,6 +1,6 @@
 package kr.co.antoon.webtoon.facade;
 
-import kr.co.antoon.crawling.webtoon.WebtoonCrawlingFactory;
+import kr.co.antoon.crawling.WebtoonCrawlingFactory;
 import kr.co.antoon.webtoon.application.WebtoonGenreService;
 import kr.co.antoon.webtoon.application.WebtoonPublishDayService;
 import kr.co.antoon.webtoon.application.WebtoonService;
