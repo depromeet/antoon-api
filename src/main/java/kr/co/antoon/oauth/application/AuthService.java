@@ -1,5 +1,6 @@
 package kr.co.antoon.oauth.application;
 
+import kr.co.antoon.cache.user.UserRedisCacheService;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.error.exception.oauth.TokenExpiredException;
@@ -8,19 +9,16 @@ import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Role;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
-
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
-    private final RedisTemplate redisTemplate;
+    private final UserRedisCacheService userRedisCacheService;
 
 
     @Transactional
@@ -29,7 +27,9 @@ public class AuthService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
-        String redisRT = (String) redisTemplate.opsForValue().get("RT: " + userId); //redis refreshToken
+        //redis refreshToken
+        String redisRT = userRedisCacheService.get(userId);
+
         // (추가) 로그아웃되어 Redis 에 RefreshToken 이 존재하지 않는 경우 처리
         if (ObjectUtils.isEmpty(refreshToken)) {
             throw new TokenExpiredException(ErrorMessage.EXPIRED_TOKEN);
@@ -45,8 +45,11 @@ public class AuthService {
         String newRefreshToken = jwtTokenProvider.createRefreshToken(String.valueOf(user.getId()));
 
         //redis refreshToken 갱신
-        redisTemplate.opsForValue().set("RT: " + user.getId(), newRefreshToken,
-                jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
+        userRedisCacheService.update(
+                "RT: " + user.getId(),
+                newRefreshToken,
+                jwtTokenProvider.getRefreshTokenExpireTime()
+        );
 
         return new TokenResponse(newAccessToken, newRefreshToken);
     }
@@ -63,13 +66,11 @@ public class AuthService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
-        if (redisTemplate.opsForValue().get("RT: " + userId) != null) {
+        if (userRedisCacheService.get(userId) != null) {
             // Refresh Token 삭제
-            redisTemplate.delete("RT: " + userId);
+            userRedisCacheService.delete(userId);
         }
         Long expiration = jwtTokenProvider.getExpiration(access);
-        redisTemplate.opsForValue()
-                .set(access, "logout", expiration, TimeUnit.MILLISECONDS);
-
+        userRedisCacheService.update(access, "logout", expiration);
     }
 }
