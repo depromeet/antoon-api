@@ -1,8 +1,8 @@
 package kr.co.antoon.webtoon.converter;
 
+import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.Platform;
-import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
 import kr.co.antoon.webtoon.dto.WebtoonNativeDto;
 
@@ -44,11 +44,14 @@ public class WebtoonConverter {
                 webtoon.get(0).getStatus().getDescription(),
                 genres,
                 days,
-                writers
+                writers,
+                webtoon.get(0).getRecommendationCountId(),
+                webtoon.get(0).getJoinCount(),
+                webtoon.get(0).getLeaveCount()
         );
     }
 
-    public static Webtoon toWebtoon(WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton, Platform platform){
+    public static Webtoon toWebtoon(WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton, Platform platform) {
         return Webtoon.builder()
                 .title(crawlingWebtton.title())
                 .content(crawlingWebtton.content())

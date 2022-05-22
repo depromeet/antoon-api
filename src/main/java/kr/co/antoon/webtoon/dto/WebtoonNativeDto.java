@@ -30,4 +30,10 @@ public interface WebtoonNativeDto {
     Long getWebtoonWriterId();
 
     String getName();
+
+    Long getRecommendationCountId();
+
+    Integer getJoinCount();
+
+    Integer getLeaveCount();
 }

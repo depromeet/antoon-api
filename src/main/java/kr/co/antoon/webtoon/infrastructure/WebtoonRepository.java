@@ -30,11 +30,13 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
             select w.id as webtoonId, w.title, w.content, w.webtoon_url as webtoonUrl, w.thumbnail, w.platform, w.status,
             wg.id as webtoonGenreId, wg.genre_category as genreCategory,
             wpd.id as webtoonPublishDayId, wpd.day,
-            ww.id as webtoonWriterId, ww.name
+            ww.id as webtoonWriterId, ww.name,
+            rc.id as recommendationCountId, rc.join_count as joinCount, rc.leave_count as leaveCount
             from webtoon w
             join webtoon_genre wg on w.id = wg.webtoon_id
             join webtoon_publish_day wpd on w.id = wpd.webtoon_id
             join webtoon_writer ww on w.id = ww.webtoon_id
+            left join recommendation_count rc on w.id = rc.webtoon_id
             where w.id = :webtoon_id
             """, nativeQuery = true)
     List<WebtoonNativeDto> findOneByWebtoonId(@Param(value = "webtoon_id") Long webtoonId);
