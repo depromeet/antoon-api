@@ -52,7 +52,6 @@ jobs:
           context: .
           push: true
           tags: antoonapi/antoon-core-api:staging
-          build-args: ACTIVE=staging
 
       # Build Docker Container - Main Branch
       - name: Docker Image Build And Push
@@ -62,7 +61,6 @@ jobs:
           context: .
           push: true
           tags: antoonapi/antoon-core-api:prod
-          build-args: ACTIVE=prod
 
       # Login AWS
       - name: Login Aws
