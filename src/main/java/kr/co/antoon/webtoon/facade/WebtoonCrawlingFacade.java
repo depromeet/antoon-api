@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static kr.co.antoon.webtoon.converter.WebtoonConverter.toWebtoon;
+
 @Component
 @RequiredArgsConstructor
 public class WebtoonCrawlingFacade {
@@ -60,15 +62,7 @@ public class WebtoonCrawlingFacade {
                                 );
                                 webtoonId = webtoon.getId();
                             } else {
-                                webtoonId = webtoonService.save(
-                                        Webtoon.builder()
-                                                .title(crawlingWebtton.title())
-                                                .content(crawlingWebtton.content())
-                                                .webtoonUrl(crawlingWebtton.url())
-                                                .thumbnail(crawlingWebtton.thumbnail())
-                                                .platform(platform)
-                                                .build()
-                                );
+                                webtoonId = webtoonService.save(toWebtoon(crawlingWebtton, platform));
 
                                 webtoonWriters.addAll(crawlingWebtton.writer()
                                         .parallelStream()

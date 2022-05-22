@@ -41,6 +41,7 @@ public class WebtoonController {
         return ResponseDto.ok(response);
     }
 
+    // TODO : 조회로직 수정 필요 [꼭 수정해야 합니다!]
     @ApiOperation(value = "연재 웹툰 요일별 조회 API", notes = SwaggerNote.WEBTOON_DAY_READ_NOTE)
     @GetMapping("/days/{day}")
     public ResponseEntity<PageDto<WebtoonDayResponse>> getWebtoonByDay(
@@ -58,6 +59,7 @@ public class WebtoonController {
         return ResponseDto.ok(response);
     }
 
+    // TODO : 조회로직 수정 필요 [꼭 수정해야 합니다!]
     @ApiOperation(value = "장르별 활성화된 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_GENRE)
     @GetMapping(value = "/genres/{genre}")
     public ResponseEntity<PageDto<WebtoonGenreResponse>> getWebtoonsByGenreAndStatus(
@@ -68,6 +70,7 @@ public class WebtoonController {
         return PageDto.ok(response);
     }
 
+    // TODO : 조회로직 수정 필요 [꼭 수정해야 합니다!]
     @ApiOperation(value = "장르별 top3 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_GENRES)
     @GetMapping(value = "/genres")
     public ResponseEntity<WebtoonGenreAllResponse> getWebtoonsByGenres() {

@@ -1,5 +1,8 @@
 package kr.co.antoon.webtoon.converter;
 
+import kr.co.antoon.webtoon.domain.Webtoon;
+import kr.co.antoon.webtoon.domain.vo.Platform;
+import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
 import kr.co.antoon.webtoon.dto.WebtoonNativeDto;
 
@@ -43,5 +46,15 @@ public class WebtoonConverter {
                 days,
                 writers
         );
+    }
+
+    public static Webtoon toWebtoon(WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton, Platform platform){
+        return Webtoon.builder()
+                .title(crawlingWebtton.title())
+                .content(crawlingWebtton.content())
+                .webtoonUrl(crawlingWebtton.url())
+                .thumbnail(crawlingWebtton.thumbnail())
+                .platform(platform)
+                .build();
     }
 }
