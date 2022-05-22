@@ -10,10 +10,7 @@ import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.oauth.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static kr.co.antoon.common.Utility.APPLICATION_JSON_UTF_8;
 
