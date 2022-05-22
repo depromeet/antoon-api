@@ -65,27 +65,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 jwtTokenProvider.getRefreshTokenExpireTime()
         );
 
-
         var targetUrl = redirectUrl + "?status=success?access=" + accessToken + "?refresh=" + refreshToken;
-
-        response.setContentType("application/json;charset=UTF-8");
-        response.addHeader("Authorization", accessToken);
-        response.addHeader("Refresh", refreshToken);
-
-        response.addCookie(getCookie("accessToken", accessToken));
-        response.addCookie(getCookie("refreshToken", refreshToken));
-
         response.sendRedirect(targetUrl);
-
-    }
-
-    private Cookie getCookie(String key, String auth) {
-        Cookie cookie = new Cookie(key, auth);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setMaxAge(7 * 24 * 60 * 60);
-        cookie.setPath("/");
-        cookie.setDomain(domainUrl);
-        return cookie;
     }
 }
