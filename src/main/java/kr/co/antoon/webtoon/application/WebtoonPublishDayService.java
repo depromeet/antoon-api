@@ -18,15 +18,7 @@ public class WebtoonPublishDayService {
     public void saveAll(List<WebtoonPublishDay> webtoonPublishDays) {
         webtoonPublishDayRepository.saveAll(webtoonPublishDays);
     }
-
-    @Transactional
-    public List<String> findDaysByWebtoonId(Long webtoonId) {
-        return webtoonPublishDayRepository.findAllByWebtoonId(webtoonId)
-                .stream()
-                .map(WebtoonPublishDay::getDay)
-                .collect(Collectors.toList());
-    }
-
+    
     @Transactional(readOnly = true)
     public boolean existsByWebtoonIdAndDay(Long webtoonId, String day) {
         return webtoonPublishDayRepository.existsByWebtoonIdAndDay(webtoonId, day);
