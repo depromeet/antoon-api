@@ -12,4 +12,6 @@ public class Utility {
     public static double getDifferencePercentage(int score, int gap) {
         return gap * 1.0 / score * 100;
     }
+
+    public final static String APPLICATION_JSON_UTF_8 = "application/json;charset=UTF-8";
 }
