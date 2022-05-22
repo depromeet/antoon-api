@@ -42,12 +42,10 @@ public class WebtoonCrawlingFacade {
         List<WebtoonWriter> webtoonWriters = new ArrayList<>();
         List<WebtoonGenre> webtoonGenres = new ArrayList<>();
 
-        var webtoons = WebtoonCrawlingFactory.of(platform)
-                .crawling()
-                .webtoons();
+        var webtoonCrawling = WebtoonCrawlingFactory.of(platform);
 
         var webtoonSnapshots = new ArrayList<>(
-                webtoons
+                webtoonCrawling.crawling().webtoons()
                         .parallelStream()
                         .map(crawlingWebtton -> {
                             Long webtoonId;
