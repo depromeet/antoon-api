@@ -4,13 +4,15 @@ import kr.co.antoon.webtoon.dto.WebtoonDto;
 import kr.co.antoon.webtoon.dto.WebtoonNativeDto;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class WebtoonConverter {
     public static WebtoonDto toWebtoonDto(List<WebtoonNativeDto> webtoon) {
-        List<WebtoonDto.GenreDto> genres = new ArrayList<>();
-        List<WebtoonDto.PublishDayDto> days = new ArrayList<>();
-        List<WebtoonDto.WriterDto> writers = new ArrayList<>();
+        Set<WebtoonDto.GenreDto> genres = new HashSet<>();
+        Set<WebtoonDto.PublishDayDto> days = new HashSet<>();
+        Set<WebtoonDto.WriterDto> writers = new HashSet<>();
 
         webtoon.forEach(dto -> {
             genres.add(new WebtoonDto.GenreDto(

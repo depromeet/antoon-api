@@ -40,11 +40,12 @@ public class WebtoonService {
 
     @Transactional(readOnly = true)
     public WebtoonAllResponse searchAll() {
-        return new WebtoonAllResponse(
-                findAll().parallelStream()
-                        .map(WebtoonAllResponse.WebtoonDetail::new)
-                        .collect(Collectors.toList())
-        );
+        var webtoons = findAll()
+                .parallelStream()
+                .map(WebtoonAllResponse.WebtoonDetail::new)
+                .collect(Collectors.toList());
+
+        return new WebtoonAllResponse(webtoons);
     }
 
     @Transactional(readOnly = true)

@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class TopRankResponse {
         @Schema(description = "소개")
         private final String content;
         @Schema(description = "작가")
-        private final List<WebtoonDto.WriterDto> writers;
+        private final Set<WebtoonDto.WriterDto> writers;
         @Schema(description = "웹툰 url")
         private final String url;
         @Schema(description = "썸네일")
@@ -45,9 +46,9 @@ public class TopRankResponse {
         @Schema(description = "웹툰 플랫폼 설명")
         private final String platformDescription;
         @Schema(description = "웹툰 정르")
-        private final List<WebtoonDto.GenreDto> genres;
+        private final Set<WebtoonDto.GenreDto> genres;
         @Schema(description = "웹툰 연재요일")
-        private final List<WebtoonDto.PublishDayDto> days;
+        private final Set<WebtoonDto.PublishDayDto> days;
 
         public TopRankWebtooon(
                 Integer rank,

@@ -14,11 +14,6 @@ import java.util.List;
 public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
     List<Webtoon> findAllByStatus(ActiveStatus status);
 
-    /**
-     * 검색 조회를 위한 Query
-     **/
-    List<Webtoon> findAllByTitleContainingIgnoreCase(String title);
-
     @Query(value = """
             select w.* 
             from webtoon w 

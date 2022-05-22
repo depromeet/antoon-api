@@ -6,6 +6,7 @@ import kr.co.antoon.common.dto.PageDto;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.webtoon.application.WebtoonService;
+import kr.co.antoon.webtoon.dto.WebtoonDto;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreAllResponse;
@@ -33,10 +34,10 @@ public class WebtoonController {
 
     @ApiOperation(value = "웹툰 상세 조회 API", notes = SwaggerNote.WEBTOON_READ_DETAIL)
     @GetMapping(value = "/{webtoonId}")
-    public ResponseEntity<WebtoonResponse> getWebtoonById(
+    public ResponseEntity<WebtoonDto> getWebtoonById(
             @PathVariable("webtoonId") Long webtoonId
     ) {
-        var response = webtoonFacade.getWebtoon(webtoonId);
+        var response = webtoonService.findDetailWebtoon(webtoonId);
         return ResponseDto.ok(response);
     }
 
@@ -44,7 +45,7 @@ public class WebtoonController {
     @GetMapping("/days/{day}")
     public ResponseEntity<PageDto<WebtoonDayResponse>> getWebtoonByDay(
             @PathVariable String day,
-            @PageableDefault(size = 12, page = 0) Pageable pageable
+            @PageableDefault(size = 12) Pageable pageable
     ) {
         var response = webtoonFacade.getWebtoonByDay(pageable, day);
         return PageDto.ok(response);
@@ -61,7 +62,7 @@ public class WebtoonController {
     @GetMapping(value = "/genres/{genre}")
     public ResponseEntity<PageDto<WebtoonGenreResponse>> getWebtoonsByGenreAndStatus(
             @PathVariable("genre") String genre,
-            @PageableDefault(size = 12, page = 0) Pageable pageable
+            @PageableDefault(size = 12) Pageable pageable
     ) {
         var response = webtoonFacade.getWebtoonsGenreAndStatus(pageable, genre);
         return PageDto.ok(response);
