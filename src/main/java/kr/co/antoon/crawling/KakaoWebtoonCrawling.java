@@ -1,6 +1,6 @@
-package kr.co.antoon.crawling.webtoon;
+package kr.co.antoon.crawling;
 
-import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
+import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,7 +63,7 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                                         day
                                 )
                         );
-                        log.info("[Kakao Webtoon Crawling] title-> {} / score -> {}", title, score);
+                        // log.info("[Kakao Webtoon Crawling] title-> {} / score -> {}", title, score);
                     });
                 }
             }

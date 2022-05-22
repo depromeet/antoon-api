@@ -1,6 +1,6 @@
 package kr.co.antoon.webtoon.facade;
 
-import kr.co.antoon.crawling.webtoon.WebtoonCrawlingFactory;
+import kr.co.antoon.crawling.WebtoonCrawlingFactory;
 import kr.co.antoon.webtoon.application.WebtoonGenreService;
 import kr.co.antoon.webtoon.application.WebtoonPublishDayService;
 import kr.co.antoon.webtoon.application.WebtoonService;
@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static kr.co.antoon.webtoon.converter.WebtoonConverter.toWebtoon;
+
 @Component
 @RequiredArgsConstructor
 public class WebtoonCrawlingFacade {
@@ -40,12 +42,10 @@ public class WebtoonCrawlingFacade {
         List<WebtoonWriter> webtoonWriters = new ArrayList<>();
         List<WebtoonGenre> webtoonGenres = new ArrayList<>();
 
-        var webtoons = WebtoonCrawlingFactory.of(platform)
-                .crawling()
-                .webtoons();
+        var webtoonCrawling = WebtoonCrawlingFactory.of(platform);
 
         var webtoonSnapshots = new ArrayList<>(
-                webtoons
+                webtoonCrawling.crawling().webtoons()
                         .parallelStream()
                         .map(crawlingWebtton -> {
                             Long webtoonId;
@@ -60,15 +60,7 @@ public class WebtoonCrawlingFacade {
                                 );
                                 webtoonId = webtoon.getId();
                             } else {
-                                webtoonId = webtoonService.save(
-                                        Webtoon.builder()
-                                                .title(crawlingWebtton.title())
-                                                .content(crawlingWebtton.content())
-                                                .webtoonUrl(crawlingWebtton.url())
-                                                .thumbnail(crawlingWebtton.thumbnail())
-                                                .platform(platform)
-                                                .build()
-                                );
+                                webtoonId = webtoonService.save(toWebtoon(crawlingWebtton, platform));
 
                                 webtoonWriters.addAll(crawlingWebtton.writer()
                                         .parallelStream()

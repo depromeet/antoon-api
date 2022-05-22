@@ -3,9 +3,9 @@ name: Antoon Api Server Git-Action for STAGING
 
 on:
   push:
-    branches: [ staging ]
+    branches: [ staging, main ]
   pull_request:
-    branches: [ staging ]
+    branches: [ staging, main ]
 
 jobs:
   build:
@@ -44,13 +44,23 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # Build Docker Container
+      # Build Docker Container - Staging Branch
       - name: Docker Image Build And Push
+        if: github.ref == 'refs/heads/staging'
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: antoonapi/antoon-core-api:latest
+          tags: antoonapi/antoon-core-api:staging
+
+      # Build Docker Container - Main Branch
+      - name: Docker Image Build And Push
+        if: github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: antoonapi/antoon-core-api:prod
 
       # Login AWS
       - name: Login Aws

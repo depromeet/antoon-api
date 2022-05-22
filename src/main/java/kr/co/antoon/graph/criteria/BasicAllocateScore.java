@@ -1,11 +1,11 @@
-package kr.co.antoon.graph.domain;
+package kr.co.antoon.graph.criteria;
 
-public class ScoreAllocationCriteria {
-    public static int webtoonScore(Double score) {
+public class BasicAllocateScore implements ScoreAllocationCriteria {
+    public int webtoonScore(Double score) {
         return (int) (score * 100 / 2);
     }
 
-    public static int discussionScore(long count) {
+    public int discussionScore(long count) {
         if (count > 10) {
             return 200;
         } else if (count > 8) {
@@ -21,7 +21,7 @@ public class ScoreAllocationCriteria {
         }
     }
 
-    public static int recommendationScore(int count) {
+    public int recommendationScore(int count) {
         if (count > 10) {
             return 300;
         } else if (count > 8) {
@@ -37,8 +37,9 @@ public class ScoreAllocationCriteria {
         }
     }
 
-    public static int graphScore(int discussionScore, int recommendationScore, int webtoonScore) {
+    public int graphScore(int discussionScore, int recommendationScore, int webtoonScore) {
         var graphScore = discussionScore + recommendationScore + webtoonScore;
+
         return Math.max(graphScore, 250);
     }
 }

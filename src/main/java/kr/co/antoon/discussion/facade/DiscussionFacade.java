@@ -4,9 +4,7 @@ import kr.co.antoon.discussion.application.DiscussionLikeService;
 import kr.co.antoon.discussion.application.DiscussionService;
 import kr.co.antoon.discussion.dto.request.DiscussionCreateRequest;
 import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
-import kr.co.antoon.discussion.dto.response.DiscussionCreateResponse;
-import kr.co.antoon.discussion.dto.response.DiscussionReadResponse;
-import kr.co.antoon.discussion.dto.response.DiscussionUpdateResponse;
+import kr.co.antoon.discussion.dto.response.DiscussionResponse;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,7 @@ public class DiscussionFacade {
     private final UserService userService;
 
     @Transactional
-    public DiscussionCreateResponse register(Long userId, Long webtoonId, DiscussionCreateRequest request) {
+    public DiscussionResponse register(Long userId, Long webtoonId, DiscussionCreateRequest request) {
         webtoonService.existsById(webtoonId);
 
         var discussion = discussionService.save(
@@ -34,60 +32,36 @@ public class DiscussionFacade {
         );
 
         var user = userService.findById(discussion.getUserId());
-        return new DiscussionCreateResponse(
-                discussion.getId(),
-                discussion.getContent(),
-                discussion.getUserId(),
-                user.getName(),
-                user.getImageUrl(),
-                discussion.getLikeCount(),
-                false
-        );
+
+        return new DiscussionResponse(discussion, user, false);
     }
 
     @Transactional
-    public DiscussionReadResponse findById(Long userId, Long discussionId) {
+    public DiscussionResponse findById(Long userId, Long discussionId) {
         var isUserLike = discussionLikeService.isUserLike(userId, discussionId);
         var discussion = discussionService.findById(discussionId);
         var user = userService.findById(discussion.getUserId());
-        return new DiscussionReadResponse(
-                discussion.getId(),
-                discussion.getContent(),
-                discussion.getUserId(),
-                user.getName(),
-                user.getImageUrl(),
-                discussion.getLikeCount(),
-                isUserLike
-        );
+
+        return new DiscussionResponse(discussion, user, isUserLike);
     }
 
     @Transactional(readOnly = true)
-    public Page<DiscussionReadResponse> findAll(Long userId, Pageable pageable) {
+    public Page<DiscussionResponse> findAll(Long userId, Pageable pageable) {
         return discussionService.findAll(pageable)
-            .map(discussion ->
-                new DiscussionReadResponse(
-                    discussion.getId(),
-                    discussion.getContent(),
-                    discussion.getUserId(),
-                    userService.findById(discussion.getUserId()),
-                    discussion.getLikeCount(),
-                    discussionLikeService.isUserLike(userId, discussion.getId())
-            ));
+                .map(discussion -> {
+                    var user = userService.findById(discussion.getUserId());
+                    var userLike = discussionLikeService.isUserLike(userId, discussion.getId());
+
+                    return new DiscussionResponse(discussion, user, userLike);
+                });
     }
 
     @Transactional
-    public DiscussionUpdateResponse update(Long userId, Long discussionId, DiscussionUpdateRequest request) {
-        var isUserLike = discussionLikeService.isUserLike(userId, discussionId);
+    public DiscussionResponse update(Long userId, Long discussionId, DiscussionUpdateRequest request) {
         var discussion = discussionService.update(discussionId, request);
         var user = userService.findById(discussion.getUserId());
-        return new DiscussionUpdateResponse(
-                discussion.getId(),
-                discussion.getContent(),
-                discussion.getUserId(),
-                user.getName(),
-                user.getImageUrl(),
-                discussion.getLikeCount(),
-                isUserLike
-        );
+        var isUserLike = discussionLikeService.isUserLike(userId, discussionId);
+
+        return new DiscussionResponse(discussion, user, isUserLike);
     }
 }

@@ -18,12 +18,4 @@ public class WebtoonGenreService {
     public void saveAll(List<WebtoonGenre> webtoonGenres) {
         webtoonGenreRepository.saveAll(webtoonGenres);
     }
-
-    @Transactional(readOnly = true)
-    public List<String> findCategoryByWebtoonId(Long webtoonId) {
-        return webtoonGenreRepository.findAllByWebtoonId(webtoonId)
-                .stream()
-                .map(WebtoonGenre::getGenreCategoryDescription)
-                .collect(Collectors.toList());
-    }
 }

@@ -261,4 +261,15 @@ public class SwaggerNote {
                                 "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/784140/thumbnail/thumbnail_IMAG04_fdda97b7-d253-4918-8f18-3c1f207c5ab3.jpg"
                             }, ...       
             """;
+
+    public final static String USER_UPDATE_DETAIL = """
+                    사용자 마이페이지 수정
+                    PATCH /api/v1/users/mypage            
+                        
+                    Request Body
+                    {
+                        "name" : "김테스트", //사용자 이름
+                        "imageUrl" : "https://image.jpg" // 프로필 이미지 url
+                    }
+            """;
 }

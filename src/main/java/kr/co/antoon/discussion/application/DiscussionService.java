@@ -65,4 +65,12 @@ public class DiscussionService {
     public List<DiscussionCountDto> discussionCount(LocalDateTime before, LocalDateTime now) {
         return discussionRepository.countAllDiscussion(before, now);
     }
+
+    @Transactional(readOnly = true)
+    public long countAllLikes() {
+        return discussionRepository.findAll()
+                .parallelStream()
+                .mapToLong(Discussion::getLikeCount)
+                .sum();
+    }
 }
