@@ -39,9 +39,4 @@ public class AuthController {
         authService.revokeToken(access, refreshToken);
         return ResponseDto.noContent();
     }
-
-    @GetMapping("/test")
-    public AuthInfo test(@AuthUser AuthInfo info) {
-        return info;
-    }
 }
