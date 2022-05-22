@@ -44,7 +44,8 @@ public class DiscussionController {
             @Validated @RequestBody DiscussionCreateRequest request,
             @AuthUser AuthInfo info
             ) {
-        return ResponseDto.created(discussionFacade.register(info.userId(), webtoonId, request));
+        var response = discussionFacade.register(info.userId(), webtoonId, request);
+        return ResponseDto.created(response);
     }
 
     @ApiOperation(value = "종목토론방 댓글 단건 조회", notes = SwaggerNote.DISCUSSION_READ_ONE_NOTE)

@@ -25,6 +25,7 @@ public class UserController {
     @ApiOperation(value = "사용자 마이페이지 조회 API", notes = SwaggerNote.USER_READ_DETAIL)
     @GetMapping
     public ResponseEntity<UserDetailResponse> getUser(@AuthUser AuthInfo info) {
-        return ResponseEntity.ok(userService.findById(info.userId()));
+        var response = userService.findById(info.userId());
+        return ResponseEntity.ok(response);
     }
 }
