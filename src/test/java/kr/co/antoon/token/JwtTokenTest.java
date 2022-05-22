@@ -27,7 +27,7 @@ public class JwtTokenTest {
     @Test
     @DisplayName("토큰 getUserId() - 성공")
     void getUserIdSuccess() {
-        String accessToken = jwtTokenProvider.createAccessToken(Long.toString(1L), Role.USER);
+        String accessToken = jwtTokenProvider.createAccessToken(Long.toString(1L), Role.USER.getKey());
         Long userId = jwtTokenProvider.getUserId(accessToken);
         assertThat(userId).isEqualTo(1L);
     }

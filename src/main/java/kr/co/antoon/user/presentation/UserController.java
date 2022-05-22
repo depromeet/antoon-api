@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
+import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
@@ -27,18 +28,18 @@ public class UserController {
 
     @ApiOperation(value = "사용자 마이페이지 조회 API", notes = SwaggerNote.USER_READ_DETAIL)
     @GetMapping
-    public ResponseEntity<UserDetailResponse> getUser(@AuthUser Long userId) {
-        var response = userService.findById(userId);
+    public ResponseEntity<UserDetailResponse> getUser(@AuthUser AuthInfo info) {
+        var response = userService.findById(info.userId());
         return ResponseEntity.ok(response);
     }
 
     @ApiOperation(value = "사용자 마이페이지 수정 API", notes = SwaggerNote.USER_UPDATE_DETAIL)
     @PatchMapping
     public ResponseEntity<UserDetailResponse> updateUser(
-            @AuthUser Long userId,
+            @AuthUser AuthInfo info,
             @RequestBody UserDetailRequest request
     ) {
-        var response = userService.updateById(userId, request);
+        var response = userService.updateById(info.userId(), request);
         return ResponseEntity.ok(response);
     }
 }

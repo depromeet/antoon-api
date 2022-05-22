@@ -11,6 +11,7 @@ import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.discussion.dto.response.DiscussionResponse;
 import kr.co.antoon.discussion.facade.DiscussionFacade;
 import kr.co.antoon.oauth.config.AuthUser;
+import kr.co.antoon.oauth.dto.AuthInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -41,9 +42,9 @@ public class DiscussionController {
     public ResponseEntity<DiscussionResponse> create(
             @PathVariable Long webtoonId,
             @Validated @RequestBody DiscussionCreateRequest request,
-            @AuthUser Long userId
-    ) {
-        var response = discussionFacade.register(userId, webtoonId, request);
+            @AuthUser AuthInfo info
+            ) {
+        var response = discussionFacade.register(info.userId(), webtoonId, request);
         return ResponseDto.created(response);
     }
 
@@ -51,9 +52,9 @@ public class DiscussionController {
     @GetMapping("/discussions/{discussionId}")
     public ResponseEntity<DiscussionResponse> findOne(
             @PathVariable Long discussionId,
-            @AuthUser Long userId
+            @AuthUser AuthInfo info
     ) {
-        var response = discussionFacade.findById(userId, discussionId);
+        var response = discussionFacade.findById(info.userId(), discussionId);
         return ResponseDto.ok(response);
     }
 
@@ -61,9 +62,9 @@ public class DiscussionController {
     @GetMapping("/discussions")
     public ResponseEntity<PageDto<DiscussionResponse>> findAll(
             @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-            @AuthUser Long userId
+            @AuthUser AuthInfo info
     ) {
-        var response = discussionFacade.findAll(userId, pageable);
+        var response = discussionFacade.findAll(info.userId(), pageable);
         return PageDto.ok(response);
     }
 
@@ -72,9 +73,9 @@ public class DiscussionController {
     public ResponseEntity<DiscussionResponse> update(
             @PathVariable Long discussionId,
             @Validated @RequestBody DiscussionUpdateRequest request,
-            @AuthUser Long userId
+            @AuthUser AuthInfo info
     ) {
-        var response = discussionFacade.update(userId, discussionId, request);
+        var response = discussionFacade.update(info.userId(), discussionId, request);
         return ResponseDto.ok(response);
     }
 
@@ -82,7 +83,7 @@ public class DiscussionController {
     @DeleteMapping("/discussions/{discussionId}")
     public ResponseEntity<Void> delete(
             @PathVariable Long discussionId,
-            @AuthUser Long userId
+            @AuthUser AuthInfo info
     ) {
         discussionService.delete(discussionId);
         return ResponseDto.noContent();
