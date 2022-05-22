@@ -25,8 +25,8 @@ public record DiscussionResponse(
                 discussion.getId(),
                 discussion.getContent(),
                 discussion.getUserId(),
-                user.getName(),
-                user.getImageUrl(),
+                user.name(),
+                user.imageUrl(),
                 discussion.getLikeCount(),
                 isUserLike
         );

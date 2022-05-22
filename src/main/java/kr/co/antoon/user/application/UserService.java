@@ -8,7 +8,6 @@ import kr.co.antoon.user.dto.response.UserDetailResponse;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -30,10 +29,12 @@ public class UserService {
     }
 
     @Transactional
-    public void updateById(Long id, UserDetailRequest userDetailRequest) {
+    public UserDetailResponse updateById(Long id, UserDetailRequest request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
-        user.update(userDetailRequest.getName(), userDetailRequest.getImageUrl());
+        user.update(request.name(), request.imageUrl());
+
+        return new UserDetailResponse(user);
     }
 }
