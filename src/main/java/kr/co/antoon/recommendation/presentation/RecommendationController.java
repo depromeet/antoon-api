@@ -22,6 +22,7 @@ import static kr.co.antoon.common.Utility.APPLICATION_JSON_UTF_8;
 public class RecommendationController {
     private final RecommendationFacade recommendationFacade;
 
+    // TODO : 탑승과 하차를 하나의 API에서 진행하는 건 어떨까요?
     @ApiOperation(value = "탑승해요", notes = SwaggerNote.RECOMMENDATION_JOIN)
     @PatchMapping("/join/{webtoonId}")
     public ResponseEntity<Void> updateJoinStatus(@PathVariable Long webtoonId, @AuthUser Long userId) {
