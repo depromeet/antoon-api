@@ -3,7 +3,6 @@ package kr.co.antoon.oauth.handler;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.oauth.application.JwtTokenProvider;
-import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Role;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -53,23 +52,18 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             HttpServletResponse response,
             Authentication authentication
     ) throws IOException {
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String email = (String) oAuth2User.getAttributes().get("email");
-        User user = userRepository.findByEmail(email)
+        var oAuth2User = (OAuth2User) authentication.getPrincipal();
+        var email = (String) oAuth2User.getAttributes().get("email");
+        var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
-        String accessToken = jwtTokenProvider.createAccessToken(user.getId().toString(), Role.USER);
-        String refreshToken = jwtTokenProvider.createRefreshToken(Long.toString(user.getId()));
+        var accessToken = jwtTokenProvider.createAccessToken(user.getId().toString(), Role.USER);
+        var refreshToken = jwtTokenProvider.createRefreshToken(Long.toString(user.getId()));
         redisTemplate.opsForValue().set("RT: " + user.getId(), refreshToken,
                 jwtTokenProvider.getRefreshTokenExpireTime(), TimeUnit.MILLISECONDS);
 
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(redirectUrl)
-                .append("?status=").append("success")
-                .append("?access=").append(accessToken)
-                .append("?refresh=").append(refreshToken);
-        String targetUrl = sb.toString();
+        var targetUrl = redirectUrl + "?status=success?access=" + accessToken + "?refresh=" + refreshToken;
 
         response.setContentType("application/json;charset=UTF-8");
         response.addHeader("Authorization", accessToken);

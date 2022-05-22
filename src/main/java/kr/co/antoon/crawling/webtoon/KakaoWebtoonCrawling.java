@@ -63,7 +63,7 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                                         day
                                 )
                         );
-                        log.info("[Kakao Webtoon Crawling] title-> {} / score -> {}", title, score);
+                        // log.info("[Kakao Webtoon Crawling] title-> {} / score -> {}", title, score);
                     });
                 }
             }

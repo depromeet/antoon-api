@@ -8,23 +8,22 @@ import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Role;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import javax.transaction.Transactional;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final RedisTemplate redisTemplate;
 
+
+    @Transactional
     public TokenResponse refresh(String refreshToken) {
         Long userId = jwtTokenProvider.getUserId(refreshToken);
         User user = userRepository.findById(userId)
@@ -52,7 +51,10 @@ public class AuthService {
         return new TokenResponse(newAccessToken, newRefreshToken);
     }
 
-    public void revokeToken(String access, String refresh) {
+    @Transactional
+    public void revokeToken(String accesss, String refresh) {
+        var access = accesss.substring(7);
+
         if (!jwtTokenProvider.validate(access)) { //유효성 검사
             throw new TokenExpiredException(ErrorMessage.NOT_VALIDATE_TOKEN);
         }
