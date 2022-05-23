@@ -60,12 +60,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         var refreshToken = jwtTokenProvider.createRefreshToken(Long.toString(user.getId()));
 
         userRedisCacheService.update(
-                "RT: " + user.getId(),
+                user.getId().toString(),
                 refreshToken,
                 jwtTokenProvider.getRefreshTokenExpireTime()
         );
 
         var targetUrl = redirectUrl + "?status=success?access=" + accessToken + "?refresh=" + refreshToken;
         response.sendRedirect(targetUrl);
+        log.info("redis : {}", userRedisCacheService.get(user.getId()));
     }
 }
