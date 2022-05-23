@@ -18,5 +18,5 @@ public record WebtoonRankingAllResponse (
             LocalDateTime snapshotTime,
             String activeStatus,
             Platform platform
-    ) { }
+    ) {}
 }
