@@ -8,8 +8,7 @@ import kr.co.antoon.recommendation.domain.RecommendationCount;
 import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ public class RecommendationFacade {
         RecommendationCount recommendationCount = recommendationCountService.findByWebtoonId(webtoonId).orElse(null);
         if (recommendationCount != null) {
             int joinCount = recommendationCount.getJoinCount();
-            recommendationCount.plusJoinCount(joinCount++);
+            recommendationCount.plusJoinCount(++joinCount);
         } else {
             recommendationCountService.save(webtoonId, 1);
         }
@@ -44,12 +43,13 @@ public class RecommendationFacade {
         RecommendationCount recommendationCount = recommendationCountService.findByWebtoonId(webtoonId).orElse(null);
         if (recommendationCount != null) {
             int leaveCount = recommendationCount.getLeaveCount();
-            recommendationCount.plusLeaveCount(leaveCount++);
+            recommendationCount.plusLeaveCount(++leaveCount);
         } else {
             recommendationCountService.save(webtoonId, 1);
         }
     }
 
+    // TODO : 해당 로직이 조금 이상합니다! Null에 대한 방어가 없습니다
     @Transactional
     public void changeAllStatus() {
         recommendationService.findAllByStatus(RecommendationStatus.JOINED).forEach(recommendation -> {

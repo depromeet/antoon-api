@@ -2,68 +2,72 @@ package kr.co.antoon.graph.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
-import kr.co.antoon.webtoon.domain.Webtoon;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
+import kr.co.antoon.webtoon.domain.vo.Platform;
+import kr.co.antoon.webtoon.dto.WebtoonDto;
 
 import java.util.List;
+import java.util.Set;
 
-@Getter
-@RequiredArgsConstructor
-public class TopRankResponse {
-    private final List<TopRankWebtooon> webtoons;
+public record TopRankResponse(
+        List<TopRankWebtooon> webtoons
+) {
 
-    @Getter
     @Schema(description = "Top Rank Response")
-    public static class TopRankWebtooon {
-        @Schema(description = "순위")
-        private final Integer rank;
-        @Schema(description = "웹툰 점수")
-        private final int score;
-        @Schema(description = "gap percent")
-        private final double gapPercent;
-        @Schema(description = "웹툰 id")
-        private final Long id;
-        @Schema(description = "제목")
-        private final String title;
-        @Schema(description = "소개")
-        private final String content;
-        @Schema(description = "작가")
-        private final List<String> writers;
-        @Schema(description = "웹툰 url")
-        private final String url;
-        @Schema(description = "썸네일")
-        private final String thumbnail;
-        @Schema(description = "웹툰 상태")
-        private final String activeStatus;
-        @Schema(description = "웹툰 플랫폼")
-        private final String platform;
-        @Schema(description = "웹툰 정르")
-        private final List<String> genres;
-        @Schema(description = "웹툰 연재요일")
-        private final List<String> days;
-
+    public record TopRankWebtooon(
+            @Schema(description = "순위")
+            Integer rank,
+            @Schema(description = "웹툰 점수")
+            int score,
+            @Schema(description = "gap percent")
+            double gapPercent,
+            @Schema(description = "웹툰 id")
+            Long id,
+            @Schema(description = "제목")
+            String title,
+            @Schema(description = "소개")
+            String content,
+            @Schema(description = "작가")
+            Set<WebtoonDto.WriterDto> writers,
+            @Schema(description = "웹툰 url")
+            String url,
+            @Schema(description = "썸네일")
+            String thumbnail,
+            @Schema(description = "웹툰 상태")
+            ActiveStatus activeStatus,
+            @Schema(description = "웹툰 상태 설명")
+            String activeStatusDescription,
+            @Schema(description = "웹툰 플랫폼")
+            Platform platform,
+            @Schema(description = "웹툰 플랫폼 설명")
+            String platformDescription,
+            @Schema(description = "웹툰 정르")
+            Set<WebtoonDto.GenreDto> genres,
+            @Schema(description = "웹툰 연재요일")
+            Set<WebtoonDto.PublishDayDto> days
+    ) {
         public TopRankWebtooon(
                 Integer rank,
                 GraphScoreSnapshot graphScoreSnapshot,
-                Webtoon webtoon,
-                List<String> writers,
-                List<String> genres,
-                List<String> days
+                WebtoonDto dto
         ) {
-            this.rank = rank;
-            this.score = graphScoreSnapshot.getGraphScore();
-            this.gapPercent = graphScoreSnapshot.getScoreGapPercent();
-            this.id = webtoon.getId();
-            this.title = webtoon.getTitle();
-            this.content = webtoon.getContent();
-            this.writers = writers;
-            this.url = webtoon.getWebtoonUrl();
-            this.thumbnail = webtoon.getThumbnail();
-            this.activeStatus = webtoon.getStatus().getDescription();
-            this.platform = webtoon.getPlatform().getDescription();
-            this.genres = genres;
-            this.days = days;
+            this(
+                    rank,
+                    graphScoreSnapshot.getGraphScore(),
+                    graphScoreSnapshot.getScoreGapPercent(),
+                    graphScoreSnapshot.getWebtoonId(),
+                    dto.title(),
+                    dto.content(),
+                    dto.writers(),
+                    dto.webtoonUrl(),
+                    dto.thumbnail(),
+                    dto.status(),
+                    dto.statusDescription(),
+                    dto.platform(),
+                    dto.platformDescription(),
+                    dto.genres(),
+                    dto.publishDays()
+            );
         }
     }
 }

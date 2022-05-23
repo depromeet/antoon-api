@@ -21,14 +21,7 @@ public class RecommendationCountService {
 
     @Transactional
     public RecommendationCount save(Long webtoonId, int joinCount) {
-        return recommendationCountRepository.save(
-                new RecommendationCount(webtoonId, joinCount)
-        );
-    }
-
-    @Transactional(readOnly = true)
-    public Optional<RecommendationCount> findTop1ByWebtoonIdOrderByCreatedAtDesc(Long webtoonId) {
-        return recommendationCountRepository.findTop1ByWebtoonIdOrderByIdDesc(webtoonId);
+        return recommendationCountRepository.save(new RecommendationCount(webtoonId, joinCount));
     }
 
     @Transactional(readOnly = true)

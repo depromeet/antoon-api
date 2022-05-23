@@ -1,29 +1,50 @@
 package kr.co.antoon.config;
 
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import kr.co.antoon.oauth.config.AuthUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebSession;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-
 @Configuration
 @EnableSwagger2
-@RequiredArgsConstructor
 public class SwaggerConfig {
+    private static final Set<String> DEFAULT_PRODUCES_AND_CONSUMES = new HashSet<>(
+            Arrays.asList("application/json", "application/xml")
+    );
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth()).build();
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global",
+                "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return List.of(new SecurityReference("JWT", authorizationScopes));
+    }
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -33,30 +54,27 @@ public class SwaggerConfig {
                         WebSession.class,
                         ServerHttpRequest.class,
                         ServerHttpResponse.class,
-                        ServerWebExchange.class
+                        ServerWebExchange.class,
+                        AuthUser.class
                 )
                 .apiInfo(new ApiInfo(
-                                "ANTOON CORE API",
-                                "ANTOON CORE API",
-                                "v.1.0",
-                                "urn:tos",
-                                new Contact(
-                                        "ANTOON",
-                                        "https://github.com/depromeet/antoon-api",
-                                        "wrjssmjdhappy@gmail.com"
-                                ),
-                                "Apache2.0",
-                                "http://www.apache.org/licenses/LICENSE-2.0",
-                                new ArrayList<>()
-                        )
-                )
-                .produces(new HashSet<>(Arrays.asList("application/json", "application/xml")))
-                .consumes(new HashSet<>(Arrays.asList("application/json", "application/xml")))
-                .securitySchemes(List.of(new ApiKey(
-                        "ANTOON-API",
-                        "Authorization",
-                        "header"
-                )))
+                        "ANTOON API",
+                        "Management REST API SERVICE",
+                        "1.0",
+                        "urn:tos",
+                        new Contact(
+                                "ANTOON API",
+                                "https://github.com/depromeet/antoon-api",
+                                "wrjssmjdhappy@gmail.com"
+                        ),
+                        "Apache 2.0",
+                        "http://www.apache.org/licenses/LICENSE-2.0",
+                        new ArrayList<>()
+                ))
+                .produces(DEFAULT_PRODUCES_AND_CONSUMES)
+                .consumes(DEFAULT_PRODUCES_AND_CONSUMES)
+                .securityContexts(List.of(securityContext()))
+                .securitySchemes(List.of(new ApiKey("JWT", "Authorization", "header")))
                 .select()
                 .paths(PathSelectors.regex("/api/.*"))
                 .build();

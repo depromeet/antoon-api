@@ -1,13 +1,12 @@
-package kr.co.antoon.webtoon.crawling;
+package kr.co.antoon.crawling;
 
-import kr.co.antoon.webtoon.dto.WebtoonCrawlingDto;
+import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Slf4j
-@Component(KakaoWebtoonCrawling.KAKAO_WEBTOON)
 public class KakaoWebtoonCrawling implements WebtoonCrawling {
 
     public static final String KAKAO_WEBTOON = "KakaoWebtoon";
@@ -65,7 +63,7 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                                         day
                                 )
                         );
-                        log.info("[Kakao Webtoon Crawling] title-> {} / score -> {}", title, score);
+                        // log.info("[Kakao Webtoon Crawling] title-> {} / score -> {}", title, score);
                     });
                 }
             }

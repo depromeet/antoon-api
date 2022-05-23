@@ -15,6 +15,7 @@ public class DiscussionLikeFacade {
     @Transactional
     public void saveOrUpdate(Long memberId, Long discussionId) {
         var discussion = discussionService.findById(discussionId);
-        likeService.saveOrUpdate(discussion, memberId, discussionId);
+        var like = likeService.saveOrUpdate(memberId, discussionId);
+        discussion.updateLikeCount(like.getStatus());
     }
 }

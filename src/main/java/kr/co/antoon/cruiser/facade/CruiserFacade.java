@@ -1,13 +1,13 @@
 package kr.co.antoon.cruiser.facade;
 
 import kr.co.antoon.cruiser.dto.slack.SlackCruiserResponse;
+import kr.co.antoon.discussion.application.DiscussionLikeService;
 import kr.co.antoon.discussion.application.DiscussionService;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.graph.application.TopRankService;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonSnapshotService;
-import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -31,10 +31,12 @@ public class CruiserFacade {
         var pauseWebtoonCount = webtoonService.countByStatus(ActiveStatus.PAUSE);
         var webtoonSnapshotCount = webtoonSnapshotService.count();
         var graphScoreSnapshotCount = graphScoreSnapshotService.count();
+        var discussionLikeCount = discussionService.countAllLikes();
 
         return SlackCruiserResponse.dataStatistics(
                 userCount,
                 discussionCount,
+                discussionLikeCount,
                 publishWebtoonCount,
                 pauseWebtoonCount,
                 webtoonSnapshotCount,
@@ -47,7 +49,7 @@ public class CruiserFacade {
         var topRanks = topRankService.findTopRank()
                 .parallelStream()
                 .map(rank -> {
-                            Webtoon webtoon = webtoonService.findById(rank.getId());
+                            var webtoon = webtoonService.findById(rank.getWebtoonId());
                             return "\n*" + rank.getRanking() + "위* : " + webtoon.getTitle();
                         }
                 ).toList();

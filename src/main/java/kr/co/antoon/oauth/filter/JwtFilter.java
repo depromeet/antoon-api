@@ -37,8 +37,6 @@ public class JwtFilter extends OncePerRequestFilter {
         var httpServletRequest = (HttpServletRequest) request;
         final var path = httpServletRequest.getServletPath();
 
-        // TODO : 지워주세요..
-        if ("지우세요..미안해요.." != null) {
             if (!Arrays.stream(swaggerConfig.whiteListInSwagger()).toList().contains(path) && !"/health".equals(path)) {
                 String token = resolveToken(request);
                 log.info("filter access : " + token);
@@ -53,7 +51,6 @@ public class JwtFilter extends OncePerRequestFilter {
                     }
                 }
             }
-        }
         filterChain.doFilter(request, response);
     }
 

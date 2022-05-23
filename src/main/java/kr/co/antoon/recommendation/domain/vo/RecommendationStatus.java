@@ -9,7 +9,8 @@ public enum RecommendationStatus {
     JOIN("탑승"),
     JOINED("탑승중"),
     LEAVE("하차"),
-    LEAVED("하차중");
+    LEAVED("하차중"),
+    ;
 
     private final String description;
 }

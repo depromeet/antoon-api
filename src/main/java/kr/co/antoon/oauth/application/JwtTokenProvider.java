@@ -15,9 +15,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,7 +36,7 @@ public class JwtTokenProvider {
         log.info("key : {}", secretKey);
     }
 
-    public String createAccessToken(String userId, Role role) {
+    public String createAccessToken(String userId, String role) {
         Date now = new Date();
         return Jwts.builder()
                 .setSubject(userId)
@@ -77,12 +79,16 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         return new UsernamePasswordAuthenticationToken(
-                getUserId(token), null, getAuthorities());
+                getUserId(token),
+                null,
+                getAuthorities(token)
+        );
     }
 
-    public Collection<GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities(String token) {
+        Claims claims = getClaims(token);
         return Collections.singletonList(
-                new SimpleGrantedAuthority("ROLE_USER")
+                new SimpleGrantedAuthority(claims.get("role").toString())
         );
     }
 
@@ -91,9 +97,10 @@ public class JwtTokenProvider {
     }
 
     public Long getExpiration(String accessToken) {
+        Claims claims = getClaims(accessToken);
+
         // accessToken 남은 유효시간
-        Date expiration = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(accessToken)
-                .getBody().getExpiration();
+        Date expiration = claims.getExpiration();
         // 현재 시간
         long now = new Date().getTime();
         return (expiration.getTime() - now);

@@ -12,10 +12,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = @Index(name = "i_webtoon_id", columnList = "webtoonId", unique = true))
 public class WebtoonGenre extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

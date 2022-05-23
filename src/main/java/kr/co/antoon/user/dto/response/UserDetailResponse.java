@@ -1,24 +1,27 @@
 package kr.co.antoon.user.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import kr.co.antoon.user.domain.User;
 
-@Getter
-@RequiredArgsConstructor
-@Builder
-public class UserDetailResponse {
+public record UserDetailResponse(
+        @Schema(description = "이름")
+        String name,
 
-    @Schema(description = "이름")
-    private final String name;
+        @Schema(description = "이메일")
+        String email,
 
-    @Schema(description = "이메일")
-    private final String email;
+        @Schema(description = "프로필 사진")
+        String imageUrl,
 
-    @Schema(description = "프로필 사진")
-    private final String imageUrl;
-
-    @Schema(description = "연령대")
-    private final Integer age;
+        @Schema(description = "연령대")
+        Integer age
+) {
+    public UserDetailResponse(User user) {
+        this(
+                user.getName(),
+                user.getEmail(),
+                user.getImageUrl(),
+                user.getAge()
+        );
+    }
 }

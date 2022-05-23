@@ -17,6 +17,10 @@ public enum ErrorMessage {
     NOT_VALIDATE_TOKEN("유효하지 않은 토큰입니다."),
     NOT_EXISTS_RECOMMENDATION_COUNT("존재하지 않는 상하차 정보입니다."),
     NOT_EXISTS_GRAPH_SCORE_ERROR("존재하지 않는 그래프 스코어 스냅샷입니다."),
+    NOT_EXISTS_OAUTH_INFO("존재하지 않는 OAUTH 계정입니다."),
+    NOT_EXISTS_PERIOD_TYPE("존재하지 않는 기간 필터링 타입니다."),
+    NOT_VALID_ROLE_ERROR("유효하지 않은 권한입니다."),
+    
     ;
 
     private final String description;

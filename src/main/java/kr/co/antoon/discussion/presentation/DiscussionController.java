@@ -8,11 +8,10 @@ import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.discussion.application.DiscussionService;
 import kr.co.antoon.discussion.dto.request.DiscussionCreateRequest;
 import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
-import kr.co.antoon.discussion.dto.response.DiscussionCreateResponse;
-import kr.co.antoon.discussion.dto.response.DiscussionReadResponse;
-import kr.co.antoon.discussion.dto.response.DiscussionUpdateResponse;
+import kr.co.antoon.discussion.dto.response.DiscussionResponse;
 import kr.co.antoon.discussion.facade.DiscussionFacade;
 import kr.co.antoon.oauth.config.AuthUser;
+import kr.co.antoon.oauth.dto.AuthInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,9 +27,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static kr.co.antoon.common.Utility.APPLICATION_JSON_UTF_8;
+
 @Api(tags = "종목토론방 API")
 @RestController
-@RequestMapping(value = "/api/v1/webtoons")
+@RequestMapping(value = "/api/v1/webtoons", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
 public class DiscussionController {
     private final DiscussionFacade discussionFacade;
@@ -38,42 +39,43 @@ public class DiscussionController {
 
     @ApiOperation(value = "종목토론방 댓글 달기 API", notes = SwaggerNote.DISCUSSION_CREATE_NOTE)
     @PostMapping("/{webtoonId}/discussions")
-    public ResponseEntity<DiscussionCreateResponse> create(
+    public ResponseEntity<DiscussionResponse> create(
             @PathVariable Long webtoonId,
             @Validated @RequestBody DiscussionCreateRequest request,
-            @AuthUser Long memberId
-    ) {
-        return ResponseDto.created(discussionFacade.register(memberId, webtoonId, request));
+            @AuthUser AuthInfo info
+            ) {
+        var response = discussionFacade.register(info.userId(), webtoonId, request);
+        return ResponseDto.created(response);
     }
 
     @ApiOperation(value = "종목토론방 댓글 단건 조회", notes = SwaggerNote.DISCUSSION_READ_ONE_NOTE)
     @GetMapping("/discussions/{discussionId}")
-    public ResponseEntity<DiscussionReadResponse> findOne(
+    public ResponseEntity<DiscussionResponse> findOne(
             @PathVariable Long discussionId,
-            @AuthUser Long memberId
+            @AuthUser AuthInfo info
     ) {
-        var response = discussionFacade.findById(memberId, discussionId);
+        var response = discussionFacade.findById(info.userId(), discussionId);
         return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "종목토론방 댓글 페이지 조회", notes = SwaggerNote.DISCUSSION_READL_ALL_NOTE)
     @GetMapping("/discussions")
-    public ResponseEntity<PageDto<DiscussionReadResponse>> findAll(
+    public ResponseEntity<PageDto<DiscussionResponse>> findAll(
             @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-            @AuthUser Long memberId
+            @AuthUser AuthInfo info
     ) {
-        var response = discussionFacade.findAll(memberId, pageable);
+        var response = discussionFacade.findAll(info.userId(), pageable);
         return PageDto.ok(response);
     }
 
     @ApiOperation(value = "종목토론방 댓글 수정", notes = SwaggerNote.DISCUSSION_UPDATE_NOTE)
     @PatchMapping("/discussions/{discussionId}")
-    public ResponseEntity<DiscussionUpdateResponse> update(
+    public ResponseEntity<DiscussionResponse> update(
             @PathVariable Long discussionId,
             @Validated @RequestBody DiscussionUpdateRequest request,
-            @AuthUser Long memberId
+            @AuthUser AuthInfo info
     ) {
-        var response = discussionFacade.update(memberId, discussionId, request);
+        var response = discussionFacade.update(info.userId(), discussionId, request);
         return ResponseDto.ok(response);
     }
 
@@ -81,7 +83,7 @@ public class DiscussionController {
     @DeleteMapping("/discussions/{discussionId}")
     public ResponseEntity<Void> delete(
             @PathVariable Long discussionId,
-            @AuthUser Long memberId
+            @AuthUser AuthInfo info
     ) {
         discussionService.delete(discussionId);
         return ResponseDto.noContent();

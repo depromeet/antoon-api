@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -61,7 +62,15 @@ public class DiscussionService {
     }
 
     @Transactional(readOnly = true)
-    public List<DiscussionCountDto> discussionCount() {
-        return discussionRepository.countAllDiscussion();
+    public List<DiscussionCountDto> discussionCount(LocalDateTime before, LocalDateTime now) {
+        return discussionRepository.countAllDiscussion(before, now);
+    }
+
+    @Transactional(readOnly = true)
+    public long countAllLikes() {
+        return discussionRepository.findAll()
+                .parallelStream()
+                .mapToLong(Discussion::getLikeCount)
+                .sum();
     }
 }
