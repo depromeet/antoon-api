@@ -9,11 +9,11 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class UserRedisCacheService {
-    private final static String USER_REDIS_KEY = "auth:user"; // TODO : 해당 키를 사용해주세요!
+    private final static String USER_REDIS_KEY = "auth:user:"; // TODO : 해당 키를 사용해주세요!
     private final RedisTemplate<String, String> redisTemplate;
 
     public String get(Long userId) {
-        return redisTemplate.opsForValue().get("RT: " + userId);
+        return redisTemplate.opsForValue().get(USER_REDIS_KEY+userId);
     }
 
     public void update(
@@ -21,7 +21,7 @@ public class UserRedisCacheService {
             String value,
             long expiredTime
     ) {
-        redisTemplate.opsForValue().set(key, value, expiredTime, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(USER_REDIS_KEY+key, value, expiredTime, TimeUnit.MILLISECONDS);
     }
 
     public void delete(Long userId) {
