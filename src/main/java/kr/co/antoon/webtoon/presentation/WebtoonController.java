@@ -77,4 +77,10 @@ public class WebtoonController {
         var response = webtoonFacade.getWebtoonsGenres();
         return ResponseDto.ok(response);
     }
+
+    @ApiOperation(value = "현재 기준으로 상승 중인 TOP 10 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_RANKING_NOTE)
+    @GetMapping(value = "/top-upper")
+    public ResponseEntity<WebtoonRankingAllResponse> getWebtoonsByTopUpper() {
+        return ResponseDto.ok(webtoonFacade.getWebtoonsByTopUpper());
+    }
 }

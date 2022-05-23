@@ -55,7 +55,7 @@ public class KakaoWebtoonCrawlingTest {
                     var title = innerElement.select("h2.text-ellipsis.css-jgjrt").text();
                     var dayInfoBox = innerElement.select("div.css-ymlwac").first().child(1).text().split("\\|");
                     var day = dayInfoBox[0].substring(0, 1);
-                    var writer = Objects.requireNonNull(innerElement.select("div.css-ymlwac").first()).child(2).text();
+                    var writer = innerElement.select("div.css-ymlwac").first().child(2).text().split(",");
 
                     var eachUrlArr = url.split("=");
                     var seriesId = eachUrlArr[eachUrlArr.length - 1];

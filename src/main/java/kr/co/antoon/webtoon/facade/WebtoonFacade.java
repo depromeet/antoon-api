@@ -10,6 +10,8 @@ import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -95,5 +97,32 @@ public class WebtoonFacade {
                             });
                 });
         return new WebtoonGenreAllResponse(responses);
+    }
+
+    @Transactional(readOnly = true)
+    public WebtoonRankingAllResponse getWebtoonsByTopUpper() {
+        List<WebtoonRankingAllResponse.WebtoonRankingResponse> responses = new ArrayList<>();
+        var webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH)
+                .stream()
+                .collect(Collectors.toMap(Webtoon::getId, webtoon -> webtoon));
+
+        graphScoreSnapshotService.findAllByOrderByScoreGap()
+                .stream()
+                .limit(10)
+                .forEachOrdered(graphScoreSnapshot -> {
+                    var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());
+                    responses.add(new WebtoonRankingAllResponse.WebtoonRankingResponse(
+                            webtoon.getId(),
+                            webtoon.getWebtoonUrl(),
+                            webtoon.getThumbnail(),
+                            webtoon.getTitle(),
+                            graphScoreSnapshot.getGraphScore(),
+                            graphScoreSnapshot.getScoreGapPercent(),
+                            graphScoreSnapshot.getSnapshotTime(),
+                            webtoon.getStatus().getDescription(),
+                            webtoon.getPlatform()
+                    ));
+                });
+        return new WebtoonRankingAllResponse(responses);
     }
 }
