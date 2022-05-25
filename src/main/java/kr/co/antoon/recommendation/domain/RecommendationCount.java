@@ -1,6 +1,7 @@
 package kr.co.antoon.recommendation.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,22 +26,27 @@ public class RecommendationCount extends BaseEntity {
 
     private Long webtoonId;
 
-    private int joinCount = 0;
+    private int joinCount;
 
-    private int leaveCount = 0;
+    private int leaveCount;
 
     @Builder
-    public RecommendationCount(Long webtoonId, int joinUserCount) {
+    public RecommendationCount(Long webtoonId) {
         this.webtoonId = webtoonId;
-        this.joinCount = joinUserCount;
+        this.joinCount = 0;
+        this.leaveCount = 0;
     }
 
-    public void plusJoinCount(int joinCount) {
-        this.joinCount = joinCount;
+    public int count() {
+        return joinCount - leaveCount;
     }
 
-    public void plusLeaveCount(int leaveCount) {
-        this.leaveCount = leaveCount;
+    public void plusCount(RecommendationStatus status) {
+        if (status.equals(RecommendationStatus.JOIN)) {
+            this.joinCount += 1;
+        } else if (status.equals(RecommendationStatus.LEAVE)) {
+            this.leaveCount += 1;
+        }
     }
 
     public void minusJoinCount(int joinCount) {
@@ -49,9 +55,5 @@ public class RecommendationCount extends BaseEntity {
 
     public void minusLeaveCount(int leaveCount) {
         this.leaveCount = leaveCount;
-    }
-
-    public int count() {
-        return joinCount - leaveCount;
     }
 }
