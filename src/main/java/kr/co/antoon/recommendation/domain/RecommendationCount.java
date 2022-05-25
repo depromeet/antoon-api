@@ -41,12 +41,12 @@ public class RecommendationCount extends BaseEntity {
         return joinCount - leaveCount;
     }
 
-    public void plusCount(RecommendationStatus status) {
-        if (status.equals(RecommendationStatus.JOIN)) {
-            this.joinCount += 1;
-        } else if (status.equals(RecommendationStatus.LEAVE)) {
-            this.leaveCount += 1;
-        }
+    public void plusJoinCount(int joinCount) {
+        this.joinCount = joinCount;
+    }
+
+    public void plusLeaveCount(int leaveCount) {
+        this.leaveCount = leaveCount;
     }
 
     public void minusJoinCount(int joinCount) {
