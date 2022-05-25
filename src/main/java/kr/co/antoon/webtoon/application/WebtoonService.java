@@ -5,8 +5,10 @@ import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.webtoon.converter.WebtoonConverter;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
+import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.dto.WebtoonDayNativeDto;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
+import kr.co.antoon.webtoon.dto.WebtoonGenreNativeDto;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.infrastructure.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,5 +88,10 @@ public class WebtoonService {
     @Transactional(readOnly = true)
     public Page<WebtoonDayNativeDto> findAllByDay(String day, Pageable pageable) {
         return webtoonRepository.findAllByDay(day, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public List<WebtoonGenreNativeDto> findGenre(LocalDateTime start, LocalDateTime end, GenreCategory category) {
+        return webtoonRepository.findGenre(start.toString(), end.toString(), category.name());
     }
 }

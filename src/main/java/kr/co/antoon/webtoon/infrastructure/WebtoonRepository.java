@@ -3,6 +3,7 @@ package kr.co.antoon.webtoon.infrastructure;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.dto.WebtoonDayNativeDto;
+import kr.co.antoon.webtoon.dto.WebtoonGenreNativeDto;
 import kr.co.antoon.webtoon.dto.WebtoonNativeDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -60,4 +61,19 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
                     """
     )
     Page<WebtoonDayNativeDto> findAllByDay(@Param(value = "day") String day, Pageable pageable);
+
+    @Query(nativeQuery = true, value = """
+                select wg.genre_category as genreCategory, w.thumbnail
+                from webtoon w
+                join webtoon_genre wg on w.id = wg.webtoon_id
+                join graph_score_snapshot gss on w.id = gss.webtoon_id
+                where gss.snapshot_time between :start_time and :end_time
+                and w.status = 'PUBLISH' and wg.genre_category = :category and w.thumbnail is not null or ''
+                order by gss.score_gap desc limit 3
+            """)
+    List<WebtoonGenreNativeDto> findGenre(
+            @Param(value = "start_time") String startTime,
+            @Param(value = "end_time") String endTime,
+            @Param(value = "category") String category
+    );
 }
