@@ -5,14 +5,16 @@ import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.webtoon.converter.WebtoonConverter;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
+import kr.co.antoon.webtoon.dto.WebtoonDayNativeDto;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.infrastructure.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,5 +80,10 @@ public class WebtoonService {
         }
 
         return WebtoonConverter.toWebtoonDto(webtoon);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<WebtoonDayNativeDto> findAllByDay(String day, Pageable pageable) {
+        return webtoonRepository.findAllByDay(day, pageable);
     }
 }
