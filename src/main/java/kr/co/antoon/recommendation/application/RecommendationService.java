@@ -15,7 +15,7 @@ public class RecommendationService {
     private final RecommendationRepository recommendationRepository;
 
     @Transactional(readOnly = true)
-    public boolean existsByUserIdAndWebtoonId(Long userId, Long webtoonId, RecommendationStatus status) {
+    public boolean existsByUserIdAndWebtoonIdAndStatus(Long userId, Long webtoonId, RecommendationStatus status) {
         return recommendationRepository.existsByUserIdAndWebtoonIdAndStatus(userId, webtoonId, status);
     }
 

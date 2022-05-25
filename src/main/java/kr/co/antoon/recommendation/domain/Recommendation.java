@@ -37,7 +37,7 @@ public class Recommendation extends BaseEntity {
         this.status = status;
     }
 
-    public void updateRecommendationStatus(RecommendationStatus status) {
+    public void updateStatus(RecommendationStatus status) {
         this.status = status;
     }
 }
