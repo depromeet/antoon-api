@@ -42,10 +42,11 @@ public class User extends BaseEntity {
     private Integer age;
 
     @Builder
-    public User(String name, String email, String imageUrl, Role role, Integer age) {
+    public User(String name, String email, String imageUrl, Gender gender, Role role, Integer age) {
         this.name = name;
         this.email = email;
         this.imageUrl = imageUrl;
+        this.gender = gender;
         this.role = role;
         this.age = age;
     }

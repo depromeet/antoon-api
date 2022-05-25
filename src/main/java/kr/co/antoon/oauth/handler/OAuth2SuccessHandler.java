@@ -4,6 +4,9 @@ import kr.co.antoon.cache.user.UserRedisCacheService;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.oauth.application.JwtTokenProvider;
+import kr.co.antoon.oauth.dto.OAuth2Attribute;
+import kr.co.antoon.user.domain.User;
+import kr.co.antoon.user.domain.vo.Gender;
 import kr.co.antoon.user.domain.vo.Role;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 @Component
 @Slf4j
@@ -53,6 +57,18 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     ) throws IOException {
         var oAuth2User = (OAuth2User) authentication.getPrincipal();
         var email = (String) oAuth2User.getAttributes().get("email");
+        String status = "success";
+        log.info("handler attributes : {}", oAuth2User.getAttributes().get("profile"));
+        var test = oAuth2User.getAttributes().get("profile");
+        log.info("type: {}", test.getClass());
+
+        Boolean isSignIn = userRepository.existsByEmail(email);
+        if(!isSignIn) {
+            status = "signup";
+        }
+
+        saveOrUpdate(oAuth2User);
+
         var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
 
@@ -65,7 +81,42 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 jwtTokenProvider.getRefreshTokenExpireTime()
         );
 
-        var targetUrl = redirectUrl + "?status=success?access=" + accessToken + "?refresh=" + refreshToken;
+        var targetUrl = redirectUrl + "?status="+ status + "?access=" + accessToken + "?refresh=" + refreshToken;
         response.sendRedirect(targetUrl);
+    }
+
+    private void saveOrUpdate(OAuth2User oAuth2User) {
+        var data = oAuth2User.getAttributes();
+        HashMap<String, String> profile = (HashMap<String, String>) data.get("profile");
+        User user = userRepository.findByEmail(data.get("email").toString())
+                .map(entity -> entity.update(
+                        profile.get("nickname"),
+                        profile.get("profile_image_url")
+                ))
+                .orElse(User.builder()
+                        .name(profile.get("nickname"))
+                        .email(data.get("email").toString())
+                        .imageUrl(profile.get("profile_image_url"))
+                        .gender(Gender.NONE)
+                        .role(Role.USER)
+                        .age(0)
+                        .build());
+
+        String age = oAuth2User.getAttributes().get("age_range").toString();
+        if (age != null) {
+            int ageRange = Integer.parseInt(age.split("~")[0]);
+            user.updateAge(ageRange);
+        }
+
+        String gender = oAuth2User.getAttributes().get("gender").toString();
+        if (gender != null) {
+            switch (gender) {
+                case "female" -> user.updateGender(Gender.FEMALE);
+                case "male" -> user.updateGender(Gender.MALE);
+                default -> user.updateGender(Gender.NONE);
+            }
+        }
+
+        userRepository.save(user);
     }
 }
