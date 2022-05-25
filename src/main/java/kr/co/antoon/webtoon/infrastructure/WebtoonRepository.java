@@ -2,7 +2,10 @@ package kr.co.antoon.webtoon.infrastructure;
 
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
+import kr.co.antoon.webtoon.dto.WebtoonDayNativeDto;
 import kr.co.antoon.webtoon.dto.WebtoonNativeDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -40,4 +43,21 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
             where w.id = :webtoon_id
             """, nativeQuery = true)
     List<WebtoonNativeDto> findOneByWebtoonId(@Param(value = "webtoon_id") Long webtoonId);
+
+    // TODO : 조회 정렬에 대해 수정 필요
+    @Query(nativeQuery = true, value = """
+                    select w.id as webtoonId, w.title, w.thumbnail, wpd.day
+                    from webtoon w
+                    join webtoon_publish_day wpd on w.id = wpd.webtoon_id
+                    join graph_score_snapshot gss on w.id = gss.webtoon_id
+                    where wpd.day = :day
+            """,
+            countQuery = """
+                            select count(*)
+                            from webtoon w
+                            join webtoon_publish_day wpd on w.id = wpd.webtoon_id
+                            where wpd.day = :day
+                    """
+    )
+    Page<WebtoonDayNativeDto> findAllByDay(@Param(value = "day") String day, Pageable pageable);
 }
