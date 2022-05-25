@@ -64,4 +64,8 @@ public class User extends BaseEntity {
     public void updateGender(Gender gender) {
         this.gender = gender;
     }
+
+    public void updateImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

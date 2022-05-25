@@ -88,6 +88,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private void saveOrUpdate(OAuth2User oAuth2User) {
         var data = oAuth2User.getAttributes();
         HashMap<String, String> profile = (HashMap<String, String>) data.get("profile");
+
         User user = userRepository.findByEmail(data.get("email").toString())
                 .map(entity -> entity.update(
                         profile.get("nickname"),
@@ -96,19 +97,24 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 .orElse(User.builder()
                         .name(profile.get("nickname"))
                         .email(data.get("email").toString())
-                        .imageUrl(profile.get("profile_image_url"))
+                        .imageUrl(profile.get("https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/color%3Dyellow.png"))
                         .gender(Gender.NONE)
                         .role(Role.USER)
                         .age(0)
                         .build());
 
-        String age = oAuth2User.getAttributes().get("age_range").toString();
+        String profileImg = profile.get("profile_image_url");
+        if(profileImg != null) {
+            user.updateImageUrl(profileImg);
+        }
+
+        String age = data.get("age_range").toString();
         if (age != null) {
             int ageRange = Integer.parseInt(age.split("~")[0]);
             user.updateAge(ageRange);
         }
 
-        String gender = oAuth2User.getAttributes().get("gender").toString();
+        String gender = data.get("gender").toString();
         if (gender != null) {
             switch (gender) {
                 case "female" -> user.updateGender(Gender.FEMALE);
