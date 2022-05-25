@@ -3,9 +3,7 @@ name: Antoon Api Server Git-Action for STAGING
 
 on:
   push:
-    branches: [ staging, main ]
-  pull_request:
-    branches: [ staging, main ]
+    branches: [ staging ]
 
 jobs:
   build:
