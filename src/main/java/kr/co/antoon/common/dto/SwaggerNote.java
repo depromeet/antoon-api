@@ -190,6 +190,7 @@ public class SwaggerNote {
                     {
                         "data": [
                             {
+                                "webtoonId" : 1,
                                 "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/783053/thumbnail/thumbnail_IMAG04_77f75c21-cdcc-4d23-bc00-1ff829d0a209.jpg",
                                 "title": "김부장",
                                 "writers": [
@@ -244,7 +245,7 @@ public class SwaggerNote {
     public final static String WEBTOON_READ_GENRES = """
                     메인페이지 장르별 웹툰 조회 
                     GET /api/v1/webtoons/genres
-           
+                       
                     Response Body
                     {
                         "webtoons": [
@@ -275,7 +276,7 @@ public class SwaggerNote {
     public static final String WEBTOON_READ_RANKING_NOTE = """
             현재 시간 기준으로 상승 중인 웹툰 조회
             GET /api/v1/webtoons/top-up
-            
+                        
             {
                "webtoons": [
                  {

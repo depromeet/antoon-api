@@ -7,7 +7,11 @@ import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
-import kr.co.antoon.webtoon.dto.response.*;
+import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonGenreAllResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
 import kr.co.antoon.webtoon.facade.WebtoonFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +41,6 @@ public class WebtoonController {
         return ResponseDto.ok(response);
     }
 
-    // TODO : 조회로직 수정 필요 [꼭 수정해야 합니다!]
     @ApiOperation(value = "연재 웹툰 요일별 조회 API", notes = SwaggerNote.WEBTOON_DAY_READ_NOTE)
     @GetMapping("/days/{day}")
     public ResponseEntity<PageDto<WebtoonDayResponse>> getWebtoonByDay(
@@ -74,9 +77,11 @@ public class WebtoonController {
         return ResponseDto.ok(response);
     }
 
+    // TODO : 조회로직 수정 필요 [꼭 수정해야 합니다!]
     @ApiOperation(value = "현재 기준으로 상승 중인 TOP 10 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_RANKING_NOTE)
     @GetMapping(value = "/top-upper")
     public ResponseEntity<WebtoonRankingAllResponse> getWebtoonsByTopUpper() {
-        return ResponseDto.ok(webtoonFacade.getWebtoonsByTopUpper());
+        var response = webtoonFacade.getWebtoonsByTopUpper();
+        return ResponseDto.ok(response);
     }
 }

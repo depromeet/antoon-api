@@ -11,7 +11,7 @@
     docs(📝) - Add or update documentation
     style(🎨) - Improve structure / format of the code
     refactor(♻️) - Refactor code
-    perf(⚡️) - Improve performance
+    improve(⚡️) - Improve performance
     test(✅) - Add or update tests
     build(👷) - Add or update CI build system
     ci(💚) - Fix CI Build
