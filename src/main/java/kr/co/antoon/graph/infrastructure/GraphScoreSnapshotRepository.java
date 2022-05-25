@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface GraphScoreSnapshotRepository extends JpaRepository<GraphScoreSnapshot, Long> {
     List<GraphScoreSnapshot> findAllByOrderByScoreGapDesc();
 
+    List<GraphScoreSnapshot> findDistinctTop10BySnapshotTimeBetweenOrderByScoreGapDesc(LocalDateTime start, LocalDateTime end);
+
     List<GraphScoreSnapshot> findTop9BySnapshotTimeAfterOrderByGraphScoreDescScoreGapDesc(LocalDateTime time);
 
     Optional<GraphScoreSnapshot> findTop1ByWebtoonIdOrderBySnapshotTimeDesc(Long webtoondId);

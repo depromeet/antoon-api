@@ -62,4 +62,12 @@ public class GraphScoreSnapshotService {
 
         return new GraphScoreResponse(scores);
     }
+
+    @Transactional(readOnly = true)
+    public List<GraphScoreSnapshot> findTop10ByOrderByScoreGap() {
+        var end = LocalDateTime.now();
+        var start = end.minusHours(1);
+
+        return graphScoreSnapshotRepository.findDistinctTop10BySnapshotTimeBetweenOrderByScoreGapDesc(start, end);
+    }
 }

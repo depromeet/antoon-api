@@ -10,7 +10,6 @@ import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
-import kr.co.antoon.webtoon.infrastructure.WebtoonGenreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,10 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,7 +28,6 @@ public class WebtoonFacade {
     private final WebtoonService webtoonService;
     private final WebtoonWriterService webtoonWriterService;
     private final GraphScoreSnapshotService graphScoreSnapshotService;
-    private final WebtoonGenreRepository webtoonGenreRepository;
 
     @Transactional(readOnly = true)
     public Page<WebtoonDayResponse> getWebtoonByDay(Pageable pageable, String day) {
@@ -81,28 +77,18 @@ public class WebtoonFacade {
 
     @Transactional(readOnly = true)
     public WebtoonRankingAllResponse getWebtoonsByTopUpper() {
-        List<WebtoonRankingAllResponse.WebtoonRankingResponse> responses = new ArrayList<>();
-        var webtoons = webtoonService.findAllByStatus(ActiveStatus.PUBLISH)
-                .stream()
+        var webtoons = webtoonService.findAll()
+                .parallelStream()
                 .collect(Collectors.toMap(Webtoon::getId, webtoon -> webtoon));
 
-        graphScoreSnapshotService.findAllByOrderByScoreGap()
+        var response = graphScoreSnapshotService.findTop10ByOrderByScoreGap()
                 .stream()
-                .limit(10)
-                .forEachOrdered(graphScoreSnapshot -> {
+                .map(graphScoreSnapshot -> {
                     var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());
-                    responses.add(new WebtoonRankingAllResponse.WebtoonRankingResponse(
-                            webtoon.getId(),
-                            webtoon.getWebtoonUrl(),
-                            webtoon.getThumbnail(),
-                            webtoon.getTitle(),
-                            graphScoreSnapshot.getGraphScore(),
-                            graphScoreSnapshot.getScoreGapPercent(),
-                            graphScoreSnapshot.getSnapshotTime(),
-                            webtoon.getStatus().getDescription(),
-                            webtoon.getPlatform()
-                    ));
-                });
-        return new WebtoonRankingAllResponse(responses);
+
+                    return new WebtoonRankingAllResponse.WebtoonRankingResponse(webtoon, graphScoreSnapshot);
+                }).toList();
+
+        return new WebtoonRankingAllResponse(response);
     }
 }
