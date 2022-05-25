@@ -68,6 +68,6 @@ public class GraphScoreSnapshotService {
         var end = LocalDateTime.now();
         var start = end.minusHours(1);
 
-        return graphScoreSnapshotRepository.findDistinctTop10BySnapshotTimeBetweenOrderByScoreGapDesc(start, end);
+        return graphScoreSnapshotRepository.findDistinctTop10BySnapshotTimeBetweenOrderByScoreGapDescGraphScoreDesc(start, end);
     }
 }
