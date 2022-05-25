@@ -69,7 +69,6 @@ public class WebtoonController {
         return PageDto.ok(response);
     }
 
-    // TODO : 조회로직 수정 필요 [꼭 수정해야 합니다!]
     @ApiOperation(value = "장르별 top3 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_GENRES)
     @GetMapping(value = "/genres")
     public ResponseEntity<WebtoonGenreAllResponse> getWebtoonsByGenres() {
