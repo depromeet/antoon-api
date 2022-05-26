@@ -1,6 +1,6 @@
 package kr.co.antoon.cruiser.dto.slack;
 
-import kr.co.antoon.common.Utility;
+import kr.co.antoon.common.util.TimeUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ public class SlackCruiserResponse {
                         - 웹툰 스냅샷 [1일 기준] : %d건
                         - 그래프 스냅샷 [1시간 기준] : %d건
                         """,
-                Utility.now("yyyy-MM-dd HH:mm"),
+                TimeUtil.now("yyyy-MM-dd HH:mm"),
                 userCount,
                 discussionCount,
                 discussionLikeCount,

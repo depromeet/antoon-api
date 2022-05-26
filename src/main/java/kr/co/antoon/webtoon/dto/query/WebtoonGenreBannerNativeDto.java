@@ -1,8 +1,8 @@
-package kr.co.antoon.webtoon.dto;
+package kr.co.antoon.webtoon.dto.query;
 
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 
-public interface WebtoonGenreNativeDto {
+public interface WebtoonGenreBannerNativeDto {
     GenreCategory getGenreCategory();
 
     String getThumbnail();

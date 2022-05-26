@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static kr.co.antoon.common.Utility.APPLICATION_JSON_UTF_8;
+import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "탑승/하차 API")
 @RestController

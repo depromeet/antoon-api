@@ -2,7 +2,7 @@ package kr.co.antoon.webtoon.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import kr.co.antoon.webtoon.dto.WebtoonDayNativeDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonDayNativeDto;
 
 import java.util.List;
 

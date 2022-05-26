@@ -6,9 +6,10 @@ import kr.co.antoon.webtoon.converter.WebtoonConverter;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
-import kr.co.antoon.webtoon.dto.WebtoonDayNativeDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonDayNativeDto;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
-import kr.co.antoon.webtoon.dto.WebtoonGenreNativeDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonGenreBannerNativeDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonGenreNativeDto;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.infrastructure.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
@@ -91,7 +92,12 @@ public class WebtoonService {
     }
 
     @Transactional(readOnly = true)
-    public List<WebtoonGenreNativeDto> findGenre(LocalDateTime start, LocalDateTime end, GenreCategory category) {
+    public List<WebtoonGenreBannerNativeDto> findGenre(LocalDateTime start, LocalDateTime end, GenreCategory category) {
         return webtoonRepository.findGenre(start.toString(), end.toString(), category.name());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<WebtoonGenreNativeDto> findAllByGenre(LocalDateTime start, LocalDateTime end, GenreCategory category, Pageable pageable) {
+        return webtoonRepository.findAllByGenre(start.toString(), end.toString(), category.name(), pageable);
     }
 }

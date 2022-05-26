@@ -4,7 +4,6 @@ import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonWriterService;
 import kr.co.antoon.webtoon.domain.Webtoon;
-import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreAllResponse;
@@ -12,7 +11,6 @@ import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,24 +39,19 @@ public class WebtoonFacade {
     }
 
     @Transactional(readOnly = true)
-    public PageImpl<WebtoonGenreResponse> getWebtoonsGenreAndStatus(Pageable pageable, String genre) {
-        var webtoons = webtoonService.findWebtoonByGenreAndStatus(genre, ActiveStatus.PUBLISH)
-                .parallelStream()
-                .collect(Collectors.toMap(Webtoon::getId, webtoon -> webtoon));
+    public Page<WebtoonGenreResponse> getWebtoonsGenreAndStatus(Pageable pageable, String genre) {
+        var end = LocalDateTime.now();
+        var start = end.minusHours(1);
 
-        var webtoonGenreResponses = graphScoreSnapshotService.findAllByOrderByScoreGap()
-                .parallelStream()
-                .filter(graphScoreSnapshot -> webtoons.containsKey(graphScoreSnapshot.getWebtoonId()))
-                .map(graphScoreSnapshot -> {
-                    var webtoon = webtoons.get(graphScoreSnapshot.getWebtoonId());
-                    var writers = webtoonWriterService.findNameByWebtoonId(graphScoreSnapshot.getWebtoonId());
+        var genreCategory = GenreCategory.of(genre);
 
-                    return new WebtoonGenreResponse(webtoon, graphScoreSnapshot, writers, genre);
-                }).toList();
+        return webtoonService.findAllByGenre(start, end, genreCategory, pageable)
+                .map(webtoon -> {
+                            var writers = webtoonWriterService.findNameByWebtoonId(webtoon.getWebtoonId());
 
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), webtoonGenreResponses.size());
-        return new PageImpl<>(webtoonGenreResponses.subList(start, end), pageable, webtoonGenreResponses.size());
+                            return new WebtoonGenreResponse(webtoon, writers, genreCategory);
+                        }
+                );
     }
 
     @Transactional(readOnly = true)

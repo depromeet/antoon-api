@@ -2,7 +2,7 @@ package kr.co.antoon.webtoon.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import kr.co.antoon.webtoon.dto.WebtoonGenreNativeDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonGenreBannerNativeDto;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public record WebtoonGenreAllResponse(
             String thumbnail
     ) {
         public WebtoonGenrePreviewResponse(
-                WebtoonGenreNativeDto dto
+                WebtoonGenreBannerNativeDto dto
         ) {
             this(dto.getGenreCategory().name(), dto.getThumbnail());
         }
