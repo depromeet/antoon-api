@@ -4,7 +4,7 @@ import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
-import kr.co.antoon.webtoon.dto.WebtoonNativeDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonNativeDto;
 
 import java.util.HashSet;
 import java.util.List;

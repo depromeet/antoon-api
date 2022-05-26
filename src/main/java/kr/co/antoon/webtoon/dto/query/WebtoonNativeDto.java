@@ -1,4 +1,4 @@
-package kr.co.antoon.webtoon.dto;
+package kr.co.antoon.webtoon.dto.query;
 
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;

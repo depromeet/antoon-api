@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
@@ -58,11 +59,10 @@ public class WebtoonController {
         return ResponseDto.ok(response);
     }
 
-    // TODO : 조회로직 수정 필요 [꼭 수정해야 합니다!]
     @ApiOperation(value = "장르별 활성화된 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_GENRE)
-    @GetMapping(value = "/genres/{genre}")
+    @GetMapping(value = "/genres")
     public ResponseEntity<PageDto<WebtoonGenreResponse>> getWebtoonsByGenreAndStatus(
-            @PathVariable("genre") String genre,
+            @RequestParam("genre") String genre,
             @PageableDefault(size = 12) Pageable pageable
     ) {
         var response = webtoonFacade.getWebtoonsGenreAndStatus(pageable, genre);
@@ -70,7 +70,7 @@ public class WebtoonController {
     }
 
     @ApiOperation(value = "장르별 top3 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_GENRES)
-    @GetMapping(value = "/genres")
+    @GetMapping(value = "/genres/top3")
     public ResponseEntity<WebtoonGenreAllResponse> getWebtoonsByGenres() {
         var response = webtoonFacade.getWebtoonsGenres();
         return ResponseDto.ok(response);

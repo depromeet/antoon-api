@@ -2,9 +2,10 @@ package kr.co.antoon.webtoon.infrastructure;
 
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
-import kr.co.antoon.webtoon.dto.WebtoonDayNativeDto;
-import kr.co.antoon.webtoon.dto.WebtoonGenreNativeDto;
-import kr.co.antoon.webtoon.dto.WebtoonNativeDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonDayNativeDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonGenreBannerNativeDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonGenreNativeDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonNativeDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -71,9 +72,35 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
                 and w.status = 'PUBLISH' and wg.genre_category = :category and w.thumbnail is not null or ''
                 order by gss.score_gap desc limit 3
             """)
-    List<WebtoonGenreNativeDto> findGenre(
+    List<WebtoonGenreBannerNativeDto> findGenre(
             @Param(value = "start_time") String startTime,
             @Param(value = "end_time") String endTime,
             @Param(value = "category") String category
+    );
+
+    @Query(nativeQuery = true, value = """
+                        select w.id as webtoonId, w.thumbnail, w.title, w.platform,
+                        gss.graph_score as graphScore, gss.score_gap as scoreGap
+                        from webtoon w
+                        join webtoon_genre wg on w.id = wg.webtoon_id
+                        join graph_score_snapshot gss on w.id = gss.webtoon_id
+                        where gss.snapshot_time between :start_time and :end_time
+                        and w.status = 'PUBLISH' and wg.genre_category = :category and w.thumbnail is not null or ''
+                        order by gss.score_gap
+            """,
+            countQuery = """
+                                            select count(*)
+                                            from webtoon w
+                                            join webtoon_genre wg on w.id = wg.webtoon_id
+                                            join graph_score_snapshot gss on w.id = gss.webtoon_id
+                                            where gss.snapshot_time between :start_time and :end_time
+                                            and w.status = 'PUBLISH' and wg.genre_category = :category and w.thumbnail is not null or ''
+                                            order by gss.score_gap
+                    """)
+    Page<WebtoonGenreNativeDto> findAllByGenre(
+            @Param(value = "start_time") String startTime,
+            @Param(value = "end_time") String endTime,
+            @Param(value = "category") String category,
+            Pageable pageable
     );
 }

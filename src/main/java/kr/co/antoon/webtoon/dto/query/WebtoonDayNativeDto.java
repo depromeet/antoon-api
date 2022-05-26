@@ -1,4 +1,4 @@
-package kr.co.antoon.webtoon.dto;
+package kr.co.antoon.webtoon.dto.query;
 
 public interface WebtoonDayNativeDto {
     Long getWebtoonId();
