@@ -140,6 +140,9 @@ public class SwaggerNote {
             """;
 
     public static final String WEBTOON_READ_GENRE = """
+                    "일상", "개그",  "판타지",  "액션", "드라마", "로맨스", "감성", "스릴러", "무협/사극", "스포츠", "옴니버스", "스토리","에피소드", "없음"
+                    
+                    
                     장르별 활성화된 웹툰 조회
                     GET /api/v1/webtoons/genres?genre={genre}
                         

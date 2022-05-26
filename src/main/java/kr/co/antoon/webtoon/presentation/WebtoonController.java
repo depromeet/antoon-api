@@ -82,4 +82,10 @@ public class WebtoonController {
         var response = webtoonFacade.getWebtoonsByTopUpper();
         return ResponseDto.ok(response);
     }
+
+    @ApiOperation(value = "연령대별 인기 웹툰 조회 API [MOCK UP]")
+    @GetMapping("/ages")
+    public String age() {
+        return "ok";
+    }
 }
