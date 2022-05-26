@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static kr.co.antoon.common.Utility.APPLICATION_JSON_UTF_8;
+import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "사용자 API")
 @RestController

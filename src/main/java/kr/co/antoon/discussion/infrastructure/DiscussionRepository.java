@@ -12,8 +12,6 @@ import java.util.List;
 
 @Repository
 public interface DiscussionRepository extends JpaRepository<Discussion, Long> {
-    long countByWebtoonId(Long webtoonId);
-
     @Query(value = """
                 SELECT d.webtoon_id AS webtoonId, count(*) AS discussionCount
                 FROM discussion d

@@ -2,7 +2,6 @@ package kr.co.antoon.webtoon.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import kr.co.antoon.common.Utility;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.Platform;
@@ -70,10 +69,14 @@ public record WebtoonGenreResponse(
                 webtoon.getThumbnail(),
                 webtoon.getTitle(),
                 graphScoreSnapshot.getGraphScore(),
-                Utility.getDifferencePercentage(graphScoreSnapshot.getGraphScore(), graphScoreSnapshot.getScoreGap()),
+                getDifferencePercentage(graphScoreSnapshot.getGraphScore(), graphScoreSnapshot.getScoreGap()),
                 writers,
                 webtoon.getPlatform(),
                 genre
         );
+    }
+
+    public static double getDifferencePercentage(int graphScore, int scoreGap) {
+        return scoreGap * 1.0 / graphScore * 100.0;
     }
 }

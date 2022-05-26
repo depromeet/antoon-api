@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static kr.co.antoon.common.Utility.APPLICATION_JSON_UTF_8;
+import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "웹툰 API")
 @RestController
@@ -76,7 +76,6 @@ public class WebtoonController {
         return ResponseDto.ok(response);
     }
 
-    // TODO : 조회로직 수정 필요 [꼭 수정해야 합니다!]
     @ApiOperation(value = "현재 기준으로 상승 중인 TOP 10 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_RANKING_NOTE)
     @GetMapping(value = "/top-upper")
     public ResponseEntity<WebtoonRankingAllResponse> getWebtoonsByTopUpper() {
