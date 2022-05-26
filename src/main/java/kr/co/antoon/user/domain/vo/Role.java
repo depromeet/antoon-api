@@ -10,7 +10,6 @@ import java.util.Arrays;
 @Getter
 @RequiredArgsConstructor
 public enum Role {
-
     USER("ROLE_USER", "일반 사용자"),
     ADMIN("ROLE_ADMIN", "관리자"),
     ;

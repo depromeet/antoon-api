@@ -13,7 +13,7 @@ public class UserRedisCacheService {
     private final RedisTemplate<String, String> redisTemplate;
 
     public String get(Long userId) {
-        return redisTemplate.opsForValue().get(USER_REDIS_KEY+userId);
+        return redisTemplate.opsForValue().get(USER_REDIS_KEY + userId);
     }
 
     public void update(
@@ -21,7 +21,7 @@ public class UserRedisCacheService {
             String value,
             long expiredTime
     ) {
-        redisTemplate.opsForValue().set(USER_REDIS_KEY+key, value, expiredTime, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(USER_REDIS_KEY + key, value, expiredTime, TimeUnit.MILLISECONDS);
     }
 
     public void delete(Long userId) {

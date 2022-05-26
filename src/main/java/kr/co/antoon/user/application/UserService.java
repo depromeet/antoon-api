@@ -16,9 +16,14 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public UserDetailResponse findById(Long id) {
-        User user = userRepository.findById(id)
+    public User findOneById(Long id) {
+        return userRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
+    }
+
+    @Transactional(readOnly = true)
+    public UserDetailResponse findById(Long id) {
+        var user = findOneById(id);
 
         return new UserDetailResponse(user);
     }
@@ -30,10 +35,7 @@ public class UserService {
 
     @Transactional
     public UserDetailResponse updateById(Long id, UserDetailRequest request) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
-
-        user.update(request.name(), request.imageUrl());
+        var user = findOneById(id).update(request.name(), request.imageUrl());
 
         return new UserDetailResponse(user);
     }
