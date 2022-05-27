@@ -15,7 +15,7 @@ public record DiscussionResponse(
         Long userId,
         @Schema(description = "닉네임")
         String nickname,
-        @Schema(description = "이미지 URL")
+        @Schema(description = "작성자 이미지 URL")
         String imageUrl,
         @Schema(description = "좋아요 카운트")
         int likeCount,
