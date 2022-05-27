@@ -42,6 +42,11 @@ public class DiscussionService {
         return discussionRepository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
+    public Page<Discussion> findByWebtoonId(Long webtoonId, Pageable pageable) {
+        return discussionRepository.findByWebtoonId(webtoonId, pageable);
+    }
+
     @Transactional
     public Discussion update(Long discussionId, DiscussionUpdateRequest request) {
         var discussion = discussionRepository.findById(discussionId)
