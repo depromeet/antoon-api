@@ -108,19 +108,47 @@ public class SwaggerNote {
                         
                     Response Body
                     {
-                        "title" : "재밌는 만화", // 웹툰 제목
-                        "content" :  "이 웹툰 꿀잼", // 댓글 내용
-                        "writer": {     // 웹툰 작가
-                            "김작가", "이작가", "염작가"
-                        },
-                        "url" : "https://webtoon-url.com", // 웹툰 url
-                        "thumbnail" : "https://picture.jpg", // 웹툰 썸네일
-                        "genre" : { // 웹툰 장르
-                            "스릴러", "로맨스", "코미디"
-                        },
-                        "status" : PUBLISH, // 연재 여부(PUBLISH - 연재, PAUSE - 휴재)
-                        "platform" : NAVER // 웹툰 플랫폼(NAVER, KAKAO)
-                    }
+                       "webtoondId": 1,
+                       "title": "참교육",
+                       "content": "무너진 교권을 지키기 위해 교권보호국 소속 나화진의 참교육이 시작된다! <부활남> 채용택 작가 X <신석기녀> 한가람 작가의 신작!",
+                       "webtoonUrl": "https://comic.naver.com/webtoon/list?titleId=758037&weekday=mon",
+                       "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/758037/thumbnail/thumbnail_IMAG04_769073a7-06e5-42e2-90be-0801fa790f66.jpg", // 웹툰 썸네일
+                       "platform": "NAVER",
+                       "platformDescription": "네이버 웹툰",
+                       "status": "PUBLISH",
+                       "statusDescription": "연재",
+                       "genres": [
+                         {
+                           "webtoonGenreId": 2,
+                           "genreCategory": "ACTION",
+                           "genreCategoryDescription": "액션"
+                         },
+                         {
+                           "webtoonGenreId": 1,
+                           "genreCategory": "STORY",
+                           "genreCategoryDescription": "스토리"
+                         }
+                       ],
+                       "publishDays": [
+                         {
+                           "webtoonPublishDayId": 1,
+                           "day": "월"
+                         }
+                       ],
+                       "writers": [
+                         {
+                           "webtoonWriterId": 1,
+                           "name": "채용택"
+                         },
+                         {
+                           "webtoonWriterId": 2,
+                           "name": "한가람"
+                         }
+                       ],
+                       "recommendationCountId": 7,
+                       "joinCount": 0,
+                       "leaveCount": 0
+                     }
             """;
 
     public final static String DISCUSSION_LIKE_CREATE_NOTE = """
