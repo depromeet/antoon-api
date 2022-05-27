@@ -2,6 +2,8 @@ package kr.co.antoon.discussion.infrastructure;
 
 import kr.co.antoon.discussion.domain.Discussion;
 import kr.co.antoon.discussion.dto.DiscussionCountDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +23,6 @@ public interface DiscussionRepository extends JpaRepository<Discussion, Long> {
             @Param(value = "before_one_hour") LocalDateTime beforeOneHour,
             @Param(value = "now") LocalDateTime now
     );
+
+    Page<Discussion> findByWebtoonId(Long webtoonId, Pageable pageable);
 }

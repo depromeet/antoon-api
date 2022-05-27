@@ -15,6 +15,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,6 +35,9 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
                                   WebDataBinderFactory binderFactory) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (Objects.equals(authentication.getPrincipal(), "anonymousUser")) {
+            return null;
+        }
         return new AuthInfo(
                 Long.valueOf(String.valueOf(authentication.getPrincipal())),
                 RolesFromAuthorities(authentication.getAuthorities())

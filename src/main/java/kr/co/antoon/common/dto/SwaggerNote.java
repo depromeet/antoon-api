@@ -12,9 +12,14 @@ public class SwaggerNote {
                         
                     Response Body
                     {
+                        "webtoonId" : 1,  // 웹툰 Id
                         "discussionId" : 1, // 종목토론 댓글 Id
                         "content" :  "이 웹툰 꿀잼", // 댓글 내용
-                        "memberId" : 1 // 사용자 Id
+                        "userId" : 1, // 사용자 Id
+                        "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                        "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                        "likeCount" : 1,  // 좋아요 카운트
+                        "isUserLike": true   // 사용자 좋아요 여부
                     }            
             """;
 
@@ -24,9 +29,14 @@ public class SwaggerNote {
                         
                     Response Body
                     {
+                        "webtoonId" : 1,  // 웹툰 Id
                         "discussionId" : 1, // 종목토론 댓글 Id
                         "content" :  "이 웹툰 꿀잼", // 댓글 내용
-                        "memberId" : 1 // 사용자 Id
+                        "userId" : 1, // 사용자 Id
+                        "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                        "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                        "likeCount" : 1,  // 좋아요 카운트
+                        "isUserLike": true   // 사용자 좋아요 여부
                     }
             """;
 
@@ -38,9 +48,14 @@ public class SwaggerNote {
                     {
                         "data": [
                             {
-                                "discussionId": 1,
-                                "content": "string",
-                                "memberId": 1
+                                "webtoonId" : 1,  // 웹툰 Id
+                                "discussionId" : 1, // 종목토론 댓글 Id
+                                "content" :  "이 웹툰 꿀잼", // 댓글 내용
+                                "userId" : 1, // 사용자 Id
+                                "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                                "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                                "likeCount" : 1,  // 좋아요 카운트
+                                "isUserLike": true   // 사용자 좋아요 여부
                             }...
                         ],
                         "page": 0,
@@ -58,9 +73,14 @@ public class SwaggerNote {
                         
                     Response Body
                     {
+                        "webtoonId" : 1,  // 웹툰 Id
                         "discussionId" : 1, // 종목토론 댓글 Id
                         "content" :  "이 웹툰 꿀잼", // 댓글 내용
-                        "memberId" : 1 // 사용자 Id
+                        "userId" : 1, // 사용자 Id
+                        "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                        "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                        "likeCount" : 1,  // 좋아요 카운트
+                        "isUserLike": true   // 사용자 좋아요 여부
                     }          
             """;
 
