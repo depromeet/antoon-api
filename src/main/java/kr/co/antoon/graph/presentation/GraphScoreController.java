@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
@@ -22,12 +21,38 @@ import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 public class GraphScoreController {
     private final GraphScoreSnapshotService graphScoreSnapshotService;
 
-    @ApiOperation(value = "그래프 API", notes = "추후 작성 필요")
-    @GetMapping("/webtoons/{webtoonId}/graph-scores")
-    public ResponseEntity<GraphScoreResponse> get(
-            @PathVariable("webtoonId") Long webtoonId,
-            @RequestParam("period") String period
-    ) {
+    @ApiOperation(value = "일 단위 그래프 API", notes = "추후 작성 필요")
+    @GetMapping("/webtoons/{webtoonId}/graph-scores/days")
+    public ResponseEntity<GraphScoreResponse> getByDays(
+            @PathVariable("webtoonId") Long webtoonId) {
+        var period = "day";
+        var response = graphScoreSnapshotService.graph(webtoonId, Period.of(period));
+        return ResponseEntity.ok(response);
+    }
+
+    @ApiOperation(value = "주 단위 그래프 API", notes = "추후 작성 필요")
+    @GetMapping("/webtoons/{webtoonId}/graph-scores/weekends")
+    public ResponseEntity<GraphScoreResponse> getByWeekends(
+            @PathVariable("webtoonId") Long webtoonId) {
+        var period = "weekend";
+        var response = graphScoreSnapshotService.graph(webtoonId, Period.of(period));
+        return ResponseEntity.ok(response);
+    }
+
+    @ApiOperation(value = "월 단위 그래프 API", notes = "추후 작성 필요")
+    @GetMapping("/webtoons/{webtoonId}/graph-scores/months")
+    public ResponseEntity<GraphScoreResponse> getByMonths(
+            @PathVariable("webtoonId") Long webtoonId) {
+        var period = "month";
+        var response = graphScoreSnapshotService.graph(webtoonId, Period.of(period));
+        return ResponseEntity.ok(response);
+    }
+
+    @ApiOperation(value = "3개월 단위 그래프 API", notes = "추후 작성 필요")
+    @GetMapping("/webtoons/{webtoonId}/graph-scores/three-months")
+    public ResponseEntity<GraphScoreResponse> getByThreeMonths(
+            @PathVariable("webtoonId") Long webtoonId) {
+        var period = "three-month";
         var response = graphScoreSnapshotService.graph(webtoonId, Period.of(period));
         return ResponseEntity.ok(response);
     }
