@@ -5,6 +5,7 @@ import kr.co.antoon.discussion.application.DiscussionService;
 import kr.co.antoon.discussion.dto.request.DiscussionCreateRequest;
 import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.discussion.dto.response.DiscussionResponse;
+import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import lombok.RequiredArgsConstructor;
@@ -33,26 +34,44 @@ public class DiscussionFacade {
 
         var user = userService.findById(discussion.getUserId());
 
-        return new DiscussionResponse(discussion, user, false);
+        return new DiscussionResponse(webtoonId, discussion, user, false);
     }
 
     @Transactional
-    public DiscussionResponse findById(Long userId, Long discussionId) {
-        var isUserLike = discussionLikeService.isUserLike(userId, discussionId);
+    public DiscussionResponse findById(AuthInfo info, Long discussionId) {
         var discussion = discussionService.findById(discussionId);
         var user = userService.findById(discussion.getUserId());
-
-        return new DiscussionResponse(discussion, user, isUserLike);
+        if (info == null) {
+            return new DiscussionResponse(
+                    discussion.getWebtoonId(),
+                    discussion,
+                    user,
+                    false
+            );
+        }
+        var isUserLike = discussionLikeService.isUserLike(info.userId(), discussionId);
+        return new DiscussionResponse(
+                discussion.getWebtoonId(),
+                discussion,
+                user,
+                isUserLike
+        );
     }
 
     @Transactional(readOnly = true)
-    public Page<DiscussionResponse> findAll(Long userId, Pageable pageable) {
-        return discussionService.findAll(pageable)
+    public Page<DiscussionResponse> findAll(AuthInfo info, Pageable pageable, Long webtoonId) {
+        if (info == null) {
+            return discussionService.findByWebtoonId(webtoonId, pageable)
+                    .map(discussion -> {
+                        var user = userService.findById(discussion.getUserId());
+                        return new DiscussionResponse(webtoonId, discussion, user, false);
+                    });
+        }
+        return discussionService.findByWebtoonId(webtoonId, pageable)
                 .map(discussion -> {
                     var user = userService.findById(discussion.getUserId());
-                    var userLike = discussionLikeService.isUserLike(userId, discussion.getId());
-
-                    return new DiscussionResponse(discussion, user, userLike);
+                    var userLike = discussionLikeService.isUserLike(info.userId(), discussion.getId());
+                    return new DiscussionResponse(webtoonId, discussion, user, userLike);
                 });
     }
 
@@ -62,6 +81,11 @@ public class DiscussionFacade {
         var user = userService.findById(discussion.getUserId());
         var isUserLike = discussionLikeService.isUserLike(userId, discussionId);
 
-        return new DiscussionResponse(discussion, user, isUserLike);
+        return new DiscussionResponse(
+                discussion.getWebtoonId(),
+                discussion,
+                user,
+                isUserLike
+        );
     }
 }

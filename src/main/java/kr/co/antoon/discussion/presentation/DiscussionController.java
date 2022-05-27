@@ -13,6 +13,7 @@ import kr.co.antoon.discussion.facade.DiscussionFacade;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -33,6 +34,7 @@ import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RestController
 @RequestMapping(value = "/api/v1/webtoons", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
+@Slf4j
 public class DiscussionController {
     private final DiscussionFacade discussionFacade;
     private final DiscussionService discussionService;
@@ -54,17 +56,18 @@ public class DiscussionController {
             @PathVariable Long discussionId,
             @AuthUser AuthInfo info
     ) {
-        var response = discussionFacade.findById(info.userId(), discussionId);
+        var response = discussionFacade.findById(info, discussionId);
         return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "종목토론방 댓글 페이지 조회", notes = SwaggerNote.DISCUSSION_READL_ALL_NOTE)
-    @GetMapping("/discussions")
+    @GetMapping("/{webtoonId}/discussions")
     public ResponseEntity<PageDto<DiscussionResponse>> findAll(
+            @PathVariable Long webtoonId,
             @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             @AuthUser AuthInfo info
     ) {
-        var response = discussionFacade.findAll(info.userId(), pageable);
+        var response = discussionFacade.findAll(info, pageable, webtoonId);
         return PageDto.ok(response);
     }
 
