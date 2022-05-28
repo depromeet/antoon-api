@@ -7,6 +7,7 @@ import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
+import kr.co.antoon.webtoon.dto.response.WebtoonAgeResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreAllResponse;
@@ -85,7 +86,8 @@ public class WebtoonController {
 
     @ApiOperation(value = "연령대별 인기 웹툰 조회 API [MOCK UP]")
     @GetMapping("/ages")
-    public String age() {
-        return "ok";
+    public ResponseEntity<WebtoonAgeResponse> age() {
+        var response = webtoonFacade.getAges();
+        return ResponseDto.ok(response);
     }
 }

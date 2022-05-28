@@ -5,6 +5,7 @@ import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonWriterService;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
+import kr.co.antoon.webtoon.dto.response.WebtoonAgeResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Component
 @RequiredArgsConstructor
@@ -83,5 +85,15 @@ public class WebtoonFacade {
                 }).toList();
 
         return new WebtoonRankingAllResponse(response);
+    }
+
+    // TODO : MOCK API
+    @Transactional(readOnly = true)
+    public WebtoonAgeResponse getAges() {
+        var response = IntStream.range(1, 11)
+                .mapToObj(i -> webtoonService.findDetailWebtoon((long) i))
+                .toList();
+
+        return new WebtoonAgeResponse(response);
     }
 }
