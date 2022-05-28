@@ -28,7 +28,7 @@ public record WebtoonGenreAllResponse(
         public WebtoonGenrePreviewResponse(
                 WebtoonGenreBannerNativeDto dto
         ) {
-            this(dto.getGenreCategory().name(), dto.getThumbnail());
+            this(dto.getGenreCategory().getDescription(), dto.getThumbnail());
         }
     }
 }
