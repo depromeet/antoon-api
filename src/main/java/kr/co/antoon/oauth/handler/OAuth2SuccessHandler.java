@@ -87,7 +87,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private void saveOrUpdate(OAuth2User oAuth2User) {
         var data = oAuth2User.getAttributes();
-        HashMap<String, String> profile = (HashMap<String, String>) data.get("profile");
+        var profile = (HashMap<String, String>) data.get("profile");
 
         User user = userRepository.findByEmail(data.get("email").toString())
                 .map(entity -> entity.update(
@@ -103,25 +103,26 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                         .age(0)
                         .build());
 
-        String profileImg = profile.get("profile_image_url");
+        var profileImg = profile.get("profile_image_url");
         if(profileImg != null) {
             user.updateImageUrl(profileImg);
         }
 
-        String age = data.get("age_range").toString();
+        var age = data.get("age_range").toString();
         if (age != null) {
             int ageRange = Integer.parseInt(age.split("~")[0]);
             user.updateAge(ageRange);
         }
 
-        String gender = data.get("gender").toString();
-        if (gender != null) {
-            switch (gender) {
-                case "female" -> user.updateGender(Gender.FEMALE);
-                case "male" -> user.updateGender(Gender.MALE);
-                default -> user.updateGender(Gender.NONE);
-            }
-        }
+        var gender = Gender.of(data.get("gender").toString());
+        user.updateGender(gender);
+//        if (gender != null) {
+//            switch (gender) {
+//                case "female" -> user.updateGender(Gender.FEMALE);
+//                case "male" -> user.updateGender(Gender.MALE);
+//                default -> user.updateGender(Gender.NONE);
+//            }
+//        }
 
         userRepository.save(user);
     }
