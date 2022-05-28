@@ -84,6 +84,7 @@ public class WebtoonController {
         return ResponseDto.ok(response);
     }
 
+    // TODO : 연령대 알고리즘 추가 필요
     @ApiOperation(value = "연령대별 인기 웹툰 조회 API [MOCK UP]")
     @GetMapping("/ages")
     public ResponseEntity<WebtoonAgeResponse> age() {
