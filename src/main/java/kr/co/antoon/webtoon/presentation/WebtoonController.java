@@ -7,12 +7,14 @@ import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
+import kr.co.antoon.webtoon.dto.request.WebtoonSearchRequest;
 import kr.co.antoon.webtoon.dto.response.WebtoonAgeResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonSearchResponse;
 import kr.co.antoon.webtoon.facade.WebtoonFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -89,6 +93,13 @@ public class WebtoonController {
     @GetMapping("/ages")
     public ResponseEntity<WebtoonAgeResponse> age() {
         var response = webtoonFacade.getAges();
+        return ResponseDto.ok(response);
+    }
+
+    @ApiOperation(value = "seach용 웹툰 조회")
+    @PostMapping("/search")
+    public ResponseEntity<WebtoonSearchResponse> search(@RequestBody WebtoonSearchRequest request) {
+        var response = webtoonFacade.search(request);
         return ResponseDto.ok(response);
     }
 }

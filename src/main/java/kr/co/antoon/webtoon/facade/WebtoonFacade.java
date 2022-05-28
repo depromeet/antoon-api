@@ -5,11 +5,13 @@ import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonWriterService;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
+import kr.co.antoon.webtoon.dto.request.WebtoonSearchRequest;
 import kr.co.antoon.webtoon.dto.response.WebtoonAgeResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
+import kr.co.antoon.webtoon.dto.response.WebtoonSearchResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -95,5 +97,15 @@ public class WebtoonFacade {
                 .toList();
 
         return new WebtoonAgeResponse(response);
+    }
+
+    @Transactional(readOnly = true)
+    public WebtoonSearchResponse search(WebtoonSearchRequest request) {
+        var webtoons = request.webtoons()
+                .stream()
+                .map(webtoonService::findDetailWebtoon)
+                .toList();
+
+        return new WebtoonSearchResponse(webtoons);
     }
 }
