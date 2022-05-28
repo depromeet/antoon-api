@@ -25,7 +25,7 @@ public class GraphScoreController {
     @GetMapping("/webtoons/{webtoonId}/graph-scores/days")
     public ResponseEntity<GraphScoreResponse> getByDays(
             @PathVariable("webtoonId") Long webtoonId) {
-        var response = graphScoreSnapshotService.graphByDay(webtoonId, Period.of("day"));
+        var response = graphScoreSnapshotService.graphByDays(webtoonId, Period.of("day"));
         return ResponseEntity.ok(response);
     }
 
