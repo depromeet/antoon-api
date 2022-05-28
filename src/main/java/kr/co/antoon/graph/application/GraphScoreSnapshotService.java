@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +52,7 @@ public class GraphScoreSnapshotService {
     }
 
     @Transactional(readOnly = true)
-    public GraphScoreResponse graph(Long webtoonId, Period period) {
+    public GraphScoreResponse graphByDays(Long webtoonId, Period period) {
         var end = LocalDateTime.now();
         var start = end.minusDays(period.getDays());
 
@@ -64,10 +65,63 @@ public class GraphScoreSnapshotService {
     }
 
     @Transactional(readOnly = true)
+    public GraphScoreResponse graphByWeekends(Long webtoonId, Period period) {
+        var end = LocalDateTime.now();
+        var start = end.minusDays(period.getDays());
+
+        List<GraphScoreSnapshot> graphScoreSnapshots = new ArrayList<>();
+        for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
+            GraphScoreSnapshot graphScoreSnapshot = graphScoreSnapshotRepository.findTop1ByWebtoonIdAndSnapshotTimeBetweenOrderByCreatedAtDesc(webtoonId, start, end);
+            graphScoreSnapshots.add(graphScoreSnapshot);
+        }
+
+        var score = graphScoreSnapshots.stream().map(GraphScoreResponse.GraphScoreDetail::new)
+                .toList();
+
+        return new GraphScoreResponse(score);
+    }
+
+    @Transactional(readOnly = true)
+    public GraphScoreResponse graphByMonths(Long webtoonId, Period period) {
+        var end = LocalDateTime.now();
+        var start = end.minusDays(period.getDays());
+
+        List<GraphScoreSnapshot> graphScoreSnapshots = new ArrayList<>();
+        for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
+            GraphScoreSnapshot graphScoreSnapshot = graphScoreSnapshotRepository.findTop1ByWebtoonIdAndSnapshotTimeBetweenOrderByCreatedAtDesc(webtoonId, start, end);
+            graphScoreSnapshots.add(graphScoreSnapshot);
+        }
+
+        var score = graphScoreSnapshots.stream().map(GraphScoreResponse.GraphScoreDetail::new)
+                .toList();
+
+        return new GraphScoreResponse(score);
+    }
+
+    @Transactional(readOnly = true)
+    public GraphScoreResponse graphByThreeMonths(Long webtoonId, Period period) {
+        var end = LocalDateTime.now();
+        var start = end.minusDays(period.getDays());
+
+        List<GraphScoreSnapshot> graphScoreSnapshots = new ArrayList<>();
+        for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
+            GraphScoreSnapshot graphScoreSnapshot = graphScoreSnapshotRepository.findTop1ByWebtoonIdAndSnapshotTimeBetweenOrderByCreatedAtDesc(webtoonId, start, end);
+            graphScoreSnapshots.add(graphScoreSnapshot);
+        }
+
+        var score = graphScoreSnapshots.stream().map(GraphScoreResponse.GraphScoreDetail::new)
+                .toList();
+
+        return new GraphScoreResponse(score);
+    }
+
+    @Transactional(readOnly = true)
     public List<GraphScoreSnapshot> findTop10ByOrderByScoreGap() {
         var end = LocalDateTime.now();
         var start = end.minusHours(1);
 
         return graphScoreSnapshotRepository.findDistinctTop10BySnapshotTimeBetweenOrderByScoreGapDescGraphScoreDesc(start, end);
     }
+
+
 }
