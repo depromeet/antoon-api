@@ -19,6 +19,8 @@ import javax.persistence.Index;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import static kr.co.antoon.common.util.CommonUtil.isNotEmpty;
+
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -74,10 +76,15 @@ public class Webtoon extends BaseEntity {
         this.status = status;
     }
 
-    public void update(String title, String content, String thumbnail, String url) {
-        this.title = title;
-        this.content = content;
-        this.thumbnail = thumbnail;
-        this.webtoonUrl = url;
+    public void update(String content, String thumbnail, String url) {
+        if (isNotEmpty(content)) {
+            this.content = content;
+        }
+        if (isNotEmpty(thumbnail)) {
+            this.thumbnail = thumbnail;
+        }
+        if (isNotEmpty(url)) {
+            this.webtoonUrl = url;
+        }
     }
 }

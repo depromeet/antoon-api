@@ -53,7 +53,6 @@ public class WebtoonCrawlingFacade {
                             if (existsWebtoons.containsKey(crawlingWebtton.title())) {
                                 Webtoon webtoon = existsWebtoons.get(crawlingWebtton.title());
                                 webtoon.update(
-                                        crawlingWebtton.title(),
                                         crawlingWebtton.content(),
                                         crawlingWebtton.thumbnail(),
                                         crawlingWebtton.url()
