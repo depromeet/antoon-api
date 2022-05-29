@@ -66,30 +66,17 @@ public class GraphScoreSnapshotService {
     }
 
     @Transactional(readOnly = true)
-    public GraphScoreResponse graphByWeekends(Long webtoonId, Period period) {
-        return getGraphScoreResponse(webtoonId, period);
-    }
-
-    @Transactional(readOnly = true)
-    public GraphScoreResponse graphByMonths(Long webtoonId, Period period) {
-        return getGraphScoreResponse(webtoonId, period);
-    }
-
-    @Transactional(readOnly = true)
-    public GraphScoreResponse graphByThreeMonths(Long webtoonId, Period period) {
-        return getGraphScoreResponse(webtoonId, period);
-    }
-
-    private GraphScoreResponse getGraphScoreResponse(Long webtoonId, Period period) {
+    public GraphScoreResponse graphByMoreThanWeek(Long webtoonId, Period period) {
         var end = LocalDateTime.now();
         var start = end.minusDays(period.getDays());
 
         var graphScoreSnapshots = Stream
                 .iterate(start, date -> date.isBefore(end), date -> date.plusDays(1))
-                .map(date -> graphScoreSnapshotRepository.findTop1ByWebtoonIdAndSnapshotTimeBetweenOrderByCreatedAtDesc(webtoonId, start, end))
+                .map(date -> graphScoreSnapshotRepository.findTopOneByWebtoonIdAndSnapshotTimeBetweenOrderByCreatedAtDesc(webtoonId, start, end))
                 .collect(Collectors.toList());
 
-        var score = graphScoreSnapshots.stream().map(GraphScoreResponse.GraphScoreDetail::new)
+        var score = graphScoreSnapshots.stream()
+                .map(GraphScoreResponse.GraphScoreDetail::new)
                 .toList();
 
         return new GraphScoreResponse(score);

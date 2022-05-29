@@ -33,7 +33,7 @@ public class GraphScoreController {
     @GetMapping("/webtoons/{webtoonId}/graph-scores/weekends")
     public ResponseEntity<GraphScoreResponse> getByWeekends(
             @PathVariable("webtoonId") Long webtoonId) {
-        var response = graphScoreSnapshotService.graphByWeekends(webtoonId, Period.of("weekend"));
+        var response = graphScoreSnapshotService.graphByMoreThanWeek(webtoonId, Period.of("weekend"));
         return ResponseEntity.ok(response);
     }
 
@@ -41,7 +41,7 @@ public class GraphScoreController {
     @GetMapping("/webtoons/{webtoonId}/graph-scores/months")
     public ResponseEntity<GraphScoreResponse> getByMonths(
             @PathVariable("webtoonId") Long webtoonId) {
-        var response = graphScoreSnapshotService.graphByMonths(webtoonId, Period.of("month"));
+        var response = graphScoreSnapshotService.graphByMoreThanWeek(webtoonId, Period.of("month"));
         return ResponseEntity.ok(response);
     }
 
@@ -49,7 +49,7 @@ public class GraphScoreController {
     @GetMapping("/webtoons/{webtoonId}/graph-scores/three-months")
     public ResponseEntity<GraphScoreResponse> getByThreeMonths(
             @PathVariable("webtoonId") Long webtoonId) {
-        var response = graphScoreSnapshotService.graphByThreeMonths(webtoonId, Period.of("three-month"));
+        var response = graphScoreSnapshotService.graphByMoreThanWeek(webtoonId, Period.of("three-month"));
         return ResponseEntity.ok(response);
     }
 }
