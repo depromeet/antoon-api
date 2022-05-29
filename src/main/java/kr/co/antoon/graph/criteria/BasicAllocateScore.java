@@ -42,4 +42,8 @@ public class BasicAllocateScore implements ScoreAllocationCriteria {
 
         return Math.max(graphScore, 250);
     }
+
+    public static double getDifferencePercentage(int graphScore, int scoreGap) {
+        return scoreGap * 1.0 / graphScore * 100.0;
+    }
 }

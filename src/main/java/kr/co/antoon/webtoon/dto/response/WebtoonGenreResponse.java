@@ -8,6 +8,8 @@ import kr.co.antoon.webtoon.dto.query.WebtoonGenreNativeDto;
 
 import java.util.List;
 
+import static kr.co.antoon.graph.criteria.BasicAllocateScore.getDifferencePercentage;
+
 @ApiModel("장르별 활성화된 웹툰 조회 API")
 public record WebtoonGenreResponse(
         @ApiModelProperty(
@@ -81,9 +83,5 @@ public record WebtoonGenreResponse(
                 webtoon.getPlatform(),
                 genreCategory.getDescription()
         );
-    }
-
-    public static double getDifferencePercentage(int graphScore, int scoreGap) {
-        return scoreGap * 1.0 / graphScore * 100.0;
     }
 }
