@@ -19,4 +19,6 @@ public interface GraphScoreSnapshotRepository extends JpaRepository<GraphScoreSn
     Optional<GraphScoreSnapshot> findTop1ByWebtoonIdOrderBySnapshotTimeDesc(Long webtoondId);
 
     List<GraphScoreSnapshot> findAllByWebtoonIdAndSnapshotTimeBetweenOrderByCreatedAtAsc(Long webtoonId, LocalDateTime start, LocalDateTime end);
+
+    GraphScoreSnapshot findTopOneByWebtoonIdAndSnapshotTimeBetweenOrderByCreatedAtDesc(Long webtoonId, LocalDateTime start, LocalDateTime end);
 }

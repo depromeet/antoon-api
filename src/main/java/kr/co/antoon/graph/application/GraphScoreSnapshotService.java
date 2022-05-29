@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +53,7 @@ public class GraphScoreSnapshotService {
     }
 
     @Transactional(readOnly = true)
-    public GraphScoreResponse graph(Long webtoonId, Period period) {
+    public GraphScoreResponse graphByDays(Long webtoonId, Period period) {
         var end = LocalDateTime.now();
         var start = end.minusDays(period.getDays());
 
@@ -64,10 +66,29 @@ public class GraphScoreSnapshotService {
     }
 
     @Transactional(readOnly = true)
+    public GraphScoreResponse graphByMoreThanWeek(Long webtoonId, Period period) {
+        var end = LocalDateTime.now();
+        var start = end.minusDays(period.getDays());
+
+        var graphScoreSnapshots = Stream
+                .iterate(start, date -> date.isBefore(end), date -> date.plusDays(1))
+                .map(date -> graphScoreSnapshotRepository.findTopOneByWebtoonIdAndSnapshotTimeBetweenOrderByCreatedAtDesc(webtoonId, start, end))
+                .collect(Collectors.toList());
+
+        var score = graphScoreSnapshots.stream()
+                .map(GraphScoreResponse.GraphScoreDetail::new)
+                .toList();
+
+        return new GraphScoreResponse(score);
+    }
+
+    @Transactional(readOnly = true)
     public List<GraphScoreSnapshot> findTop10ByOrderByScoreGap() {
         var end = LocalDateTime.now();
         var start = end.minusHours(1);
 
         return graphScoreSnapshotRepository.findDistinctTop10BySnapshotTimeBetweenOrderByScoreGapDescGraphScoreDesc(start, end);
     }
+
+
 }
