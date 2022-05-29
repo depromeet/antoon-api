@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Schema(description = "Webtoon 상세 DTO")
 public record WebtoonDto(
-        Long webtoondId,
+        Long webtoonId,
         String title,
         String content,
         String webtoonUrl,
