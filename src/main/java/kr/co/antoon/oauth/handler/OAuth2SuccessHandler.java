@@ -4,7 +4,6 @@ import kr.co.antoon.cache.user.UserRedisCacheService;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.oauth.application.JwtTokenProvider;
-import kr.co.antoon.oauth.dto.OAuth2Attribute;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Gender;
 import kr.co.antoon.user.domain.vo.Role;
@@ -16,7 +15,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -63,7 +61,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         log.info("type: {}", test.getClass());
 
         Boolean isSignIn = userRepository.existsByEmail(email);
-        if(!isSignIn) {
+        if (!isSignIn) {
             status = "signup";
         }
 
@@ -81,7 +79,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 jwtTokenProvider.getRefreshTokenExpireTime()
         );
 
-        var targetUrl = redirectUrl + "?status="+ status + "?access=" + accessToken + "?refresh=" + refreshToken;
+        var targetUrl = redirectUrl + "?status=" + status + "?access=" + accessToken + "?refresh=" + refreshToken;
         response.sendRedirect(targetUrl);
         log.info("redis : {}", userRedisCacheService.get(user.getId()));
     }
@@ -105,7 +103,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                         .build());
 
         var profileImg = profile.get("profile_image_url");
-        if(profileImg != null) {
+        if (profileImg != null) {
             user.updateImageUrl(profileImg);
         }
 

@@ -1,11 +1,7 @@
 package kr.co.antoon.user.domain.vo;
 
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.oauth.NotValidRoleException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class WebtoonPublishDayService {
     public void saveAll(List<WebtoonPublishDay> webtoonPublishDays) {
         webtoonPublishDayRepository.saveAll(webtoonPublishDays);
     }
-    
+
     @Transactional(readOnly = true)
     public boolean existsByWebtoonIdAndDay(Long webtoonId, String day) {
         return webtoonPublishDayRepository.existsByWebtoonIdAndDay(webtoonId, day);

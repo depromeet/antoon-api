@@ -9,7 +9,10 @@ import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.recommendation.facade.RecommendationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 

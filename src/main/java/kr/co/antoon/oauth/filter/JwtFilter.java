@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 
-
 @RequiredArgsConstructor
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
@@ -37,20 +36,20 @@ public class JwtFilter extends OncePerRequestFilter {
         var httpServletRequest = (HttpServletRequest) request;
         final var path = httpServletRequest.getServletPath();
 
-            if (!Arrays.stream(swaggerConfig.whiteListInSwagger()).toList().contains(path) && !"/health".equals(path)) {
-                String token = resolveToken(request);
-                log.info("filter access : " + token);
-                // 정상 토큰이면 해당 토큰으로 Authentication을 가져와서 SecurityContext에 저장
-                if (StringUtils.hasText(token) && jwtTokenProvider.validate(token)) {
-                    String isLogout = (String) redisTemplate.opsForValue().get(token); //로그아웃 확인
+        if (!Arrays.stream(swaggerConfig.whiteListInSwagger()).toList().contains(path) && !"/health".equals(path)) {
+            String token = resolveToken(request);
+            log.info("filter access : " + token);
+            // 정상 토큰이면 해당 토큰으로 Authentication을 가져와서 SecurityContext에 저장
+            if (StringUtils.hasText(token) && jwtTokenProvider.validate(token)) {
+                String isLogout = (String) redisTemplate.opsForValue().get(token); //로그아웃 확인
 
-                    if (ObjectUtils.isEmpty(isLogout)) {
-                        // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext 에 저장
-                        Authentication authentication = jwtTokenProvider.getAuthentication(token);
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }
+                if (ObjectUtils.isEmpty(isLogout)) {
+                    // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext 에 저장
+                    Authentication authentication = jwtTokenProvider.getAuthentication(token);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
+        }
         filterChain.doFilter(request, response);
     }
 
