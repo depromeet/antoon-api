@@ -23,7 +23,9 @@ public record WebtoonDto(
         Set<WriterDto> writers,
         Long recommendationCountId,
         Integer joinCount,
-        Integer leaveCount
+        Integer leaveCount,
+        int score,
+        double scoreGapPercent
 ) {
     public record GenreDto(
             Long webtoonGenreId,

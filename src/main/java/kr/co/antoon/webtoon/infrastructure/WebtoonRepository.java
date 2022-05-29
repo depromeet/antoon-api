@@ -36,15 +36,21 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
             wg.id as webtoonGenreId, wg.genre_category as genreCategory,
             wpd.id as webtoonPublishDayId, wpd.day,
             ww.id as webtoonWriterId, ww.name,
-            rc.id as recommendationCountId, rc.join_count as joinCount, rc.leave_count as leaveCount
+            rc.id as recommendationCountId, rc.join_count as joinCount, rc.leave_count as leaveCount,
+            gss.graph_score as graphScore, gss.score_gap as scoreGap
             from webtoon w
             join webtoon_genre wg on w.id = wg.webtoon_id
             join webtoon_publish_day wpd on w.id = wpd.webtoon_id
             join webtoon_writer ww on w.id = ww.webtoon_id
+            join graph_score_snapshot gss on w.id = gss.webtoon_id
             left join recommendation_count rc on w.id = rc.webtoon_id
-            where w.id = :webtoon_id
+            where w.id = :webtoon_id and gss.snapshot_time between :start_time and :end_time
             """, nativeQuery = true)
-    List<WebtoonNativeDto> findOneByWebtoonId(@Param(value = "webtoon_id") Long webtoonId);
+    List<WebtoonNativeDto> findOneByWebtoonId(
+            @Param(value = "webtoon_id") Long webtoonId,
+            @Param(value = "start_time") String startTime,
+            @Param(value = "end_time") String endTime
+    );
 
     // TODO : 조회 정렬에 대해 수정 필요
     @Query(nativeQuery = true, value = """

@@ -36,4 +36,8 @@ public interface WebtoonNativeDto {
     Integer getJoinCount();
 
     Integer getLeaveCount();
+
+    int getGraphScore();
+
+    int getScoreGap();
 }

@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse.getDifferencePercentage;
+
 public class WebtoonConverter {
     public static WebtoonDto toWebtoonDto(List<WebtoonNativeDto> webtoon) {
         Set<WebtoonDto.GenreDto> genres = new HashSet<>();
@@ -47,7 +49,9 @@ public class WebtoonConverter {
                 writers,
                 webtoon.get(0).getRecommendationCountId(),
                 webtoon.get(0).getJoinCount(),
-                webtoon.get(0).getLeaveCount()
+                webtoon.get(0).getLeaveCount(),
+                webtoon.get(0).getGraphScore(),
+                getDifferencePercentage(webtoon.get(0).getGraphScore(), webtoon.get(0).getScoreGap())
         );
     }
 
