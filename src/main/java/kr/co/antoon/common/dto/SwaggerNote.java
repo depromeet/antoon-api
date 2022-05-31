@@ -92,14 +92,18 @@ public class SwaggerNote {
                     None
             """;
 
-    public final static String RECOMMENDATION_JOIN = """
-                    웹툰 상세페이지 > 탑승해요 API
-                    PATCH /api/v1/recommendations/join/{webtonId}   
-            """;
-
-    public final static String RECOMMENDATION_LEAVE = """
-                    웹툰 상세페이지 > 하차해요 API
-                    PATCH /api/v1/recommendations/leave/{webtoonId}
+    public final static String RECOMMENDATION = """
+                    웹툰 상세페이지 > 탑승/하차 API
+                    status값 : JOIN, LEAVE
+                    PATCH /api/v1/recommendations/{webtonId}?status={status}
+                    
+                    Response Body
+                    {
+                        "joinCount": 2,
+                        "leaveCount": 1,
+                        "isJoined": true,
+                        "isLeaved": false
+                    }
             """;
 
     public final static String WEBTOON_READ_DETAIL = """
