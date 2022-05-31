@@ -6,6 +6,7 @@ import kr.co.antoon.recommendation.application.RecommendationCountService;
 import kr.co.antoon.recommendation.application.RecommendationService;
 import kr.co.antoon.recommendation.domain.RecommendationCount;
 import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
+import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,25 +18,28 @@ public class RecommendationFacade {
     private final RecommendationCountService recommendationCountService;
 
     @Transactional
-    public void saveOrUpdateJoin(Long userId, Long webtoonId) {
-        if (recommendationService.existsByUserIdAndWebtoonIdAndStatus(userId, webtoonId, RecommendationStatus.JOINED)) {
-            throw new AlreadyExistsException(ErrorMessage.ALREADY_JOINED_ERROR);
-        }
+    public RecommendationResponse saveOrUpdate(String status, Long userId, Long webtoonId) {
+        statusCheck(userId, webtoonId);
         RecommendationCount recommendationCount = recommendationCountService.findByWebtoonId(webtoonId)
                 .orElseGet(() -> recommendationCountService.save(webtoonId));
-        recommendationCount.plusJoinCount(recommendationCount.getJoinCount() + 1);
-        recommendationService.save(webtoonId, userId, RecommendationStatus.JOINED);
+        recommendationCount.updateCount(RecommendationStatus.valueOf(status));
+
+        recommendationService.save(webtoonId, userId, RecommendationStatus.of(status));
+        return new RecommendationResponse(
+                recommendationCount,
+                status.equals("JOIN"),
+                status.equals("LEAVE")
+        );
     }
 
-    @Transactional
-    public void saveOrUpdateLeave(Long userId, Long webtoonId) {
+    @Transactional(readOnly = true)
+    public void statusCheck(Long userId, Long webtoonId) {
         if (recommendationService.existsByUserIdAndWebtoonIdAndStatus(userId, webtoonId, RecommendationStatus.LEAVED)) {
             throw new AlreadyExistsException(ErrorMessage.ALREADY_LEAVED_ERROR);
         }
-        RecommendationCount recommendationCount = recommendationCountService.findByWebtoonId(webtoonId)
-                .orElseGet(() -> recommendationCountService.save(webtoonId));
-        recommendationCount.plusLeaveCount(recommendationCount.getLeaveCount() + 1);
-        recommendationService.save(webtoonId, userId, RecommendationStatus.LEAVED);
+        if (recommendationService.existsByUserIdAndWebtoonIdAndStatus(userId, webtoonId, RecommendationStatus.JOINED)) {
+            throw new AlreadyExistsException(ErrorMessage.ALREADY_JOINED_ERROR);
+        }
     }
 
     @Transactional
@@ -44,14 +48,14 @@ public class RecommendationFacade {
                 .forEach(recommendation -> {
                     recommendation.updateStatus(RecommendationStatus.JOIN);
                     recommendationCountService.findByWebtoonId(recommendation.getWebtoonId())
-                            .ifPresent(recommendationCount -> recommendationCount.minusJoinCount(recommendationCount.getJoinCount() - 1));
+                            .ifPresent(rc -> rc.updateCount(RecommendationStatus.JOINED));
                 });
 
         recommendationService.findAllByStatus(RecommendationStatus.LEAVED)
                 .forEach(recommendation -> {
                     recommendation.updateStatus(RecommendationStatus.LEAVE);
                     recommendationCountService.findByWebtoonId(recommendation.getWebtoonId())
-                            .ifPresent(recommendationCount -> recommendationCount.minusLeaveCount(recommendationCount.getLeaveCount() - 1));
+                            .ifPresent(rc -> rc.updateCount(RecommendationStatus.LEAVED));
                 });
     }
 }
