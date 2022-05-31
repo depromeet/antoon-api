@@ -73,7 +73,7 @@ public class GraphScoreSnapshotService {
         var graphScoreSnapshots = Stream
                 .iterate(start, date -> date.isBefore(end), date -> date.plusDays(1))
                 .map(date -> graphScoreSnapshotRepository.findTopOneByWebtoonIdAndSnapshotTimeBetweenOrderByCreatedAtDesc(webtoonId, start, end))
-                .collect(Collectors.toList());
+                .toList();
 
         var score = graphScoreSnapshots.stream()
                 .map(GraphScoreResponse.GraphScoreDetail::new)

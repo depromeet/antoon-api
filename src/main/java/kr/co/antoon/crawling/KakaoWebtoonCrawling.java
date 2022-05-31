@@ -11,12 +11,9 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 public class KakaoWebtoonCrawling implements WebtoonCrawling {
-
-    public static final String KAKAO_WEBTOON = "KakaoWebtoon";
     public static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36";
 
     @Override
@@ -27,6 +24,7 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
             var kakaoWebtoonDocument = Jsoup.connect("https://page.kakao.com/main?categoryUid=10&subCategoryUid=10000").get();
             var contentListElements = kakaoWebtoonDocument.select("div.css-19y0ur2");
 
+            // TODO: for -> Map, Reduce로 수정할 예정입니다
             for (Element contentElement : contentListElements) {
                 var aElements = contentElement.select("a");
                 for (Element aElement : aElements) {
@@ -37,9 +35,9 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                     var innerElements = detailPageDocument.select("div.css-1ydjg2i");
                     innerElements.forEach(innerElement -> {
                         var title = innerElement.select("h2.text-ellipsis.css-jgjrt").text();
-                        var dayInfoBox = Objects.requireNonNull(innerElement.select("div.css-ymlwac").first()).child(1).text().split("\\|");
+                        var dayInfoBox = innerElement.select("div.css-ymlwac").first().child(1).text().split("\\|");
                         var day = dayInfoBox[0].substring(0, 1);
-                        var writer = Objects.requireNonNull(innerElement.select("div.css-ymlwac").first()).child(2).text().split(",");
+                        var writers = innerElement.select("div.css-ymlwac").first().child(2).text().split(",");
                         var content = "";
                         var genre = "";
                         var genres = new ArrayList<String>();
@@ -55,7 +53,7 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                         bundle.add(new WebtoonCrawlingDto.WebtoonCrawlingDetail(
                                         title,
                                         content,
-                                        List.of(writer),
+                                        List.of(writers),
                                         url,
                                         thumbnail,
                                         genres,
@@ -110,7 +108,7 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
     }
 
     private String convertRankingToScore(String score) {
-        // 1위 ~ 5위는 평점이 없어 default 10.0으로 변경
+        // TODO: 1위 ~ 5위는 평점이 없어 default 10.0으로 변경. 점수가 없고 순위만 있는 경우 어떤 기준으로 점수 부여할지 추후 논의 필요
         switch (score) {
             case "1위", "2위", "3위", "4위", "5위" -> score = "10.0";
         }
