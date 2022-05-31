@@ -28,23 +28,19 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final UserRepository userRepository;
     private final UserRedisCacheService userRedisCacheService;
     private String redirectUrl;
-    private String domainUrl;
 
     public OAuth2SuccessHandler(
             JwtTokenProvider jwtTokenProvider,
             UserRepository userRepository,
             UserRedisCacheService userRedisCacheService,
-            @Value("${url.redirect}") String redirectUrl,
-            @Value("${url.domain}") String domainUrl
+            @Value("${url.redirect}") String redirectUrl
     ) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
         this.userRedisCacheService = userRedisCacheService;
         this.redirectUrl = redirectUrl;
-        this.domainUrl = domainUrl;
 
         log.info("redirect url : {}", redirectUrl);
-        log.info("domain url : {}", domainUrl);
     }
 
     @Override
@@ -58,7 +54,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String status = "success";
         log.info("handler attributes : {}", oAuth2User.getAttributes().get("profile"));
         var test = oAuth2User.getAttributes().get("profile");
-        log.info("type: {}", test.getClass());
 
         Boolean isSignIn = userRepository.existsByEmail(email);
         if (!isSignIn) {
