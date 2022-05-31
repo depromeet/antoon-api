@@ -115,13 +115,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         var gender = Gender.of(data.get("gender").toString());
         user.updateGender(gender);
-//        if (gender != null) {
-//            switch (gender) {
-//                case "female" -> user.updateGender(Gender.FEMALE);
-//                case "male" -> user.updateGender(Gender.MALE);
-//                default -> user.updateGender(Gender.NONE);
-//            }
-//        }
 
         userRepository.save(user);
     }
