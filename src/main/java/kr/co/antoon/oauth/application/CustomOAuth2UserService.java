@@ -64,11 +64,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         String gender = attributes.getGender();
         if (gender != null) {
-            switch (gender) {
-                case "female" -> user.updateGender(Gender.FEMALE);
-                case "male" -> user.updateGender(Gender.MALE);
-                default -> user.updateGender(Gender.NONE);
-            }
+            user.updateGender(Gender.of(gender));
         }
 
         userRepository.save(user);
