@@ -14,13 +14,10 @@ public enum Gender {
     private final String description;
 
     public static Gender of(String gender) {
-        switch (gender) {
-            case "female":
-                return Gender.FEMALE;
-            case "male":
-                return Gender.MALE;
-            default:
-                return Gender.NONE;
-        }
+        return switch (gender) {
+            case "female" -> Gender.FEMALE;
+            case "male" -> Gender.MALE;
+            default -> Gender.NONE;
+        };
     }
 }
