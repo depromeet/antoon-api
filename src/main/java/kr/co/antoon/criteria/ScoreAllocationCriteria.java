@@ -1,4 +1,4 @@
-package kr.co.antoon.graph.criteria;
+package kr.co.antoon.criteria;
 
 /**
  * @apiNote graph score criteria
