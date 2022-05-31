@@ -1,12 +1,12 @@
 package kr.co.antoon.config;
 
+import kr.co.antoon.cache.user.UserRedisCacheService;
 import kr.co.antoon.oauth.application.CustomOAuth2UserService;
 import kr.co.antoon.oauth.application.JwtTokenProvider;
 import kr.co.antoon.oauth.filter.JwtFilter;
 import kr.co.antoon.oauth.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisTemplate redisTemplate;
+    private final UserRedisCacheService userRedisCacheService;
     private final SwaggerConfig swaggerConfig;
     private final CorsConfig corsConfig;
 
@@ -48,6 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(customOAuth2UserService)
                 .and()
                 .successHandler(oAuth2SuccessHandler);
-        http.addFilterBefore(new JwtFilter(jwtTokenProvider, redisTemplate, swaggerConfig), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtFilter(jwtTokenProvider, userRedisCacheService, swaggerConfig), UsernamePasswordAuthenticationFilter.class);
     }
 }

@@ -1,4 +1,4 @@
-package kr.co.antoon.graph.criteria;
+package kr.co.antoon.criteria;
 
 public class BasicAllocateScore implements ScoreAllocationCriteria {
     public int webtoonScore(Double score) {

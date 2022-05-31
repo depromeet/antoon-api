@@ -1,16 +1,12 @@
 package kr.co.antoon.config.properties;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import javax.validation.constraints.NotBlank;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @Configuration
 @ConfigurationProperties(prefix = "cruiser")
 public class SlackCruiserProperties {

@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static kr.co.antoon.graph.criteria.BasicAllocateScore.getDifferencePercentage;
+import static kr.co.antoon.criteria.BasicAllocateScore.getDifferencePercentage;
 
 public class WebtoonConverter {
     public static WebtoonDto toWebtoonDto(List<WebtoonNativeDto> webtoon) {
