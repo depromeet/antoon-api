@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(indexes = @Index(name = "i_webtoon_id", columnList = "webtoonId", unique = true))
+@Table(indexes = @Index(name = "i_webtoon_id", columnList = "webtoonId"))
 public class WebtoonGenre extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
