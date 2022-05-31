@@ -24,7 +24,7 @@ public class DiscussionLikeService {
         );
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Boolean isUserLike(Long userId, Long discussionId) {
         var like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId);
         if (like.isPresent()) {

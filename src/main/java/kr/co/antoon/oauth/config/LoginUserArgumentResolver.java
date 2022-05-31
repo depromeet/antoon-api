@@ -39,11 +39,11 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         }
         return new AuthInfo(
                 Long.valueOf(String.valueOf(authentication.getPrincipal())),
-                RolesFromAuthorities(authentication.getAuthorities())
+                rolesFromAuthorities(authentication.getAuthorities())
         );
     }
 
-    private List<Role> RolesFromAuthorities(Collection<? extends GrantedAuthority> authorities) {
+    private List<Role> rolesFromAuthorities(Collection<? extends GrantedAuthority> authorities) {
         return authorities.stream()
                 .map(authority -> Role.of(authority.getAuthority()))
                 .collect(Collectors.toList());
