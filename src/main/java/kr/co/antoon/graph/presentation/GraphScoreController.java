@@ -25,7 +25,8 @@ public class GraphScoreController {
     @ApiOperation(value = "일 단위 그래프 API", notes = SwaggerNote.GRAPH_SCORES_DAY_READ_NOTE)
     @GetMapping("/webtoons/{webtoonId}/graph-scores/days")
     public ResponseEntity<GraphScoreResponse> getByDays(
-            @PathVariable("webtoonId") Long webtoonId) {
+            @PathVariable("webtoonId") Long webtoonId
+    ) {
         var response = graphScoreSnapshotService.graphByDays(webtoonId, Period.of("day"));
         return ResponseEntity.ok(response);
     }
@@ -33,7 +34,8 @@ public class GraphScoreController {
     @ApiOperation(value = "주 단위 그래프 API", notes = SwaggerNote.GRAPH_SCORES_WEEKENDS_READ_NOTE)
     @GetMapping("/webtoons/{webtoonId}/graph-scores/weekends")
     public ResponseEntity<GraphScoreResponse> getByWeekends(
-            @PathVariable("webtoonId") Long webtoonId) {
+            @PathVariable("webtoonId") Long webtoonId
+    ) {
         var response = graphScoreSnapshotService.graphByMoreThanWeek(webtoonId, Period.of("weekend"));
         return ResponseEntity.ok(response);
     }
@@ -41,7 +43,8 @@ public class GraphScoreController {
     @ApiOperation(value = "월 단위 그래프 API", notes = SwaggerNote.GRAPH_SCORES_MONTHS_READ_NOTE)
     @GetMapping("/webtoons/{webtoonId}/graph-scores/months")
     public ResponseEntity<GraphScoreResponse> getByMonths(
-            @PathVariable("webtoonId") Long webtoonId) {
+            @PathVariable("webtoonId") Long webtoonId
+    ) {
         var response = graphScoreSnapshotService.graphByMoreThanWeek(webtoonId, Period.of("month"));
         return ResponseEntity.ok(response);
     }
@@ -49,7 +52,8 @@ public class GraphScoreController {
     @ApiOperation(value = "3개월 단위 그래프 API", notes = SwaggerNote.GRAPH_SCORE_THREE_MONTH_READ_NOTE)
     @GetMapping("/webtoons/{webtoonId}/graph-scores/three-months")
     public ResponseEntity<GraphScoreResponse> getByThreeMonths(
-            @PathVariable("webtoonId") Long webtoonId) {
+            @PathVariable("webtoonId") Long webtoonId
+    ) {
         var response = graphScoreSnapshotService.graphByMoreThanWeek(webtoonId, Period.of("three-month"));
         return ResponseEntity.ok(response);
     }
