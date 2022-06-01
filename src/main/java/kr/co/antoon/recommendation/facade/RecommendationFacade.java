@@ -18,17 +18,17 @@ public class RecommendationFacade {
     private final RecommendationCountService recommendationCountService;
 
     @Transactional
-    public RecommendationResponse saveOrUpdate(String status, Long userId, Long webtoonId) {
+    public RecommendationResponse saveOrUpdate(RecommendationStatus status, Long userId, Long webtoonId) {
         statusCheck(userId, webtoonId);
         RecommendationCount recommendationCount = recommendationCountService.findByWebtoonId(webtoonId)
                 .orElseGet(() -> recommendationCountService.save(webtoonId));
-        recommendationCount.updateCount(RecommendationStatus.valueOf(status));
+        recommendationCount.updateCount(status);
 
         recommendationService.save(webtoonId, userId, RecommendationStatus.of(status));
         return new RecommendationResponse(
                 recommendationCount,
-                status.equals("JOIN"),
-                status.equals("LEAVE")
+                status.isJoined(status),
+                status.isLeaved(status)
         );
     }
 

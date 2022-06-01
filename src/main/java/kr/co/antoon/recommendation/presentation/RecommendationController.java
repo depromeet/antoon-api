@@ -6,6 +6,7 @@ import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import kr.co.antoon.recommendation.facade.RecommendationFacade;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class RecommendationController {
     public ResponseEntity<RecommendationResponse> createLeaveStatus(
             @PathVariable Long webtoonId,
             @AuthUser AuthInfo info,
-            @RequestParam("status") String status) {
+            @RequestParam("status")RecommendationStatus status) {
         RecommendationResponse response = recommendationFacade.saveOrUpdate(status, info.userId(), webtoonId);
         return ResponseDto.ok(response);
     }
