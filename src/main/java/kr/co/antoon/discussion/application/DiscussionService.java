@@ -6,6 +6,7 @@ import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.error.exception.oauth.NotValidRoleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,17 +49,24 @@ public class DiscussionService {
     }
 
     @Transactional
-    public Discussion update(Long discussionId, DiscussionUpdateRequest request) {
+    public Discussion update(Long discussionId, Long userId, DiscussionUpdateRequest request) {
         var discussion = discussionRepository.findById(discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
-
+        if(!discussion.getUserId().equals(userId)) {
+            throw new NotValidRoleException(ErrorMessage.NOT_VALID_ROLE_ERROR);
+        }
         discussion.update(request.content());
         return discussion;
     }
 
     @Transactional
-    public void delete(Long id) {
-        discussionRepository.deleteById(id);
+    public void delete(Long discussionId, Long userId) {
+        var discussion = discussionRepository.findById(discussionId)
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
+        if(!discussion.getUserId().equals(userId)) {
+            throw new NotValidRoleException(ErrorMessage.NOT_VALID_ROLE_ERROR);
+        }
+        discussionRepository.deleteById(discussionId);
     }
 
     @Transactional(readOnly = true)

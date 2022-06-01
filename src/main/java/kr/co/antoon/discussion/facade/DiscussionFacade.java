@@ -5,6 +5,8 @@ import kr.co.antoon.discussion.application.DiscussionService;
 import kr.co.antoon.discussion.dto.request.DiscussionCreateRequest;
 import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.discussion.dto.response.DiscussionResponse;
+import kr.co.antoon.error.dto.ErrorMessage;
+import kr.co.antoon.error.exception.oauth.NotValidRoleException;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.webtoon.application.WebtoonService;
@@ -77,7 +79,7 @@ public class DiscussionFacade {
 
     @Transactional
     public DiscussionResponse update(Long userId, Long discussionId, DiscussionUpdateRequest request) {
-        var discussion = discussionService.update(discussionId, request);
+        var discussion = discussionService.update(discussionId, userId, request);
         var user = userService.findById(discussion.getUserId());
         var isUserLike = discussionLikeService.isUserLike(userId, discussionId);
 
