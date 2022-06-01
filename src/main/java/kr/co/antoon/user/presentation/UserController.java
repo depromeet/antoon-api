@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
-@Slf4j
 @Api(tags = "사용자 API")
 @RestController
 @RequestMapping(value = "/api/v1/users", produces = APPLICATION_JSON_UTF_8)
@@ -59,7 +58,6 @@ public class UserController {
     public ResponseEntity<UserDetailResponse> updateName(
         @AuthUser AuthInfo info,
         @RequestBody String name) {
-        log.info("name : {}", name);
         var response = userService.updateNameById(info.userId(), name);
         return ResponseEntity.ok(response);
     }
