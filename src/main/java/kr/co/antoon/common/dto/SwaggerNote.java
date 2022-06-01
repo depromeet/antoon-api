@@ -152,7 +152,7 @@ public class SwaggerNote {
             """;
 
     public final static String DISCUSSION_LIKE_CREATE_NOTE = """
-                    종목토론방에 댓글 삭제
+                    종목토론방 좋아요
                     PUT /api/v1/webtoons/discussions/{discussionId}/likes
                         
                     Response Body
