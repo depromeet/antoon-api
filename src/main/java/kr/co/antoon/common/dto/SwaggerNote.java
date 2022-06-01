@@ -328,6 +328,28 @@ public class SwaggerNote {
                         "imageUrl" : "https://image.jpg" // 프로필 이미지 url
                     }
             """;
+
+    public final static String USER_IMAGE_UPDATE_DETAIL = """
+                    사용자 마이페이지 프로필 이미지 수정
+                    PATCH /api/v1/users/mypage/image            
+                        
+                    Request Body
+                    {
+                        "imageUrl" : "https://image.jpg" // 프로필 이미지 url
+                    }
+            """;
+
+    public final static String USER_NAME_UPDATE_DETAIL = """
+                    사용자 마이페이지 이름 수정
+                    PATCH /api/v1/users/mypage/name            
+                        
+                    Request Body
+                    {
+                        "name" : "김테스트", //사용자 이름
+                    }
+            """;
+
+
     public static final String WEBTOON_READ_RANKING_NOTE = """
             현재 시간 기준으로 상승 중인 웹툰 조회
             GET /api/v1/webtoons/top-up
