@@ -1,6 +1,7 @@
 package kr.co.antoon.recommendation.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,19 +41,12 @@ public class RecommendationCount extends BaseEntity {
         return joinCount - leaveCount;
     }
 
-    public void plusJoinCount(int joinCount) {
-        this.joinCount = joinCount;
-    }
-
-    public void plusLeaveCount(int leaveCount) {
-        this.leaveCount = leaveCount;
-    }
-
-    public void minusJoinCount(int joinCount) {
-        this.joinCount = joinCount;
-    }
-
-    public void minusLeaveCount(int leaveCount) {
-        this.leaveCount = leaveCount;
+    public void updateCount(RecommendationStatus status) {
+        switch (status) {
+            case JOIN -> joinCount += 1;
+            case LEAVE -> leaveCount += 1;
+            case JOINED -> joinCount -= 1;
+            case LEAVED -> leaveCount -= 1;
+        }
     }
 }
