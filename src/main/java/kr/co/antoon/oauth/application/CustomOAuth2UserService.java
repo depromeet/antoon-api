@@ -44,33 +44,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         );
     }
 
-    private void saveOrUpdate2(OAuth2Attribute attributes) {
-        User user = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(
-                        attributes.getName(),
-                        attributes.getImageUrl()
-                ))
-                .orElse(attributes.toEntity());
-
-        user.updateAge(0);
-        user.updateGender(Gender.NONE);
-
-        log.info("attributes : {}", attributes);
-
-        String age = attributes.getAgeRange();
-        if (age != null) {
-            int ageRange = Integer.parseInt(age.split("~")[0]);
-            user.updateAge(ageRange);
-        }
-
-        String gender = attributes.getGender();
-        if (gender != null) {
-            user.updateGender(Gender.of(gender));
-        }
-
-        userRepository.save(user);
-    }
-
     public Boolean checkExistEmail(String email) {
         return userRepository.existsByEmail(email);
     }
