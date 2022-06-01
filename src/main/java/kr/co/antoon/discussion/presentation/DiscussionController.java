@@ -88,7 +88,7 @@ public class DiscussionController {
             @PathVariable Long discussionId,
             @AuthUser AuthInfo info
     ) {
-        discussionService.delete(discussionId);
+        discussionService.delete(discussionId, info.userId());
         return ResponseDto.noContent();
     }
 }
