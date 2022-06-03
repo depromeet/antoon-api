@@ -3,11 +3,10 @@
 
 ### Back End Developer 🙋
 
-
 |     극락     |    제로윤     |     인천 불주먹      | 의정부 곱창 킬러 | 대장 |
 | :-----------------------------------: | :-----------------: | :----------------: |:----------------: |:----------------: |
 | <img src="https://avatars.githubusercontent.com/u/50691225?v=4" width="250"/> |<img src="https://avatars.githubusercontent.com/u/17813930?v=4" width="250"/> |<img src="https://avatars.githubusercontent.com/u/50009240?v=4" width="250"/> |<img src="https://avatars.githubusercontent.com/u/79418036?v=4" width="250"/>|<img src="https://avatars.githubusercontent.com/u/37958836?v=4" width="250"/>|
-|   [김동건](https://github.com/DongGeon0908) |   [윤영](https://github.com/yunyoung1819) |   [이하늘](https://github.com/twoosky)   | [염지원(https://github.com/xx10222) | [김성민](https://github.com/devsungmin)|
+|   [김동건](https://github.com/DongGeon0908) |   [윤영](https://github.com/yunyoung1819) |   [이하늘](https://github.com/twoosky)   | [염지원](https://github.com/xx10222) | [김성민](https://github.com/devsungmin)|
 
 
 ### 😀 앙투앙!
