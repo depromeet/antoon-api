@@ -6,6 +6,8 @@ import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
+import kr.co.antoon.user.dto.request.UserDetailImage;
+import kr.co.antoon.user.dto.request.UserDetailName;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Deprecated
     @ApiOperation(value = "사용자 마이페이지 수정 API", notes = SwaggerNote.USER_UPDATE_DETAIL)
     @PatchMapping
     public ResponseEntity<UserDetailResponse> updateUser(
@@ -48,17 +51,17 @@ public class UserController {
     @PatchMapping("/image")
     public ResponseEntity<UserDetailResponse> updateProfileImgae(
             @AuthUser AuthInfo info,
-            @RequestBody String image) {
-        var response = userService.updateImgaeUrlById(info.userId(), image);
+            @RequestBody UserDetailImage userDetailImage) {
+        var response = userService.updateImgaeUrlById(info.userId(), userDetailImage.imageUrl());
         return ResponseEntity.ok(response);
     }
 
     @ApiOperation(value = "사용자 마이페이지 이름 수정 API", notes = SwaggerNote.USER_NAME_UPDATE_DETAIL)
     @PatchMapping("/name")
     public ResponseEntity<UserDetailResponse> updateName(
-        @AuthUser AuthInfo info,
-        @RequestBody String name) {
-        var response = userService.updateNameById(info.userId(), name);
+            @AuthUser AuthInfo info,
+            @RequestBody UserDetailName userDetailName) {
+        var response = userService.updateNameById(info.userId(), userDetailName.name());
         return ResponseEntity.ok(response);
     }
 }
