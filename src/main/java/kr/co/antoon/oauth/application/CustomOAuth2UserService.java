@@ -57,14 +57,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                         profile.get("nickname"),
                         profile.get("profile_image_url")
                 ))
-                .orElse(User.builder()
-                        .name(profile.get("nickname"))
-                        .email(data.get("email").toString())
-                        .imageUrl(profile.get("https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/color%3Dyellow.png"))
-                        .gender(Gender.NONE)
-                        .role(Role.USER)
-                        .age(0)
-                        .build());
+                .orElse(User.buildUser(
+                        profile.get("nickname"),
+                        data.get("email").toString(),
+                        "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/color%3Dyellow.png",
+                        Gender.NONE,
+                        0));
 
         var profileImg = profile.get("profile_image_url");
         if (profileImg != null) {

@@ -15,9 +15,9 @@ public enum Status {
     private final String description;
 
     public static Status of(Boolean check) {
-        if (!check) {
-            return SIGNUP;
+        if (check) {
+            return SUCCESS;
         }
-        return SUCCESS;
+        return SIGNUP;
     }
 }
