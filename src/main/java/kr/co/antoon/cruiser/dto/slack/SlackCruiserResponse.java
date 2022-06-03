@@ -1,6 +1,7 @@
 package kr.co.antoon.cruiser.dto.slack;
 
 import kr.co.antoon.common.util.TimeUtil;
+import kr.co.antoon.feedback.dto.FeedbackResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,5 +49,21 @@ public class SlackCruiserResponse {
                         ":fast-parrot: *개미가 좋아하는 웹툰* :fast-parrot:",
                         ""
                 ));
+    }
+
+    public static String feedback(FeedbackResponse response) {
+        return String.format("""
+                        :crying-pepe: *개미야 빨리 수정해!!* :crying-pepe:
+                                        
+                        - 사용자 uid : %d
+                        - 내용 : %s
+                        - 점수 : %d
+                        - 상태 : %s
+                        """,
+                response.userId(),
+                response.content(),
+                response.score().getWeight(),
+                response.status().getDescription()
+        );
     }
 }
