@@ -1,7 +1,13 @@
 # ANTOON CORE API
 > 앙투앙~! 개미는 오늘도 열심히 툰툰!
 
----
+### Back End Developer 🙋
+
+|     극락     |    제로윤     |     인천 불주먹      | 의정부 곱창 킬러 | 대장 |
+| :-----------------------------------: | :-----------------: | :----------------: |:----------------: |:----------------: |
+| <img src="https://avatars.githubusercontent.com/u/50691225?v=4" width="250"/> | | |||
+|   [김동건](https://github.com/DongGeon0908) |   [윤영](https://github.com/yunyoung1819) |   [이하늘](https://github.com/twoosky)   | [염지원(https://github.com/xx10222)) | [김성민](https://github.com/devsungmin)|
+
 
 ### 😀 앙투앙!
 <img width="890" alt="image" src="https://user-images.githubusercontent.com/50691225/169682657-cd3ee5b5-056a-44fe-a3e5-4b50df2fc940.png">
