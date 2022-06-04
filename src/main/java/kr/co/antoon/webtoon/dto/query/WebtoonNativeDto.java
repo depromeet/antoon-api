@@ -40,4 +40,6 @@ public interface WebtoonNativeDto {
     int getGraphScore();
 
     int getScoreGap();
+
+    Integer getRanking();
 }

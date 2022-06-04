@@ -25,7 +25,9 @@ public record WebtoonDto(
         Integer joinCount,
         Integer leaveCount,
         int score,
-        double scoreGapPercent
+        int scoreGap,
+        double scoreGapPercent,
+        Integer ranking
 ) {
     public record GenreDto(
             Long webtoonGenreId,
