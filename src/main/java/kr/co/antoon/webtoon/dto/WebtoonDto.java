@@ -1,6 +1,7 @@
 package kr.co.antoon.webtoon.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.domain.vo.Platform;
@@ -27,6 +28,7 @@ public record WebtoonDto(
         int score,
         int scoreGap,
         double scoreGapPercent,
+        RecommendationStatus recommendationStatus,
         Integer ranking
 ) {
     public record GenreDto(
