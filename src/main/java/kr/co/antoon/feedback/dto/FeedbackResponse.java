@@ -3,6 +3,7 @@ package kr.co.antoon.feedback.dto;
 import kr.co.antoon.feedback.entity.Feedback;
 import kr.co.antoon.feedback.entity.vo.Score;
 import kr.co.antoon.feedback.entity.vo.Status;
+import kr.co.antoon.user.dto.response.UserDetailResponse;
 
 import java.time.LocalDateTime;
 
@@ -12,16 +13,22 @@ public record FeedbackResponse(
         Score score,
         Status status,
         Long userId,
+        String name,
+        String email,
+        Integer age,
         LocalDateTime createdAt,
         LocalDateTime modifiedAt
 ) {
-    public FeedbackResponse(Feedback feedback) {
+    public FeedbackResponse(Feedback feedback, UserDetailResponse user) {
         this(
                 feedback.getId(),
                 feedback.getContent(),
                 feedback.getScore(),
                 feedback.getStatus(),
                 feedback.getUserId(),
+                user.name(),
+                user.email(),
+                user.age(),
                 feedback.getCreatedAt(),
                 feedback.getModifiedAt()
         );

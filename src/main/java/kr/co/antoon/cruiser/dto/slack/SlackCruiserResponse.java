@@ -53,14 +53,16 @@ public class SlackCruiserResponse {
 
     public static String feedback(FeedbackResponse response) {
         return String.format("""
-                        :crying-pepe: *개미야 빨리 수정해!!* :crying-pepe:
+                        :crying-pepe: *개미의 피드백!!* :crying-pepe:
                                         
                         - 사용자 uid : %d
+                        - 사용자 이름 : %s
                         - 내용 : %s
                         - 점수 : %d
                         - 상태 : %s
                         """,
                 response.userId(),
+                response.name(),
                 response.content(),
                 response.score().getWeight(),
                 response.status().getDescription()
