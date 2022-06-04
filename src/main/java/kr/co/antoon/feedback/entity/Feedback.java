@@ -27,7 +27,11 @@ public class Feedback extends BaseEntity {
 
     private Status status;
 
+    private String answer;
+
     private Long userId;
+
+    private Long adminId;
 
     @Builder
     public Feedback(String content, Score score, Long userId) {
@@ -35,5 +39,18 @@ public class Feedback extends BaseEntity {
         this.score = score;
         this.userId = userId;
         this.status = Status.REGISTERED;
+    }
+
+    public void changeStatus(Status status) {
+        this.status = status;
+    }
+
+    public void proceed() {
+        changeStatus(Status.PROCEED);
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+        changeStatus(Status.COMPLETED);
     }
 }

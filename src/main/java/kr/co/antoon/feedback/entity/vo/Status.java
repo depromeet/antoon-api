@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum Status {
     REGISTERED("등록"),
     PROCEED("진행중"),
-    CHECK("확인"),
+    COMPLETED("확인"),
     ;
 
     private final String description;
