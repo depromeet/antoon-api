@@ -39,6 +39,7 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, JpaSpec
             ww.id as webtoonWriterId, ww.name,
             rc.id as recommendationCountId, rc.join_count as joinCount, rc.leave_count as leaveCount,
             gss.graph_score as graphScore, gss.score_gap as scoreGap,
+            r.status as recommendationStatus,
             tr.ranking as ranking
             from webtoon w
             join webtoon_genre wg on w.id = wg.webtoon_id
@@ -46,6 +47,7 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, JpaSpec
             join webtoon_writer ww on w.id = ww.webtoon_id
             join graph_score_snapshot gss on w.id = gss.webtoon_id
             left join recommendation_count rc on w.id = rc.webtoon_id
+            left join recommendation r on w.id = r.webtoon_id
             left join top_rank tr on w.id = tr.webtoon_id
             where w.id = :webtoon_id and gss.snapshot_time between :start_time and :end_time
             """, nativeQuery = true)

@@ -1,5 +1,6 @@
 package kr.co.antoon.webtoon.dto.query;
 
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.domain.vo.Platform;
@@ -40,6 +41,8 @@ public interface WebtoonNativeDto {
     int getGraphScore();
 
     int getScoreGap();
+
+    RecommendationStatus getRecommendationStatus();
 
     Integer getRanking();
 }

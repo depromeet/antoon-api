@@ -155,6 +155,7 @@ public class SwaggerNote {
                        "score": 650,
                        "scoreGap": 0,
                        "scoreGapPercent": 0,
+                       "recommendationStatus": "JOINED",
                        "ranking": 2
                      }
             """;
