@@ -1,8 +1,8 @@
-package kr.co.antoon.feedback.entity;
+package kr.co.antoon.feedback.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
-import kr.co.antoon.feedback.entity.vo.Score;
-import kr.co.antoon.feedback.entity.vo.Status;
+import kr.co.antoon.feedback.domain.vo.Score;
+import kr.co.antoon.feedback.domain.vo.Status;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

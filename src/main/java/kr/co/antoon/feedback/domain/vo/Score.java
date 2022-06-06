@@ -1,4 +1,4 @@
-package kr.co.antoon.feedback.entity.vo;
+package kr.co.antoon.feedback.domain.vo;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

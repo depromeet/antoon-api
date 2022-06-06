@@ -1,8 +1,8 @@
 package kr.co.antoon.feedback.dto;
 
-import kr.co.antoon.feedback.entity.Feedback;
-import kr.co.antoon.feedback.entity.vo.Score;
-import kr.co.antoon.feedback.entity.vo.Status;
+import kr.co.antoon.feedback.domain.Feedback;
+import kr.co.antoon.feedback.domain.vo.Score;
+import kr.co.antoon.feedback.domain.vo.Status;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 
 import java.time.LocalDateTime;

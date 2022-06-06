@@ -1,8 +1,8 @@
 package kr.co.antoon.feedback.application;
 
 import kr.co.antoon.feedback.dto.FeedbackRequest;
-import kr.co.antoon.feedback.entity.Feedback;
-import kr.co.antoon.feedback.entity.vo.Score;
+import kr.co.antoon.feedback.domain.Feedback;
+import kr.co.antoon.feedback.domain.vo.Score;
 import kr.co.antoon.feedback.infrastructure.FeedbackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
