@@ -11,7 +11,11 @@ import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import kr.co.antoon.recommendation.facade.RecommendationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
@@ -27,8 +31,10 @@ public class RecommendationController {
     public ResponseEntity<RecommendationResponse> createLeaveStatus(
             @PathVariable Long webtoonId,
             @AuthUser AuthInfo info,
-            @RequestParam("status")RecommendationStatus status) {
-        RecommendationResponse response = recommendationFacade.saveOrUpdate(status, info.userId(), webtoonId);
+            @RequestParam("status") RecommendationStatus status
+    ) {
+        var response = recommendationFacade.saveOrUpdate(status, info.userId(), webtoonId);
+
         return ResponseDto.ok(response);
     }
 }

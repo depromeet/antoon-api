@@ -92,8 +92,10 @@ public class WebtoonFacade {
     // TODO : MOCK API
     @Transactional(readOnly = true)
     public WebtoonAgeResponse getAges() {
+        var webtoons = webtoonService.findAll();
+
         var response = IntStream.range(1, 11)
-                .mapToObj(i -> webtoonService.findDetailWebtoon((long) i))
+                .mapToObj(i -> webtoonService.findDetailWebtoon(webtoons.get(i).getId()))
                 .toList();
 
         return new WebtoonAgeResponse(response);

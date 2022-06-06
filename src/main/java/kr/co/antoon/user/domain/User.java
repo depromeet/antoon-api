@@ -68,6 +68,16 @@ public class User extends BaseEntity {
         return this;
     }
 
+    public User updateImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
+    public User updateName(String name) {
+        this.name = name;
+        return this;
+    }
+
     public void updateAge(Integer age) {
         this.age = age;
     }
@@ -76,7 +86,4 @@ public class User extends BaseEntity {
         this.gender = gender;
     }
 
-    public void updateImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 }

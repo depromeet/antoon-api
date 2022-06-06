@@ -1,6 +1,7 @@
 package kr.co.antoon.webtoon.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.domain.vo.Platform;
@@ -25,24 +26,24 @@ public record WebtoonDto(
         Integer joinCount,
         Integer leaveCount,
         int score,
-        double scoreGapPercent
+        int scoreGap,
+        double scoreGapPercent,
+        RecommendationStatus recommendationStatus,
+        Integer ranking
 ) {
     public record GenreDto(
             Long webtoonGenreId,
             GenreCategory genreCategory,
             String genreCategoryDescription
-    ) {
-    }
+    ) { }
 
     public record PublishDayDto(
             Long webtoonPublishDayId,
             String day
-    ) {
-    }
+    ) { }
 
     public record WriterDto(
             Long webtoonWriterId,
             String name
-    ) {
-    }
+    ) { }
 }

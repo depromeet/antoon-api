@@ -36,7 +36,18 @@ public class UserService {
     @Transactional
     public UserDetailResponse updateById(Long id, UserDetailRequest request) {
         var user = findOneById(id).update(request.name(), request.imageUrl());
+        return new UserDetailResponse(user);
+    }
 
+    @Transactional
+    public UserDetailResponse updateImgaeUrlById(Long id, String image) {
+        var user = findOneById(id).updateImageUrl(image);
+        return new UserDetailResponse(user);
+    }
+
+    @Transactional
+    public UserDetailResponse updateNameById(Long id, String name) {
+        var user = findOneById(id).updateName(name);
         return new UserDetailResponse(user);
     }
 

@@ -14,7 +14,6 @@ public record GraphScoreResponse(
         this(graphScores.size(), graphScores);
     }
 
-
     public record GraphScoreDetail(
             int graphScore,
             int scoreGap,
