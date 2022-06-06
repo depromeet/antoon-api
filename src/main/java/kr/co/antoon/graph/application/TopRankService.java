@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -19,14 +18,16 @@ public class TopRankService {
 
     @Transactional
     public void saveAll(List<GraphScoreSnapshot> graphScoreSnapshots) {
-        topRankRepository.saveAll(IntStream.range(0, graphScoreSnapshots.size())
+        var response = IntStream.range(0, graphScoreSnapshots.size())
                 .mapToObj(g -> TopRank.builder()
                         .ranking(g + 1)
                         .graphScoreSnapshotId(graphScoreSnapshots.get(g).getId())
                         .reason(RankReason.TOTAL_SCORE)
                         .webtoonId(graphScoreSnapshots.get(g).getWebtoonId())
                         .build()
-                ).collect(Collectors.toList()));
+                ).toList();
+
+        topRankRepository.saveAll(response);
     }
 
     @Transactional

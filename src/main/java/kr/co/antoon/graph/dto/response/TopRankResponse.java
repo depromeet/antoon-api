@@ -12,7 +12,6 @@ import java.util.Set;
 public record TopRankResponse(
         List<TopRankWebtooon> webtoons
 ) {
-
     @Schema(description = "Top Rank Response")
     public record TopRankWebtooon(
             @Schema(description = "순위")

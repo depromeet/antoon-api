@@ -33,18 +33,15 @@ public record WebtoonDto(
             Long webtoonGenreId,
             GenreCategory genreCategory,
             String genreCategoryDescription
-    ) {
-    }
+    ) { }
 
     public record PublishDayDto(
             Long webtoonPublishDayId,
             String day
-    ) {
-    }
+    ) { }
 
     public record WriterDto(
             Long webtoonWriterId,
             String name
-    ) {
-    }
+    ) { }
 }

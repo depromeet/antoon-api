@@ -17,12 +17,14 @@ public class TopRankFacade {
 
     @Transactional(readOnly = true)
     public TopRankResponse findTopRank() {
-        return new TopRankResponse(topRankService.findTopRank()
+        var response = topRankService.findTopRank()
                 .parallelStream()
                 .map(tr -> new TopRankResponse.TopRankWebtooon(
                         tr.getRanking(),
                         graphScoreSnapshotService.findById(tr.getGraphScoreSnapshotId()),
                         webtoonService.findDetailWebtoon(tr.getWebtoonId())
-                )).toList());
+                )).toList();
+
+        return new TopRankResponse(response);
     }
 }

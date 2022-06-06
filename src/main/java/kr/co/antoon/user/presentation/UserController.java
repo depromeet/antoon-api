@@ -23,7 +23,6 @@ import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequestMapping(value = "/api/v1/users", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
 public class UserController {
-
     private final UserService userService;
 
     @ApiOperation(value = "사용자 마이페이지 조회 API", notes = SwaggerNote.USER_READ_DETAIL)
