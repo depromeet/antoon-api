@@ -63,4 +63,10 @@ public class UserController {
         var response = userService.updateNameById(info.userId(), userDetailName.name());
         return ResponseEntity.ok(response);
     }
+
+    @ApiOperation(value = "프로필 기본 이미지 조회 API")
+    @GetMapping("/profiles")
+    public String profileImage() {
+        return userService.getS3();
+    }
 }

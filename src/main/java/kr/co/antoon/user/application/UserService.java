@@ -1,5 +1,6 @@
 package kr.co.antoon.user.application;
 
+import com.amazonaws.services.s3.AmazonS3;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.user.domain.User;
@@ -7,6 +8,7 @@ import kr.co.antoon.user.dto.request.UserDetailRequest;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+
+    private final AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     @Transactional(readOnly = true)
     public User findOneById(Long id) {
@@ -49,5 +56,10 @@ public class UserService {
     public UserDetailResponse updateNameById(Long id, String name) {
         var user = findOneById(id).updateName(name);
         return new UserDetailResponse(user);
+    }
+
+    public String getS3() {
+        String fileName = "color=blue.png";
+        return amazonS3.getUrl(bucket, fileName).toString();
     }
 }
