@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class UserRedisCacheService {
-    private final static String USER_REDIS_KEY = "auth:user:"; // TODO : 해당 키를 사용해주세요!
+    private final static String USER_REDIS_KEY = "auth:user:";
     private final RedisTemplate<String, String> redisTemplate;
 
     public String get(String token) {

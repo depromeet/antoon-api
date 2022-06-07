@@ -77,7 +77,7 @@ public class WebtoonController {
     @ApiOperation(value = "장르별 top3 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_GENRES)
     @GetMapping(value = "/genres/top3")
     public ResponseEntity<WebtoonGenreAllResponse> getWebtoonsByGenres() {
-        var response = webtoonFacade.getWebtoonsGenres();
+        var response = webtoonFacade.getGenreAndThumbnail();
         return ResponseDto.ok(response);
     }
 
