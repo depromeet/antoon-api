@@ -9,15 +9,11 @@ import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.user.dto.request.UserDetailImage;
 import kr.co.antoon.user.dto.request.UserDetailName;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
+import kr.co.antoon.user.dto.response.UserProfileResponse;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
@@ -64,9 +60,12 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @ApiOperation(value = "프로필 기본 이미지 조회 API")
-    @GetMapping("/profiles")
-    public String profileImage() {
-        return userService.getS3();
+    @ApiOperation(value = "프로필 기본 이미지 조회 API", notes = SwaggerNote.USER_DEFAULT_PROFILE_IMAGE)
+    @GetMapping( "/profiles")
+    public ResponseEntity<UserProfileResponse> getDefaultProfileImage(
+            @RequestParam("fileName") String fileName
+    ) {
+        var response = userService.getDefaultProfileImage(fileName);
+        return ResponseEntity.ok(response);
     }
 }

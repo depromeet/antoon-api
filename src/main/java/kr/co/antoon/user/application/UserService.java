@@ -5,6 +5,7 @@ import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
+import kr.co.antoon.user.dto.response.UserProfileResponse;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-
     private final AmazonS3 amazonS3;
+    public static final String SUFFIX = ".png";
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -58,8 +59,10 @@ public class UserService {
         return new UserDetailResponse(user);
     }
 
-    public String getS3() {
-        String fileName = "color=blue.png";
-        return amazonS3.getUrl(bucket, fileName).toString();
+    @Transactional(readOnly = true)
+    public UserProfileResponse getDefaultProfileImage(String fileName) {
+        String fullFileName = fileName + SUFFIX;
+        var profileUrl = amazonS3.getUrl(bucket, fullFileName).toString();
+        return new UserProfileResponse(profileUrl);
     }
 }
