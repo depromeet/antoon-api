@@ -16,7 +16,6 @@ import org.springframework.web.cors.CorsUtils;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final JwtTokenProvider jwtTokenProvider;
