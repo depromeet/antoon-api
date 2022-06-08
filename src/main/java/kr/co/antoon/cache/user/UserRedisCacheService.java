@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+import static kr.co.antoon.cache.user.UserRedisCacheService.UserKey.USER_KEY;
+
 @Service
 @RequiredArgsConstructor
 public class UserRedisCacheService {
@@ -26,14 +28,14 @@ public class UserRedisCacheService {
     }
 
     public String get(Long userId) {
-        return redisTemplate.opsForValue().get(UserKey.USER_KEY.value + ":" + userId);
+        return redisTemplate.opsForValue().get(USER_KEY.value + ":" + userId);
     }
 
     public void update(String key, String value, long expiredTime) {
-        redisTemplate.opsForValue().set(UserKey.USER_KEY.value + ":" + key, value, expiredTime, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(USER_KEY.value + ":" + key, value, expiredTime, TimeUnit.MILLISECONDS);
     }
 
     public void delete(Long userId) {
-        redisTemplate.delete(UserKey.USER_KEY.value + ":" + userId);
+        redisTemplate.delete(USER_KEY.value + ":" + userId);
     }
 }
