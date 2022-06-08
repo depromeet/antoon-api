@@ -19,7 +19,7 @@ public enum RecommendationStatus {
     public static RecommendationStatus of(RecommendationStatus status) {
         return switch (status) {
             case JOIN -> JOINED;
-            case LEAVE ->  LEAVED;
+            case LEAVE -> LEAVED;
             default -> throw new NotExistsException(ErrorMessage.NOT_EXISTS_RECOMMENDATION_COUNT);
         };
     }
