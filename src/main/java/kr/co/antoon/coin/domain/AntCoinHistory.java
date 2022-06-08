@@ -4,6 +4,7 @@ import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,4 +32,12 @@ public class AntCoinHistory extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private RemittanceType remittanceType;
+
+    @Builder
+    public AntCoinHistory(Long userId, Long amount, RemittanceStatus status, RemittanceType type) {
+        this.userId = userId;
+        this.amount = amount;
+        this.remittanceStatus = status;
+        this.remittanceType = type;
+    }
 }
