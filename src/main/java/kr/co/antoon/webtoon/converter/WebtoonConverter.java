@@ -1,6 +1,5 @@
 package kr.co.antoon.webtoon.converter;
 
-import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
@@ -10,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static kr.co.antoon.crawling.dto.WebtoonCrawlingDto.WebtoonCrawlingDetail;
 import static kr.co.antoon.criteria.BasicAllocateScore.getDifferencePercentage;
 
 public class WebtoonConverter {
@@ -58,7 +58,7 @@ public class WebtoonConverter {
         );
     }
 
-    public static Webtoon toWebtoon(WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton, Platform platform) {
+    public static Webtoon toWebtoon(WebtoonCrawlingDetail crawlingWebtton, Platform platform) {
         return Webtoon.builder()
                 .title(crawlingWebtton.title())
                 .content(crawlingWebtton.content())

@@ -16,7 +16,8 @@ public record PageDto<T>(
         boolean lastPage
 ) implements Serializable {
     private PageDto(final Page<T> page) {
-        this(page.getContent(),
+        this(
+                page.getContent(),
                 page.getNumber(),
                 page.getSize(),
                 page.getTotalPages(),
