@@ -1,9 +1,10 @@
 package kr.co.antoon.crawling.dto;
 
 import java.util.List;
+import java.util.Set;
 
 public record WebtoonCrawlingDto(
-        List<WebtoonCrawlingDetail> webtoons
+        Set<WebtoonCrawlingDetail> webtoons
 ) {
     public record WebtoonCrawlingDetail(
             String title,

@@ -10,6 +10,7 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Slf4j
@@ -18,7 +19,7 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
 
     @Override
     public WebtoonCrawlingDto crawling() {
-        var bundle = new ArrayList<WebtoonCrawlingDto.WebtoonCrawlingDetail>();
+        var bundle = new HashSet<WebtoonCrawlingDto.WebtoonCrawlingDetail>();
 
         try {
             var kakaoWebtoonDocument = Jsoup.connect("https://page.kakao.com/main?categoryUid=10&subCategoryUid=10000").get();
