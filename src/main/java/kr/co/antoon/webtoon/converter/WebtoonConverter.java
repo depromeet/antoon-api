@@ -1,5 +1,6 @@
 package kr.co.antoon.webtoon.converter;
 
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
@@ -56,9 +57,16 @@ public class WebtoonConverter {
                 webtoon.get(0).getGraphScore(),
                 webtoon.get(0).getScoreGap(),
                 getDifferencePercentage(webtoon.get(0).getGraphScore(), webtoon.get(0).getScoreGap()),
-                webtoon.get(0).getRecommendationStatus(),
+                status(webtoon.get(0).getRecommendationStatus()),
                 webtoon.get(0).getRanking()
         );
+    }
+
+    private static RecommendationStatus status(RecommendationStatus status) {
+        if (status == null) {
+            return RecommendationStatus.NONE;
+        }
+        return status;
     }
 
     public static Webtoon toWebtoon(WebtoonCrawlingDetail crawlingWebtton, Platform platform) {
