@@ -25,6 +25,8 @@ public class AntCoinHistory extends BaseEntity {
 
     private Long userId;
 
+    private Long walletId;
+
     private Long amount;
 
     @Enumerated(EnumType.STRING)
@@ -34,8 +36,9 @@ public class AntCoinHistory extends BaseEntity {
     private RemittanceType remittanceType;
 
     @Builder
-    public AntCoinHistory(Long userId, Long amount, RemittanceStatus status, RemittanceType type) {
+    public AntCoinHistory(Long userId, Long walletId, Long amount, RemittanceStatus status, RemittanceType type) {
         this.userId = userId;
+        this.walletId = walletId;
         this.amount = amount;
         this.remittanceStatus = status;
         this.remittanceType = type;
