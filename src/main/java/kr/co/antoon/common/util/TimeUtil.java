@@ -7,4 +7,8 @@ public class TimeUtil {
     public static String now(String format) {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
     }
+
+    public static LocalDateTime now() {
+        return LocalDateTime.now();
+    }
 }

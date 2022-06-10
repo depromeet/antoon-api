@@ -1,5 +1,6 @@
 package kr.co.antoon.webtoon.facade;
 
+import kr.co.antoon.common.util.TimeUtil;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.webtoon.application.WebtoonGenreService;
 import kr.co.antoon.webtoon.application.WebtoonService;
@@ -19,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -48,7 +48,7 @@ public class WebtoonFacade {
 
     @Transactional(readOnly = true)
     public Page<WebtoonGenreResponse> getWebtoonsGenreAndStatus(Pageable pageable, String genre) {
-        var end = LocalDateTime.now();
+        var end = TimeUtil.now();
         var start = end.minusHours(1);
 
         var genreCategory = GenreCategory.of(genre);
@@ -64,7 +64,7 @@ public class WebtoonFacade {
 
     @Transactional(readOnly = true)
     public WebtoonGenreAllResponse getWebtoonsGenres() {
-        var end = LocalDateTime.now();
+        var end = TimeUtil.now();
         var start = end.minusHours(1);
 
         var response = Arrays.stream(GenreCategory.values())

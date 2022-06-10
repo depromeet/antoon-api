@@ -1,10 +1,11 @@
 package kr.co.antoon.graph.facade;
 
+import kr.co.antoon.common.util.TimeUtil;
+import kr.co.antoon.criteria.ScoreAllocationCriteria;
 import kr.co.antoon.discussion.application.DiscussionService;
 import kr.co.antoon.discussion.dto.DiscussionCountDto;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.graph.application.TopRankService;
-import kr.co.antoon.criteria.ScoreAllocationCriteria;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
 import kr.co.antoon.graph.domain.vo.GraphStatus;
 import kr.co.antoon.recommendation.application.RecommendationCountService;
@@ -15,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -47,7 +47,7 @@ public class GraphScoreFacade {
                                 (rc1, rc2) -> rc1
                         )
                 );
-        var now = LocalDateTime.now();
+        var now = TimeUtil.now();
         var before = now.minusHours(1);
 
         var discussionCounts = discussionService.discussionCount(before, now)
