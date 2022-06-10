@@ -42,7 +42,7 @@ public record WebtoonGenreAllResponse(
 
         public WebtoonGenrePreviewResponse(WebtoonGenre webtoonGenre, Webtoon webtoon) {
             this(
-                    webtoonGenre.getGenreCategory().name(),
+                    webtoonGenre.getGenreCategory().getDescription(),
                     webtoon.getThumbnail()
             );
         }

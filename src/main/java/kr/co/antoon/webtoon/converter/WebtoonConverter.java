@@ -1,6 +1,6 @@
 package kr.co.antoon.webtoon.converter;
 
-import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
@@ -10,25 +10,29 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static kr.co.antoon.crawling.dto.WebtoonCrawlingDto.WebtoonCrawlingDetail;
 import static kr.co.antoon.criteria.BasicAllocateScore.getDifferencePercentage;
+import static kr.co.antoon.webtoon.dto.WebtoonDto.GenreDto;
+import static kr.co.antoon.webtoon.dto.WebtoonDto.PublishDayDto;
+import static kr.co.antoon.webtoon.dto.WebtoonDto.WriterDto;
 
 public class WebtoonConverter {
     public static WebtoonDto toWebtoonDto(List<WebtoonNativeDto> webtoon) {
-        Set<WebtoonDto.GenreDto> genres = new HashSet<>();
-        Set<WebtoonDto.PublishDayDto> days = new HashSet<>();
-        Set<WebtoonDto.WriterDto> writers = new HashSet<>();
+        Set<GenreDto> genres = new HashSet<>();
+        Set<PublishDayDto> days = new HashSet<>();
+        Set<WriterDto> writers = new HashSet<>();
 
         webtoon.forEach(dto -> {
-            genres.add(new WebtoonDto.GenreDto(
+            genres.add(new GenreDto(
                     dto.getWebtoonGenreId(),
                     dto.getGenreCategory(),
                     dto.getGenreCategory().getDescription()
             ));
-            days.add(new WebtoonDto.PublishDayDto(
+            days.add(new PublishDayDto(
                     dto.getWebtoonPublishDayId(),
                     dto.getDay()
             ));
-            writers.add(new WebtoonDto.WriterDto(
+            writers.add(new WriterDto(
                     dto.getWebtoonWriterId(),
                     dto.getName()
             ));
@@ -53,12 +57,19 @@ public class WebtoonConverter {
                 webtoon.get(0).getGraphScore(),
                 webtoon.get(0).getScoreGap(),
                 getDifferencePercentage(webtoon.get(0).getGraphScore(), webtoon.get(0).getScoreGap()),
-                webtoon.get(0).getRecommendationStatus(),
+                status(webtoon.get(0).getRecommendationStatus()),
                 webtoon.get(0).getRanking()
         );
     }
 
-    public static Webtoon toWebtoon(WebtoonCrawlingDto.WebtoonCrawlingDetail crawlingWebtton, Platform platform) {
+    private static RecommendationStatus status(RecommendationStatus status) {
+        if (status == null) {
+            return RecommendationStatus.NONE;
+        }
+        return status;
+    }
+
+    public static Webtoon toWebtoon(WebtoonCrawlingDetail crawlingWebtton, Platform platform) {
         return Webtoon.builder()
                 .title(crawlingWebtton.title())
                 .content(crawlingWebtton.content())

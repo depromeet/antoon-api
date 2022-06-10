@@ -24,11 +24,11 @@ public class RecommendationFacade {
                 .orElseGet(() -> recommendationCountService.save(webtoonId));
         recommendationCount.updateCount(status);
 
-        recommendationService.save(webtoonId, userId, RecommendationStatus.of(status));
+        status = RecommendationStatus.of(status);
+        recommendationService.save(webtoonId, userId, status);
         return new RecommendationResponse(
                 recommendationCount,
-                status.isJoined(status),
-                status.isLeaved(status)
+                status
         );
     }
 
@@ -46,14 +46,14 @@ public class RecommendationFacade {
     public void changeAllStatus() {
         recommendationService.findAllByStatus(RecommendationStatus.JOINED)
                 .forEach(recommendation -> {
-                    recommendation.updateStatus(RecommendationStatus.JOIN);
+                    recommendation.updateStatus(RecommendationStatus.NONE);
                     recommendationCountService.findByWebtoonId(recommendation.getWebtoonId())
                             .ifPresent(rc -> rc.updateCount(RecommendationStatus.JOINED));
                 });
 
         recommendationService.findAllByStatus(RecommendationStatus.LEAVED)
                 .forEach(recommendation -> {
-                    recommendation.updateStatus(RecommendationStatus.LEAVE);
+                    recommendation.updateStatus(RecommendationStatus.NONE);
                     recommendationCountService.findByWebtoonId(recommendation.getWebtoonId())
                             .ifPresent(rc -> rc.updateCount(RecommendationStatus.LEAVED));
                 });

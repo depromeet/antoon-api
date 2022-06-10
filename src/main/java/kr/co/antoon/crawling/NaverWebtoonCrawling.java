@@ -6,8 +6,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,8 +16,7 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
 
     @Override
     public WebtoonCrawlingDto crawling() {
-
-        var bundle = new ArrayList<WebtoonCrawlingDto.WebtoonCrawlingDetail>();
+        var bundle = new HashSet<WebtoonCrawlingDto.WebtoonCrawlingDetail>();
 
         try {
             var naverWeekendWebtoonDocument = Jsoup.connect("https://comic.naver.com/webtoon/weekday").get();
@@ -57,7 +56,7 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                                         .map(g -> g.replace(" ", ""))
                                         .collect(Collectors.toList());
 
-                              //  log.info("[Naver Webtoon Crawling] title-> {} / url -> {}", title, url);
+                                //  log.info("[Naver Webtoon Crawling] title-> {} / url -> {}", title, url);
 
                                 return new WebtoonCrawlingDto.WebtoonCrawlingDetail(
                                         title,
