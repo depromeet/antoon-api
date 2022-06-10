@@ -2,9 +2,6 @@ package kr.co.antoon.oauth.handler;
 
 import kr.co.antoon.cache.user.UserRedisCacheService;
 import kr.co.antoon.oauth.application.CustomOAuth2UserService;
-import kr.co.antoon.coin.facade.AntCoinFacade;
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.oauth.application.JwtTokenProvider;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.user.domain.vo.Role;
@@ -23,7 +20,6 @@ import java.io.IOException;
 @Component
 @Slf4j
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRedisCacheService userRedisCacheService;
     private final String redirectUrl;
@@ -33,13 +29,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public OAuth2SuccessHandler(
             JwtTokenProvider jwtTokenProvider,
             UserRedisCacheService userRedisCacheService,
-            AntCoinFacade antCoinFacade,
             @Value("${url.redirect}") String redirectUrl,
             CustomOAuth2UserService customOAuth2UserService,
-            UserService userService) {
+            UserService userService
+    ) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRedisCacheService = userRedisCacheService;
-        this.antCoinFacade = antCoinFacade;
         this.redirectUrl = redirectUrl;
         this.customOAuth2UserService = customOAuth2UserService;
         this.userService = userService;

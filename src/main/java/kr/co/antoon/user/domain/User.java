@@ -57,7 +57,7 @@ public class User extends BaseEntity {
                 .email(email)
                 .imageUrl(imageUrl)
                 .gender(gender)
-                .role(role)
+                .role(Role.USER)
                 .age(age)
                 .build();
     }
