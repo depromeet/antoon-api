@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AntCoinWalletRepository extends JpaRepository<AntCoinWallet, Long> {
+    boolean existsByUserId(Long userId);
 }

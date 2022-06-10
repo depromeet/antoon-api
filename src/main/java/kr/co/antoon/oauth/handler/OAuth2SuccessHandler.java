@@ -1,6 +1,7 @@
 package kr.co.antoon.oauth.handler;
 
 import kr.co.antoon.cache.user.UserRedisCacheService;
+import kr.co.antoon.coin.facade.AntCoinFacade;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.oauth.application.JwtTokenProvider;
@@ -27,6 +28,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final UserRedisCacheService userRedisCacheService;
+    private final AntCoinFacade antCoinFacade;
     private String redirectUrl;
     private String domainUrl;
 
@@ -34,12 +36,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             JwtTokenProvider jwtTokenProvider,
             UserRepository userRepository,
             UserRedisCacheService userRedisCacheService,
+            AntCoinFacade antCoinFacade,
             @Value("${url.redirect}") String redirectUrl,
             @Value("${url.domain}") String domainUrl
     ) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
         this.userRedisCacheService = userRedisCacheService;
+        this.antCoinFacade = antCoinFacade;
         this.redirectUrl = redirectUrl;
         this.domainUrl = domainUrl;
 
@@ -123,6 +127,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 //            }
 //        }
 
-        userRepository.save(user);
+        var savedUser = userRepository.save(user);
+        antCoinFacade.sign(savedUser.getId());
     }
 }
