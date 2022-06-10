@@ -2,7 +2,10 @@ package kr.co.antoon.user.application;
 
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.domain.User;
+import kr.co.antoon.user.dto.request.UserDetailImage;
+import kr.co.antoon.user.dto.request.UserDetailName;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import kr.co.antoon.user.infrastructure.UserRepository;
@@ -40,14 +43,20 @@ public class UserService {
     }
 
     @Transactional
-    public UserDetailResponse updateImgaeUrlById(Long id, String image) {
-        var user = findOneById(id).updateImageUrl(image);
+    public UserDetailResponse updateImgaeUrlById(AuthInfo info, UserDetailImage userDetailImage) {
+        var user = findOneById(info.userId()).updateImageUrl(userDetailImage.imageUrl());
         return new UserDetailResponse(user);
     }
 
     @Transactional
-    public UserDetailResponse updateNameById(Long id, String name) {
-        var user = findOneById(id).updateName(name);
+    public UserDetailResponse updateNameById(AuthInfo info, UserDetailName userDetailName) {
+        var user = findOneById(info.userId()).updateName(userDetailName.name());
         return new UserDetailResponse(user);
+    }
+
+    @Transactional
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
     }
 }

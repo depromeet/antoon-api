@@ -39,6 +39,7 @@ class FeedbackFacadeTest {
         Long useerId = 1L;
 
         UserDetailResponse user = new UserDetailResponse(
+                1L,
                 "테스트",
                 "test@gmail.com",
                 "aslkdjalsdj",

@@ -292,13 +292,12 @@ public class SwaggerNote {
     public final static String AUTH_LOGOUT = """
                     로그아웃
                     POST /api/v1/auth/logout
-                    (헤더에 리프레시 토큰과 엑세스 토큰을 추가해서 api 요청해주세요!)
+                    (헤더에 엑세스 토큰만 추가해서 api 요청해주세요!)
                     (access Token 요청 시엔 "Bearer " + accessToken 으로 추가해서 요청해주세요!
                         
                     Request Header
                     {
                         "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2NTczMTI2MjZ9.oapnD4a2jvO4WqLprv4-1FeVpx3dWgNCDUtnrZT7-JA",
-                        "Refresh": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjU3MzEyNjI2fQ.iDsaEI9JN3YYEdsaUhP-EQJBhaz4llO-wNo8kpDhgGk"
                     }     
             """;
 
