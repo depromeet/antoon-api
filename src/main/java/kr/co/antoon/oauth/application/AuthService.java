@@ -55,16 +55,17 @@ public class AuthService {
     }
 
     @Transactional
-    public void revokeToken(String accesss, String refresh) {
-        var access = accesss.substring(7);
+    public void revokeToken(String accessToken) {
+        var access = accessToken.substring(7);
 
         if (!jwtTokenProvider.validate(access)) { //유효성 검사
             throw new TokenExpiredException(ErrorMessage.NOT_VALIDATE_TOKEN);
         }
 
         Long userId = jwtTokenProvider.getUserId(access);
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
+        if(!userRepository.existsById(userId)) {
+            throw new NotExistsException(ErrorMessage.NOT_EXIST_USER);
+        }
 
         if (userRedisCacheService.get(userId) != null) {
             // Refresh Token 삭제

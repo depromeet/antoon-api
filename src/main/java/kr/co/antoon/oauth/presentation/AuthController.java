@@ -34,10 +34,9 @@ public class AuthController {
     @ApiOperation(value = "logout", notes = SwaggerNote.AUTH_LOGOUT)
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(
-            @RequestHeader(value = "Authorization") String access,
-            @RequestHeader(value = "Refresh") String refreshToken
+            @RequestHeader(value = "Authorization") String access
     ) {
-        authService.revokeToken(access, refreshToken);
+        authService.revokeToken(access);
         return ResponseDto.noContent();
     }
 }
