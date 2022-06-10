@@ -32,11 +32,6 @@ public class GraphScoreSnapshotService {
     }
 
     @Transactional(readOnly = true)
-    public List<GraphScoreSnapshot> findAllByOrderByScoreGap() {
-        return graphScoreSnapshotRepository.findAllByOrderByScoreGapDesc();
-    }
-
-    @Transactional(readOnly = true)
     public Optional<GraphScoreSnapshot> findTop1ByWebtoonIdOrderBySnapshotTimeDesc(Long webtoonId) {
         return graphScoreSnapshotRepository.findTop1ByWebtoonIdOrderBySnapshotTimeDesc(webtoonId);
     }

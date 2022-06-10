@@ -2,11 +2,10 @@ package kr.co.antoon.discussion.facade;
 
 import kr.co.antoon.discussion.application.DiscussionLikeService;
 import kr.co.antoon.discussion.application.DiscussionService;
+import kr.co.antoon.discussion.converter.DiscussionConverter;
 import kr.co.antoon.discussion.dto.request.DiscussionCreateRequest;
 import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.discussion.dto.response.DiscussionResponse;
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.oauth.NotValidRoleException;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.webtoon.application.WebtoonService;
@@ -83,11 +82,6 @@ public class DiscussionFacade {
         var user = userService.findById(discussion.getUserId());
         var isUserLike = discussionLikeService.isUserLike(userId, discussionId);
 
-        return new DiscussionResponse(
-                discussion.getWebtoonId(),
-                discussion,
-                user,
-                isUserLike
-        );
+        return DiscussionConverter.toDiscussionResponse(discussion, user, isUserLike);
     }
 }

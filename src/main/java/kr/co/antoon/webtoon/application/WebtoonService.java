@@ -79,13 +79,11 @@ public class WebtoonService {
     public WebtoonDto findDetailWebtoon(Long webtoonId) {
         var end = LocalDateTime.now();
         var start = end.minusHours(1);
-
         var webtoon = webtoonRepository.findOneByWebtoonId(webtoonId, start.toString(), end.toString());
 
         if (webtoon.size() == 0) {
             throw new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_ERROR);
         }
-
         return WebtoonConverter.toWebtoonDto(webtoon);
     }
 

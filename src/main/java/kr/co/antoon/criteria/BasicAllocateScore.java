@@ -44,6 +44,6 @@ public class BasicAllocateScore implements ScoreAllocationCriteria {
     }
 
     public static double getDifferencePercentage(int graphScore, int scoreGap) {
-        return scoreGap * 1.0 / graphScore * 100.0;
+        return Double.parseDouble(String.format("%.1f", scoreGap * 1.0 / graphScore * 100.0));
     }
 }

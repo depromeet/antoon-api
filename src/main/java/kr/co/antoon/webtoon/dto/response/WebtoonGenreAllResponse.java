@@ -2,6 +2,9 @@ package kr.co.antoon.webtoon.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import kr.co.antoon.webtoon.domain.Webtoon;
+import kr.co.antoon.webtoon.domain.WebtoonGenre;
+import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.dto.query.WebtoonGenreBannerNativeDto;
 
 import java.util.List;
@@ -29,6 +32,19 @@ public record WebtoonGenreAllResponse(
                 WebtoonGenreBannerNativeDto dto
         ) {
             this(dto.getGenreCategory().getDescription(), dto.getThumbnail());
+        }
+
+        public WebtoonGenrePreviewResponse(
+                GenreCategory genreCategory, String thumbnail
+        ) {
+            this(genreCategory.name(), thumbnail);
+        }
+
+        public WebtoonGenrePreviewResponse(WebtoonGenre webtoonGenre, Webtoon webtoon) {
+            this(
+                    webtoonGenre.getGenreCategory().getDescription(),
+                    webtoon.getThumbnail()
+            );
         }
     }
 }

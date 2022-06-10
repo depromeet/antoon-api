@@ -108,7 +108,7 @@ public class SwaggerNote {
 
     public final static String WEBTOON_READ_DETAIL = """
                     웹툰 상세페이지 조회
-                    GET /api/v1/webtoons/{webtoonId}    
+                    GET /api/v1/webtoons/{webtoonId}
                         
                     Response Body
                     {
@@ -151,7 +151,12 @@ public class SwaggerNote {
                        ],
                        "recommendationCountId": 7,
                        "joinCount": 0,
-                       "leaveCount": 0
+                       "leaveCount": 0,
+                       "score": 650,
+                       "scoreGap": 0,
+                       "scoreGapPercent": 0,
+                       "recommendationStatus": "JOINED",
+                       "ranking": 2
                      }
             """;
 
