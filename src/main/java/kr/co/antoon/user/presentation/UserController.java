@@ -11,6 +11,7 @@ import kr.co.antoon.user.dto.request.UserDetailName;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -46,20 +47,20 @@ public class UserController {
     }
 
     @ApiOperation(value = "사용자 마이페이지 프로필이미지 수정 API", notes = SwaggerNote.USER_IMAGE_UPDATE_DETAIL)
-    @PatchMapping("/image")
+    @PatchMapping("/images")
     public ResponseEntity<UserDetailResponse> updateProfileImgae(
             @AuthUser AuthInfo info,
             @RequestBody UserDetailImage userDetailImage) {
-        var response = userService.updateImgaeUrlById(info.userId(), userDetailImage.imageUrl());
+        var response = userService.updateImgaeUrlById(info, userDetailImage);
         return ResponseEntity.ok(response);
     }
 
     @ApiOperation(value = "사용자 마이페이지 이름 수정 API", notes = SwaggerNote.USER_NAME_UPDATE_DETAIL)
-    @PatchMapping("/name")
+    @PatchMapping("/names")
     public ResponseEntity<UserDetailResponse> updateName(
             @AuthUser AuthInfo info,
             @RequestBody UserDetailName userDetailName) {
-        var response = userService.updateNameById(info.userId(), userDetailName.name());
+        var response = userService.updateNameById(info, userDetailName);
         return ResponseEntity.ok(response);
     }
 }
