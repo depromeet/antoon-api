@@ -51,6 +51,17 @@ public class User extends BaseEntity {
         this.age = age;
     }
 
+    public static User buildUser(String name, String email, String imageUrl, Gender gender, Integer age) {
+        return User.builder()
+                .name(name)
+                .email(email)
+                .imageUrl(imageUrl)
+                .gender(gender)
+                .role(role)
+                .age(age)
+                .build();
+    }
+
     public User update(String name, String imageUrl) {
         this.name = name;
         this.imageUrl = imageUrl;

@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
 
 @Slf4j
 @Service
@@ -43,29 +44,39 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         );
     }
 
-    private void saveOrUpdate(OAuth2Attribute attributes) {
-        User user = userRepository.findByEmail(attributes.getEmail())
+    public Boolean checkExistEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public void saveOrUpdate(OAuth2User oAuth2User) {
+        var data = oAuth2User.getAttributes();
+        var profile = (HashMap<String, String>) data.get("profile");
+
+        User user = userRepository.findByEmail(data.get("email").toString())
                 .map(entity -> entity.update(
-                        attributes.getName(),
-                        attributes.getImageUrl()
+                        profile.get("nickname"),
+                        profile.get("profile_image_url")
                 ))
-                .orElse(attributes.toEntity());
+                .orElse(User.buildUser(
+                        profile.get("nickname"),
+                        data.get("email").toString(),
+                        "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/color%3Dyellow.png",
+                        Gender.NONE,
+                        0));
 
-        user.updateAge(0);
-        user.updateGender(Gender.NONE);
+        var profileImg = profile.get("profile_image_url");
+        if (profileImg != null) {
+            user.updateImageUrl(profileImg);
+        }
 
-        log.info("attributes : {}", attributes);
-
-        String age = attributes.getAgeRange();
+        var age = data.get("age_range").toString();
         if (age != null) {
             int ageRange = Integer.parseInt(age.split("~")[0]);
             user.updateAge(ageRange);
         }
 
-        String gender = attributes.getGender();
-        if (gender != null) {
-            user.updateGender(Gender.of(gender));
-        }
+        var gender = Gender.of(data.get("gender").toString());
+        user.updateGender(gender);
 
         userRepository.save(user);
     }

@@ -12,10 +12,11 @@ import static kr.co.antoon.cache.user.UserRedisCacheService.UserKey.USER_KEY;
 @Service
 @RequiredArgsConstructor
 public class UserRedisCacheService {
+
     @Getter
     @RequiredArgsConstructor
     enum UserKey {
-        USER_KEY("auth:user"),
+        USER_KEY("refresh:user_"),
         ;
 
         private final String value;

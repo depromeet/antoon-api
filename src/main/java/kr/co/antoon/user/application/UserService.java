@@ -50,4 +50,10 @@ public class UserService {
         var user = findOneById(id).updateName(name);
         return new UserDetailResponse(user);
     }
+
+    @Transactional
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
+    }
 }
