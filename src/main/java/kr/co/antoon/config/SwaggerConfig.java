@@ -6,6 +6,7 @@ import kr.co.antoon.oauth.config.AuthUser;
 import lombok.Data;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -29,6 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Profile("staging")
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {

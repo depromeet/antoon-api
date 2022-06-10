@@ -27,13 +27,29 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRedisCacheService userRedisCacheService;
-    private final SwaggerConfig swaggerConfig;
+    public String[] whiteListInSwagger() {
+        return new String[]{
+                "/swagger",
+                "/swagger-ui/springfox.css",
+                "/swagger-ui/swagger-ui-bundle.js",
+                "/swagger-ui/springfox.js",
+                "/swagger-ui/swagger-ui-standalone-preset.js",
+                "/swagger-ui/swagger-ui.css",
+                "/swagger-resources/configuration/ui",
+                "/swagger-ui/favicon-32x32.png",
+                "/swagger-resources/configuration/security",
+                "/swagger-resources",
+                "/v2/api-docs",
+                "/swagger-ui/index.html",
+                "/favicon.ico"
+        };
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final var path = request.getServletPath();
 
-        if (!Arrays.stream(swaggerConfig.whiteListInSwagger()).toList().contains(path) && !"/health".equals(path)) {
+        if (!Arrays.stream(whiteListInSwagger()).toList().contains(path) && !"/health".equals(path)) {
             String token = resolveToken(request);
             log.info("filter access : " + token);
             // 정상 토큰이면 해당 토큰으로 Authentication을 가져와서 SecurityContext에 저장
