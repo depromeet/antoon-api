@@ -1,6 +1,7 @@
 # ANTOON-API GIT ACTION
-name: Antoon Api Server Git-Action for STAGING
+name: Antoon Api Server Git-Action
 
+# main, staging push 작업 일어나면 git action 실행
 on:
   push:
     branches: [ main, staging ]
