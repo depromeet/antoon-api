@@ -21,4 +21,9 @@ public class AntCoinWalletService {
     public boolean existsByUserId(Long userId) {
         return antCoinWalletRepository.existsByUserId(userId);
     }
+
+    @Transactional(readOnly = true)
+    public AntCoinWallet get(Long userId) {
+        return antCoinWalletRepository.getAntCoinWalletByUserId(userId);
+    }
 }
