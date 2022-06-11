@@ -95,23 +95,23 @@ public class DiscussionService {
         long diffTime = time.until(now, ChronoUnit.SECONDS);
 
         if (diffTime < SEC) {
-            return diffTime + "초 전";
+            return diffTime + "초전";
         }
         diffTime = diffTime / SEC;
         if (diffTime < MIN) {
-            return diffTime + "분 전";
+            return diffTime + "분전";
         }
         diffTime = diffTime / MIN;
         if (diffTime < HOUR) {
-            return String.format("%s시간 전", String.valueOf(diffTime));
+            return diffTime + "시간전";
         }
         diffTime = diffTime / HOUR;
         if (diffTime < DAY) {
-            return diffTime + "일 전";
+            return diffTime + "일전";
         }
         diffTime = diffTime / DAY;
         if (diffTime < MONTH) {
-            return diffTime + "개월 전";
+            return diffTime + "개월전";
         }
         return time.toLocalDate().toString();
     }

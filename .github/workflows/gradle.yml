@@ -72,6 +72,6 @@ jobs:
       # Code Deploy
       - name: Deploy Docker Image
         run: aws deploy create-deployment --application-name antoon-core-api
-          --deployment-config-name CodeDeployDefault.OneAtATime
-          --deployment-group-name antoon-core-api-group
+          --deployment-config-name CodeDeployDefault.OneAtATime 
+          --deployment-group-name antoon-core-api-group 
           --github-location repository=depromeet/antoon-api,commitId=${GITHUB_SHA}
