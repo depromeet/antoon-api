@@ -94,11 +94,11 @@ class DiscussionServiceTest {
         var actual5 = discussionService.getTime(t5);
 
         //then
-        assertEquals(actual, "50초 전");
-        assertEquals(actual1, "10분 전");
-        assertEquals(actual2, "5시간 전");
-        assertEquals(actual3, "2일 전");
-        assertEquals(actual4, "7개월 전");
-        assertEquals(actual5, "3년 전");
+        assertEquals(actual, "50초전");
+        assertEquals(actual1, "10분전");
+        assertEquals(actual2, "5시간전");
+        assertEquals(actual3, "2일전");
+        assertEquals(actual4, "7개월전");
+        assertEquals(actual5, t5.toLocalDate().toString());
     }
 }

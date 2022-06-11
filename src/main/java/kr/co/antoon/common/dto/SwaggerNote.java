@@ -94,7 +94,8 @@ public class SwaggerNote {
                         "nickname" : "개미는 툰툰",  // 사용자 닉네임
                         "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
                         "likeCount" : 1,  // 좋아요 카운트
-                        "isUserLike": true   // 사용자 좋아요 여부
+                        "isUserLike": true,   // 사용자 좋아요 여부
+                        "time": "40초 전"
                     }          
             """;
 
