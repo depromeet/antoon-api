@@ -35,7 +35,13 @@ public class DiscussionFacade {
 
         var user = userService.findById(discussion.getUserId());
 
-        return new DiscussionResponse(webtoonId, discussion, user, false);
+        return new DiscussionResponse(
+                webtoonId,
+                discussion,
+                user,
+                false,
+                discussionService.getTime(discussion.getCreatedAt())
+        );
     }
 
     @Transactional
@@ -47,7 +53,8 @@ public class DiscussionFacade {
                     discussion.getWebtoonId(),
                     discussion,
                     user,
-                    false
+                    false,
+                    discussionService.getTime(discussion.getCreatedAt())
             );
         }
         var isUserLike = discussionLikeService.isUserLike(info.userId(), discussionId);
@@ -55,7 +62,8 @@ public class DiscussionFacade {
                 discussion.getWebtoonId(),
                 discussion,
                 user,
-                isUserLike
+                isUserLike,
+                discussionService.getTime(discussion.getCreatedAt())
         );
     }
 
@@ -65,14 +73,26 @@ public class DiscussionFacade {
             return discussionService.findByWebtoonId(webtoonId, pageable)
                     .map(discussion -> {
                         var user = userService.findById(discussion.getUserId());
-                        return new DiscussionResponse(webtoonId, discussion, user, false);
+                        return new DiscussionResponse(
+                                webtoonId,
+                                discussion,
+                                user,
+                                false,
+                                discussionService.getTime(discussion.getCreatedAt())
+                        );
                     });
         }
         return discussionService.findByWebtoonId(webtoonId, pageable)
                 .map(discussion -> {
                     var user = userService.findById(discussion.getUserId());
                     var userLike = discussionLikeService.isUserLike(info.userId(), discussion.getId());
-                    return new DiscussionResponse(webtoonId, discussion, user, userLike);
+                    return new DiscussionResponse(
+                            webtoonId,
+                            discussion,
+                            user,
+                            userLike,
+                            discussionService.getTime(discussion.getCreatedAt())
+                    );
                 });
     }
 
@@ -82,6 +102,11 @@ public class DiscussionFacade {
         var user = userService.findById(discussion.getUserId());
         var isUserLike = discussionLikeService.isUserLike(userId, discussionId);
 
-        return DiscussionConverter.toDiscussionResponse(discussion, user, isUserLike);
+        return DiscussionConverter.toDiscussionResponse(
+                discussion,
+                user,
+                isUserLike,
+                discussionService.getTime(discussion.getCreatedAt())
+        );
     }
 }
