@@ -113,7 +113,6 @@ public class DiscussionService {
         if (diffTime < MONTH) {
             return diffTime + "개월 전";
         }
-        diffTime = diffTime / MONTH;
-        return diffTime + "년 전";
+        return time.toLocalDate().toString();
     }
 }
