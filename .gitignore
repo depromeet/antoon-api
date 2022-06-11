@@ -38,3 +38,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+### Git Action ###
+gradle.yml
+afterInstall.sh
+beforeInstall.sh
+Dockerfile
