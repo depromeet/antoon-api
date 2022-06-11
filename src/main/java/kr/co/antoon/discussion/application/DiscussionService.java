@@ -14,12 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class DiscussionService {
     private final DiscussionRepository discussionRepository;
+    private final int SEC = 60, MIN = 60, HOUR = 24, DAY = 30, MONTH = 12;
 
     @Transactional
     public Discussion save(Long userId, Long webtoonId, String content) {
@@ -85,5 +87,32 @@ public class DiscussionService {
                 .parallelStream()
                 .mapToLong(Discussion::getLikeCount)
                 .sum();
+    }
+
+    @Transactional(readOnly = true)
+    public String getTime(LocalDateTime time) {
+        LocalDateTime now = LocalDateTime.now();
+        long diffTime = time.until(now, ChronoUnit.SECONDS);
+
+        if (diffTime < SEC) {
+            return diffTime + "초 전";
+        }
+        diffTime = diffTime / SEC;
+        if (diffTime < MIN) {
+            return diffTime + "분 전";
+        }
+        diffTime = diffTime / MIN;
+        if (diffTime < HOUR) {
+            return String.format("%s시간 전", String.valueOf(diffTime));
+        }
+        diffTime = diffTime / HOUR;
+        if (diffTime < DAY) {
+            return diffTime + "일 전";
+        }
+        diffTime = diffTime / DAY;
+        if (diffTime < MONTH) {
+            return diffTime + "개월 전";
+        }
+        return time.toLocalDate().toString();
     }
 }

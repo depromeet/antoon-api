@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -72,5 +73,32 @@ class DiscussionServiceTest {
                 expected1.getContent(),
                 actual.getContent()
         );
+    }
+
+    @Test
+    public void 댓글_작성시간_조회() {
+        //given
+        LocalDateTime t = LocalDateTime.now().minusSeconds(50);
+        LocalDateTime t1 = LocalDateTime.now().minusMinutes(10);
+        LocalDateTime t2 = LocalDateTime.now().minusHours(5);
+        LocalDateTime t3 = LocalDateTime.now().minusDays(2);
+        LocalDateTime t4 = LocalDateTime.now().minusMonths(7);
+        LocalDateTime t5 = LocalDateTime.now().minusYears(3);
+
+        //when
+        var actual = discussionService.getTime(t);
+        var actual1 = discussionService.getTime(t1);
+        var actual2 = discussionService.getTime(t2);
+        var actual3 = discussionService.getTime(t3);
+        var actual4 = discussionService.getTime(t4);
+        var actual5 = discussionService.getTime(t5);
+
+        //then
+        assertEquals(actual, "50초 전");
+        assertEquals(actual1, "10분 전");
+        assertEquals(actual2, "5시간 전");
+        assertEquals(actual3, "2일 전");
+        assertEquals(actual4, "7개월 전");
+        assertEquals(actual5, "3년 전");
     }
 }

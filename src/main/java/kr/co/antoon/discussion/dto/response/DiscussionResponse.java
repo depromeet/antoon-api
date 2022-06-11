@@ -20,9 +20,11 @@ public record DiscussionResponse(
         @Schema(description = "좋아요 카운트")
         int likeCount,
         @Schema(description = "사용자 좋아요 여부")
-        Boolean isUserLike
+        Boolean isUserLike,
+        @Schema(description = "작성 시간")
+        String time
 ) {
-    public DiscussionResponse(Long webtoonId, Discussion discussion, UserDetailResponse user, Boolean isUserLike) {
+    public DiscussionResponse(Long webtoonId, Discussion discussion, UserDetailResponse user, Boolean isUserLike, String time) {
         this(
                 webtoonId,
                 discussion.getId(),
@@ -31,7 +33,8 @@ public record DiscussionResponse(
                 user.name(),
                 user.imageUrl(),
                 discussion.getLikeCount(),
-                isUserLike
+                isUserLike,
+                time
         );
     }
 }
