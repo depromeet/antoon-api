@@ -5,4 +5,4 @@ docker run -d --publish 8081:8081 \
     --restart unless-stopped \
     --memory 800m --memory-swap 2g \
     -it --detach \
-    --name antoon-core-api antoonapi/antoon-core-api:staging /bin/bash
+    --name antoon-core-api antoonapi/antoon-core-api:prod /bin/bash
