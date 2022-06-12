@@ -42,6 +42,5 @@ out/
 
 ### Git Action ###
 gradle.yml
-afterInstall.sh
-beforeInstall.sh
+*.sh
 Dockerfile
