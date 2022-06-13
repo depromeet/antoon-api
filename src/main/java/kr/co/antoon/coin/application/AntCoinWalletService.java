@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AntCoinWalletService {
@@ -20,5 +22,10 @@ public class AntCoinWalletService {
     @Transactional(readOnly = true)
     public boolean existsByUserId(Long userId) {
         return antCoinWalletRepository.existsByUserId(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<AntCoinWallet> findAll() {
+        return antCoinWalletRepository.findAll();
     }
 }

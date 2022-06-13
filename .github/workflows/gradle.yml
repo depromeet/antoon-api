@@ -1,10 +1,10 @@
-# ANTOON-API GIT ACTION WITH PROD
+# ANTOON-API GIT ACTION WITH STAGING
 name: Antoon Api Server Git-Action
 
-# main, staging push 작업 일어나면 git action 실행
+# staging push 작업 일어나면 git action 실행
 on:
   push:
-    branches: [ main ]
+    branches: [ staging ]
 
 jobs:
   build:
@@ -43,14 +43,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # Build Docker Container - prod Branch
+      # Build Docker Container - staging Branch
       - name: Docker Image Build And Push
-        if: github.ref == 'refs/heads/prod'
+        if: github.ref == 'refs/heads/staging'
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: antoonapi/antoon-core-api:prod
+          tags: antoonapi/antoon-core-api:staging
 
       # Build Docker Container - Main Branch
       - name: Docker Image Build And Push
@@ -59,7 +59,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: antoonapi/antoon-core-api:prod
+          tags: antoonapi/antoon-core-api:staging
 
       # Login AWS
       - name: Login Aws
