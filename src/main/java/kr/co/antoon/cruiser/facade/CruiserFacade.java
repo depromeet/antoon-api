@@ -1,7 +1,8 @@
 package kr.co.antoon.cruiser.facade;
 
+import kr.co.antoon.coin.application.AntCoinWalletService;
+import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.cruiser.dto.slack.SlackCruiserResponse;
-import kr.co.antoon.discussion.application.DiscussionLikeService;
 import kr.co.antoon.discussion.application.DiscussionService;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.graph.application.TopRankService;
@@ -22,6 +23,7 @@ public class CruiserFacade {
     private final WebtoonSnapshotService webtoonSnapshotService;
     private final TopRankService topRankService;
     private final GraphScoreSnapshotService graphScoreSnapshotService;
+    private final AntCoinWalletService antCoinWalletService;
 
     @Transactional(readOnly = true)
     public String statistics() {
@@ -32,6 +34,8 @@ public class CruiserFacade {
         var webtoonSnapshotCount = webtoonSnapshotService.count();
         var graphScoreSnapshotCount = graphScoreSnapshotService.count();
         var discussionLikeCount = discussionService.countAllLikes();
+        var totalCoin = antCoinWalletService.findAll()
+                .stream().mapToLong(AntCoinWallet::getWallet).sum();
 
         return SlackCruiserResponse.dataStatistics(
                 userCount,
@@ -40,7 +44,8 @@ public class CruiserFacade {
                 publishWebtoonCount,
                 pauseWebtoonCount,
                 webtoonSnapshotCount,
-                graphScoreSnapshotCount
+                graphScoreSnapshotCount,
+                totalCoin
         );
     }
 
