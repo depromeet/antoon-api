@@ -38,9 +38,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-
-### Git Action ###
-gradle.yml
-*.sh
-Dockerfile
