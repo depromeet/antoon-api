@@ -21,7 +21,7 @@ fi
 
 docker pull antoonapi/antoon-core-api:staging
 
-docker run -d --publish ${TARGET_PORT}:${TARGET_PORT} \
+docker run -d --publish 8081:8081 \
     -v /etc/localtime:/etc/localtime:ro \
     -v /usr/share/zoneinfo/Asia/Seoul:/etc/timezone:ro \
     --restart unless-stopped \
