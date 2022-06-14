@@ -9,12 +9,12 @@ hooks:
   BeforeInstall:
     - location: scripts/beforeInstall.sh
       runas: root
+  AfterInstall:
+     - location: scripts/afterInstall.sh
+       runas: root
   HealthCheck:
     - location: scripts/healthCheck.sh
       runas: root
   Switch:
     - location: scripts/switch.sh
-      runas: root
-  AfterInstall:
-    - location: scripts/afterInstall.sh
       runas: root
