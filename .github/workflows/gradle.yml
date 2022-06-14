@@ -59,7 +59,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: antoonapi/antoon-core-api:staging
+          tags: antoonapi/antoon-core-api:prod
 
       # Login AWS
       - name: Login Aws
