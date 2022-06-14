@@ -8,13 +8,15 @@ public class DiscussionConverter {
     public static DiscussionResponse toDiscussionResponse(
             Discussion discussion,
             UserDetailResponse user,
-            Boolean isUserLike
+            Boolean isUserLike,
+            String time
     ) {
         return new DiscussionResponse(
                 discussion.getWebtoonId(),
                 discussion,
                 user,
-                isUserLike
+                isUserLike,
+                time
         );
     }
 }

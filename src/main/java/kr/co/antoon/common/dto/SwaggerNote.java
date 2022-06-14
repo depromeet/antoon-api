@@ -19,7 +19,8 @@ public class SwaggerNote {
                         "nickname" : "개미는 툰툰",  // 사용자 닉네임
                         "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
                         "likeCount" : 1,  // 좋아요 카운트
-                        "isUserLike": true   // 사용자 좋아요 여부
+                        "isUserLike": true   // 사용자 좋아요 여부,
+                        "time": "10분 전"
                     }            
             """;
 
@@ -36,7 +37,8 @@ public class SwaggerNote {
                         "nickname" : "개미는 툰툰",  // 사용자 닉네임
                         "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
                         "likeCount" : 1,  // 좋아요 카운트
-                        "isUserLike": true   // 사용자 좋아요 여부
+                        "isUserLike": true,   // 사용자 좋아요 여부
+                        "time": "1시간 전"
                     }
             """;
 
@@ -55,8 +57,20 @@ public class SwaggerNote {
                                 "nickname" : "개미는 툰툰",  // 사용자 닉네임
                                 "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
                                 "likeCount" : 1,  // 좋아요 카운트
-                                "isUserLike": true   // 사용자 좋아요 여부
-                            }...
+                                "isUserLike": true,   // 사용자 좋아요 여부
+                                "time": "3개월 전"
+                            },
+                            {
+                                "webtoonId" : 1,
+                                "discussionId" : 1,
+                                "content" :  "우앙 재밌다",
+                                "userId" : 1,
+                                "nickname" : "개미는 툰툰",
+                                "imageUrl" : "https://picture.jpg",
+                                "likeCount" : 0,
+                                "isUserLike": false,
+                                "time": "2019-06-12"  // 1년 이상된 댓글은 날짜로 보냄
+                            }, ...
                         ],
                         "page": 0,
                         "size": 20,
@@ -80,7 +94,8 @@ public class SwaggerNote {
                         "nickname" : "개미는 툰툰",  // 사용자 닉네임
                         "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
                         "likeCount" : 1,  // 좋아요 카운트
-                        "isUserLike": true   // 사용자 좋아요 여부
+                        "isUserLike": true,   // 사용자 좋아요 여부
+                        "time": "40초 전"
                     }          
             """;
 
