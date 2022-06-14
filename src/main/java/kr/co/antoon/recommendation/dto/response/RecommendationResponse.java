@@ -10,7 +10,9 @@ public record RecommendationResponse(
         @Schema(description = "하차 인원수")
         int leaveCount,
         @Schema(description = "상하차 상태")
-        RecommendationStatus status
+        RecommendationStatus status,
+        @Schema(description = "코인 지급 여부", defaultValue = "false")
+        boolean getCoin
 ) {
     public RecommendationResponse(
             RecommendationCount recommendationCount,
@@ -19,7 +21,14 @@ public record RecommendationResponse(
         this(
                 recommendationCount.getJoinCount(),
                 recommendationCount.getLeaveCount(),
-                status
+                status,
+                false
         );
+    }
+
+    public RecommendationResponse update(
+            boolean getCoin
+    ) {
+        return new RecommendationResponse(joinCount, leaveCount, status, getCoin);
     }
 }

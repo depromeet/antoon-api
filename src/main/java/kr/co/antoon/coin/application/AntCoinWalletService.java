@@ -25,6 +25,11 @@ public class AntCoinWalletService {
     }
 
     @Transactional(readOnly = true)
+    public AntCoinWallet get(Long userId) {
+        return antCoinWalletRepository.getAntCoinWalletByUserId(userId);
+    }
+  
+    @Transactional(readOnly = true)
     public List<AntCoinWallet> findAll() {
         return antCoinWalletRepository.findAll();
     }
