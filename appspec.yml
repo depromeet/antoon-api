@@ -10,8 +10,8 @@ hooks:
     - location: scripts/beforeInstall.sh
       runas: root
   AfterInstall:
-     - location: scripts/afterInstall.sh
-       runas: root
+    - location: scripts/afterInstall.sh
+      runas: root
   HealthCheck:
     - location: scripts/healthCheck.sh
       runas: root

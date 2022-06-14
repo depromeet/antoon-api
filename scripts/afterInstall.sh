@@ -1,4 +1,4 @@
-docker pull antoonapi/antoon-core-api:staging
+
 
 CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=0
@@ -14,11 +14,12 @@ else
 fi
 
 TARGET_PID=$(lsof -Fp -i TCP:${TARGET_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-9]+')
-
 if [ ! -z ${TARGET_PID} ]; then
     echo "> Kill antoon-core-api running at ${TARGET_PORT}."
     sudo kill ${TARGET_PID}
 fi
+
+docker pull antoonapi/antoon-core-api:staging
 
 docker run -d --publish ${TARGET_PORT}:${TARGET_PORT} \
     -v /etc/localtime:/etc/localtime:ro \
