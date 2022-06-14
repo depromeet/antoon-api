@@ -1,4 +1,4 @@
-version: 0.0
+version: 0.1
 os: linux
 files:
   - source: /
@@ -8,6 +8,12 @@ files:
 hooks:
   BeforeInstall:
     - location: scripts/beforeInstall.sh
+      runas: root
+  HealthCheck:
+    - location: scripts/healthCheck.sh
+      runas: root
+  Switch:
+    - location: scripts/switch.sh
       runas: root
   AfterInstall:
     - location: scripts/afterInstall.sh
