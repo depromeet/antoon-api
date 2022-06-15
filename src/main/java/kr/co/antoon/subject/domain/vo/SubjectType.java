@@ -1,13 +1,13 @@
-package kr.co.antoon.coin.domain.vo;
+package kr.co.antoon.subject.domain.vo;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum RemittanceStatus {
-    PLUS("추가"),
-    MINUS("감소"),
+public enum SubjectType {
+    CHARACTER("인물"),
+    COUPLE("커플"),
     ;
 
     private final String description;
