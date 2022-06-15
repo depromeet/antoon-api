@@ -12,6 +12,7 @@ public class AntCoinService {
     private final AntCoinHistoryService antCoinHistoryService;
     private final AntCoinWalletService antCoinWalletService;
 
+    @Transactional
     public void plusCoin(Long userId, Long coin, String reason, RemittanceType type) {
         var wallet = getWallet(userId);
         wallet.plus(coin);
