@@ -41,6 +41,7 @@ public class AntCoinService {
         );
     }
 
+   @Transactional(readonly = true)
     public AntCoinWallet getWallet(Long userId) {
         return antCoinWalletService.get(userId);
     }
