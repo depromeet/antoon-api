@@ -5,6 +5,7 @@ import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class AntCoinService {
         );
     }
 
-   @Transactional(readonly = true)
+    @Transactional(readOnly = true)
     public AntCoinWallet getWallet(Long userId) {
         return antCoinWalletService.get(userId);
     }

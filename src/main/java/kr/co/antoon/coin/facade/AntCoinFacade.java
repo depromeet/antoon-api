@@ -3,6 +3,7 @@ package kr.co.antoon.coin.facade;
 import kr.co.antoon.coin.application.AntCoinHistoryService;
 import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.coin.application.AntCoinWalletService;
+import kr.co.antoon.coin.domain.vo.CoinType;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.error.dto.ErrorMessage;
@@ -20,9 +21,6 @@ public class AntCoinFacade {
     private final AntCoinHistoryService antCoinHistoryService;
     private final AntCoinService antCoinService;
 
-    private final static Long DEFAULT_SIGN_COIN_BONUS = 100L;
-    private final static Long JOINED_WETBOON_COIN_BONUS = 3L;
-
     @Transactional
     public void sign(Long userId) {
         if (!antCoinWalletService.existsByUserId(userId)) {
@@ -31,7 +29,7 @@ public class AntCoinFacade {
             antCoinHistoryService.record(
                     userId,
                     wallet.getId(),
-                    DEFAULT_SIGN_COIN_BONUS,
+                    CoinType.DEFAULT_SIGN_COIN_BONUS.getAmount(),
                     RemittanceStatus.PLUS,
                     RemittanceType.SIGNED_SERVICE,
                     "SIGNUP"
@@ -47,7 +45,7 @@ public class AntCoinFacade {
         }
 
         String reason = "WEBTOONID_"+webtoonId;
-        antCoinService.plusCoin(userId, JOINED_WETBOON_COIN_BONUS, reason, RemittanceType.JOINED_WEBTOON);
+        antCoinService.plusCoin(userId, CoinType.JOINED_WETBOON_COIN_BONUS.getAmount(), reason, RemittanceType.JOINED_WEBTOON);
         return response.update(true);
     }
 }
