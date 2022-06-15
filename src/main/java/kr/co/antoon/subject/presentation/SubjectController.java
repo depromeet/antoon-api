@@ -1,8 +1,8 @@
-package kr.co.antoon.character.presentation;
+package kr.co.antoon.subject.presentation;
 
-import kr.co.antoon.character.dto.response.CharacterResponse;
-import kr.co.antoon.character.dto.response.CoupleResponse;
-import kr.co.antoon.character.facade.CharacterFacade;
+import kr.co.antoon.subject.dto.response.CharacterResponse;
+import kr.co.antoon.subject.dto.response.CoupleResponse;
+import kr.co.antoon.subject.facade.SubjectFacade;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/votes/")
-public class CharacterController {
-    private final CharacterFacade characterFacade;
+@RequestMapping("/api/v1/subjects")
+public class SubjectController {
+    private final SubjectFacade subjectFacade;
 
     @GetMapping("/characters")
     public ResponseEntity<CharacterResponse> getCharactersByTopUpper(
             @AuthUser AuthInfo info
     ) {
-        var response = characterFacade.getCharactersByTopUpper(info.userId());
+        var response = subjectFacade.getCharactersByTopUpper(info.userId());
         return ResponseDto.ok(response);
     }
 
@@ -30,7 +30,7 @@ public class CharacterController {
     public ResponseEntity<CoupleResponse> getCouplesByTopUpper(
             @AuthUser AuthInfo info
     ) {
-        var response = characterFacade.getCouplesByTopUpper(info.userId());
+        var response = subjectFacade.getCouplesByTopUpper(info.userId());
         return ResponseDto.ok(response);
     }
 }

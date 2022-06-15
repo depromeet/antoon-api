@@ -1,6 +1,6 @@
-package kr.co.antoon.character.domain;
+package kr.co.antoon.subject.domain;
 
-import kr.co.antoon.character.domain.vo.VoteType;
+import kr.co.antoon.subject.domain.vo.SubjectType;
 import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,16 +13,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "character_couple")
-public class Character extends BaseEntity {
+public class Subject extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     private String name;
 
@@ -31,15 +29,14 @@ public class Character extends BaseEntity {
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
-    private VoteType type;
+    private SubjectType type;
 
     private Long webtoonId;
 
     private Long amount;
 
-    // TODO: builder가 필요한가? 운영에서 데이터를 넣어주는데?
     @Builder
-    public Character(String name, String title, String imageUrl, VoteType type, Long webtoonId, Long amount) {
+    public Subject(String name, String title, String imageUrl, SubjectType type, Long webtoonId) {
         this.name = name;
         this.title = title;
         this.imageUrl = imageUrl;
