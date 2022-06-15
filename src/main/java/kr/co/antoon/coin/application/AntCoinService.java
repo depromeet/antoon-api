@@ -27,6 +27,7 @@ public class AntCoinService {
         );
     }
 
+    @Transactional
     public void minusCoin(Long userId, Long coin, String reason, RemittanceType type) {
         var wallet = getWallet(userId);
         wallet.minus(coin);
