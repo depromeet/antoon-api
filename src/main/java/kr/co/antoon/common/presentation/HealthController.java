@@ -10,14 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class HealthController {
-    private final WebtoonCrawlingFacade webtoonCrawlingFacade;
-    private final GraphScoreFacade graphScoreFacade;
-
     @GetMapping("/health")
     public String health() {
-        webtoonCrawlingFacade.crawlingWebtoon(Platform.NAVER);
-        webtoonCrawlingFacade.crawlingWebtoon(Platform.KAKAO);
-        graphScoreFacade.snapshot();
         return "Health Good!";
     }
 }
