@@ -1,31 +1,32 @@
-package kr.co.antoon.subject.dto.response;
+package kr.co.antoon.character.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import kr.co.antoon.subject.domain.Subject;
+import kr.co.antoon.character.domain.Character;
 
 import java.util.List;
 
-public record CharacterResponse(
+public record PersonaResponse(
         List<CharacterDetailResponse> characters
 ) {
+    // TODO: 랭크 변동값 선택
     public record CharacterDetailResponse(
             @Schema(description = "인물 이름")
             String name,
             @Schema(description = "웹툰명")
             String title,
             @Schema(description = "인물 사진")
-            String imageUrl,
+            String thumbnail,
             @Schema(description = "코인")
-            Long amount,
+            Long coinAmount,
             @Schema(description = "탑승 여부")
             Boolean isJoined
     ) {
-        public CharacterDetailResponse(Subject character, Boolean isJoined) {
+        public CharacterDetailResponse(Character character, String title, Boolean isJoined) {
             this(
                     character.getName(),
-                    character.getTitle(),
-                    character.getImageUrl(),
-                    character.getAmount(),
+                    title,
+                    character.getThumbnail(),
+                    character.getCoinAmount(),
                     isJoined
             );
         }

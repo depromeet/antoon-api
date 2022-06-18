@@ -1,6 +1,6 @@
-package kr.co.antoon.subject.domain;
+package kr.co.antoon.character.domain;
 
-import kr.co.antoon.subject.domain.vo.SubjectType;
+import kr.co.antoon.character.domain.vo.CharacterType;
 import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -17,35 +17,32 @@ import javax.persistence.Id;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Subject extends BaseEntity {
+public class Character extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    private String title;
-
-    private String imageUrl;
+    private String thumbnail;
 
     @Enumerated(EnumType.STRING)
-    private SubjectType type;
+    private CharacterType type;
 
     private Long webtoonId;
 
-    private Long amount;
+    private Long coinAmount;
 
     @Builder
-    public Subject(String name, String title, String imageUrl, SubjectType type, Long webtoonId) {
+    public Character(String name, String thumbnail, CharacterType type, Long webtoonId) {
         this.name = name;
-        this.title = title;
-        this.imageUrl = imageUrl;
         this.type = type;
+        this.thumbnail = thumbnail;
         this.webtoonId = webtoonId;
-        this.amount = 0L;
+        this.coinAmount = 0L;
     }
     
     public void amountUpdate(Long amount) {
-        this.amount += amount;
+        this.coinAmount += amount;
     }
 }

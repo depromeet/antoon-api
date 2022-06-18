@@ -1,6 +1,6 @@
-package kr.co.antoon.subject.presentation;
+package kr.co.antoon.character.presentation;
 
-import kr.co.antoon.subject.facade.SubjectRecommendationFacade;
+import kr.co.antoon.character.facade.CharacterHistoryFacade;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/recommendations")
-public class SubjectRecommendationController {
-    private final SubjectRecommendationFacade voteCharacterFacade;
+@RequestMapping("/api/v1/top-ranks")
+public class CharacterHistoryController {
+    private final CharacterHistoryFacade characterHistoryFacade;
 
-    @PatchMapping("/subjects/{characterId}")
+    @PatchMapping("/{itemId}")
     public ResponseEntity<Void> create(
-            @PathVariable Long characterId,
+            @PathVariable Long itemId,
             @AuthUser AuthInfo info
     ) {
-        voteCharacterFacade.create(characterId, info.userId());
+        characterHistoryFacade.create(itemId, info.userId());
         return ResponseDto.noContent();
     }
 }

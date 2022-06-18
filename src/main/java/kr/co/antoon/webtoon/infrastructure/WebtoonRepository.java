@@ -6,6 +6,7 @@ import kr.co.antoon.webtoon.dto.query.WebtoonDayNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonGenreBannerNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonGenreNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonNativeDto;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -69,6 +70,7 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, JpaSpec
                             select count(*)
                             from webtoon w
                             join webtoon_publish_day wpd on w.id = wpd.webtoon_id
+                            join graph_score_snapshot gss on w.id = gss.webtoon_id
                             where wpd.day = :day
                     """
     )
