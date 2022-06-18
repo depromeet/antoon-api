@@ -470,4 +470,20 @@ public class SwaggerNote {
               ]
             }
             """;
+
+    public final static String GET_COIN_HISTORY = """
+                    코인 지급 히스토리 조회
+                    GET /api/v1/coins/history    
+                        
+                    Response Body
+                    {
+                        "userId" : "김테스트",
+                        "walletId" : 3,
+                        "createdAt" : "2022-06-18 13:51:40", 
+                        "amount" : 3 
+                        "remittanceStatus" : "PLUS"
+                        "remittanceType" : "JOINED_WEBTOON",
+                        "reason" : "WEBTOONID_3"
+                    }
+            """;
 }
