@@ -1,5 +1,6 @@
 package kr.co.antoon.coin.domain;
 
+import kr.co.antoon.coin.domain.vo.CoinRank;
 import kr.co.antoon.coin.domain.vo.WalletStatus;
 import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
@@ -29,6 +30,9 @@ public class AntCoinWallet extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private WalletStatus status;
 
+    @Enumerated(EnumType.STRING)
+    private CoinRank coinRank;
+
     @Transient
     private final static Long DEFAULT_COIN = 300L;
 
@@ -36,6 +40,7 @@ public class AntCoinWallet extends BaseEntity {
         this.userId = userId;
         this.wallet = DEFAULT_COIN;
         this.status = WalletStatus.ENABLE;
+        this.coinRank = CoinRank.LEVEL_TWO;
     }
 
     public void changeStatus(WalletStatus status) {
@@ -52,6 +57,7 @@ public class AntCoinWallet extends BaseEntity {
 
     public void plus(Long coin) {
         this.wallet += coin;
+        setCoinRank();
     }
 
     public boolean minus(Long coin) {
@@ -59,6 +65,21 @@ public class AntCoinWallet extends BaseEntity {
             return false;
         }
         this.wallet -= coin;
+        setCoinRank();
         return true;
+    }
+
+    public CoinRank checkCoinRank() {
+        if(this.wallet<50) {
+            return CoinRank.LEVEL_ONE;
+        }
+        if(this.wallet<200) {
+            return CoinRank.LEVEL_TWO;
+        }
+        return CoinRank.LEVEL_THREE;
+    }
+
+    public void setCoinRank() {
+        this.coinRank = checkCoinRank();
     }
 }
