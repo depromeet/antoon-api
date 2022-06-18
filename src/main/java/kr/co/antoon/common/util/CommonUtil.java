@@ -10,6 +10,11 @@ import java.util.Objects;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 
+/**
+ * CommonUtil
+ *
+ * @apiNote Common Util
+ **/
 public class CommonUtil {
     public final static String APPLICATION_JSON_UTF_8 = "application/json;charset=UTF-8";
 
@@ -21,6 +26,10 @@ public class CommonUtil {
         return !Objects.isNull(text) && !text.isEmpty() && !text.isBlank();
     }
 
+    /**
+     * @apiNote object mapper
+     * @return ObjectMapper
+     **/
     public static ObjectMapper mapper() {
         var mapper = new ObjectMapper();
 
