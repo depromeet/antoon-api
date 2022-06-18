@@ -28,7 +28,6 @@ public class OAuth2Attribute {
         return switch (provider) {
             case "kakao" -> ofKakao("email", attributes);
             case "google" -> ofGoogle("sub", attributes);
-            case "naver" -> ofNaver("id", attributes);
             default -> throw new NotExistsException(ErrorMessage.NOT_EXISTS_OAUTH_INFO);
         };
     }
@@ -45,19 +44,6 @@ public class OAuth2Attribute {
                 .gender((String) kakaoAccount.get("gender"))
                 .ageRange((String) kakaoAccount.get("age_range"))
                 .attributes(kakaoAccount)
-                .attributeKey(attributeKey)
-                .build();
-    }
-
-    private static OAuth2Attribute ofNaver(String attributeKey,
-                                           Map<String, Object> attributes) {
-        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
-
-        return OAuth2Attribute.builder()
-                .name((String) response.get("name"))
-                .email((String) response.get("email"))
-                .imageUrl((String) response.get("profile_image"))
-                .attributes(response)
                 .attributeKey(attributeKey)
                 .build();
     }

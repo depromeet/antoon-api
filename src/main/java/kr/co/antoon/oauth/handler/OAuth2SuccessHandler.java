@@ -48,6 +48,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     ) throws IOException {
         var oAuth2User = (OAuth2User) authentication.getPrincipal();
         var email = (String) oAuth2User.getAttributes().get("email");
+        log.info("Handler OAuth2User : {}", oAuth2User);
 
         Boolean checkUserExist = customOAuth2UserService.checkExistEmail(email);
         Status status = Status.of(checkUserExist);
