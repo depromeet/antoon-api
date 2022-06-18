@@ -1,4 +1,4 @@
-package kr.co.antoon.subject.domain;
+package kr.co.antoon.character.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SubjectRecommendation extends BaseEntity {
+public class CharacterHistory extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,7 +22,7 @@ public class SubjectRecommendation extends BaseEntity {
 
     private Long userId;
 
-    public SubjectRecommendation(Long characterId, Long userId) {
+    public CharacterHistory(Long characterId, Long userId) {
         this.characterId = characterId;
         this.userId = userId;
     }

@@ -1,7 +1,7 @@
-package kr.co.antoon.subject.application;
+package kr.co.antoon.character.application;
 
-import kr.co.antoon.subject.domain.SubjectRecommendation;
-import kr.co.antoon.subject.infrastructure.SubjectRecommendationRepository;
+import kr.co.antoon.character.domain.CharacterHistory;
+import kr.co.antoon.character.infrastructure.CharacterHistoryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,12 +16,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 
 @ExtendWith(MockitoExtension.class)
-public class SubjectRecommendationTest {
+public class CharacterHistoryServiceTest {
     @Mock
-    private SubjectRecommendationRepository subjectRecommendationRepository;
+    private CharacterHistoryRepository characterHistoryRepository;
 
     @InjectMocks
-    private SubjectRecommendationService subjectRecommendationService;
+    private CharacterHistoryService characterHistoryService;
 
     private final Long CHARACTER_ID = 1L;
     private final Long USER_ID = 1L;
@@ -29,15 +29,15 @@ public class SubjectRecommendationTest {
     @Test
     public void 인물_관계_탑승하기() {
         // given
-        var expected = new SubjectRecommendation(
+        var expected = new CharacterHistory(
                 CHARACTER_ID,
                 USER_ID
         );
 
-        Mockito.when(subjectRecommendationRepository.save(any()))
+        Mockito.when(characterHistoryRepository.save(any()))
                 .thenReturn(expected);
         // when
-        var actual = subjectRecommendationService.save(CHARACTER_ID, USER_ID);
+        var actual = characterHistoryService.save(CHARACTER_ID, USER_ID);
         // then
         assertEquals(expected, actual);
     }
@@ -45,15 +45,15 @@ public class SubjectRecommendationTest {
     @Test
     public void 인물_관계_탑승한_상태() {
         // given
-        SubjectRecommendation subjectRecommendation = new SubjectRecommendation(
+        CharacterHistory subjectRecommendation = new CharacterHistory(
                 CHARACTER_ID,
                 USER_ID
         );
 
-        Mockito.when(subjectRecommendationRepository.findByCharacterIdAndUserId(anyLong(), anyLong()))
+        Mockito.when(characterHistoryRepository.findByCharacterIdAndUserId(anyLong(), anyLong()))
                 .thenReturn(Optional.of(subjectRecommendation));
         // when
-        var actual = subjectRecommendationService.isUserJoin(CHARACTER_ID, USER_ID);
+        var actual = characterHistoryService.isUserJoin(CHARACTER_ID, USER_ID);
         // then
         assertEquals(true, actual);
     }
@@ -61,10 +61,10 @@ public class SubjectRecommendationTest {
     @Test
     public void 인물_관계_탑승안한_상태() {
         // given
-        Mockito.when(subjectRecommendationRepository.findByCharacterIdAndUserId(anyLong(), anyLong()))
+        Mockito.when(characterHistoryRepository.findByCharacterIdAndUserId(anyLong(), anyLong()))
                 .thenReturn(Optional.empty());
         // when
-        var actual = subjectRecommendationService.isUserJoin(CHARACTER_ID, USER_ID);
+        var actual = characterHistoryService.isUserJoin(CHARACTER_ID, USER_ID);
         // then
         assertEquals(false, actual);
     }

@@ -1,8 +1,8 @@
-package kr.co.antoon.subject.application;
+package kr.co.antoon.character.application;
 
-import kr.co.antoon.subject.domain.Subject;
-import kr.co.antoon.subject.domain.vo.SubjectType;
-import kr.co.antoon.subject.infrastructure.SubjectRepository;
+import kr.co.antoon.character.domain.Character;
+import kr.co.antoon.character.domain.vo.CharacterType;
+import kr.co.antoon.character.infrastructure.CharacterRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,35 +19,34 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 
 @ExtendWith(MockitoExtension.class)
-public class SubjectServiceTest {
+public class CharacterServiceTest {
     @Mock
-    private SubjectRepository subjectRepository;
+    private CharacterRepository characterRepository;
 
     @InjectMocks
-    private SubjectService subjectService;
+    private CharacterService characterService;
 
-    private final Long SUBJECT_ID = 1L;
+    private final Long JOINED_ITEM_ID = 1L;
 
     @Test
     public void 인물_관계_TOP30_조회() {
         // given
-        var expected = new ArrayList<Subject>();
+        var expected = new ArrayList<Character>();
         for(int i = 0; i < 30; i++) {
-            expected.add(Subject.builder()
+            expected.add(Character.builder()
                     .name("디프만 1번 출구")
-                    .title("인물/관계 테스트")
-                    .imageUrl("test.png")
-                    .type(SubjectType.CHARACTER)
+                    .thumbnail("test.png")
+                    .type(CharacterType.PERSONA)
                     .webtoonId(1L)
                     .build()
             );
         }
 
-        Mockito.when(subjectRepository.findTop30ByTypeOrderByAmountDesc(any()))
+        Mockito.when(characterRepository.findTop30ByTypeOrderByAmountDesc(any()))
                 .thenReturn(expected);
 
         // when
-        List<Subject> actual = subjectService.getSubjectsByTopUpper(SubjectType.CHARACTER);
+        List<Character> actual = characterService.getSubjectsByTopUpper(CharacterType.PERSONA);
         // then
         assertEquals(expected, actual);
     }
@@ -55,18 +54,17 @@ public class SubjectServiceTest {
     @Test
     public void 인물_관계_단일_조회() {
         // given
-        var expected = Subject.builder()
+        var expected = Character.builder()
                 .name("디프만 1번 출구")
-                .title("인물/관계 테스트")
-                .imageUrl("test.png")
-                .type(SubjectType.CHARACTER)
+                .thumbnail("test.png")
+                .type(CharacterType.PERSONA)
                 .webtoonId(1L)
                 .build();
 
-         Mockito.when(subjectRepository.findById(anyLong()))
+         Mockito.when(characterRepository.findById(anyLong()))
                  .thenReturn(Optional.of(expected));
          // when
-         Subject actual = subjectService.findById(SUBJECT_ID);
+         Character actual = characterService.findById(JOINED_ITEM_ID);
          // then
          assertEquals(expected, actual);
     }
