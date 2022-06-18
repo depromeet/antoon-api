@@ -7,6 +7,7 @@ import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
+import kr.co.antoon.coin.dto.CoinHistory;
 import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,11 @@ public class AntCoinService implements AntCoinClient {
     @Transactional(readOnly = true)
     public AntCoinWallet getWallet(Long userId) {
         return antCoinWalletService.get(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public CoinHistory getCoinHistory(Long userId) {
+        return antCoinHistoryService.getCoinHistory(userId);
     }
 
     @Transactional

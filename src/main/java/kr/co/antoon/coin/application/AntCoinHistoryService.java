@@ -3,6 +3,7 @@ package kr.co.antoon.coin.application;
 import kr.co.antoon.coin.domain.AntCoinHistory;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
+import kr.co.antoon.coin.dto.CoinHistory;
 import kr.co.antoon.coin.infrastructure.AntCoinHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,5 +53,10 @@ public class AntCoinHistoryService {
                 reason,
                 today // '2022-06-19T12:31.00.9999'
         );
+    }
+
+    @Transactional
+    public CoinHistory getCoinHistory(Long userId) {
+        return antCoinHistoryRepository.getAntCoinHistoryByUserId(userId);
     }
 }
