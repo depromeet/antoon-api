@@ -1,6 +1,6 @@
 package kr.co.antoon.oauth.application;
 
-import kr.co.antoon.coin.facade.AntCoinFacade;
+import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.oauth.dto.OAuth2Attribute;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Gender;
@@ -25,7 +25,7 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
-    private final AntCoinFacade antCoinFacade;
+    private final AntCoinService antCoinService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -81,6 +81,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         user.updateGender(gender);
 
         userRepository.save(user);
-        antCoinFacade.sign(user.getId());
+        antCoinService.sign(user.getId());
     }
 }

@@ -5,11 +5,15 @@ import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.infrastructure.AntCoinHistoryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AntCoinHistoryService {
@@ -31,11 +35,16 @@ public class AntCoinHistoryService {
 
     @Transactional
     public boolean checkTodayJoinWebtoon(Long userId, Long webtoonId) {
-        String now = LocalDate.now().toString();
         String reason = "WEBTOONID_" + webtoonId;
-        if(antCoinHistoryRepository.existsTodayByUserIdAndWebtoonId(userId, reason, now) == 1) {
-            return true;
-        }
-        return false;
+        LocalDateTime today = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+
+        log.info("checktoday : {}", today);
+
+        return antCoinHistoryRepository.existsByRemittanceTypeAndUserIdAndReasonAndCreatedAtAfter(
+                RemittanceType.JOINED_WEBTOON,
+                userId,
+                reason,
+                today // '2022-06-19T12:31.00.9999'
+        );
     }
 }
