@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 
 @ExtendWith(MockitoExtension.class)
-public class JoinedItemFacadeTest {
+public class CharacterFacadeTest {
     @Mock
     private CharacterService characterService;
 

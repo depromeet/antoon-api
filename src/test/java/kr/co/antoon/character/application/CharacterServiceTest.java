@@ -42,7 +42,7 @@ public class CharacterServiceTest {
             );
         }
 
-        Mockito.when(characterRepository.findTop30ByTypeOrderByAmountDesc(any()))
+        Mockito.when(characterRepository.findTop30ByTypeOrderByCoinAmountDesc(any()))
                 .thenReturn(expected);
 
         // when

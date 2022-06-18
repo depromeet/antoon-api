@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class JoinedItemTest {
+public class CharacterTest {
     private Character character;
 
     @BeforeEach
-    void setSubject() {
+    void setCharacter() {
         character = Character.builder()
                 .name("디프만 1번 출구")
                 .thumbnail("test.png")
