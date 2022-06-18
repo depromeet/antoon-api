@@ -24,12 +24,15 @@ public class CommonUtil {
     public static ObjectMapper mapper() {
         var mapper = new ObjectMapper();
 
+        var deserializationFeature = DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+        var serializationFeature = SerializationFeature.FAIL_ON_EMPTY_BEANS;
+
         mapper
                 .setSerializationInclusion(NON_NULL);
 
         mapper
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+                .configure(deserializationFeature, false)
+                .configure(serializationFeature, false);
 
         mapper
                 .registerModule(new JavaTimeModule())
