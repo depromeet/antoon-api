@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 @Slf4j
 @Service
@@ -37,6 +39,10 @@ public class AntCoinHistoryService {
     public boolean checkTodayJoinWebtoon(Long userId, Long webtoonId) {
         String reason = "WEBTOONID_" + webtoonId;
         LocalDateTime today = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        today = Year.of(today.getYear())
+                .atMonth(today.getMonthValue())
+                .atDay(today.getDayOfMonth())
+                .atTime(0,0,0,0);
 
         log.info("checktoday : {}", today);
 
