@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum VoteCategory {
+public enum TopicCategory {
     AB("ab"),
     MULTIPLE("choice");
 

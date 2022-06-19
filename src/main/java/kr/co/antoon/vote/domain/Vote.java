@@ -10,18 +10,21 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "vote")
 public class Vote extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long voteSubjectId;
-
     private Long userId;
+
+    private Long topicId;
+
+    private Long candidateId;
 
     private Boolean voteStatus;
 
-    private Long joinCount;
+    public void updateVoteStatus(Boolean voteStatus) {
+        this.voteStatus = voteStatus;
+    }
 }

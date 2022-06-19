@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "투표하기 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/community/vote")
+@RequestMapping("api/v1/vote")
 public class VoteController {
     private final VoteFacade voteFacade;
 
-    @PatchMapping("/{voteSubjectId}")
+    @PatchMapping("/{candidateId}")
     public ResponseEntity<Void> create(
-            @PathVariable Long voteSubjectId,
+            @PathVariable Long candidateId,
             @AuthUser AuthInfo info
     ) {
-        voteFacade.update(voteSubjectId, info.userId());
+        voteFacade.update(candidateId, info.userId());
         return ResponseDto.noContent();
     }
 }

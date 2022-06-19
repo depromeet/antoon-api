@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum VotingStatus {
+public enum CandidateStatus {
     WINNER("winner"),
     LOSER("loser"),
     DRAW("draw");
