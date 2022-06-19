@@ -5,9 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum VoteCategory {
-    AB("ab"),
-    MULTIPLE("choice");
+public enum VotingStatus {
+    WINNER("winner"),
+    LOSER("loser"),
+    DRAW("draw");
 
     private final String description;
 }

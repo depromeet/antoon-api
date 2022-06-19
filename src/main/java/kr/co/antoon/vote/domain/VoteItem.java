@@ -2,7 +2,6 @@ package kr.co.antoon.vote.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
 import kr.co.antoon.vote.domain.vo.VoteCategory;
-import kr.co.antoon.vote.domain.vo.VoteType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,23 +20,24 @@ public class VoteItem extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private VoteCategory voteCategory;
+
+    private String tags;
 
     private String title;
 
-    private String content;
-
-    private String imageUrl;
-
     private LocalDateTime votingEndTime;
 
-    @Enumerated(EnumType.STRING)
-    private VoteCategory category;
+    private Integer votingCount;
 
-    @Enumerated(EnumType.STRING)
-    private VoteType type;
+    private Integer votingCountPercent;
 
-    private Long votingCount;
+    private Integer joinCount;
 
-    private Long votingCountPercent;
+    private Boolean voteStatus;
+
+    public void updateJoinCount() {
+        this.joinCount += 1;
+    }
 }
