@@ -25,8 +25,8 @@ public class CandidateService {
         Candidate candidate = candidateRepository.findById(candidateId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_CANDIDATE));
 
-        CandidateStatus votingStatus = candidate.getCandidateStatus();
-        candidate.update(votingStatus);
+        CandidateStatus candidateStatus = candidate.getCandidateStatus();
+        candidate.update(candidateStatus);
     }
 
     @Transactional(readOnly = true)
