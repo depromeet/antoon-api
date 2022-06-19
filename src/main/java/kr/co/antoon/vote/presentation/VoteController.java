@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class VoteController {
     private final VoteFacade voteFacade;
 
-    @PatchMapping("/{candidateId}")
+    @PostMapping("/{candidateId}")
     public ResponseEntity<Void> create(
             @PathVariable Long candidateId,
             @AuthUser AuthInfo info
     ) {
-        voteFacade.update(candidateId, info.userId());
+        voteFacade.create(candidateId, info.userId());
         return ResponseDto.noContent();
     }
 }

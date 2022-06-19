@@ -2,6 +2,7 @@ package kr.co.antoon.vote.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,9 +23,17 @@ public class Vote extends BaseEntity {
 
     private Long candidateId;
 
-    private Boolean voteStatus;
+    private boolean voteStatus;
 
-    public void updateVoteStatus(Boolean voteStatus) {
+    @Builder
+    public Vote(Long userId, Long topicId, Long candidateId, boolean voteStatus) {
+        this.userId = userId;
+        this.topicId = topicId;
+        this.candidateId = candidateId;
+        this.voteStatus = voteStatus;
+    }
+
+    public void updateVoteStatus(boolean voteStatus) {
         this.voteStatus = voteStatus;
     }
 }

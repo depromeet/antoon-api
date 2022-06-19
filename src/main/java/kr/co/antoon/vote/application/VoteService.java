@@ -15,4 +15,9 @@ public class VoteService {
     public Vote findByTopicId(Long topicId) {
         return voteRepository.findByTopicId(topicId);
     }
+
+    @Transactional
+    public Vote save(Long userId, Long topicId, Long candidateId, boolean voteStatus) {
+        return voteRepository.save(new Vote(userId, topicId, candidateId, voteStatus));
+    }
 }
