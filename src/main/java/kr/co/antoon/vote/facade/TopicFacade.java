@@ -26,6 +26,7 @@ public class TopicFacade {
         return new TopicResponse(topic, candidates);
     }
 
+    @Transactional(readOnly = true)
     public TopicAllResponse findAll(String sortType) {
         var response = topicService.findAllTopics(sortType)
                 .stream()

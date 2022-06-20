@@ -14,6 +14,7 @@ public record TopicAllResponse (
             TopicCategory topicCategory,
             String tags,
             String title,
+            LocalDateTime createdAt,
             LocalDateTime topicVoteEndTime,
             Integer joinCount,
             String[] thumbnails
@@ -24,6 +25,7 @@ public record TopicAllResponse (
                     topic.getTopicCategory(),
                     topic.getTags(),
                     topic.getTitle(),
+                    topic.getCreatedAt(),
                     topic.getTopicVoteTime(),
                     topic.getJoinCount(),
                     thumbnails

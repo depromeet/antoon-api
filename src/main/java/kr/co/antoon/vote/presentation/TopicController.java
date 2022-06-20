@@ -29,7 +29,7 @@ public class TopicController {
         return ResponseDto.ok(response);
     }
 
-    @ApiOperation(value = "투표 상세 페이지 Topic 조회")
+    @ApiOperation(value = "토픽 상세 페이지 Topic 조회")
     @GetMapping("/detail/{topicId}")
     public ResponseEntity<TopicResponse> getTopicById(
             @PathVariable("topicId") Long topicId
