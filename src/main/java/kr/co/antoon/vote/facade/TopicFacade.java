@@ -26,8 +26,8 @@ public class TopicFacade {
         return new TopicResponse(topic, candidates);
     }
 
-    public TopicAllResponse findAll() {
-        var response = topicService.findAllTopics()
+    public TopicAllResponse findAll(String sortType) {
+        var response = topicService.findAllTopics(sortType)
                 .stream()
                 .map(topic -> {
                     String[] thumbnails = candidateService.findAllByTopicId(topic.getId())

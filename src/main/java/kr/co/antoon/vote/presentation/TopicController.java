@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "투표 상세 페이지 API")
+@Api(tags = "투표 페이지 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/topics")
@@ -21,17 +21,16 @@ public class TopicController {
     private final TopicFacade topicFacade;
 
     @ApiOperation(value = "모든 토픽 목록 조회")
-    @GetMapping("/{searchType}")
+    @GetMapping("/{sortType}")
     public ResponseEntity<TopicAllResponse> getTopics(
-        @PathVariable("searchType") String searchType
+        @PathVariable("sortType") String sortType
     ) {
-        var response = topicFacade.findAll();
+        var response = topicFacade.findAll(sortType);
         return ResponseDto.ok(response);
     }
 
-
     @ApiOperation(value = "투표 상세 페이지 Topic 조회")
-    @GetMapping("/{topicId}")
+    @GetMapping("/detail/{topicId}")
     public ResponseEntity<TopicResponse> getTopicById(
             @PathVariable("topicId") Long topicId
     ) {
