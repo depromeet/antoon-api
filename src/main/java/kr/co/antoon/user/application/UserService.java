@@ -1,5 +1,7 @@
 package kr.co.antoon.user.application;
 
+import kr.co.antoon.coin.application.AntCoinService;
+import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.oauth.dto.AuthInfo;
@@ -7,6 +9,7 @@ import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.dto.request.UserDetailImage;
 import kr.co.antoon.user.dto.request.UserDetailName;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
+import kr.co.antoon.user.dto.response.GetUserDetailResponse;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final AntCoinService antCoinService;
 
     @Transactional(readOnly = true)
     public User findOneById(Long id) {
@@ -25,10 +29,10 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserDetailResponse findById(Long id) {
+    public GetUserDetailResponse findById(Long id) {
         var user = findOneById(id);
-
-        return new UserDetailResponse(user);
+        var wallet = antCoinService.getWallet(id);
+        return new GetUserDetailResponse(user, wallet);
     }
 
     @Transactional(readOnly = true)
