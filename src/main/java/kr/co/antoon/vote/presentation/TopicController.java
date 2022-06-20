@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "투표 페이지 API")
+@Api(tags = "커뮤니티 페이지 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/topics")
