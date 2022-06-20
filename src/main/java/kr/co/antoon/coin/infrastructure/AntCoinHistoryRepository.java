@@ -16,4 +16,5 @@ import java.time.LocalDateTime;
 public interface AntCoinHistoryRepository extends JpaRepository<AntCoinHistory, Long> {
     boolean existsByRemittanceTypeAndUserIdAndReasonAndCreatedAtAfter(RemittanceType remittanceType, Long userId, String reason, LocalDateTime now);
     CoinHistory getAntCoinHistoryByUserId(Long userId);
+    int countByUserIdAndCreatedAtAfter(Long userId, LocalDateTime now);
 }

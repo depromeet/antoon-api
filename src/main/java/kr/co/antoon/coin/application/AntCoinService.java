@@ -88,6 +88,11 @@ public class AntCoinService implements AntCoinClient {
             return response;
         }
 
+        if(antCoinHistoryService.countJoinWebtoon(userId) >= rewardLimit) {
+            log.info("ALREADY_OVER_COUNT_COIN: 금일 탑승/하차를 통한 코인 지급 횟수를 초과하였습니다.");
+            return response;
+        }
+
         //TODO : ObjectMapper 모듈 생성 - 극락님!
         String reason = "WEBTOONID_"+webtoonId;
 

@@ -45,8 +45,6 @@ public class AntCoinHistoryService {
                 .atDay(today.getDayOfMonth())
                 .atTime(0,0,0,0);
 
-        log.info("checktoday : {}", today);
-
         return antCoinHistoryRepository.existsByRemittanceTypeAndUserIdAndReasonAndCreatedAtAfter(
                 RemittanceType.JOINED_WEBTOON,
                 userId,
@@ -58,5 +56,16 @@ public class AntCoinHistoryService {
     @Transactional
     public CoinHistory getCoinHistory(Long userId) {
         return antCoinHistoryRepository.getAntCoinHistoryByUserId(userId);
+    }
+
+    @Transactional
+    public int countJoinWebtoon(Long userId) {
+        LocalDateTime today = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        today = Year.of(today.getYear())
+                .atMonth(today.getMonthValue())
+                .atDay(today.getDayOfMonth())
+                .atTime(0,0,0,0);
+
+        return antCoinHistoryRepository.countByUserIdAndCreatedAtAfter(userId, today);
     }
 }

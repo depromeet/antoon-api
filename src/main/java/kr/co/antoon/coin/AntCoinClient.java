@@ -39,4 +39,9 @@ public interface AntCoinClient {
      * @apiNote add coin when sign up
      **/
     void sign(Long userId);
+
+    /**
+     * @apiNote limit of coin reward for join webtoon
+     **/
+    int rewardLimit = 10;
 }
