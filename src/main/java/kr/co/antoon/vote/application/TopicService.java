@@ -8,10 +8,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TopicService {
     private final TopicRepository topicRepository;
+
+    @Transactional(readOnly = true)
+    public List<Topic> findAllTopics() {
+        return topicRepository.findAll();
+    }
 
     @Transactional(readOnly = true)
     public Topic findById(Long topicId) {

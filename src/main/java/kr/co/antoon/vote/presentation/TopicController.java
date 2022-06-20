@@ -3,6 +3,7 @@ package kr.co.antoon.vote.presentation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.ResponseDto;
+import kr.co.antoon.vote.dto.response.TopicAllResponse;
 import kr.co.antoon.vote.dto.response.TopicResponse;
 import kr.co.antoon.vote.facade.TopicFacade;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/topics")
 public class TopicController {
     private final TopicFacade topicFacade;
+
+    @ApiOperation(value = "모든 토픽 목록 조회")
+    @GetMapping("/{searchType}")
+    public ResponseEntity<TopicAllResponse> getTopics(
+        @PathVariable("searchType") String searchType
+    ) {
+        var response = topicFacade.findAll();
+        return ResponseDto.ok(response);
+    }
+
 
     @ApiOperation(value = "투표 상세 페이지 Topic 조회")
     @GetMapping("/{topicId}")

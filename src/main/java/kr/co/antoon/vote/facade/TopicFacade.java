@@ -3,11 +3,13 @@ package kr.co.antoon.vote.facade;
 import kr.co.antoon.vote.application.TopicService;
 import kr.co.antoon.vote.application.CandidateService;
 import kr.co.antoon.vote.application.VoteService;
-import kr.co.antoon.vote.domain.Vote;
+
+import kr.co.antoon.vote.dto.response.TopicAllResponse;
 import kr.co.antoon.vote.dto.response.TopicResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Component
 @RequiredArgsConstructor
@@ -22,5 +24,21 @@ public class TopicFacade {
         var candidates = candidateService.findAllByTopicId(topicId);
         var vote = voteService.findByTopicId(topicId);
         return new TopicResponse(topic, candidates);
+    }
+
+    public TopicAllResponse findAll() {
+        var response = topicService.findAllTopics()
+                .stream()
+                .map(topic -> {
+                    String[] thumbnails = candidateService.findAllByTopicId(topic.getId())
+                            .stream()
+                            .map(c -> c.getImageUrl())
+                            .toArray(String[]::new);
+                    return new TopicAllResponse.TopicResponse(
+                            topic,
+                            thumbnails
+                    );
+                }).toList();
+        return new TopicAllResponse(response);
     }
 }
