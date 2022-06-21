@@ -22,7 +22,6 @@ public class TopicFacade {
     public TopicResponse findTopicById(Long topicId) {
         var topic = topicService.findById(topicId);
         var candidates = candidateService.findAllByTopicId(topicId);
-        var vote = voteService.findByTopicId(topicId);
         return new TopicResponse(topic, candidates);
     }
 

@@ -23,14 +23,14 @@ public class VoteFacade {
     public void create(Long candidateId, Long userId) {
         var candidate = candidateService.findById(candidateId);
         var topic = topicService.findById(candidate.getTopicId());
-        // 코인을 차감한다
+
+        // 사용자 코인을 차감한다
         antCoinService.minusCoin(userId, VOTE_COIN, "CANDIDATE_ID_" + candidateId, RemittanceType.VOTE);
 
-        // 투표 상태를 true로 변경
+        // 투표 상태를 true 로 변경
         voteService.save(userId, topic.getId(), candidate.getId(), true);
-        // 후보의 득표율과 승패 여부를 업데이트
-        candidateService.update(candidateId, userId);
-        topic.updateJoinCount();
-        topic.changeVoteStatus(true);
+
+        // A(후보)의 득표율과 승패 여부를 업데이트
+        candidateService.update(candidateId, topic);
     }
 }

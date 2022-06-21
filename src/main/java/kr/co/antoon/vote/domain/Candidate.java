@@ -22,7 +22,7 @@ public class Candidate {
 
     private Long votingCount;   // 득표율
 
-    private Long votingCountRate;    // 득표율 퍼센트
+    private double votingCountRate;    // 득표율 퍼센트
 
     private Long topicId;
 
@@ -33,5 +33,13 @@ public class Candidate {
         this.votingCount += 1;
         this.votingCountRate += 1;
         this.candidateStatus = candidateStatus;
+    }
+
+    public void plusVotingCount() {
+        this.votingCount += 1;
+    }
+
+    public void updateVotingRate(double votingRate) {
+        this.votingCountRate = votingRate;
     }
 }
