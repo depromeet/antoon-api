@@ -18,6 +18,7 @@ import java.util.List;
 public class CandidateService {
     private final CandidateRepository candidateRepository;
 
+    @Transactional(readOnly = true)
     public List<Candidate> findAllByTopicId(Long topicId) {
         return candidateRepository.findAllByTopicId(topicId);
     }
