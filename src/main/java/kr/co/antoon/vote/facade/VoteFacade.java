@@ -1,6 +1,7 @@
 package kr.co.antoon.vote.facade;
 
 import kr.co.antoon.coin.application.AntCoinService;
+import kr.co.antoon.coin.domain.vo.CoinUsageType;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.vote.application.TopicService;
 import kr.co.antoon.vote.application.CandidateService;
@@ -26,7 +27,7 @@ public class VoteFacade {
         var topic = topicService.findById(candidate.getTopicId());
 
         // 투표를 하면 사용자 코인을 차감
-        antCoinService.minusCoin(userId, VOTE_COIN, CANDIDATE_ID + candidateId, RemittanceType.VOTE);
+        antCoinService.minusCoin(userId, CoinUsageType.VOTED_TOPIC.getAmount(), CANDIDATE_ID + candidateId, RemittanceType.VOTE);
 
         // 투표 여부를 true로 변경
         voteService.save(userId, topic.getId(), candidate.getId(), true);

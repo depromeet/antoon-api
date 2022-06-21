@@ -15,10 +15,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TopicService {
-    public static final String LATEST = "latest";
-    public static final String RANKS = "ranks";
-    public static final String CLOSES = "closes";
-
     private final TopicRepository topicRepository;
 
     @Transactional(readOnly = true)

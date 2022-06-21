@@ -11,13 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class VoteService {
     private final VoteRepository voteRepository;
 
-    @Transactional(readOnly = true)
-    public Vote findByTopicId(Long topicId) {
-        return voteRepository.findByTopicId(topicId);
-    }
-
     @Transactional
-    public Vote save(Long userId, Long topicId, Long candidateId, boolean voteStatus) {
-        return voteRepository.save(new Vote(userId, topicId, candidateId, voteStatus));
+    public void save(Long userId, Long topicId, Long candidateId, boolean voteStatus) {
+        voteRepository.save(new Vote(userId, topicId, candidateId, voteStatus));
     }
 }
