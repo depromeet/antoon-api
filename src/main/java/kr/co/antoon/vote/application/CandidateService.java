@@ -32,14 +32,22 @@ public class CandidateService {
         topic.changeVoteStatus(true);
 
         candidate.plusVotingCount();
-        var votingRate = candidate.getVotingCount().doubleValue() / topic.getJoinCount().doubleValue();
+        var votingRate = getVotingRate(topic, candidate);
         candidate.updateVotingRate(votingRate);
 
+        updateVoteResult(topic);
+    }
+
+    private void updateVoteResult(Topic topic) {
         var candidates = candidateRepository.findAllByTopicId(topic.getId());
         Comparator<Candidate> comparatorByVotingRate = Comparator.comparingDouble(Candidate::getVotingCountRate);
         candidates.stream()
                 .max(comparatorByVotingRate)
                 .ifPresent(c -> c.updateVoteResult(VoteResult.WINNER));
+    }
+
+    private double getVotingRate(Topic topic, Candidate candidate) {
+        return candidate.getVotingCount().doubleValue() / topic.getJoinCount().doubleValue();
     }
 
     @Transactional(readOnly = true)
