@@ -1,6 +1,6 @@
 package kr.co.antoon.vote.domain;
 
-import kr.co.antoon.vote.domain.vo.CandidateStatus;
+import kr.co.antoon.vote.domain.vo.VoteResult;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,20 +20,14 @@ public class Candidate {
 
     private String imageUrl;
 
-    private Long votingCount;   // 득표율
+    private Long votingCount;
 
-    private double votingCountRate;    // 득표율 퍼센트
+    private double votingCountRate;
 
     private Long topicId;
 
     @Enumerated(EnumType.STRING)
-    private CandidateStatus candidateStatus;
-
-    public void update(CandidateStatus candidateStatus) {
-        this.votingCount += 1;
-        this.votingCountRate += 1;
-        this.candidateStatus = candidateStatus;
-    }
+    private VoteResult voteResult;
 
     public void plusVotingCount() {
         this.votingCount += 1;
@@ -41,5 +35,9 @@ public class Candidate {
 
     public void updateVotingRate(double votingRate) {
         this.votingCountRate = votingRate;
+    }
+
+    public void updateVoteResult(VoteResult voteResult) {
+        this.voteResult = voteResult;
     }
 }
