@@ -3,6 +3,7 @@ package kr.co.antoon.vote.application;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.vote.domain.Topic;
+import kr.co.antoon.vote.domain.vo.SortType;
 import kr.co.antoon.vote.infrastructure.TopicRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,11 @@ public class TopicService {
     private final TopicRepository topicRepository;
 
     @Transactional(readOnly = true)
-    public List<Topic> findAllTopics(String sortType) {
+    public List<Topic> findAllTopics(SortType sortType) {
         return switch (sortType) {
             case LATEST -> topicRepository.findAllByOrderByCreatedAtDesc();
             case RANKS -> topicRepository.findAllByOrderByJoinCountDesc();
             case CLOSES -> topicRepository.findAllByTopicVoteTimeLessThan(LocalDateTime.now());
-            default -> topicRepository.findAll();
         };
     }
 

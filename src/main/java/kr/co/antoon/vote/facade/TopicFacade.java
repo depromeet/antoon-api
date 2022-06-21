@@ -4,6 +4,8 @@ import kr.co.antoon.vote.application.TopicService;
 import kr.co.antoon.vote.application.CandidateService;
 import kr.co.antoon.vote.application.VoteService;
 
+import kr.co.antoon.vote.domain.Candidate;
+import kr.co.antoon.vote.domain.vo.SortType;
 import kr.co.antoon.vote.dto.response.TopicAllResponse;
 import kr.co.antoon.vote.dto.response.TopicResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +28,13 @@ public class TopicFacade {
     }
 
     @Transactional(readOnly = true)
-    public TopicAllResponse findAll(String sortType) {
+    public TopicAllResponse findAll(SortType sortType) {
         var response = topicService.findAllTopics(sortType)
                 .stream()
                 .map(topic -> {
                     String[] thumbnails = candidateService.findAllByTopicId(topic.getId())
                             .stream()
-                            .map(c -> c.getImageUrl())
+                            .map(Candidate::getImageUrl)
                             .toArray(String[]::new);
                     return new TopicAllResponse.TopicResponse(
                             topic,
