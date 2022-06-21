@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -35,12 +36,16 @@ public class AntCoinHistory extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private RemittanceType remittanceType;
 
+    private String reason;
+
     @Builder
-    public AntCoinHistory(Long userId, Long walletId, Long amount, RemittanceStatus status, RemittanceType type) {
+    public AntCoinHistory(Long userId, Long walletId, Long amount, RemittanceStatus status, RemittanceType type, String reason) {
         this.userId = userId;
         this.walletId = walletId;
         this.amount = amount;
         this.remittanceStatus = status;
         this.remittanceType = type;
+        this.reason = reason;
     }
+
 }

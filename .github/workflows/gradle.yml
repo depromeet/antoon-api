@@ -1,6 +1,8 @@
 # ANTOON-API GIT ACTION WITH STAGING
 name: Antoon Api Server Git-Action
 
+# main push 작업 일어나면 git action 실행
+
 # staging push 작업 일어나면 git action 실행
 on:
   push:
@@ -42,6 +44,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      # Build Docker Container - main Branch
 
       # Build Docker Container - staging Branch
       - name: Docker Image Build And Push
