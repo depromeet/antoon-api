@@ -19,8 +19,6 @@ public class VoteFacade {
     private final VoteService voteService;
     private final AntCoinService antCoinService;
 
-    private final static Long VOTE_COIN = 3L;
-
     @Transactional
     public void create(Long candidateId, Long userId) {
         var candidate = candidateService.findById(candidateId);
