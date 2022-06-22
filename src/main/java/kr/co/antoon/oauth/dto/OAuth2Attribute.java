@@ -33,8 +33,7 @@ public class OAuth2Attribute {
         };
     }
 
-    protected static OAuth2Attribute ofKakao(String attributeKey,
-                                             Map<String, Object> attributes) {
+    protected static OAuth2Attribute ofKakao(String attributeKey, Map<String, Object> attributes) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 

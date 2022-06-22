@@ -10,17 +10,17 @@ import kr.co.antoon.coin.dto.CoinHistory;
  **/
 public interface AntCoinClient {
     /**
-     * @param coin amount of coins to add
+     * @param coin   amount of coins to add
      * @param reason reason of coins to add
-     * @param type PLUS
+     * @param type   PLUS
      * @apiNote add coin from user's wallet
      **/
     void plusCoin(Long userId, Long coin, String reason, RemittanceType type);
 
     /**
-     * @param coin amount of coins to sub
+     * @param coin   amount of coins to sub
      * @param reason reason of coins to sub
-     * @param type MINUS
+     * @param type   MINUS
      * @apiNote sub coin from user's wallet
      **/
     void minusCoin(Long userId, Long coin, String reason, RemittanceType type);

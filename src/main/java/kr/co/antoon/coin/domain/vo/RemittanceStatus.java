@@ -12,3 +12,4 @@ public enum RemittanceStatus {
 
     private final String description;
 }
+
