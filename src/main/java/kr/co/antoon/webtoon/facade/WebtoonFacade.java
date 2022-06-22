@@ -15,6 +15,7 @@ import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonSearchResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -35,6 +36,11 @@ public class WebtoonFacade {
     private final GraphScoreSnapshotService graphScoreSnapshotService;
     private final WebtoonGenreService webtoonGenreService;
 
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon:day"},
+            key = "#day"
+    )
     @Transactional(readOnly = true)
     public Page<WebtoonDayResponse> getWebtoonByDay(Pageable pageable, String day) {
         return webtoonService.findAllByDay(day, pageable)
@@ -93,7 +99,10 @@ public class WebtoonFacade {
         return new WebtoonRankingAllResponse(response);
     }
 
-    // TODO : MOCK API
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon:age"}
+    )
     @Transactional(readOnly = true)
     public WebtoonAgeResponse getAges() {
         var webtoons = webtoonService.findAll();
