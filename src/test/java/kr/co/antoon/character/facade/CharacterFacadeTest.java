@@ -8,6 +8,8 @@ import kr.co.antoon.character.domain.CharacterImage;
 import kr.co.antoon.character.domain.vo.CharacterImageType;
 import kr.co.antoon.character.domain.vo.CharacterType;
 import kr.co.antoon.character.dto.response.CharacterResponse;
+import kr.co.antoon.oauth.dto.AuthInfo;
+import kr.co.antoon.user.domain.vo.Role;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.Platform;
@@ -19,6 +21,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -77,6 +80,8 @@ public class CharacterFacadeTest {
                 .imageUrl("테스트.png")
                 .build();
 
+        AuthInfo mockInfo = new AuthInfo(USER_ID, List.of(Role.USER));
+
         Mockito.when(characterService.getSubjectsByTopUpper(any()))
                 .thenReturn(characters);
 
@@ -86,12 +91,12 @@ public class CharacterFacadeTest {
         Mockito.when(characterImageService.findByCharacterIdAndType(any(), any()))
                 .thenReturn(mockCharacterImage);
 
-        Mockito.when(characterHistoryService.isUserJoin(any(), anyLong()))
+        Mockito.when(characterHistoryService.isUserJoin(any(), any()))
                 .thenReturn(false);
 
         var expected = new CharacterResponse(responses);
         // when
-        var actual = characterFacade.getTopUpper("PERSONA", USER_ID);
+        var actual = characterFacade.getTopUpper("PERSONA", mockInfo);
         // then
         assertEquals(expected, actual);
     }
@@ -130,6 +135,8 @@ public class CharacterFacadeTest {
                 .imageUrl("테스트1.png,테스트2.png")
                 .build();
 
+        AuthInfo mockInfo = new AuthInfo(USER_ID, List.of(Role.USER));
+
         Mockito.when(characterService.getSubjectsByTopUpper(any()))
                 .thenReturn(couples);
 
@@ -139,12 +146,12 @@ public class CharacterFacadeTest {
         Mockito.when(characterImageService.findByCharacterIdAndType(any(), any()))
                 .thenReturn(mockCharacterImage);
 
-        Mockito.when(characterHistoryService.isUserJoin(any(), anyLong()))
+        Mockito.when(characterHistoryService.isUserJoin(any(), any()))
                 .thenReturn(false);
 
         var expected = new CharacterResponse(responses);
         // when
-        var actual = characterFacade.getTopUpper("COUPLE", USER_ID);
+        var actual = characterFacade.getTopUpper("COUPLE",mockInfo);
         // then
         assertEquals(expected, actual);
     }
