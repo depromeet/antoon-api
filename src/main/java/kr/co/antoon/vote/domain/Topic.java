@@ -6,7 +6,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 
@@ -35,6 +40,7 @@ public class Topic extends BaseEntity {
     public void updateJoinCount() {
         this.joinCount += 1;
     }
+
     public void changeVoteStatus(boolean topicVoteStatus) {
         this.topicVoteStatus = topicVoteStatus;
     }

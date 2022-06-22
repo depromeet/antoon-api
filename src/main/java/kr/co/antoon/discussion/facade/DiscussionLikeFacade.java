@@ -1,7 +1,7 @@
 package kr.co.antoon.discussion.facade;
 
-import kr.co.antoon.discussion.application.DiscussionService;
 import kr.co.antoon.discussion.application.DiscussionLikeService;
+import kr.co.antoon.discussion.application.DiscussionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

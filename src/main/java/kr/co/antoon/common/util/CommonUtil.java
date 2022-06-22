@@ -27,8 +27,8 @@ public class CommonUtil {
     }
 
     /**
-     * @apiNote object mapper
      * @return ObjectMapper
+     * @apiNote object mapper
      **/
     public static ObjectMapper mapper() {
         var mapper = new ObjectMapper();

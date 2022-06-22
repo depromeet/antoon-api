@@ -1,7 +1,5 @@
 package kr.co.antoon.coin.application;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
@@ -83,13 +81,13 @@ public class AntCoinService implements AntCoinClient {
 
     @Transactional
     public RecommendationResponse joinWebtoon(Long userId, Long webtoonId, RecommendationResponse response) {
-        if(antCoinHistoryService.checkTodayJoinWebtoon(userId, webtoonId)) {
+        if (antCoinHistoryService.checkTodayJoinWebtoon(userId, webtoonId)) {
             log.info("ALREADY_GET_COIN: 이미 탑승/하차를 통한 코인 지급이 완료되었습니다.");
             return response;
         }
 
         //TODO : ObjectMapper 모듈 생성 - 극락님!
-        String reason = "WEBTOONID_"+webtoonId;
+        String reason = "WEBTOONID_" + webtoonId;
 
         plusCoin(userId, CoinRewardType.JOINED_WETBOON_COIN_BONUS.getAmount(), reason, RemittanceType.JOINED_WEBTOON);
         return response.update(true);

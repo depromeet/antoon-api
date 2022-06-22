@@ -74,6 +74,7 @@ public class WebtoonCrawlingFacade {
 
                                 webtoonPublishDays.add(new WebtoonPublishDay(crawlingWebtton.day(), webtoonId));
                             }
+
                             return new WebtoonSnapshot(crawlingWebtton.score(), webtoonId);
                         }).toList());
 

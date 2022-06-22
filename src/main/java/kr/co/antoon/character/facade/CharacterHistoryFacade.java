@@ -4,7 +4,6 @@ import kr.co.antoon.character.application.CharacterService;
 import kr.co.antoon.character.application.CharacterHistoryService;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.AlreadyExistsException;
-import kr.co.antoon.user.application.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

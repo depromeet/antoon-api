@@ -1,6 +1,5 @@
 package kr.co.antoon.user.domain.vo;
 
-import kr.co.antoon.oauth.application.CustomOAuth2UserService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

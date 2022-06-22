@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum TopicCategory {
     AB("ab"),
-    CHOICE("choice");
+    CHOICE("choice"),
+    ;
 
     private final String description;
 }

@@ -67,3 +67,4 @@ public class RedisConfig {
         private final Duration duration;
     }
 }
+

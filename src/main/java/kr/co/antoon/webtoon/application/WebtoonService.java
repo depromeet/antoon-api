@@ -102,7 +102,7 @@ public class WebtoonService {
     public Page<WebtoonGenreNativeDto> findAllByGenre(LocalDateTime start, LocalDateTime end, GenreCategory category, Pageable pageable) {
         return webtoonRepository.findAllByGenre(start.toString(), end.toString(), category.name(), pageable);
     }
-
+  
     @Transactional(readOnly = true)
     public WebtoonCharacterNativeDto findPreviewWebtoon(Long webtoonId) {
         var end = LocalDateTime.now();

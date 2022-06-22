@@ -1,7 +1,6 @@
 package kr.co.antoon.oauth.filter;
 
 import kr.co.antoon.cache.user.UserRedisCacheService;
-import kr.co.antoon.config.SwaggerConfig;
 import kr.co.antoon.oauth.application.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +26,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRedisCacheService userRedisCacheService;
+
     public String[] whiteListInSwagger() {
         return new String[]{
                 "/swagger",
