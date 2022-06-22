@@ -7,6 +7,7 @@ import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonCharacterNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonDayNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonGenreBannerNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonGenreNativeDto;
@@ -100,5 +101,12 @@ public class WebtoonService {
     @Transactional(readOnly = true)
     public Page<WebtoonGenreNativeDto> findAllByGenre(LocalDateTime start, LocalDateTime end, GenreCategory category, Pageable pageable) {
         return webtoonRepository.findAllByGenre(start.toString(), end.toString(), category.name(), pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public WebtoonCharacterNativeDto findPreviewWebtoon(Long webtoonId) {
+        var end = LocalDateTime.now();
+        var start = end.minusHours(1);
+        return webtoonRepository.findPreviewByWebtoonId(webtoonId, start.toString(), end.toString());
     }
 }
