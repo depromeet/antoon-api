@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class CharacterController {
     private final CharacterFacade characterFacade;
-    private final CharacterService characterService;
-    private final CharacterImageService characterImageService;
 
     @ApiOperation(value = "인물/커플 실시간 차트 조회 API", notes = SwaggerNote.GET_CHARACTER_RANK)
     @GetMapping("/top-ranks/characters")
@@ -31,7 +29,7 @@ public class CharacterController {
             @RequestParam("type") String type,
             @AuthUser AuthInfo info
     ) {
-        CharacterResponse response = characterFacade.getTopUpper(type, info.userId());
+        CharacterResponse response = characterFacade.getTopUpper(type, info);
         return ResponseDto.ok(response);
     }
 
@@ -45,7 +43,7 @@ public class CharacterController {
         CharacterDetailResponse response = characterFacade.getCharacterDetail(
                 characterId,
                 type,
-                info.userId()
+                info
         );
         return ResponseDto.ok(response);
     }

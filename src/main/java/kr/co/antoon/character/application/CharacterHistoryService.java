@@ -2,6 +2,7 @@ package kr.co.antoon.character.application;
 
 import kr.co.antoon.character.domain.CharacterHistory;
 import kr.co.antoon.character.infrastructure.CharacterHistoryRepository;
+import kr.co.antoon.oauth.dto.AuthInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,11 @@ public class CharacterHistoryService {
     }
 
     @Transactional(readOnly = true)
-    public Boolean isUserJoin(Long characterId, Long userId) {
-        var characterHistory = characterHistoryRepository.findByCharacterIdAndUserId(characterId, userId);
+    public Boolean isUserJoin(Long characterId, AuthInfo info) {
+        if (info == null) {
+            return false;
+        }
+        var characterHistory = characterHistoryRepository.findByCharacterIdAndUserId(characterId, info.userId());
         return characterHistory.isPresent();
     }
 
