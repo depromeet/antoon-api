@@ -1,12 +1,9 @@
 package kr.co.antoon.character.presentation;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.character.application.CharacterImageService;
 import kr.co.antoon.character.application.CharacterService;
-import kr.co.antoon.character.domain.vo.CharacterImageType;
-import kr.co.antoon.character.domain.vo.CharacterType;
-import kr.co.antoon.character.dto.reqeust.CharacterImageRequest;
-import kr.co.antoon.character.dto.reqeust.CharacterRequest;
 import kr.co.antoon.character.dto.response.CharacterDetailResponse;
 import kr.co.antoon.character.dto.response.CharacterResponse;
 import kr.co.antoon.character.facade.CharacterFacade;
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@Api(tags = "인물/커플 조회 API")
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class CharacterController {

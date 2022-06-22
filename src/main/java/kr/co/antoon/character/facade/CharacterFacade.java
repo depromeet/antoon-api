@@ -5,7 +5,6 @@ import kr.co.antoon.character.application.CharacterService;
 import kr.co.antoon.character.application.CharacterHistoryService;
 import kr.co.antoon.character.domain.vo.CharacterImageType;
 import kr.co.antoon.character.domain.vo.CharacterType;
-import kr.co.antoon.character.dto.reqeust.CharacterRequest;
 import kr.co.antoon.character.dto.response.CharacterDetailResponse;
 import kr.co.antoon.character.dto.response.CharacterResponse;
 import kr.co.antoon.webtoon.application.WebtoonService;

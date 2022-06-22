@@ -1,5 +1,6 @@
 package kr.co.antoon.character.presentation;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.character.facade.CharacterHistoryFacade;
 import kr.co.antoon.common.dto.ResponseDto;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@Api(tags = "인물/커플 탑승 API")
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/characters")
 public class CharacterHistoryController {
