@@ -78,7 +78,7 @@ public class DiscussionController {
             @Validated @RequestBody DiscussionUpdateRequest request,
             @AuthUser AuthInfo info
     ) {
-        var response = discussionFacade.update(info.userId(), discussionId, request);
+        var response = discussionFacade.update(info, discussionId, request);
         return ResponseDto.ok(response);
     }
 

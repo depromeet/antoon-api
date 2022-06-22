@@ -48,16 +48,7 @@ public class DiscussionFacade {
     public DiscussionResponse findById(AuthInfo info, Long discussionId) {
         var discussion = discussionService.findById(discussionId);
         var user = userService.findById(discussion.getUserId());
-        if (info == null) {
-            return new DiscussionResponse(
-                    discussion.getWebtoonId(),
-                    discussion,
-                    user,
-                    false,
-                    discussionService.getTime(discussion.getCreatedAt())
-            );
-        }
-        var isUserLike = discussionLikeService.isUserLike(info.userId(), discussionId);
+        var isUserLike = discussionLikeService.isUserLike(info, discussionId);
         return new DiscussionResponse(
                 discussion.getWebtoonId(),
                 discussion,
@@ -69,23 +60,10 @@ public class DiscussionFacade {
 
     @Transactional(readOnly = true)
     public Page<DiscussionResponse> findAll(AuthInfo info, Pageable pageable, Long webtoonId) {
-        if (info == null) {
-            return discussionService.findByWebtoonId(webtoonId, pageable)
-                    .map(discussion -> {
-                        var user = userService.findById(discussion.getUserId());
-                        return new DiscussionResponse(
-                                webtoonId,
-                                discussion,
-                                user,
-                                false,
-                                discussionService.getTime(discussion.getCreatedAt())
-                        );
-                    });
-        }
         return discussionService.findByWebtoonId(webtoonId, pageable)
                 .map(discussion -> {
                     var user = userService.findById(discussion.getUserId());
-                    var userLike = discussionLikeService.isUserLike(info.userId(), discussion.getId());
+                    var userLike = discussionLikeService.isUserLike(info, discussion.getId());
                     return new DiscussionResponse(
                             webtoonId,
                             discussion,
@@ -97,10 +75,10 @@ public class DiscussionFacade {
     }
 
     @Transactional
-    public DiscussionResponse update(Long userId, Long discussionId, DiscussionUpdateRequest request) {
-        var discussion = discussionService.update(discussionId, userId, request);
+    public DiscussionResponse update(AuthInfo info, Long discussionId, DiscussionUpdateRequest request) {
+        var discussion = discussionService.update(discussionId, info.userId(), request);
         var user = userService.findById(discussion.getUserId());
-        var isUserLike = discussionLikeService.isUserLike(userId, discussionId);
+        var isUserLike = discussionLikeService.isUserLike(info, discussionId);
 
         return DiscussionConverter.toDiscussionResponse(
                 discussion,
