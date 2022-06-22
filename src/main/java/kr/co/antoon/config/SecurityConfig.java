@@ -66,5 +66,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/favicon.ico"
         };
     }
-
 }
+

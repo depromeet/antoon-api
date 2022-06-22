@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class NaverWebtoonCrawling implements WebtoonCrawling {
-
+    
     @Override
     public WebtoonCrawlingDto crawling() {
         var bundle = new HashSet<WebtoonCrawlingDto.WebtoonCrawlingDetail>();

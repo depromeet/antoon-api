@@ -21,8 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -66,20 +64,6 @@ public class WebtoonFacade {
                             return new WebtoonGenreResponse(webtoon, writers, genreCategory);
                         }
                 );
-    }
-
-    @Transactional(readOnly = true)
-    public WebtoonGenreAllResponse getWebtoonsGenres() {
-        var end = TimeUtil.now();
-        var start = end.minusHours(1);
-
-        var response = Arrays.stream(GenreCategory.values())
-                .map(category -> webtoonService.findGenre(start, end, category))
-                .flatMap(Collection::stream)
-                .map(WebtoonGenrePreviewResponse::new)
-                .toList();
-
-        return new WebtoonGenreAllResponse(response);
     }
 
     @Transactional(readOnly = true)

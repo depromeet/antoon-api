@@ -3,7 +3,7 @@ package kr.co.antoon.graph.facade;
 import kr.co.antoon.common.util.TimeUtil;
 import kr.co.antoon.criteria.ScoreAllocationCriteria;
 import kr.co.antoon.discussion.application.DiscussionService;
-import kr.co.antoon.discussion.dto.DiscussionCountDto;
+import kr.co.antoon.discussion.dto.query.DiscussionCountDto;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.graph.application.TopRankService;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
