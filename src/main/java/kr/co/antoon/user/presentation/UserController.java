@@ -2,6 +2,7 @@ package kr.co.antoon.user.presentation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import kr.co.antoon.aws.application.AwsS3Service;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
@@ -27,6 +30,7 @@ import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final AwsS3Service awsS3Service;
 
     @ApiOperation(value = "사용자 마이페이지 조회 API", notes = SwaggerNote.USER_READ_DETAIL)
     @GetMapping
@@ -46,12 +50,23 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+//    @ApiOperation(value = "사용자 마이페이지 프로필이미지 수정 API", notes = SwaggerNote.USER_IMAGE_UPDATE_DETAIL)
+//    @PatchMapping("/images")
+//    public ResponseEntity<UserDetailResponse> updateProfileImgae(
+//            @AuthUser AuthInfo info,
+//            @RequestBody UserDetailImage userDetailImage) {
+//        var response = userService.updateImgaeUrlById(info, userDetailImage);
+//        return ResponseEntity.ok(response);
+//    }
+
     @ApiOperation(value = "사용자 마이페이지 프로필이미지 수정 API", notes = SwaggerNote.USER_IMAGE_UPDATE_DETAIL)
     @PatchMapping("/images")
-    public ResponseEntity<UserDetailResponse> updateProfileImgae(
+    public ResponseEntity<UserDetailResponse> updateProfileImage(
             @AuthUser AuthInfo info,
-            @RequestBody UserDetailImage userDetailImage) {
-        var response = userService.updateImgaeUrlById(info, userDetailImage);
+            @RequestPart(value="file") MultipartFile multipartFile) {
+        //TODO : category는 enum으로 관리하기
+        String imageUrl = awsS3Service.uploadImageToS3("profile", multipartFile);
+        var response = userService.updateImgaeUrlById(info, imageUrl);
         return ResponseEntity.ok(response);
     }
 
