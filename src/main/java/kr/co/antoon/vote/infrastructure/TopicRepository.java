@@ -10,6 +10,10 @@ import java.util.List;
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Long> {
     List<Topic> findAllByTopicVoteTimeLessThan(LocalDateTime now);
+
     List<Topic> findAllByOrderByCreatedAtDesc();
+
     List<Topic> findAllByOrderByJoinCountDesc();
+
+    List<Topic> findTop8ByOrderByJoinCountDesc();
 }

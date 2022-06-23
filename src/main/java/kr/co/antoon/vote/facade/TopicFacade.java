@@ -7,6 +7,7 @@ import kr.co.antoon.vote.application.VoteService;
 import kr.co.antoon.vote.domain.Candidate;
 import kr.co.antoon.vote.domain.vo.SortType;
 import kr.co.antoon.vote.dto.response.TopicAllResponse;
+import kr.co.antoon.vote.dto.response.TopicChoicesResponse;
 import kr.co.antoon.vote.dto.response.TopicResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -42,5 +43,13 @@ public class TopicFacade {
                     );
                 }).toList();
         return new TopicAllResponse(response);
+    }
+
+    @Transactional(readOnly = true)
+    public TopicChoicesResponse getChoiceTopics() {
+        var responses = topicService.findAllChoiceTopics()
+                .stream()
+                .map(TopicChoicesResponse.TopicChoiceResponse::new).toList();
+        return new TopicChoicesResponse(responses);
     }
 }
