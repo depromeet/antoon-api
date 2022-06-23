@@ -25,7 +25,6 @@ public class AntCoinService implements AntCoinClient {
         var wallet = getWallet(userId);
         wallet.plus(coin);
 
-
         antCoinHistoryService.record(
                 userId,
                 wallet.getId(),
@@ -58,6 +57,7 @@ public class AntCoinService implements AntCoinClient {
         return antCoinWalletService.get(userId);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public CoinHistory getCoinHistory(Long userId) {
         return antCoinHistoryService.getCoinHistory(userId);

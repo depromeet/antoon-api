@@ -1,6 +1,6 @@
 package kr.co.antoon.vote.facade;
 
-import kr.co.antoon.coin.application.AntCoinService;
+import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.domain.vo.CoinUsageType;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.vote.application.CandidateService;
@@ -18,7 +18,7 @@ public class VoteFacade {
     private final TopicService topicService;
     private final CandidateService candidateService;
     private final VoteService voteService;
-    private final AntCoinService antCoinService;
+    private final AntCoinClient antCoinClient;
 
     @Transactional
     public void create(Long candidateId, Long userId) {
@@ -44,7 +44,7 @@ public class VoteFacade {
     }
 
     private void useCoin(Long candidateId, Long userId) {
-        antCoinService.minusCoin(
+        antCoinClient.minusCoin(
                 userId,
                 CoinUsageType.VOTED_TOPIC.getAmount(),
                 "CANDIDATE_ID_" + candidateId,
