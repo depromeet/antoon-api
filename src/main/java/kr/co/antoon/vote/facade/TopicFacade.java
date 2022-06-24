@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class TopicFacade {
     private final TopicService topicService;
     private final CandidateService candidateService;
-    private final VoteService voteService;
 
     @Transactional(readOnly = true)
     public TopicResponse findTopicById(Long topicId) {

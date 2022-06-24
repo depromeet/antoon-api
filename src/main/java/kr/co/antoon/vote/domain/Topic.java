@@ -30,7 +30,7 @@ public class Topic extends BaseEntity {
 
     private Integer joinCount;
 
-    private boolean topicVoteStatus;
+    private Boolean topicVoteStatus;
 
     public void updateJoinCount() {
         this.joinCount += 1;

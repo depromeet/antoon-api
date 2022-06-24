@@ -22,7 +22,8 @@ public enum ErrorMessage {
     NOT_VALID_ROLE_ERROR("유효하지 않은 권한입니다."),
     NOT_EXISTS_CHARACTER("존재하지 않는 인물입니다."),
     NOT_EXIST_TOPIC("존재하지 않는 토픽입니다."),
-    NOT_EXISTS_CANDIDATE("존재하지 않는 후보입니다.");
+    NOT_EXISTS_CANDIDATE("존재하지 않는 후보입니다."),
+    ;
 
     private final String description;
 }
