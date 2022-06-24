@@ -59,7 +59,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         var email = data.get("email").toString();
 
         //TODO : 기본이미지 랜덤 설정
-        User user = userRepository.findByEmail(data.get("email").toString())
+        var user = userRepository.findByEmail(data.get("email").toString())
                 .orElse(User.buildUser(
                         "",
                         email,
