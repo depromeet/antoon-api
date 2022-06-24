@@ -21,6 +21,7 @@ public enum ErrorMessage {
     NOT_EXISTS_PERIOD_TYPE("존재하지 않는 기간 필터링 타입니다."),
     NOT_VALID_ROLE_ERROR("유효하지 않은 권한입니다."),
     NOT_EXISTS_CHARACTER("존재하지 않는 인물입니다."),
+    NOT_ALLOW_LOGIN_PLATFORM("로그인이 지원되지 않는 플랫폼입니다."),
     NOT_EXIST_TOPIC("존재하지 않는 토픽입니다."),
     FILE_UPLOAD_ERROR("오류로 인해 파일 업로드에 실패하였습니다."),
     NOT_EXISTS_CANDIDATE("존재하지 않는 후보입니다.");
