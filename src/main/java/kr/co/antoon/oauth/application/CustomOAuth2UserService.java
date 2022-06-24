@@ -1,6 +1,5 @@
 package kr.co.antoon.oauth.application;
 
-import kr.co.antoon.coin.facade.AntCoinFacade;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.coin.application.AntCoinService;
