@@ -66,7 +66,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                         Gender.NONE,
                         0));
 
-        if(email.contains("kakao")) {
+        if(data.containsKey("profile")) {
             var profile = (HashMap<String, String>) data.get("profile");
             user.updateName(profile.get("nickname"));
 
@@ -80,8 +80,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             user.updateGender(gender);
         } else if(email.contains("gmail")) {
             user.updateName(data.get("name").toString());
-        } else {
-            throw new NotExistsException(ErrorMessage.NOT_ALLOW_LOGIN_PLATFORM);
         }
 
         userRepository.save(user);
