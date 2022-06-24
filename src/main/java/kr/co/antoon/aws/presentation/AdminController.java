@@ -21,7 +21,6 @@ public class AdminController {
 
     @PostMapping("/upload")
     public List<String> test(@RequestPart(value = "file") List<MultipartFile> multipartFiles) {
-        return awsS3Service.uploadImageToS3(S3Category.TEST, multipartFiles);
+        return awsS3Service.upload(S3Category.TEST, multipartFiles);
     }
-
 }
