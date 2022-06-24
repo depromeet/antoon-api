@@ -11,6 +11,4 @@ public enum CoinRank {
     LEVEL_THREE("부자개미"),
     ;
     private final String description;
-
-
 }
