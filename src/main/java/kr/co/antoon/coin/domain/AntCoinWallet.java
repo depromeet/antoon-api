@@ -70,10 +70,10 @@ public class AntCoinWallet extends BaseEntity {
     }
 
     public CoinRank checkCoinRank() {
-        if(this.wallet<50) {
+        if (this.wallet < 50) {
             return CoinRank.LEVEL_ONE;
         }
-        if(this.wallet<200) {
+        if (this.wallet < 200) {
             return CoinRank.LEVEL_TWO;
         }
         return CoinRank.LEVEL_THREE;

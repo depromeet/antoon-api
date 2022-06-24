@@ -15,7 +15,7 @@ public class CruiserConfig {
     private final WebClient.Builder webclient;
 
     @Bean
-    public Cruiser SlackCruiser(){
+    public Cruiser SlackCruiser() {
         return new SlackCruiser(slackCruiserProperties, webclient);
     }
 }

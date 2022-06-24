@@ -2,7 +2,7 @@ package kr.co.antoon.feedback.application;
 
 import kr.co.antoon.feedback.domain.Feedback;
 import kr.co.antoon.feedback.domain.vo.Score;
-import kr.co.antoon.feedback.dto.FeedbackRequest;
+import kr.co.antoon.feedback.dto.request.FeedbackRequest;
 import kr.co.antoon.feedback.infrastructure.FeedbackRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
