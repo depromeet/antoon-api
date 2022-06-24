@@ -48,7 +48,8 @@ public class TopicFacade {
     public TopicChoicesResponse getChoiceTopics() {
         var responses = topicService.findAllChoiceTopics()
                 .stream()
-                .map(TopicChoicesResponse.TopicChoiceResponse::new).toList();
+                .map(TopicChoicesResponse.TopicChoiceResponse::new)
+                .toList();
         return new TopicChoicesResponse(responses);
     }
 }

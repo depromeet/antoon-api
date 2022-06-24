@@ -45,6 +45,11 @@ public class VoteFacade {
     }
 
     private void useCoin(Long candidateId, Long userId) {
-        antCoinService.minusCoin(userId, CoinUsageType.VOTED_TOPIC.getAmount(), CANDIDATE_ID + candidateId, RemittanceType.VOTE);
+        antCoinService.minusCoin(
+                userId,
+                CoinUsageType.VOTED_TOPIC.getAmount(),
+                CANDIDATE_ID + candidateId,
+                RemittanceType.VOTE)
+        ;
     }
 }

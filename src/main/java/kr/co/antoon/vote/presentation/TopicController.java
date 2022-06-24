@@ -10,10 +10,7 @@ import kr.co.antoon.vote.dto.response.TopicResponse;
 import kr.co.antoon.vote.facade.TopicFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "커뮤니티 페이지 API")
 @RestController
@@ -32,14 +29,14 @@ public class TopicController {
     @ApiOperation(value = "모든 토픽 목록 조회")
     @GetMapping("/{sortType}")
     public ResponseEntity<TopicAllResponse> getTopics(
-        @PathVariable("sortType") SortType sortType
+        @RequestParam("sortType") SortType sortType
     ) {
         var response = topicFacade.findAll(sortType);
         return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "토픽 상세 페이지 Topic 조회")
-    @GetMapping("/detail/{topicId}")
+    @GetMapping("/{topicId}")
     public ResponseEntity<TopicResponse> getTopicById(
             @PathVariable("topicId") Long topicId
     ) {

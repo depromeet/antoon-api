@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum VoteResult {
     WINNER("winner"),
     LOSER("loser"),
-    DRAW("draw");
+    DRAW("draw"),
+    ;
 
     private final String description;
 }
