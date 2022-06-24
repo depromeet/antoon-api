@@ -1,7 +1,7 @@
 package kr.co.antoon.character.presentation;
 
-import kr.co.antoon.character.dto.response.PersonaResponse;
 import kr.co.antoon.character.dto.response.CoupleResponse;
+import kr.co.antoon.character.dto.response.PersonaResponse;
 import kr.co.antoon.character.facade.CharacterFacade;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.oauth.config.AuthUser;

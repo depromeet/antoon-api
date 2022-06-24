@@ -25,5 +25,4 @@ public record CoinHistory(
 
         @Schema(description = "지급 이유 / 웹툰 탑승 시 웹툰 id값")
         String reason
-
-) {}
+) { }

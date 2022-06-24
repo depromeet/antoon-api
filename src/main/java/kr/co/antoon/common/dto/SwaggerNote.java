@@ -372,7 +372,7 @@ public class SwaggerNote {
     public static final String WEBTOON_READ_RANKING_NOTE = """
             현재 시간 기준으로 상승 중인 웹툰 조회
             GET /api/v1/webtoons/top-up
-            
+                        
             Response Body
             {
                "webtoons": [
@@ -393,7 +393,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORES_DAY_READ_NOTE = """
             1일 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/days
-            
+                        
             Response Body            
             {
               "count": 32,
@@ -413,7 +413,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORES_WEEKENDS_READ_NOTE = """
             1주일 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/weekends
-            
+                        
             Response Body
             {
               "count": 7,
@@ -433,7 +433,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORES_MONTHS_READ_NOTE = """
             1달 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/months
-            
+                        
             ResponseBody
             {
               "count": 0,
@@ -453,7 +453,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORE_THREE_MONTH_READ_NOTE = """
             3개월 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/three-months
-            
+                        
             ResponseBody
             {
               "count": 0,

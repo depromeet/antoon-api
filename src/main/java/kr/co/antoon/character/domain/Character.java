@@ -41,7 +41,7 @@ public class Character extends BaseEntity {
         this.webtoonId = webtoonId;
         this.coinAmount = 0L;
     }
-    
+
     public void amountUpdate(Long amount) {
         this.coinAmount += amount;
     }
