@@ -8,7 +8,6 @@ import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
-import kr.co.antoon.user.dto.request.UserDetailImage;
 import kr.co.antoon.user.dto.request.UserDetailName;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
 import kr.co.antoon.user.dto.response.UserDetailResponse;

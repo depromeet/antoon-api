@@ -1,5 +1,7 @@
 package kr.co.antoon.oauth.application;
 
+import kr.co.antoon.error.dto.ErrorMessage;
+import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.oauth.dto.OAuth2Attribute;
 import kr.co.antoon.user.domain.User;
@@ -51,34 +53,34 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     public void saveOrUpdate(OAuth2User oAuth2User) {
+        log.info("Service OAuth2User : {}", oAuth2User);
         var data = oAuth2User.getAttributes();
-        var profile = (HashMap<String, String>) data.get("profile");
+        var email = data.get("email").toString();
 
-        User user = userRepository.findByEmail(data.get("email").toString())
-                .map(entity -> entity.update(
-                        profile.get("nickname"),
-                        profile.get("profile_image_url")
-                ))
+        //TODO : 기본이미지 랜덤 설정
+        var user = userRepository.findByEmail(data.get("email").toString())
                 .orElse(User.buildUser(
-                        profile.get("nickname"),
-                        data.get("email").toString(),
+                        "",
+                        email,
                         "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/color%3Dyellow.png",
                         Gender.NONE,
                         0));
 
-        var profileImg = profile.get("profile_image_url");
-        if (profileImg != null) {
-            user.updateImageUrl(profileImg);
-        }
+        if(data.containsKey("profile")) {
+            var profile = (HashMap<String, String>) data.get("profile");
+            user.updateName(profile.get("nickname"));
 
-        var age = data.get("age_range").toString();
-        if (age != null) {
-            int ageRange = Integer.parseInt(age.split("~")[0]);
-            user.updateAge(ageRange);
-        }
+            var age = data.get("age_range").toString();
+            if (age != null) {
+                int ageRange = Integer.parseInt(age.split("~")[0]);
+                user.updateAge(ageRange);
+            }
 
-        var gender = Gender.of(data.get("gender").toString());
-        user.updateGender(gender);
+            var gender = Gender.of(data.get("gender").toString());
+            user.updateGender(gender);
+        } else if(email.contains("gmail")) {
+            user.updateName(data.get("name").toString());
+        }
 
         userRepository.save(user);
         antCoinService.sign(user.getId());
