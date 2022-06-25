@@ -8,7 +8,7 @@ public record TopicDiscussionResponse(
         @Schema(description = "토픽 ID")
         Long topicId,
         @Schema(description = "댓글 ID")
-        Long commentId,
+        Long discussionId,
         @Schema(description = "댓글 내용")
         String content,
         @Schema(description = "사용자 ID")
@@ -24,15 +24,15 @@ public record TopicDiscussionResponse(
         @Schema(description = "작성 시간")
         String time
 ) {
-    public TopicDiscussionResponse(Long topicId, TopicDiscussion comment, UserDetailResponse user, Boolean isUserLike, String time) {
+    public TopicDiscussionResponse(Long topicId, TopicDiscussion discussion, UserDetailResponse user, Boolean isUserLike, String time) {
         this(
                 topicId,
-                comment.getId(),
-                comment.getContent(),
-                comment.getUserId(),
+                discussion.getId(),
+                discussion.getContent(),
+                discussion.getUserId(),
                 user.name(),
                 user.imageUrl(),
-                comment.getLikeCount(),
+                discussion.getLikeCount(),
                 isUserLike,
                 time
         );

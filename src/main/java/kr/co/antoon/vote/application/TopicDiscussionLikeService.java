@@ -12,21 +12,21 @@ public class TopicDiscussionLikeService {
     private final TopicDiscussionLikeRepository likeRepository;
 
     @Transactional
-    public TopicDiscussionLike SaveOrUpdate(Long userId, Long commentId) {
+    public TopicDiscussionLike SaveOrUpdate(Long userId, Long discussionId) {
         return likeRepository.save(
-                likeRepository.findByUserIdAndTopicCommentId(userId, commentId)
+                likeRepository.findByUserIdAndDiscussionId(userId, discussionId)
                         .map(TopicDiscussionLike::update)
                         .orElse(TopicDiscussionLike.builder()
                                 .userId(userId)
-                                .commentId(commentId)
+                                .discussionId(discussionId)
                                 .build()
                         )
         );
     }
 
     @Transactional(readOnly = true)
-    public Boolean isUserLike(Long userId, Long commentId) {
-        var like = likeRepository.findByUserIdAndTopicCommentId(userId, commentId);
+    public Boolean isUserLike(Long userId, Long discussionId) {
+        var like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId);
         if (like.isPresent()) {
             return like.get().getStatus();
         }

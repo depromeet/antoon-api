@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface TopicDiscussionLikeRepository extends JpaRepository<TopicDiscussionLike, Long> {
-    Optional<TopicDiscussionLike> findByUserIdAndTopicCommentId(Long userId, Long topicCommentId);
+    Optional<TopicDiscussionLike> findByUserIdAndDiscussionId(Long userId, Long discussionId);
 }

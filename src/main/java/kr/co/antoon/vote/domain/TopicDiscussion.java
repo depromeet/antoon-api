@@ -37,4 +37,12 @@ public class TopicDiscussion extends BaseEntity {
     public void update(String content) {
         this.content = content;
     }
+
+    public void updateLikeCount(Boolean flag) {
+        if (flag) {
+            this.likeCount += 1;
+        } else if (likeCount > 0) {
+            this.likeCount -= 1;
+        }
+    }
 }

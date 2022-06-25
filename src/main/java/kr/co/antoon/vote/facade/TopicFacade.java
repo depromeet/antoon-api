@@ -9,7 +9,6 @@ import kr.co.antoon.vote.application.TopicService;
 import kr.co.antoon.vote.converter.TopicDiscussionConverter;
 
 import kr.co.antoon.vote.domain.Candidate;
-import kr.co.antoon.vote.domain.TopicDiscussion;
 import kr.co.antoon.vote.domain.vo.SortType;
 import kr.co.antoon.vote.dto.request.TopicDiscussionCreateRequest;
 import kr.co.antoon.vote.dto.request.TopicDiscussionUpdateRequest;
@@ -69,11 +68,7 @@ public class TopicFacade {
     @Transactional
     public TopicDiscussionResponse createDiscussions(Long userId, Long topicId, TopicDiscussionCreateRequest request) {
         topicService.existsById(topicId);
-        TopicDiscussion topicDiscussion = topicDiscussionService.save(
-                userId,
-                topicId,
-                request.content()
-        );
+        var topicDiscussion = topicDiscussionService.save(userId, topicId, request.content());
         var user = userService.findById(topicDiscussion.getUserId());
         return new TopicDiscussionResponse(
                 topicId,
@@ -98,6 +93,7 @@ public class TopicFacade {
         );
     }
 
+    @Transactional
     public void deleteDiscussions(Long discussionId, Long userId) {
         topicDiscussionService.delete(discussionId, userId);
     }
@@ -105,18 +101,12 @@ public class TopicFacade {
     @Transactional(readOnly = true)
     public Page<TopicDiscussionResponse> findAllDiscussions(AuthInfo info, Pageable pageable, Long topicId) {
         if (info == null) {
-            return topicDiscussionService.findByTopicId(topicId, pageable)
-                    .map(topicDiscussion -> {
-                        var user = userService.findById(topicDiscussion.getUserId());
-                        return new TopicDiscussionResponse(
-                                topicId,
-                                topicDiscussion,
-                                user,
-                                false,
-                                topicDiscussionService.getTime(topicDiscussion.getCreatedAt())
-                        );
-                    });
+            return getTopicDiscussionResponses(pageable, topicId);
         }
+        return getTopicDiscussionResponses(info, pageable, topicId);
+    }
+
+    private Page<TopicDiscussionResponse> getTopicDiscussionResponses(AuthInfo info, Pageable pageable, Long topicId) {
         return topicDiscussionService.findByTopicId(topicId, pageable)
                 .map(topicDiscussion -> {
                     var user = userService.findById(topicDiscussion.getUserId());
@@ -129,5 +119,26 @@ public class TopicFacade {
                             topicDiscussionService.getTime(topicDiscussion.getCreatedAt())
                     );
                 });
+    }
+
+    private Page<TopicDiscussionResponse> getTopicDiscussionResponses(Pageable pageable, Long topicId) {
+        return topicDiscussionService.findByTopicId(topicId, pageable)
+                .map(topicDiscussion -> {
+                    var user = userService.findById(topicDiscussion.getUserId());
+                    return new TopicDiscussionResponse(
+                            topicId,
+                            topicDiscussion,
+                            user,
+                            false,
+                            topicDiscussionService.getTime(topicDiscussion.getCreatedAt())
+                    );
+                });
+    }
+
+    @Transactional
+    public void saveOrUpdateLikes(Long userId, Long discussionId) {
+        var topicDiscussion = topicDiscussionService.findById(discussionId);
+        var like = topicDiscussionLikeService.SaveOrUpdate(userId, discussionId);
+        topicDiscussion.updateLikeCount(like.getStatus());
     }
 }

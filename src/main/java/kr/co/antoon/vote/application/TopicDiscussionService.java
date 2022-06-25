@@ -62,8 +62,8 @@ public class TopicDiscussionService {
     }
 
     @Transactional(readOnly = true)
-    public TopicDiscussion findById(Long commentId) {
-        return topicDiscussionRepository.findById(commentId)
+    public TopicDiscussion findById(Long discussionId) {
+        return topicDiscussionRepository.findById(discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
     }
 

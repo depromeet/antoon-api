@@ -31,19 +31,19 @@ import org.springframework.web.bind.annotation.*;
 public class TopicController {
     private final TopicFacade topicFacade;
 
+    @ApiOperation(value = "모든 토픽 목록 조회")
+    @GetMapping("/{sortType}")
+    public ResponseEntity<TopicAllResponse> getTopics(
+            @PathVariable("sortType") SortType sortType
+    ) {
+        var response = topicFacade.findAll(sortType);
+        return ResponseDto.ok(response);
+    }
+
     @ApiOperation(value = "개미들의 선택 목록 조회")
     @GetMapping("/choices")
     public ResponseEntity<TopicChoicesResponse> getChoiceTopics() {
         var response = topicFacade.getChoiceTopics();
-        return ResponseDto.ok(response);
-    }
-
-    @ApiOperation(value = "모든 토픽 목록 조회")
-    @GetMapping("/{sortType}")
-    public ResponseEntity<TopicAllResponse> getTopics(
-        @PathVariable("sortType") SortType sortType
-    ) {
-        var response = topicFacade.findAll(sortType);
         return ResponseDto.ok(response);
     }
 
@@ -96,6 +96,16 @@ public class TopicController {
             @AuthUser AuthInfo info
     ) {
         topicFacade.deleteDiscussions(discussionId, info.userId());
+        return ResponseDto.noContent();
+    }
+
+    @ApiOperation(value = "토픽 상세 페이지 댓글 좋아요")
+    @PutMapping("/discussions/{discussionId}/likes")
+    public ResponseEntity<Void> create(
+            @PathVariable Long discussionId,
+            @AuthUser AuthInfo info
+    ) {
+        topicFacade.saveOrUpdateLikes(info.userId(), discussionId);
         return ResponseDto.noContent();
     }
 }
