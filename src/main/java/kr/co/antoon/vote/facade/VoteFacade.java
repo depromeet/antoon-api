@@ -1,6 +1,6 @@
 package kr.co.antoon.vote.facade;
 
-import kr.co.antoon.coin.application.AntCoinService;
+import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.domain.vo.CoinUsageType;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.vote.application.TopicService;
