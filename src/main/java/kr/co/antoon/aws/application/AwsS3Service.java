@@ -5,10 +5,13 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import jdk.jfr.Category;
+import kr.co.antoon.aws.domain.vo.AntDefaultImageName;
 import kr.co.antoon.aws.domain.vo.S3Category;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +21,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AwsS3Service {
@@ -29,6 +33,7 @@ public class AwsS3Service {
     private String bucketName;
 
     public List<String> uploadImageToS3(S3Category category, List<MultipartFile> multipartFiles) {
+        log.info("bucket : {}", bucketName);
         List<String> urls = new ArrayList<>();
 
         for(MultipartFile multipartFile : multipartFiles) {
@@ -45,9 +50,12 @@ public class AwsS3Service {
             }
             urls.add(amazonS3Client.getUrl(bucketName, fileName).toString());
         }
-
-
         return urls;
+    }
+
+    public String randomProfileImage() {
+        String fileName = S3Category.ANT_DEFAULT + "/" + AntDefaultImageName.getRandomAnt()+".png";
+        return amazonS3Client.getUrl(bucketName, fileName).toString();
     }
 
     public static String buildFileName(S3Category category, String originalFileName) {
@@ -58,4 +66,5 @@ public class AwsS3Service {
 
         return category+"/"+fileName+"-"+now+fileExtension;
     }
+
 }
