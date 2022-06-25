@@ -88,6 +88,7 @@ public class TopicDiscussionService {
         topicDiscussionRepository.deleteById(discussionId);
     }
 
+    @Transactional(readOnly = true)
     public Page<TopicDiscussion> findByTopicId(Long topicId, Pageable pageable) {
         return topicDiscussionRepository.findByTopicId(topicId, pageable);
     }
