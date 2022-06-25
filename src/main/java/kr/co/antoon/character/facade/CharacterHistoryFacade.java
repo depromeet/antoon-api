@@ -1,7 +1,7 @@
 package kr.co.antoon.character.facade;
 
-import kr.co.antoon.character.application.CharacterService;
 import kr.co.antoon.character.application.CharacterHistoryService;
+import kr.co.antoon.character.application.CharacterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

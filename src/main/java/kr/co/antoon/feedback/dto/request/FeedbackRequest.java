@@ -1,4 +1,4 @@
-package kr.co.antoon.feedback.dto;
+package kr.co.antoon.feedback.dto.request;
 
 public record FeedbackRequest(
         String content,

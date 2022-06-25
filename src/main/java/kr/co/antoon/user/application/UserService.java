@@ -43,8 +43,8 @@ public class UserService {
     }
 
     @Transactional
-    public UserDetailResponse updateImgaeUrlById(AuthInfo info, UserDetailImage userDetailImage) {
-        var user = findOneById(info.userId()).updateImageUrl(userDetailImage.imageUrl());
+    public UserDetailResponse updateImgaeUrlById(AuthInfo info, String userDetailImage) {
+        var user = findOneById(info.userId()).updateImageUrl(userDetailImage);
         return new UserDetailResponse(user);
     }
 

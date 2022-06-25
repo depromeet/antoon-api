@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.cruiser.domain.Cruiser;
 import kr.co.antoon.cruiser.dto.slack.SlackCruiserResponse;
-import kr.co.antoon.feedback.dto.FeedbackRequest;
+import kr.co.antoon.feedback.dto.request.FeedbackRequest;
 import kr.co.antoon.feedback.facade.FeedbackFacade;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;

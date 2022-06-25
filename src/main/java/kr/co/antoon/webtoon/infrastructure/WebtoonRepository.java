@@ -6,7 +6,6 @@ import kr.co.antoon.webtoon.dto.query.WebtoonDayNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonGenreBannerNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonGenreNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonNativeDto;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,24 +33,24 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, JpaSpec
     long countByStatus(ActiveStatus status);
 
     @Query(value = """
-            select w.id as webtoonId, w.title, w.content, w.webtoon_url as webtoonUrl, w.thumbnail, w.platform, w.status,
-            wg.id as webtoonGenreId, wg.genre_category as genreCategory,
-            wpd.id as webtoonPublishDayId, wpd.day,
-            ww.id as webtoonWriterId, ww.name,
-            rc.id as recommendationCountId, rc.join_count as joinCount, rc.leave_count as leaveCount,
-            gss.graph_score as graphScore, gss.score_gap as scoreGap,
-            r.status as recommendationStatus,
-            tr.ranking as ranking
-            from webtoon w
-            left join webtoon_genre wg on w.id = wg.webtoon_id
-            left join webtoon_publish_day wpd on w.id = wpd.webtoon_id
-            left join webtoon_writer ww on w.id = ww.webtoon_id
-            left join graph_score_snapshot gss on w.id = gss.webtoon_id
-            left join top_rank tr on w.id = tr.webtoon_id
-			left join recommendation_count rc on w.id = rc.webtoon_id
-            left join recommendation r on w.id = r.webtoon_id
-            where w.id = :webtoon_id and gss.snapshot_time between :start_time and :end_time
-            """, nativeQuery = true)
+                     select w.id as webtoonId, w.title, w.content, w.webtoon_url as webtoonUrl, w.thumbnail, w.platform, w.status,
+                     wg.id as webtoonGenreId, wg.genre_category as genreCategory,
+                     wpd.id as webtoonPublishDayId, wpd.day,
+                     ww.id as webtoonWriterId, ww.name,
+                     rc.id as recommendationCountId, rc.join_count as joinCount, rc.leave_count as leaveCount,
+                     gss.graph_score as graphScore, gss.score_gap as scoreGap,
+                     r.status as recommendationStatus,
+                     tr.ranking as ranking
+                     from webtoon w
+                     left join webtoon_genre wg on w.id = wg.webtoon_id
+                     left join webtoon_publish_day wpd on w.id = wpd.webtoon_id
+                     left join webtoon_writer ww on w.id = ww.webtoon_id
+                     left join graph_score_snapshot gss on w.id = gss.webtoon_id
+                     left join top_rank tr on w.id = tr.webtoon_id
+            left join recommendation_count rc on w.id = rc.webtoon_id
+                     left join recommendation r on w.id = r.webtoon_id
+                     where w.id = :webtoon_id and gss.snapshot_time between :start_time and :end_time
+                     """, nativeQuery = true)
     List<WebtoonNativeDto> findOneByWebtoonId(
             @Param(value = "webtoon_id") Long webtoonId,
             @Param(value = "start_time") String startTime,
