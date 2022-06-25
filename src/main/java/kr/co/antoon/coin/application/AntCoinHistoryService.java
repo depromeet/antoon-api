@@ -36,8 +36,8 @@ public class AntCoinHistoryService {
 
     @Transactional
     public boolean checkTodayJoinWebtoon(Long userId, Long webtoonId) {
-        String reason = "WEBTOONID_" + webtoonId;
-        LocalDateTime today = TimeUtil.now();
+        var reason = "WEBTOONID_" + webtoonId;
+        var today = TimeUtil.now();
         today = Year.of(today.getYear())
                 .atMonth(today.getMonthValue())
                 .atDay(today.getDayOfMonth())
