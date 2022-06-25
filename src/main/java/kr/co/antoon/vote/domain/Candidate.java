@@ -4,7 +4,6 @@ import kr.co.antoon.vote.domain.vo.VoteResult;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 @Getter

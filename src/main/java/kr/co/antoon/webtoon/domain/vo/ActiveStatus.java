@@ -12,3 +12,4 @@ public enum ActiveStatus {
 
     private final String description;
 }
+

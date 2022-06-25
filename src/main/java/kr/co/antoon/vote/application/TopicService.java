@@ -36,4 +36,5 @@ public class TopicService {
     public List<Topic> findAllChoiceTopics() {
         return topicRepository.findTop8ByOrderByJoinCountDesc();
     }
+
 }

@@ -1,6 +1,7 @@
 package kr.co.antoon.webtoon.facade;
 
 import kr.co.antoon.crawling.WebtoonCrawlingFactory;
+import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import kr.co.antoon.webtoon.application.WebtoonGenreService;
 import kr.co.antoon.webtoon.application.WebtoonPublishDayService;
 import kr.co.antoon.webtoon.application.WebtoonService;
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static kr.co.antoon.webtoon.converter.WebtoonConverter.toWebtoon;
@@ -36,7 +39,7 @@ public class WebtoonCrawlingFacade {
     public void crawlingWebtoon(Platform platform) {
         var existsWebtoons = webtoonService.findAll()
                 .parallelStream()
-                .collect(Collectors.toMap(Webtoon::getTitle, ws -> ws, (p1, p2) -> p1));
+                .collect(Collectors.toMap(webtoon1 -> webtoon1.getTitle(), ws -> ws, (p1, p2) -> p1));
 
         List<WebtoonPublishDay> webtoonPublishDays = new ArrayList<>();
         List<WebtoonWriter> webtoonWriters = new ArrayList<>();
@@ -44,8 +47,14 @@ public class WebtoonCrawlingFacade {
 
         var webtoonCrawling = WebtoonCrawlingFactory.of(platform);
 
+        var aaa = webtoonCrawling.crawling().webtoons()
+                .parallelStream()
+                .collect(Collectors.toMap(WebtoonCrawlingDto.WebtoonCrawlingDetail::title, dd -> dd, (v1, v2) -> v1));
+
+        Set<WebtoonCrawlingDto.WebtoonCrawlingDetail> bbb = new HashSet<>(aaa.values());
+
         var webtoonSnapshots = new ArrayList<>(
-                webtoonCrawling.crawling().webtoons()
+                bbb
                         .parallelStream()
                         .map(crawlingWebtton -> {
                             Long webtoonId;
@@ -74,6 +83,7 @@ public class WebtoonCrawlingFacade {
 
                                 webtoonPublishDays.add(new WebtoonPublishDay(crawlingWebtton.day(), webtoonId));
                             }
+
                             return new WebtoonSnapshot(crawlingWebtton.score(), webtoonId);
                         }).toList());
 

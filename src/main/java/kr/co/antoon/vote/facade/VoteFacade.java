@@ -15,12 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class VoteFacade {
-    public static final String CANDIDATE_ID = "CANDIDATE_ID_";
     private final TopicService topicService;
     private final CandidateService candidateService;
     private final VoteService voteService;
-    private final AntCoinService antCoinService;
-
+    private final AntCoinClient antCoinClient;
+  
     @Transactional
     public void create(Long candidateId, Long userId) {
         var candidate = candidateService.findById(candidateId);
@@ -44,12 +43,13 @@ public class VoteFacade {
         voteService.save(userId, topic.getId(), candidate.getId(), true);
     }
 
+    // TODO 수정 필요
     private void useCoin(Long candidateId, Long userId) {
-        antCoinService.minusCoin(
+        antCoinClient.minusCoin(
                 userId,
                 CoinUsageType.VOTED_TOPIC.getAmount(),
-                CANDIDATE_ID + candidateId,
-                RemittanceType.VOTE)
-        ;
+                "CANDIDATE_ID_" + candidateId,
+                RemittanceType.VOTE
+        );
     }
 }

@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(whiteListInSwagger()).permitAll()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/health").permitAll()
+                .antMatchers("/health", "/api/v1/admin/**").permitAll()
                 .antMatchers("/api/v1/**")
                 .permitAll()
                 .anyRequest().authenticated()
@@ -66,5 +66,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/favicon.ico"
         };
     }
-
 }
+

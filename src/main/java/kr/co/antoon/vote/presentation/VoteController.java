@@ -7,6 +7,7 @@ import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.vote.facade.VoteFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "투표하기 API")

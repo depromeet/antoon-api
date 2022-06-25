@@ -15,13 +15,12 @@ import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonSearchResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -63,20 +62,6 @@ public class WebtoonFacade {
     }
 
     @Transactional(readOnly = true)
-    public WebtoonGenreAllResponse getWebtoonsGenres() {
-        var end = TimeUtil.now();
-        var start = end.minusHours(1);
-
-        var response = Arrays.stream(GenreCategory.values())
-                .map(category -> webtoonService.findGenre(start, end, category))
-                .flatMap(Collection::stream)
-                .map(WebtoonGenrePreviewResponse::new)
-                .toList();
-
-        return new WebtoonGenreAllResponse(response);
-    }
-
-    @Transactional(readOnly = true)
     public WebtoonRankingAllResponse getWebtoonsByTopUpper() {
         var webtoons = webtoonService.findAll()
                 .parallelStream()
@@ -93,7 +78,10 @@ public class WebtoonFacade {
         return new WebtoonRankingAllResponse(response);
     }
 
-    // TODO : MOCK API
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon:age"}
+    )
     @Transactional(readOnly = true)
     public WebtoonAgeResponse getAges() {
         var webtoons = webtoonService.findAll();
