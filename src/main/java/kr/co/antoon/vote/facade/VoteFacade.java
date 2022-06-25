@@ -3,8 +3,8 @@ package kr.co.antoon.vote.facade;
 import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.coin.domain.vo.CoinUsageType;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
-import kr.co.antoon.vote.application.CandidateService;
 import kr.co.antoon.vote.application.TopicService;
+import kr.co.antoon.vote.application.CandidateService;
 import kr.co.antoon.vote.application.VoteService;
 import kr.co.antoon.vote.domain.Candidate;
 import kr.co.antoon.vote.domain.Topic;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class VoteFacade {
+    public static final String CANDIDATE_ID = "CANDIDATE_ID_";
     private final TopicService topicService;
     private final CandidateService candidateService;
     private final VoteService voteService;
@@ -47,8 +48,8 @@ public class VoteFacade {
         antCoinService.minusCoin(
                 userId,
                 CoinUsageType.VOTED_TOPIC.getAmount(),
-                "CANDIDATE_ID_" + candidateId,
-                RemittanceType.VOTE
-        );
+                CANDIDATE_ID + candidateId,
+                RemittanceType.VOTE)
+        ;
     }
 }

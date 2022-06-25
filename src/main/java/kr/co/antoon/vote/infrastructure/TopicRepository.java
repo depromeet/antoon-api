@@ -14,4 +14,6 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
     List<Topic> findAllByOrderByCreatedAtDesc();
 
     List<Topic> findAllByOrderByJoinCountDesc();
+
+    List<Topic> findTop8ByOrderByJoinCountDesc();
 }

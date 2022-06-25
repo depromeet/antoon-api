@@ -25,7 +25,7 @@ public class CandidateService {
 
     @Transactional
     public void update(Long candidateId, Topic topic) {
-        Candidate candidate = candidateRepository.findById(candidateId)
+        var candidate = candidateRepository.findById(candidateId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_CANDIDATE));
 
         topic.updateJoinCount();
