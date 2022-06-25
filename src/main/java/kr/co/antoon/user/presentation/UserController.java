@@ -57,7 +57,7 @@ public class UserController {
     public ResponseEntity<UserDetailResponse> updateProfileImage(
             @AuthUser AuthInfo info,
             @RequestPart(value="file") List<MultipartFile> multipartFiles) {
-        List<String> imageUrls = awsS3Service.upload(S3Category.PROFILE, multipartFiles);
+        List<String> imageUrls = awsS3Service.uploadImageToS3(S3Category.PROFILE, multipartFiles);
         var response = userService.updateImgaeUrlById(info, imageUrls.get(0));
         return ResponseEntity.ok(response);
     }
