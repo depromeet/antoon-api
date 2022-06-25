@@ -23,7 +23,7 @@ public record TopicResponse(
                 topic.getTopicVoteTime(),
                 topic.getJoinCount(),
                 candidates,
-                topic.isTopicVoteStatus()
+                topic.getTopicVoteStatus()
         );
     }
 }
