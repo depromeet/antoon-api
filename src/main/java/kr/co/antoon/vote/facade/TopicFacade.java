@@ -65,17 +65,14 @@ public class TopicFacade {
     }
 
     @Transactional
-    public TopicDiscussionResponse registerComments(Long userId, Long topicId, TopicDiscussionCreateRequest request) {
+    public TopicDiscussionResponse createDiscussions(Long userId, Long topicId, TopicDiscussionCreateRequest request) {
         topicService.existsById(topicId);
-
         TopicDiscussion topicDiscussion = topicDiscussionService.save(
                 userId,
                 topicId,
                 request.content()
         );
-
         var user = userService.findById(topicDiscussion.getUserId());
-
         return new TopicDiscussionResponse(
                 topicId,
                 topicDiscussion,
@@ -85,47 +82,26 @@ public class TopicFacade {
         );
     }
 
-    public TopicDiscussionResponse findByCommentId(AuthInfo info, Long commentId) {
-        var topicComment = topicDiscussionService.findById(commentId);
-        var user = userService.findById(topicComment.getUserId());
-        if (info == null) {
-            return new TopicDiscussionResponse(
-                    topicComment.getTopicId(),
-                    topicComment,
-                    user,
-                    false,
-                    topicDiscussionService.getTime(topicComment.getCreatedAt())
-            );
-        }
-        var isUserLike = topicDiscussionLikeService.isUserLike(info.userId(), commentId);
-        return new TopicDiscussionResponse(
-                topicComment.getTopicId(),
-                topicComment,
-                user,
-                isUserLike,
-                topicDiscussionService.getTime(topicComment.getCreatedAt())
-        );
-    }
-
     @Transactional
-    public TopicDiscussionResponse updateComments(Long userId, Long commentId, TopicDiscussionUpdateRequest request) {
-        var topicComment = topicDiscussionService.update(commentId, userId, request);
-        var user = userService.findById(topicComment.getUserId());
-        var isUserLike = topicDiscussionLikeService.isUserLike(userId, commentId);
+    public TopicDiscussionResponse updateDiscussions(Long userId, Long discussionId, TopicDiscussionUpdateRequest request) {
+        var topicDiscussion = topicDiscussionService.update(discussionId, userId, request);
+        var user = userService.findById(topicDiscussion.getUserId());
+        var isUserLike = topicDiscussionLikeService.isUserLike(userId, discussionId);
 
         return TopicDiscussionConverter.toTopicCommentResponse(
-                topicComment,
+                topicDiscussion,
                 user,
                 isUserLike,
-                topicDiscussionService.getTime(topicComment.getCreatedAt())
+                topicDiscussionService.getTime(topicDiscussion.getCreatedAt())
         );
     }
 
-    public void deleteComments(Long commentId, Long userId) {
-        topicDiscussionService.delete(commentId, userId);
+    public void deleteDiscussions(Long discussionId, Long userId) {
+        topicDiscussionService.delete(discussionId, userId);
     }
 
-    public Page<TopicDiscussionResponse> findAll(AuthInfo info, Pageable pageable, Long topicId) {
+    @Transactional(readOnly = true)
+    public Page<TopicDiscussionResponse> findAllDiscussions(AuthInfo info, Pageable pageable, Long topicId) {
         if (info == null) {
             return topicDiscussionService.findByTopicId(topicId, pageable)
                     .map(topicDiscussion -> {

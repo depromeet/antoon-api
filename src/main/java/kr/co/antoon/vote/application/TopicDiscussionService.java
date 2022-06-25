@@ -68,23 +68,24 @@ public class TopicDiscussionService {
     }
 
     @Transactional
-    public TopicDiscussion update(Long commentId, Long userId, TopicDiscussionUpdateRequest request) {
-        var topicComment = topicDiscussionRepository.findById(commentId)
+    public TopicDiscussion update(Long discussionId, Long userId, TopicDiscussionUpdateRequest request) {
+        var topicDiscussion = topicDiscussionRepository.findById(discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
-        if (!topicComment.getId().equals(userId)) {
+        if (!topicDiscussion.getUserId().equals(userId)) {
             throw new NotValidRoleException(ErrorMessage.NOT_VALID_ROLE_ERROR);
         }
-        topicComment.update(request.content());
-        return topicComment;
+        topicDiscussion.update(request.content());
+        return topicDiscussion;
     }
 
-    public void delete(Long commentId, Long userId) {
-        var topicComment = topicDiscussionRepository.findById(commentId)
+    @Transactional
+    public void delete(Long discussionId, Long userId) {
+        var topicDiscussion = topicDiscussionRepository.findById(discussionId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
-        if (!topicComment.getUserId().equals(userId)) {
+        if (!topicDiscussion.getUserId().equals(userId)) {
             throw new NotValidRoleException(ErrorMessage.NOT_VALID_ROLE_ERROR);
         }
-        topicDiscussionRepository.deleteById(commentId);
+        topicDiscussionRepository.deleteById(discussionId);
     }
 
     public Page<TopicDiscussion> findByTopicId(Long topicId, Pageable pageable) {

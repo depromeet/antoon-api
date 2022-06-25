@@ -61,18 +61,8 @@ public class TopicController {
             @Validated @RequestBody TopicDiscussionCreateRequest request,
             @AuthUser AuthInfo info
     ) {
-        var response = topicFacade.registerComments(info.userId(), topicId, request);
+        var response = topicFacade.createDiscussions(info.userId(), topicId, request);
         return ResponseDto.created(response);
-    }
-
-    @ApiOperation(value = "토픽 상세 페이지 댓글 단건 조회")
-    @GetMapping("/discussions/{discussionId}")
-    public ResponseEntity<TopicDiscussionResponse> findOne(
-            @PathVariable Long commentId,
-            @AuthUser AuthInfo info
-    ) {
-        var response = topicFacade.findByCommentId(info, commentId);
-        return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "토픽 상세 페이지 댓글 조회")
@@ -82,28 +72,28 @@ public class TopicController {
             @PageableDefault(size = 20, page = 0, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             @AuthUser AuthInfo info
     ) {
-        var response = topicFacade.findAll(info, pageable, topicId);
+        var response = topicFacade.findAllDiscussions(info, pageable, topicId);
         return PageDto.ok(response);
     }
 
     @ApiOperation(value = "토픽 상세 페이지 댓글 수정")
     @PatchMapping("/discussions/{discussionId}")
     public ResponseEntity<TopicDiscussionResponse> update(
-            @PathVariable Long topicCommentId,
+            @PathVariable Long discussionId,
             @Validated @RequestBody TopicDiscussionUpdateRequest request,
             @AuthUser AuthInfo info
     ) {
-        var reponse = topicFacade.updateComments(info.userId(), topicCommentId, request);
-        return ResponseDto.ok(reponse);
+        var response = topicFacade.updateDiscussions(info.userId(), discussionId, request);
+        return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "토픽 상세 페이지 댓글 삭제")
     @DeleteMapping("/discussions/{discussionId}")
     public ResponseEntity<Void> delete(
-            @PathVariable Long commentId,
+            @PathVariable Long discussionId,
             @AuthUser AuthInfo info
     ) {
-        topicFacade.deleteComments(commentId, info.userId());
+        topicFacade.deleteDiscussions(discussionId, info.userId());
         return ResponseDto.noContent();
     }
 }
