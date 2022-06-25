@@ -29,7 +29,7 @@ public class TopicController {
     }
 
     @ApiOperation(value = "모든 토픽 목록 조회")
-    @GetMapping("/{sortType}")
+    @GetMapping("/")
     public ResponseEntity<TopicAllResponse> getTopics(
         @RequestParam("sortType") SortType sortType
     ) {
