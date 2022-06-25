@@ -6,6 +6,8 @@ import kr.co.antoon.coin.domain.vo.CoinRewardType;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistory;
+import kr.co.antoon.coin.dto.CoinReason;
+import kr.co.antoon.common.util.MapperUtil;
 import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +26,6 @@ public class AntCoinService implements AntCoinClient {
     public void plusCoin(Long userId, Long coin, String reason, RemittanceType type) {
         var wallet = getWallet(userId);
         wallet.plus(coin);
-
 
         antCoinHistoryService.record(
                 userId,
@@ -58,6 +59,7 @@ public class AntCoinService implements AntCoinClient {
         return antCoinWalletService.get(userId);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public CoinHistory getCoinHistory(Long userId) {
         return antCoinHistoryService.getCoinHistory(userId);
@@ -86,10 +88,17 @@ public class AntCoinService implements AntCoinClient {
             return response;
         }
 
-        //TODO : ObjectMapper 모듈 생성 - 극락님!
-        String reason = "WEBTOONID_" + webtoonId;
+        var coinReason = new CoinReason(webtoonId);
 
-        plusCoin(userId, CoinRewardType.JOINED_WETBOON_COIN_BONUS.getAmount(), reason, RemittanceType.JOINED_WEBTOON);
+        var reason = MapperUtil.write(coinReason);
+
+        plusCoin(
+                userId,
+                CoinRewardType.JOINED_WETBOON_COIN_BONUS.getAmount(),
+                reason,
+                RemittanceType.JOINED_WEBTOON
+        );
+
         return response.update(true);
     }
 }

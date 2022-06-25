@@ -354,7 +354,7 @@ public class SwaggerNote {
                         
                     Request Body
                     {
-                        "imageUrl" : "https://image.jpg" // 프로필 이미지 url
+                        "file" : image.jpg // 업로드 할 이미지 파일
                     }
             """;
 

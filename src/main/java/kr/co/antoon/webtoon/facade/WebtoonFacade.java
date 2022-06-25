@@ -34,11 +34,6 @@ public class WebtoonFacade {
     private final GraphScoreSnapshotService graphScoreSnapshotService;
     private final WebtoonGenreService webtoonGenreService;
 
-    @Cacheable(
-            cacheManager = "webtoonCacheManager",
-            value = {"webtoon:day"},
-            key = "#day"
-    )
     @Transactional(readOnly = true)
     public Page<WebtoonDayResponse> getWebtoonByDay(Pageable pageable, String day) {
         return webtoonService.findAllByDay(day, pageable)

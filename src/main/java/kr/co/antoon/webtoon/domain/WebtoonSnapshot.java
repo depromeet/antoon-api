@@ -9,14 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(indexes = @Index(name = "i_webtoon_id", columnList = "webtoonId, snapshotTime", unique = true))
 public class WebtoonSnapshot extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
