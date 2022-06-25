@@ -23,17 +23,16 @@ public class TopicDiscussionLike extends BaseEntity {
 
     private Long userId;
 
-    private Long topicDiscussionId;
+    private Long discussionId;
 
     @Builder
     public TopicDiscussionLike(Long userId, Long discussionId) {
         this.userId = userId;
-        this.topicDiscussionId = discussionId;
+        this.discussionId = discussionId;
     }
 
     public TopicDiscussionLike update() {
         this.status = !this.status;
         return this;
     }
-
 }
