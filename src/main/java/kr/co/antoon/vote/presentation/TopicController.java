@@ -29,9 +29,9 @@ public class TopicController {
     }
 
     @ApiOperation(value = "모든 토픽 목록 조회")
-    @GetMapping("/")
+    @GetMapping("/{sortType}")
     public ResponseEntity<TopicAllResponse> getTopics(
-        @RequestParam("sortType") SortType sortType
+        @PathVariable("sortType") SortType sortType
     ) {
         var response = topicFacade.findAll(sortType);
         return ResponseDto.ok(response);
