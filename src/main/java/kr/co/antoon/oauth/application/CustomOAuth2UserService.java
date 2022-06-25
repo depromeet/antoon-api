@@ -1,5 +1,6 @@
 package kr.co.antoon.oauth.application;
 
+import kr.co.antoon.aws.application.AwsS3Service;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.coin.application.AntCoinService;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
     private final AntCoinService antCoinService;
+    private final AwsS3Service awsS3Service;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -56,13 +58,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         log.info("Service OAuth2User : {}", oAuth2User);
         var data = oAuth2User.getAttributes();
         var email = data.get("email").toString();
+        String randomProfileImage = awsS3Service.randomProfileImage();
 
-        //TODO : 기본이미지 랜덤 설정
         var user = userRepository.findByEmail(data.get("email").toString())
                 .orElse(User.buildUser(
                         "",
                         email,
-                        "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/color%3Dyellow.png",
+                        randomProfileImage,
                         Gender.NONE,
                         0));
 
