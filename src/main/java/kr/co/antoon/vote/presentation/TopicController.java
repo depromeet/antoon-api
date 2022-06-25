@@ -48,7 +48,7 @@ public class TopicController {
     }
 
     @ApiOperation(value = "토픽 상세 페이지 조회")
-    @GetMapping("/{topicId}")
+    @GetMapping("/detail/{topicId}")
     public ResponseEntity<TopicResponse> getTopicById(
             @PathVariable("topicId") Long topicId
     ) {

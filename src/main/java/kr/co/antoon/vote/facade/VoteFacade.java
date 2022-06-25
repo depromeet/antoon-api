@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class VoteFacade {
-    public static final String CANDIDATE_ID = "CANDIDATE_ID_";
     private final TopicService topicService;
     private final CandidateService candidateService;
     private final VoteService voteService;
@@ -49,8 +48,8 @@ public class VoteFacade {
         antCoinClient.minusCoin(
                 userId,
                 CoinUsageType.VOTED_TOPIC.getAmount(),
-                CANDIDATE_ID + candidateId,
-                RemittanceType.VOTE)
-        ;
+                "CANDIDATE_ID_" + candidateId,
+                RemittanceType.VOTE
+        );
     }
 }
