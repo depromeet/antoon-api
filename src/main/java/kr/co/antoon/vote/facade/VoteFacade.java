@@ -43,6 +43,7 @@ public class VoteFacade {
         voteService.save(userId, topic.getId(), candidate.getId(), true);
     }
 
+    // TODO 수정 필요
     private void useCoin(Long candidateId, Long userId) {
         antCoinClient.minusCoin(
                 userId,
