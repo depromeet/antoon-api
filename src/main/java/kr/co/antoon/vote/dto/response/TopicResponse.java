@@ -1,8 +1,8 @@
 package kr.co.antoon.vote.dto.response;
 
-import kr.co.antoon.vote.domain.Candidate;
-import kr.co.antoon.vote.domain.Topic;
 
+import kr.co.antoon.vote.domain.Topic;
+import kr.co.antoon.vote.domain.Candidate;
 import java.time.LocalDateTime;
 import java.util.List;
 
