@@ -45,7 +45,7 @@ public class DiscussionController {
             @PathVariable Long webtoonId,
             @Validated @RequestBody DiscussionCreateRequest request,
             @AuthUser AuthInfo info
-            ) {
+    ) {
         var response = discussionFacade.register(info.userId(), webtoonId, request);
         return ResponseDto.created(response);
     }

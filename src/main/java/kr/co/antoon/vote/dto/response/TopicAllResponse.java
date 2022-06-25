@@ -6,7 +6,7 @@ import kr.co.antoon.vote.domain.vo.TopicCategory;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record TopicAllResponse (
+public record TopicAllResponse(
         List<TopicResponse> topics
 ) {
     public record TopicResponse(

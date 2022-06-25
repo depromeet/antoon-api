@@ -1,7 +1,7 @@
 package kr.co.antoon.cruiser.dto.slack;
 
 import kr.co.antoon.common.util.TimeUtil;
-import kr.co.antoon.feedback.dto.FeedbackResponse;
+import kr.co.antoon.feedback.dto.response.FeedbackResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
