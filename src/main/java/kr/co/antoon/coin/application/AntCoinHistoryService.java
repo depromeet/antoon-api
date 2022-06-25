@@ -8,6 +8,7 @@ import kr.co.antoon.coin.infrastructure.AntCoinHistoryRepository;
 import kr.co.antoon.common.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,5 +67,11 @@ public class AntCoinHistoryService {
                 .atTime(0,0,0,0);
 
         return antCoinHistoryRepository.countByUserIdAndCreatedAtAfter(userId, today);
+    }
+
+    public String rewardReasonToJson(RemittanceType remittanceType, String id) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(String.valueOf(remittanceType), id);
+        return jsonObject.toString();
     }
 }

@@ -8,6 +8,7 @@ import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistory;
 import kr.co.antoon.common.util.CommonUtil;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -83,7 +84,7 @@ public class AntCoinService implements AntCoinClient {
     }
 
     @Transactional
-    public RecommendationResponse joinWebtoon(Long userId, Long webtoonId, RecommendationResponse response) {
+    public RecommendationResponse joinWebtoon(Long userId, Long webtoonId, RecommendationResponse response, RecommendationStatus status) {
         if (antCoinHistoryService.checkTodayJoinWebtoon(userId, webtoonId)) {
             log.info("ALREADY_GET_COIN: 이미 탑승/하차를 통한 코인 지급이 완료되었습니다.");
             return response;
@@ -94,10 +95,10 @@ public class AntCoinService implements AntCoinClient {
             return response;
         }
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("WEBTOONID", webtoonId);
-
-        String reason = jsonObject.toString();
+        String reason = antCoinHistoryService.rewardReasonToJson(
+                RemittanceType.joinOrLeave(status),
+                webtoonId.toString()
+        );
 
         plusCoin(userId, CoinRewardType.JOINED_WETBOON_COIN_BONUS.getAmount(), reason, RemittanceType.JOINED_WEBTOON);
         return response.update(true);
