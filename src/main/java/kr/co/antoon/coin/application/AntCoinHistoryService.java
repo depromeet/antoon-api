@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.time.ZoneId;
 
 @Slf4j
 @Service
@@ -57,7 +58,7 @@ public class AntCoinHistoryService {
     }
 
     @Transactional
-    public int countJoinWebtoon(Long userId) {
+    public Long countJoinWebtoon(Long userId) {
         LocalDateTime today = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         today = Year.of(today.getYear())
                 .atMonth(today.getMonthValue())

@@ -1,14 +1,17 @@
 package kr.co.antoon.coin.application;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistory;
+import kr.co.antoon.common.util.CommonUtil;
 import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -91,8 +94,10 @@ public class AntCoinService implements AntCoinClient {
             return response;
         }
 
-        //TODO : ObjectMapper 모듈 생성 - 극락님!
-        String reason = "WEBTOONID_" + webtoonId;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("WEBTOONID", webtoonId);
+
+        String reason = jsonObject.toString();
 
         plusCoin(userId, CoinRewardType.JOINED_WETBOON_COIN_BONUS.getAmount(), reason, RemittanceType.JOINED_WEBTOON);
         return response.update(true);

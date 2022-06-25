@@ -43,5 +43,5 @@ public interface AntCoinClient {
     /**
      * @apiNote limit of coin reward for join webtoon
      **/
-    int rewardLimit = 10;
+    Long rewardLimit = Long.valueOf(10);
 }
