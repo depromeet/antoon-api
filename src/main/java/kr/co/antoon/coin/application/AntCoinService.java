@@ -1,20 +1,15 @@
 package kr.co.antoon.coin.application;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistory;
-import kr.co.antoon.common.util.CommonUtil;
 import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
-import kr.co.antoon.coin.dto.CoinReason;
-import kr.co.antoon.common.util.MapperUtil;
 import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
