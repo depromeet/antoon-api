@@ -45,7 +45,7 @@ public class CharacterServiceTest {
                 .thenReturn(expected);
 
         // when
-        List<Character> actual = characterService.getSubjectsByTopUpper(CharacterType.PERSONA);
+        List<Character> actual = characterService.getCharactersByTopUpper(CharacterType.PERSONA);
         // then
         assertEquals(expected, actual);
     }
