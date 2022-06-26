@@ -1,6 +1,6 @@
 package kr.co.antoon.vote.domain;
 
-import kr.co.antoon.vote.domain.vo.VoteResult;
+import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +10,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Candidate {
-
+public class Candidate extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,8 +25,7 @@ public class Candidate {
 
     private Long topicId;
 
-    @Enumerated(EnumType.STRING)
-    private VoteResult voteResult;
+    private Boolean winner = false;
 
     public void plusVotingCount() {
         this.votingCount += 1;
@@ -37,7 +35,7 @@ public class Candidate {
         this.votingCountRate = votingRate;
     }
 
-    public void updateVoteResult(VoteResult voteResult) {
-        this.voteResult = voteResult;
+    public void updateWinner(Boolean winner) {
+        this.winner = winner;
     }
 }

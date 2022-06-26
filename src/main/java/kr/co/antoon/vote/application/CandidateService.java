@@ -4,7 +4,6 @@ import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.vote.domain.Candidate;
 import kr.co.antoon.vote.domain.Topic;
-import kr.co.antoon.vote.domain.vo.VoteResult;
 import kr.co.antoon.vote.infrastructure.CandidateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,21 +31,21 @@ public class CandidateService {
         topic.changeVoteStatus(true);
 
         candidate.plusVotingCount();
-        var votingRate = getVotingRate(topic, candidate);
+        var votingRate = calculateVotingRate(topic, candidate);
         candidate.updateVotingRate(votingRate);
 
-        updateVoteResult(topic);
+        updateWinner(topic);
     }
 
-    private void updateVoteResult(Topic topic) {
+    private void updateWinner(Topic topic) {
         var candidates = candidateRepository.findAllByTopicId(topic.getId());
         Comparator<Candidate> comparatorByVotingRate = Comparator.comparingDouble(Candidate::getVotingCountRate);
         candidates.stream()
                 .max(comparatorByVotingRate)
-                .ifPresent(c -> c.updateVoteResult(VoteResult.WINNER));
+                .ifPresent(c -> c.updateWinner(true));
     }
 
-    private double getVotingRate(Topic topic, Candidate candidate) {
+    private double calculateVotingRate(Topic topic, Candidate candidate) {
         return candidate.getVotingCount().doubleValue() / topic.getJoinCount().doubleValue();
     }
 
