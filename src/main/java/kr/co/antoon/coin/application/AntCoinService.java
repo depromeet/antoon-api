@@ -45,6 +45,8 @@ public class AntCoinService implements AntCoinClient {
         var wallet = getWallet(userId);
         wallet.minus(coin);
 
+        reason = antCoinHistoryService.rewardReasonToJson(type, reason);
+
         antCoinHistoryService.record(
                 userId,
                 wallet.getId(),
@@ -95,12 +97,14 @@ public class AntCoinService implements AntCoinClient {
             return response;
         }
 
+        RemittanceType type = RemittanceType.joinOrLeave(status);
+
         String reason = antCoinHistoryService.rewardReasonToJson(
-                RemittanceType.joinOrLeave(status),
+                type,
                 webtoonId.toString()
         );
 
-        plusCoin(userId, CoinRewardType.JOINED_WETBOON_COIN_BONUS.getAmount(), reason, RemittanceType.JOINED_WEBTOON);
+        plusCoin(userId, CoinRewardType.JOINED_WETBOON_COIN_BONUS.getAmount(), reason, type);
         return response.update(true);
     }
 }

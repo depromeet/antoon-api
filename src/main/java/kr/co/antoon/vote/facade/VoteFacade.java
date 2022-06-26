@@ -48,7 +48,7 @@ public class VoteFacade {
         antCoinService.minusCoin(
                 userId,
                 CoinUsageType.VOTED_TOPIC.getAmount(),
-                "CANDIDATE_ID_" + candidateId,
+                candidateId.toString(),
                 RemittanceType.VOTE
         );
     }

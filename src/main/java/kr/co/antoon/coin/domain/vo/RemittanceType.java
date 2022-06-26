@@ -10,10 +10,9 @@ public enum RemittanceType {
     SIGNED_SERVICE("회원가입"),
     JOINED_WEBTOON("웹툰 탑승"),
     LEAVED_WEBTOON("웹툰 하차"),
-    CHARACTER_VOTE("인물 투표"),
-    COUPLE_VOTE("커플 투표"),
-    AB_VOTE("A|B 투표"),
-    VOTE("투표"),
+    JOINED_CHARCTER("인물 탑승"),
+    JOINED_COUPLE("커플 탑승"),
+    VOTE("투표 참여"),
     ;
 
     private final String description;
