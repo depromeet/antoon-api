@@ -2,10 +2,7 @@ package kr.co.antoon.webtoon.infrastructure;
 
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
-import kr.co.antoon.webtoon.dto.query.WebtoonDayNativeDto;
-import kr.co.antoon.webtoon.dto.query.WebtoonGenreBannerNativeDto;
-import kr.co.antoon.webtoon.dto.query.WebtoonGenreNativeDto;
-import kr.co.antoon.webtoon.dto.query.WebtoonNativeDto;
+import kr.co.antoon.webtoon.dto.query.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -114,5 +111,18 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, JpaSpec
             @Param(value = "end_time") String endTime,
             @Param(value = "category") String category,
             Pageable pageable
+    );
+           
+    @Query(nativeQuery = true, value = """
+            select w.id as webtoonId, w.title, w.thumbnail, gss.graph_score as score
+            from webtoon as w
+            left join graph_score_snapshot as gss
+            on gss.webtoon_id = w.id
+            where w.id = :webtoon_id and gss.snapshot_time between :start_time and :end_time
+            """)
+    WebtoonCharacterNativeDto findPreviewByWebtoonId(
+            @Param(value = "webtoon_id") Long webtoonId,
+            @Param(value = "start_time") String startTime,
+            @Param(value = "end_time") String endTime
     );
 }
