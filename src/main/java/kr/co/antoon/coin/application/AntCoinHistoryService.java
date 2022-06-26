@@ -4,7 +4,9 @@ import kr.co.antoon.coin.domain.AntCoinHistory;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistory;
+import kr.co.antoon.coin.dto.CoinReason;
 import kr.co.antoon.coin.infrastructure.AntCoinHistoryRepository;
+import kr.co.antoon.common.util.MapperUtil;
 import kr.co.antoon.common.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.ZoneId;
@@ -38,8 +41,11 @@ public class AntCoinHistoryService {
 
     @Transactional
     public boolean checkTodayJoinWebtoon(Long userId, Long webtoonId) {
-        String reason = "WEBTOONID_" + webtoonId;
-        LocalDateTime today = TimeUtil.now();
+        var coinReason = new CoinReason(webtoonId);
+
+        var reason = MapperUtil.write(coinReason);
+
+        var today = TimeUtil.now();
         today = Year.of(today.getYear())
                 .atMonth(today.getMonthValue())
                 .atDay(today.getDayOfMonth())
@@ -60,13 +66,8 @@ public class AntCoinHistoryService {
 
     @Transactional
     public Long countJoinWebtoon(Long userId) {
-        LocalDateTime today = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-        today = Year.of(today.getYear())
-                .atMonth(today.getMonthValue())
-                .atDay(today.getDayOfMonth())
-                .atTime(0,0,0,0);
-
-        return antCoinHistoryRepository.countByUserIdAndCreatedAtAfter(userId, today);
+        String today = LocalDate.now().toString();
+        return antCoinHistoryRepository.countTodayWebtoonReward(userId, today, "WEBTOON");
     }
 
     public String rewardReasonToJson(RemittanceType remittanceType, String id) {

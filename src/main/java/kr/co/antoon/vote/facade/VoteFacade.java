@@ -6,6 +6,7 @@ import kr.co.antoon.coin.domain.vo.CoinUsageType;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.vote.application.CandidateService;
 import kr.co.antoon.vote.application.TopicService;
+import kr.co.antoon.vote.application.CandidateService;
 import kr.co.antoon.vote.application.VoteService;
 import kr.co.antoon.vote.domain.Candidate;
 import kr.co.antoon.vote.domain.Topic;

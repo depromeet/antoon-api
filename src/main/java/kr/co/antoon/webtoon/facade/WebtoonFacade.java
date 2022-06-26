@@ -34,11 +34,6 @@ public class WebtoonFacade {
     private final GraphScoreSnapshotService graphScoreSnapshotService;
     private final WebtoonGenreService webtoonGenreService;
 
-    @Cacheable(
-            cacheManager = "webtoonCacheManager",
-            value = {"webtoon:day"},
-            key = "#day"
-    )
     @Transactional(readOnly = true)
     public Page<WebtoonDayResponse> getWebtoonByDay(Pageable pageable, String day) {
         return webtoonService.findAllByDay(day, pageable)
@@ -85,7 +80,7 @@ public class WebtoonFacade {
 
     @Cacheable(
             cacheManager = "webtoonCacheManager",
-            value = {"webtoon:age"}
+            value = {"webtoon::age"}
     )
     @Transactional(readOnly = true)
     public WebtoonAgeResponse getAges() {
@@ -98,6 +93,10 @@ public class WebtoonFacade {
         return new WebtoonAgeResponse(response);
     }
 
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::search"}
+    )
     @Transactional(readOnly = true)
     public WebtoonSearchResponse search(WebtoonSearchRequest request) {
         var webtoons = request.webtoons()
@@ -108,6 +107,10 @@ public class WebtoonFacade {
         return new WebtoonSearchResponse(webtoons);
     }
 
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::genre::top3"}
+    )
     @Transactional(readOnly = true)
     public WebtoonGenreAllResponse getGenreAndThumbnail() {
         var webtoons = webtoonService.findAll()

@@ -9,6 +9,8 @@ import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistory;
 import kr.co.antoon.common.util.CommonUtil;
 import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
+import kr.co.antoon.coin.dto.CoinReason;
+import kr.co.antoon.common.util.MapperUtil;
 import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -74,6 +76,13 @@ public class AntCoinService implements AntCoinClient {
         if (!antCoinWalletService.existsByUserId(userId)) {
             var wallet = antCoinWalletService.save(userId);
 
+            plusCoin(
+                    userId,
+                    CoinRewardType.DEFAULT_SIGN_COIN_BONUS.getAmount(),
+                    "SIGNUP",
+                    RemittanceType.SIGNED_SERVICE
+            );
+
             antCoinHistoryService.record(
                     userId,
                     wallet.getId(),
@@ -92,19 +101,25 @@ public class AntCoinService implements AntCoinClient {
             return response;
         }
 
+        log.info("count : {}", antCoinHistoryService.countJoinWebtoon(userId));
         if(antCoinHistoryService.countJoinWebtoon(userId) >= rewardLimit) {
             log.info("ALREADY_OVER_COUNT_COIN: 금일 탑승/하차를 통한 코인 지급 횟수를 초과하였습니다.");
             return response;
         }
 
         RemittanceType type = RemittanceType.joinOrLeave(status);
+//        var coinReason = new CoinReason(webtoonId);
+//        var reason = MapperUtil.write(coinReason);
 
-        String reason = antCoinHistoryService.rewardReasonToJson(
-                type,
-                webtoonId.toString()
+        String reason = antCoinHistoryService.rewardReasonToJson(type, webtoonId.toString());
+
+        plusCoin(
+                userId,
+                CoinRewardType.JOINED_WETBOON_COIN_BONUS.getAmount(),
+                reason,
+                type
         );
 
-        plusCoin(userId, CoinRewardType.JOINED_WETBOON_COIN_BONUS.getAmount(), reason, type);
         return response.update(true);
     }
 }

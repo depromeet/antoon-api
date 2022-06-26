@@ -24,7 +24,9 @@ public enum ErrorMessage {
     NOT_ALLOW_LOGIN_PLATFORM("로그인이 지원되지 않는 플랫폼입니다."),
     NOT_EXIST_TOPIC("존재하지 않는 토픽입니다."),
     FILE_UPLOAD_ERROR("오류로 인해 파일 업로드에 실패하였습니다."),
-    NOT_EXISTS_CANDIDATE("존재하지 않는 후보입니다.");
+    NOT_EXISTS_CANDIDATE("존재하지 않는 후보입니다."),
+    MAPPER_JSON_ERROR("mapper error가 발생했습니다."),
+    ;
 
     private final String description;
 }
