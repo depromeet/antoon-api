@@ -29,10 +29,16 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public GetUserDetailResponse findById(Long id) {
+    public GetUserDetailResponse findByIdWithWallet(Long id) {
         var user = findOneById(id);
         var wallet = antCoinService.getWallet(id);
         return new GetUserDetailResponse(user, wallet);
+    }
+
+    @Transactional(readOnly = true)
+    public UserDetailResponse findById(Long id) {
+        var user = findOneById(id);
+        return new UserDetailResponse(user);
     }
 
     @Transactional(readOnly = true)
