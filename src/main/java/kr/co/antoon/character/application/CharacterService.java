@@ -44,4 +44,11 @@ public class CharacterService {
                 .build()
         );
     }
+
+    @Transactional(readOnly = true)
+    public void existsById(Long id) {
+        if (!characterRepository.existsById(id)) {
+            throw new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_ERROR);
+        }
+    }
 }

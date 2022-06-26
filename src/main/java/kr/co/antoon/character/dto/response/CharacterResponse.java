@@ -9,6 +9,8 @@ public record CharacterResponse(
         List<CharacterDetailResponse> couples
 ) {
     public record CharacterDetailResponse(
+            @Schema(description = "인물/커플 ID")
+            Long id,
             @Schema(description = "인물/커플 이름")
             String names,
             @Schema(description = "웹툰명")
@@ -22,6 +24,7 @@ public record CharacterResponse(
     ) {
         public CharacterDetailResponse(Character character, String imageUrl, String title, Boolean isJoined) {
             this(
+                    character.getId(),
                     character.getName(),
                     title,
                     List.of(imageUrl.split(",")),
