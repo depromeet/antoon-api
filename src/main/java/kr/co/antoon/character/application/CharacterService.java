@@ -2,7 +2,6 @@ package kr.co.antoon.character.application;
 
 import kr.co.antoon.character.domain.Character;
 import kr.co.antoon.character.domain.vo.CharacterType;
-import kr.co.antoon.character.dto.reqeust.CharacterRequest;
 import kr.co.antoon.character.infrastructure.CharacterRepository;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
@@ -18,7 +17,7 @@ public class CharacterService {
     private final CharacterRepository characterRepository;
 
     @Transactional(readOnly = true)
-    public List<Character> getSubjectsByTopUpper(CharacterType type) {
+    public List<Character> getCharactersByTopUpper(CharacterType type) {
         return characterRepository.findTop30ByTypeOrderByCoinAmountDesc(type);
     }
 
@@ -31,17 +30,5 @@ public class CharacterService {
     @Transactional(readOnly = true)
     public Integer findRank(Long characterId) {
         return characterRepository.findRankById(characterId);
-    }
-
-    @Transactional
-    public Character save(CharacterRequest request, CharacterType type) {
-        return characterRepository.save(Character.builder()
-                .name(request.name())
-                .content(request.content())
-                .color(request.color())
-                .type(type)
-                .webtoonId(request.webtoonId())
-                .build()
-        );
     }
 }

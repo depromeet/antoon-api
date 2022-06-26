@@ -23,7 +23,7 @@ public class CharacterFacade {
 
     @Transactional(readOnly = true)
     public CharacterResponse getTopUpper(String type, AuthInfo info) {
-        var responses = characterService.getSubjectsByTopUpper(CharacterType.valueOf(type))
+        var responses = characterService.getCharactersByTopUpper(CharacterType.valueOf(type))
                 .stream()
                 .map(character -> {
                     var webtoon = webtoonService.findById(character.getWebtoonId());

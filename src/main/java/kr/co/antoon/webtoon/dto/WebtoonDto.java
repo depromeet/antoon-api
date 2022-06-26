@@ -31,7 +31,8 @@ public record WebtoonDto(
         int scoreGap,
         double scoreGapPercent,
         RecommendationStatus recommendationStatus,
-        Integer ranking
+        Integer ranking,
+        Set<CharacterDto> characters
 ) {
     public record GenreDto(
             Long webtoonGenreId,
@@ -46,6 +47,12 @@ public record WebtoonDto(
 
     public record WriterDto(
             Long webtoonWriterId,
+            String name
+    ) { }
+
+    public record CharacterDto(
+            Long characterId,
+            String imageUrl,
             String name
     ) { }
 }

@@ -37,15 +37,24 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, JpaSpec
                      rc.id as recommendationCountId, rc.join_count as joinCount, rc.leave_count as leaveCount,
                      gss.graph_score as graphScore, gss.score_gap as scoreGap,
                      r.status as recommendationStatus,
-                     tr.ranking as ranking
+                     tr.ranking as ranking,
+                     c.id as characterId,
+                     c.name as characterName,
+                     c.image_url as characterImageUrl
                      from webtoon w
                      left join webtoon_genre wg on w.id = wg.webtoon_id
                      left join webtoon_publish_day wpd on w.id = wpd.webtoon_id
                      left join webtoon_writer ww on w.id = ww.webtoon_id
                      left join graph_score_snapshot gss on w.id = gss.webtoon_id
                      left join top_rank tr on w.id = tr.webtoon_id
-            left join recommendation_count rc on w.id = rc.webtoon_id
+                     left join recommendation_count rc on w.id = rc.webtoon_id
                      left join recommendation r on w.id = r.webtoon_id
+                     left join (
+                     		select c.id as id, c.webtoon_id as webtoon_id, c.name as name, ci.image_url as image_url
+                     		from characters c
+                     		left join character_image ci on c.id = ci.character_id
+                     		where ci.type = "PERSONA"
+                     ) c on w.id = c.webtoon_id
                      where w.id = :webtoon_id and gss.snapshot_time between :start_time and :end_time
                      """, nativeQuery = true)
     List<WebtoonNativeDto> findOneByWebtoonId(
