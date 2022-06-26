@@ -13,10 +13,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "characters")
 public class Character extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +26,9 @@ public class Character extends BaseEntity {
 
     private String name;
 
-    private String thumbnail;
+    private String content;
+
+    private String color;
 
     @Enumerated(EnumType.STRING)
     private CharacterType type;
@@ -34,14 +38,15 @@ public class Character extends BaseEntity {
     private Long coinAmount;
 
     @Builder
-    public Character(String name, String thumbnail, CharacterType type, Long webtoonId) {
+    public Character(String name, String content, String color, CharacterType type, Long webtoonId) {
         this.name = name;
+        this.content = content;
+        this.color = color;
         this.type = type;
-        this.thumbnail = thumbnail;
         this.webtoonId = webtoonId;
         this.coinAmount = 0L;
     }
-    
+
     public void amountUpdate(Long amount) {
         this.coinAmount += amount;
     }

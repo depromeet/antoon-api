@@ -13,7 +13,8 @@ public enum Period {
     DAY("day", 1),
     WEEKEND("weekend", 7),
     MONTH("month", 30),
-    THREE_MONTH("three-month", 90);
+    THREE_MONTH("three-month", 90),
+    ;
 
     private final String description;
     private final int days;

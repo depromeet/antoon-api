@@ -2,6 +2,8 @@ package kr.co.antoon.character.application;
 
 import kr.co.antoon.character.domain.CharacterHistory;
 import kr.co.antoon.character.infrastructure.CharacterHistoryRepository;
+import kr.co.antoon.oauth.dto.AuthInfo;
+import kr.co.antoon.user.domain.vo.Role;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,11 +52,12 @@ public class CharacterHistoryServiceTest {
                 CHARACTER_ID,
                 USER_ID
         );
+        AuthInfo mockInfo = new AuthInfo(USER_ID, List.of(Role.USER));
 
         Mockito.when(characterHistoryRepository.findByCharacterIdAndUserId(anyLong(), anyLong()))
                 .thenReturn(Optional.of(subjectRecommendation));
         // when
-        var actual = characterHistoryService.isUserJoin(CHARACTER_ID, USER_ID);
+        var actual = characterHistoryService.isUserJoin(CHARACTER_ID, mockInfo);
         // then
         assertEquals(true, actual);
     }
@@ -61,10 +65,11 @@ public class CharacterHistoryServiceTest {
     @Test
     public void 인물_관계_탑승안한_상태() {
         // given
+        AuthInfo mockInfo = new AuthInfo(USER_ID, List.of(Role.USER));
         Mockito.when(characterHistoryRepository.findByCharacterIdAndUserId(anyLong(), anyLong()))
                 .thenReturn(Optional.empty());
         // when
-        var actual = characterHistoryService.isUserJoin(CHARACTER_ID, USER_ID);
+        var actual = characterHistoryService.isUserJoin(CHARACTER_ID, mockInfo);
         // then
         assertEquals(false, actual);
     }

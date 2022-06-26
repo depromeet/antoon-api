@@ -188,3 +188,35 @@ CREATE TABLE `webtoon_writer`
     PRIMARY KEY (`id`),
     KEY           `i_webtoon_id` (`webtoon_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+CREATE TABLE `characters` (
+   `id`          bigint NOT NULL AUTO_INCREMENT,
+   `created_at`  datetime                                 DEFAULT NULL,
+   `modified_at` datetime                                 DEFAULT NULL,
+   `coin_amount` bigint                                   DEFAULT NULL,
+   `name`        varchar(255) COLLATE utf8mb4_general_ci  DEFAULT NULL,
+   `type`        varchar(255) COLLATE utf8mb4_general_ci  DEFAULT NULL,
+   `webtoon_id`  bigint                                   DEFAULT NULL,
+   `content`     varchar(255) COLLATE utf8mb4_general_ci  DEFAULT NULL,
+   `color`       varchar(255) COLLATE utf8mb4_general_ci  DEFAULT NULL,
+   PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+CREATE TABLE `character_history` (
+   `id`          bigint NOT NULL AUTO_INCREMENT,
+   `created_at`  datetime                                 DEFAULT NULL,
+   `modified_at` datetime                                 DEFAULT NULL,
+   `character_id`  bigint                                  NOT NULL,
+   `user_id`     bigint                                   NOT NULL,
+   PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+CREATE TABLE `character_image` (
+  `id`          bigint NOT NULL AUTO_INCREMENT,
+  `created_at`  datetime                                 DEFAULT NULL,
+  `modified_at` datetime                                 DEFAULT NULL,
+  `image_url`    varchar(255) COLLATE utf8mb4_general_ci  NOT NULL,
+  `type`        varchar(255) COLLATE utf8mb4_general_ci  NOT NULL,
+  `character_id`     bigint                               NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci

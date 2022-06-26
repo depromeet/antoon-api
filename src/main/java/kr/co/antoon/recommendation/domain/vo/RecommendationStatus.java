@@ -1,7 +1,5 @@
 package kr.co.antoon.recommendation.domain.vo;
 
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

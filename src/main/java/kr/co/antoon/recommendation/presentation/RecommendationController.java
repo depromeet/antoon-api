@@ -36,7 +36,7 @@ public class RecommendationController {
             @RequestParam("status") RecommendationStatus status
     ) {
         var response = recommendationFacade.saveOrUpdate(status, info.userId(), webtoonId);
-        response = antCoinService.joinWebtoon(info.userId(), webtoonId, response);
+        response = antCoinService.joinWebtoon(info.userId(), webtoonId, response, status);
         return ResponseDto.ok(response);
     }
 }

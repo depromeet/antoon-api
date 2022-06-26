@@ -354,7 +354,7 @@ public class SwaggerNote {
                         
                     Request Body
                     {
-                        "imageUrl" : "https://image.jpg" // 프로필 이미지 url
+                        "file" : image.jpg // 업로드 할 이미지 파일
                     }
             """;
 
@@ -372,7 +372,7 @@ public class SwaggerNote {
     public static final String WEBTOON_READ_RANKING_NOTE = """
             현재 시간 기준으로 상승 중인 웹툰 조회
             GET /api/v1/webtoons/top-up
-            
+                        
             Response Body
             {
                "webtoons": [
@@ -393,7 +393,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORES_DAY_READ_NOTE = """
             1일 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/days
-            
+                        
             Response Body            
             {
               "count": 32,
@@ -413,7 +413,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORES_WEEKENDS_READ_NOTE = """
             1주일 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/weekends
-            
+                        
             Response Body
             {
               "count": 7,
@@ -433,7 +433,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORES_MONTHS_READ_NOTE = """
             1달 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/months
-            
+                        
             ResponseBody
             {
               "count": 0,
@@ -453,7 +453,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORE_THREE_MONTH_READ_NOTE = """
             3개월 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/three-months
-            
+                        
             ResponseBody
             {
               "count": 0,
@@ -485,5 +485,104 @@ public class SwaggerNote {
                         "remittanceType" : "JOINED_WEBTOON",
                         "reason" : "WEBTOONID_3"
                     }
+            """;
+
+    public final static String GET_CHARACTER_RANK = """
+                    인물 순위(실시간 차트) 조회
+                    GET /api/v1/top-ranks/characters?type=PERSONA
+                    
+                    Response Body
+                    {
+                        "characters": [
+                            {
+                                "names": "최푸름",
+                                "title": "연애혁명",
+                                "thumbnails": [
+                                    "test1.png"
+                                ],
+                                "coinAmount": 6,
+                                "isJoined": true
+                            },
+                            {
+                                "names": "이병현",
+                                "title": "연애혁명",
+                                "thumbnails": [
+                                    "test.png"
+                                ],
+                                "coinAmount": 0,
+                                "isJoined": false
+                            } ...
+                        ]
+                    }
+                    
+                    
+                    커플 순위(실시간 차트) 조회
+                    GET /api/v1/top-ranks/characters?type=COUPLE
+                    
+                    Response Body
+                    {
+                        "characters": [
+                            {
+                                "names": "푸름♥병현",
+                                "title": "연애혁명",
+                                "thumbnails": [
+                                    "test1.png",
+                                    "test2.png"
+                                ],
+                                "coinAmount": 0,
+                                "isJoined": false
+                            } ...
+                        ]
+                    }
+            """;
+
+    public final static String GET_CHARACTER_DETAIL = """
+                    인물 상세 조회 
+                    GET /api/v1/characters/{characterId}?type=PERSONA
+                    
+                    Response Body
+                    {
+                        "name": "최푸름",
+                        "characterThumbnail": "test1.png",
+                        "rank": 1,
+                        "content": "평범하면서 금사빠인 고등학생 순정남",
+                        "backGroundColor": "4E7F86",
+                        "coinAmount": 6,
+                        "webtoonId": 1,
+                        "webtoonThumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/792780/thumbnail/thumbnail_IMAG04_b0eeb63e-4f46-4747-b5e7-56f2299e0f7f.jpg",
+                        "title": "연애혁명",
+                        "score": 250,
+                        "isJoined": true,
+                        "joinedCount": 2
+                    }
+                    
+                    
+                    커플 상세조회 
+                    GET /api/v1/characters/{characterId}?type=COUPLE
+                    
+                    Response Body
+                    {
+                        "name": "푸름♥병현",
+                        "characterThumbnail": "test.png",
+                        "rank": 1,
+                        "content": "평범하면서 금사빠인 고등학생 순정남과 순정녀의 어마무시한 관계",
+                        "backGroundColor": "4E7F86",
+                        "coinAmount": 3,
+                        "webtoonId": 1,
+                        "webtoonThumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/792780/thumbnail/thumbnail_IMAG04_b0eeb63e-4f46-4747-b5e7-56f2299e0f7f.jpg",
+                        "title": "연애혁명",
+                        "score": 250,
+                        "isJoined": true,
+                        "joinedCount": 1
+                    }
+            
+            """;
+
+    public final static String JOINED_CHARACTER = """
+                    인물/커플 탑승하기
+                    PATCH /api/v1/characters/{characterId}
+                    
+                    Response Body
+                    None
             """;
 }

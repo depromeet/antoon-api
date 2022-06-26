@@ -13,7 +13,6 @@ public class CharacterTest {
     void setCharacter() {
         character = Character.builder()
                 .name("디프만 1번 출구")
-                .thumbnail("test.png")
                 .type(CharacterType.PERSONA)
                 .webtoonId(1L)
                 .build();
