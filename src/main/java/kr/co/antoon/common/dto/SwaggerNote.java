@@ -585,4 +585,123 @@ public class SwaggerNote {
                     Response Body
                     None
             """;
+
+    public final static String CHARACTER_DISCUSSION_CREATE_NOTE = """
+                    댓글 달기
+                    POST /api/v1/characters/{characterId}/discussions            
+                        
+                    Request Body
+                    {
+                        "content" : "이 웹툰 꿀잼" // 댓글 내용
+                    }
+                        
+                    Response Body
+                    {
+                        "characterId" : 1,  // 웹툰 Id
+                        "discussionId" : 1, // 종목토론 댓글 Id
+                        "content" :  "이 웹툰 꿀잼", // 댓글 내용
+                        "userId" : 1, // 사용자 Id
+                        "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                        "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                        "likeCount" : 1,  // 좋아요 카운트
+                        "isUserLike": true   // 사용자 좋아요 여부,
+                        "time": "10분 전"
+                    }            
+            """;
+
+    public final static String CHARACTER_DISCUSSION_READ_ONE_NOTE = """
+                    댓글 단건 조회
+                    POST /api/v1/characters/discussions/{characterId}           
+                        
+                    Response Body
+                    {
+                        "characterId" : 1,  // 웹툰 Id
+                        "discussionId" : 1, // 종목토론 댓글 Id
+                        "content" :  "이 웹툰 꿀잼", // 댓글 내용
+                        "userId" : 1, // 사용자 Id
+                        "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                        "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                        "likeCount" : 1,  // 좋아요 카운트
+                        "isUserLike": true,   // 사용자 좋아요 여부
+                        "time": "1시간 전"
+                    }
+            """;
+
+    public final static String CHARACTER_DISCUSSION_READL_ALL_NOTE = """
+                    댓글 페이지 조회
+                    GET /api/v1/characters/discussions
+                        
+                    Response Body
+                    {
+                        "data": [
+                            {
+                                "characterId" : 1,  // 웹툰 Id
+                                "discussionId" : 1, // 종목토론 댓글 Id
+                                "content" :  "이 웹툰 꿀잼", // 댓글 내용
+                                "userId" : 1, // 사용자 Id
+                                "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                                "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                                "likeCount" : 1,  // 좋아요 카운트
+                                "isUserLike": true,   // 사용자 좋아요 여부
+                                "time": "3개월 전"
+                            },
+                            {
+                                "characterId" : 1,
+                                "discussionId" : 1,
+                                "content" :  "우앙 재밌다",
+                                "userId" : 1,
+                                "nickname" : "개미는 툰툰",
+                                "imageUrl" : "https://picture.jpg",
+                                "likeCount" : 0,
+                                "isUserLike": false,
+                                "time": "2019-06-12"  // 1년 이상된 댓글은 날짜로 보냄
+                            }, ...
+                        ],
+                        "page": 0,
+                        "size": 20,
+                        "totalPages": 1,
+                        "totalElements": 1,
+                        "firstPage": true,
+                        "lastPage": true
+                    }
+            """;
+
+    public final static String CHARACTER_DISCUSSION_UPDATE_NOTE = """
+                    댓글 수정
+                    PATCH /api/v1/characters/discussions/{discussionId}
+                    
+                    Request Body
+                    {
+                        "content" : "이 웹툰 꿀잼" // 수정 내용
+                    }
+                        
+                    Response Body
+                    {
+                        "characterId" : 1,  // 웹툰 Id
+                        "discussionId" : 1, // 종목토론 댓글 Id
+                        "content" :  "이 웹툰 꿀잼", // 댓글 내용
+                        "userId" : 1, // 사용자 Id
+                        "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                        "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                        "likeCount" : 1,  // 좋아요 카운트
+                        "isUserLike": true,   // 사용자 좋아요 여부
+                        "time": "40초 전"
+                    }          
+            """;
+
+    public final static String CHARACTER_DISCUSSION_DELETE_NOTE = """
+                    댓글 삭제
+                    DELETE /api/v1/characters/discussions/{discussionId}
+                        
+                    Response Body
+                    None
+            """;
+
+    public final static String CHARACTER_DISCUSSION_LIKE_CREATE_NOTE = """
+                    종목토론방 좋아요
+                    PUT /api/v1/characters/discussions/{discussionId}/likes
+                        
+                    Response Body
+                    None
+            """;
 }

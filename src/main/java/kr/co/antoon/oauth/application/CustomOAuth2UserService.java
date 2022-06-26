@@ -1,8 +1,6 @@
 package kr.co.antoon.oauth.application;
 
 import kr.co.antoon.aws.application.AwsS3Service;
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.oauth.dto.OAuth2Attribute;
 import kr.co.antoon.user.domain.User;
@@ -22,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -72,14 +71,16 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             var profile = (HashMap<String, String>) data.get("profile");
             user.updateName(profile.get("nickname"));
 
-            var age = data.get("age_range").toString();
-            if (age != null) {
-                int ageRange = Integer.parseInt(age.split("~")[0]);
+            if (data.containsKey("age_range")) {
+                String age = data.get("age_range").toString();
+                int ageRange = Integer.parseInt(age.toString().split("~")[0]);
                 user.updateAge(ageRange);
             }
 
-            var gender = Gender.of(data.get("gender").toString());
-            user.updateGender(gender);
+            if(data.containsKey("gender")) {
+                user.updateGender(Gender.of(data.get("gender").toString()));
+            }
+
         } else if(email.contains("gmail")) {
             user.updateName(data.get("name").toString());
         }
