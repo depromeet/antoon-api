@@ -36,5 +36,11 @@ public class TopicService {
     public List<Topic> findAllChoiceTopics() {
         return topicRepository.findTop8ByOrderByJoinCountDesc();
     }
-
+  
+    @Transactional(readOnly = true)
+    public void existsById(Long id) {
+        if (!topicRepository.existsById(id)) {
+            throw new NotExistsException(ErrorMessage.NOT_EXIST_TOPIC);
+        }
+    }
 }
