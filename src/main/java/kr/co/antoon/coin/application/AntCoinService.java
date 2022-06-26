@@ -1,16 +1,20 @@
 package kr.co.antoon.coin.application;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistory;
+import kr.co.antoon.common.util.CommonUtil;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.coin.dto.CoinReason;
 import kr.co.antoon.common.util.MapperUtil;
 import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +47,8 @@ public class AntCoinService implements AntCoinClient {
         var wallet = getWallet(userId);
         wallet.minus(coin);
 
+        reason = antCoinHistoryService.rewardReasonToJson(type, reason);
+
         antCoinHistoryService.record(
                 userId,
                 wallet.getId(),
@@ -70,6 +76,13 @@ public class AntCoinService implements AntCoinClient {
         if (!antCoinWalletService.existsByUserId(userId)) {
             var wallet = antCoinWalletService.save(userId);
 
+            plusCoin(
+                    userId,
+                    CoinRewardType.DEFAULT_SIGN_COIN_BONUS.getAmount(),
+                    "SIGNUP",
+                    RemittanceType.SIGNED_SERVICE
+            );
+
             antCoinHistoryService.record(
                     userId,
                     wallet.getId(),
@@ -82,21 +95,29 @@ public class AntCoinService implements AntCoinClient {
     }
 
     @Transactional
-    public RecommendationResponse joinWebtoon(Long userId, Long webtoonId, RecommendationResponse response) {
+    public RecommendationResponse joinWebtoon(Long userId, Long webtoonId, RecommendationResponse response, RecommendationStatus status) {
         if (antCoinHistoryService.checkTodayJoinWebtoon(userId, webtoonId)) {
             log.info("ALREADY_GET_COIN: 이미 탑승/하차를 통한 코인 지급이 완료되었습니다.");
             return response;
         }
 
-        var coinReason = new CoinReason(webtoonId);
+        log.info("count : {}", antCoinHistoryService.countJoinWebtoon(userId));
+        if(antCoinHistoryService.countJoinWebtoon(userId) >= rewardLimit) {
+            log.info("ALREADY_OVER_COUNT_COIN: 금일 탑승/하차를 통한 코인 지급 횟수를 초과하였습니다.");
+            return response;
+        }
 
-        var reason = MapperUtil.write(coinReason);
+        RemittanceType type = RemittanceType.joinOrLeave(status);
+//        var coinReason = new CoinReason(webtoonId);
+//        var reason = MapperUtil.write(coinReason);
+
+        String reason = antCoinHistoryService.rewardReasonToJson(type, webtoonId.toString());
 
         plusCoin(
                 userId,
                 CoinRewardType.JOINED_WETBOON_COIN_BONUS.getAmount(),
                 reason,
-                RemittanceType.JOINED_WEBTOON
+                type
         );
 
         return response.update(true);

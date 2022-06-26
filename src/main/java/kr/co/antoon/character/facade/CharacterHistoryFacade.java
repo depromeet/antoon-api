@@ -25,5 +25,6 @@ public class CharacterHistoryFacade {
         //TODO: 사용자 코인 감소 로직 필요
         var joinedItem = characterService.findById(characterId);
         joinedItem.amountUpdate(JOIN_COIN_AMOUNT);
+
     }
 }

@@ -10,10 +10,14 @@ import kr.co.antoon.common.util.MapperUtil;
 import kr.co.antoon.common.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Year;
+import java.time.ZoneId;
 
 @Slf4j
 @Service
@@ -47,8 +51,6 @@ public class AntCoinHistoryService {
                 .atDay(today.getDayOfMonth())
                 .atTime(0, 0, 0, 0);
 
-        log.info("checktoday : {}", today);
-
         return antCoinHistoryRepository.existsByRemittanceTypeAndUserIdAndReasonAndCreatedAtAfter(
                 RemittanceType.JOINED_WEBTOON,
                 userId,
@@ -60,5 +62,17 @@ public class AntCoinHistoryService {
     @Transactional
     public CoinHistory getCoinHistory(Long userId) {
         return antCoinHistoryRepository.getAntCoinHistoryByUserId(userId);
+    }
+
+    @Transactional
+    public Long countJoinWebtoon(Long userId) {
+        String today = LocalDate.now().toString();
+        return antCoinHistoryRepository.countTodayWebtoonReward(userId, today, "WEBTOON");
+    }
+
+    public String rewardReasonToJson(RemittanceType remittanceType, String id) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(String.valueOf(remittanceType), id);
+        return jsonObject.toString();
     }
 }
