@@ -5,6 +5,8 @@ import kr.co.antoon.character.domain.Character;
 import kr.co.antoon.webtoon.dto.query.WebtoonCharacterNativeDto;
 
 public record CharacterDetailResponse(
+        @Schema(description = "인물/커플 ID")
+        Long id,
         @Schema(description = "인물/커플 이름")
         String name,
         @Schema(description = "인물/커플 이미지")
@@ -33,6 +35,7 @@ public record CharacterDetailResponse(
 {
         public CharacterDetailResponse(Character character, Integer rank, String imageUrl, WebtoonCharacterNativeDto webtoon, Boolean isJoined, Integer joinedCount) {
                 this(
+                        character.getId(),
                         character.getName(),
                         imageUrl,
                         rank,

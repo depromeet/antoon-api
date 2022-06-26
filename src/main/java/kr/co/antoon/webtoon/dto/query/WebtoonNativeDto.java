@@ -45,4 +45,10 @@ public interface WebtoonNativeDto {
     RecommendationStatus getRecommendationStatus();
 
     Integer getRanking();
+
+    Long getCharacterId();
+
+    String getCharacterName();
+
+    String getCharacterImageUrl();
 }

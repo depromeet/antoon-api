@@ -82,7 +82,7 @@ public class CharacterFacadeTest {
 
         AuthInfo mockInfo = new AuthInfo(USER_ID, List.of(Role.USER));
 
-        Mockito.when(characterService.getSubjectsByTopUpper(any()))
+        Mockito.when(characterService.getCharactersByTopUpper(any()))
                 .thenReturn(characters);
 
         Mockito.when(webtoonService.findById(anyLong()))
@@ -137,7 +137,7 @@ public class CharacterFacadeTest {
 
         AuthInfo mockInfo = new AuthInfo(USER_ID, List.of(Role.USER));
 
-        Mockito.when(characterService.getSubjectsByTopUpper(any()))
+        Mockito.when(characterService.getCharactersByTopUpper(any()))
                 .thenReturn(couples);
 
         Mockito.when(webtoonService.findById(anyLong()))

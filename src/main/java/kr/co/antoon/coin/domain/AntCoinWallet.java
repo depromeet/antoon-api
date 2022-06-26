@@ -1,6 +1,7 @@
 package kr.co.antoon.coin.domain;
 
 import kr.co.antoon.coin.domain.vo.CoinRank;
+import kr.co.antoon.coin.domain.vo.CoinRankCriteria;
 import kr.co.antoon.coin.domain.vo.WalletStatus;
 import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
@@ -34,7 +35,7 @@ public class AntCoinWallet extends BaseEntity {
     private CoinRank coinRank;
 
     @Transient
-    private final static Long DEFAULT_COIN = 300L;
+    private final static Long DEFAULT_COIN = 0L;
 
     public AntCoinWallet(Long userId) {
         this.userId = userId;
@@ -70,10 +71,10 @@ public class AntCoinWallet extends BaseEntity {
     }
 
     public CoinRank checkCoinRank() {
-        if (this.wallet < 50) {
+        if (this.wallet < CoinRankCriteria.LEVEL_TWO.getCoinCriteria()) {
             return CoinRank.LEVEL_ONE;
         }
-        if (this.wallet < 200) {
+        if (this.wallet < CoinRankCriteria.LEVEL_THREE.getCoinCriteria()) {
             return CoinRank.LEVEL_TWO;
         }
         return CoinRank.LEVEL_THREE;
