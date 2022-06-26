@@ -93,6 +93,10 @@ public class WebtoonFacade {
         return new WebtoonAgeResponse(response);
     }
 
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::search"}
+    )
     @Transactional(readOnly = true)
     public WebtoonSearchResponse search(WebtoonSearchRequest request) {
         var webtoons = request.webtoons()

@@ -1,5 +1,7 @@
 package kr.co.antoon.webtoon.facade;
 
+import kr.co.antoon.cache.webtoon.WebtoonRedisCacheService;
+import kr.co.antoon.cache.webtoon.WebtoonRedisKey;
 import kr.co.antoon.crawling.WebtoonCrawlingFactory;
 import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import kr.co.antoon.webtoon.application.WebtoonGenreService;
@@ -34,12 +36,13 @@ public class WebtoonCrawlingFacade {
     private final WebtoonSnapshotService webtoonSnapshotService;
     private final WebtoonGenreService webtoonGenreService;
     private final WebtoonWriterService webtoonWriterService;
+    private final WebtoonRedisCacheService webtoonRedisCacheService;
 
     @Transactional
     public void crawlingWebtoon(Platform platform) {
         var existsWebtoons = webtoonService.findAll()
                 .parallelStream()
-                .collect(Collectors.toMap(webtoon1 -> webtoon1.getTitle(), ws -> ws, (p1, p2) -> p1));
+                .collect(Collectors.toMap(Webtoon::getTitle, ws -> ws, (p1, p2) -> p1));
 
         List<WebtoonPublishDay> webtoonPublishDays = new ArrayList<>();
         List<WebtoonWriter> webtoonWriters = new ArrayList<>();
@@ -91,5 +94,7 @@ public class WebtoonCrawlingFacade {
         webtoonWriterService.saveAll(webtoonWriters);
         webtoonPublishDayService.saveAll(webtoonPublishDays);
         webtoonSnapshotService.saveAll(webtoonSnapshots);
+
+        webtoonRedisCacheService.evict(WebtoonRedisKey.WEBTOON_SEARCH_KEY);
     }
 }

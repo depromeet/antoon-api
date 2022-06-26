@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum WebtoonRedisKey {
     WEBTOON_TOP_RANK_KEY("webtoon::top-rank"),
+    WEBTOON_SEARCH_KEY("webtoon::search"),
     ;
 
     private final String value;
