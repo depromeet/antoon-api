@@ -10,6 +10,7 @@ import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.user.dto.request.UserDetailName;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
+import kr.co.antoon.user.dto.response.GetUserDetailResponse;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,8 @@ public class UserController {
 
     @ApiOperation(value = "사용자 마이페이지 조회 API", notes = SwaggerNote.USER_READ_DETAIL)
     @GetMapping
-    public ResponseEntity<UserDetailResponse> getUser(@AuthUser AuthInfo info) {
-        var response = userService.findById(info.userId());
+    public ResponseEntity<GetUserDetailResponse> getUser(@AuthUser AuthInfo info) {
+        var response = userService.findByIdWithWallet(info.userId());
         return ResponseEntity.ok(response);
     }
 
