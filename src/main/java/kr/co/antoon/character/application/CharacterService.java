@@ -31,4 +31,11 @@ public class CharacterService {
     public Integer findRank(Long characterId) {
         return characterRepository.findRankById(characterId);
     }
+
+    @Transactional(readOnly = true)
+    public void existsById(Long id) {
+        if (!characterRepository.existsById(id)) {
+            throw new NotExistsException(ErrorMessage.NOT_EXISTS_CHARACTER);
+        }
+    }
 }
