@@ -1,5 +1,6 @@
 package kr.co.antoon.webtoon.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import kr.co.antoon.webtoon.domain.Webtoon;
@@ -10,6 +11,7 @@ import kr.co.antoon.webtoon.dto.query.WebtoonGenreBannerNativeDto;
 import java.util.List;
 
 @ApiModel("웹툰 장르별 리스트")
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
 public record WebtoonGenreAllResponse(
         List<WebtoonGenrePreviewResponse> webtoons
 ) {
