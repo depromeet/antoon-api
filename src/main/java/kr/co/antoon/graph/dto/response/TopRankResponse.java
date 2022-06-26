@@ -1,5 +1,6 @@
 package kr.co.antoon.graph.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
@@ -9,6 +10,7 @@ import kr.co.antoon.webtoon.dto.WebtoonDto;
 import java.util.List;
 import java.util.Set;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
 public record TopRankResponse(
         List<TopRankWebtooon> webtoons
 ) {

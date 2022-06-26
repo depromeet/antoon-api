@@ -4,6 +4,7 @@ import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -13,7 +14,6 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class NaverWebtoonCrawling implements WebtoonCrawling {
-    
     @Override
     public WebtoonCrawlingDto crawling() {
         var bundle = new HashSet<WebtoonCrawlingDto.WebtoonCrawlingDetail>();
@@ -42,8 +42,14 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
 
                     var thumbnail = webtoonDetailImageDocument.select("div.thumb img").attr("src");
 
+                    // TODO : 19금 이미지인 경우 교체 사진 필요
+                    if (!StringUtils.hasText(thumbnail)) {
+                        thumbnail = "https://www.easylaw.go.kr/CSP/template/2019/08/22/BIN000D[31].bmp";
+                    }
+
                     var innerElements = webtoonDetailDocument.select("div.comicinfo");
 
+                    String finalThumbnail = thumbnail;
                     bundle.addAll(innerElements
                             .parallelStream()
                             .map(innerElement -> {
@@ -63,7 +69,7 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                                         content,
                                         List.of(writer),
                                         url,
-                                        thumbnail,
+                                        finalThumbnail,
                                         genres,
                                         Double.parseDouble(score),
                                         day

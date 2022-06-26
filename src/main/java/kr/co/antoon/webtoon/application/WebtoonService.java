@@ -14,6 +14,7 @@ import kr.co.antoon.webtoon.dto.query.WebtoonGenreNativeDto;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.infrastructure.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -76,6 +77,11 @@ public class WebtoonService {
         return webtoonRepository.findByGenreAndStatus(genre, status);
     }
 
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::detail"},
+            key = "#webtoonId"
+    )
     @Transactional(readOnly = true)
     public WebtoonDto findDetailWebtoon(Long webtoonId) {
         var end = LocalDateTime.now();
