@@ -5,6 +5,7 @@ import kr.co.antoon.graph.application.TopRankService;
 import kr.co.antoon.graph.dto.response.TopRankResponse;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,10 @@ public class TopRankFacade {
     private final WebtoonService webtoonService;
     private final GraphScoreSnapshotService graphScoreSnapshotService;
 
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::top-rank"}
+    )
     @Transactional(readOnly = true)
     public TopRankResponse findTopRank() {
         var response = topRankService.findTopRank()

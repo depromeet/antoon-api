@@ -80,7 +80,7 @@ public class WebtoonFacade {
 
     @Cacheable(
             cacheManager = "webtoonCacheManager",
-            value = {"webtoon:age"}
+            value = {"webtoon::age"}
     )
     @Transactional(readOnly = true)
     public WebtoonAgeResponse getAges() {
@@ -103,6 +103,10 @@ public class WebtoonFacade {
         return new WebtoonSearchResponse(webtoons);
     }
 
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::genre::top3"}
+    )
     @Transactional(readOnly = true)
     public WebtoonGenreAllResponse getGenreAndThumbnail() {
         var webtoons = webtoonService.findAll()
