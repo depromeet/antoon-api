@@ -1,9 +1,10 @@
 package kr.co.antoon.graph.facade;
 
+import kr.co.antoon.cache.webtoon.WebtoonRedisCacheService;
 import kr.co.antoon.common.util.TimeUtil;
 import kr.co.antoon.criteria.ScoreAllocationCriteria;
 import kr.co.antoon.discussion.application.DiscussionService;
-import kr.co.antoon.discussion.dto.DiscussionCountDto;
+import kr.co.antoon.discussion.dto.query.DiscussionCountDto;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.graph.application.TopRankService;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static kr.co.antoon.cache.webtoon.WebtoonRedisKey.WEBTOON_TOP_RANK_KEY;
+
 @Component
 @RequiredArgsConstructor
 public class GraphScoreFacade {
@@ -29,6 +32,7 @@ public class GraphScoreFacade {
     private final TopRankService topRankService;
     private final RecommendationCountService recommendationCountService;
     private final ScoreAllocationCriteria scoreAllocationCriteria;
+    private final WebtoonRedisCacheService webtoonRedisCacheService;
 
     /**
      * 인기순(기준)[외부데이터] - 60분마다
@@ -106,5 +110,6 @@ public class GraphScoreFacade {
 
         var graphScoreSnapshots = graphScoreSnapshotService.findTop9BySnapshotTimeAfter(now);
         topRankService.saveAll(graphScoreSnapshots);
+        webtoonRedisCacheService.evict(WEBTOON_TOP_RANK_KEY);
     }
 }

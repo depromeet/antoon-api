@@ -85,5 +85,4 @@ public class User extends BaseEntity {
     public void updateGender(Gender gender) {
         this.gender = gender;
     }
-
 }

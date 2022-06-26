@@ -4,6 +4,8 @@ import kr.co.antoon.discussion.application.DiscussionLikeService;
 import kr.co.antoon.discussion.domain.Discussion;
 import kr.co.antoon.discussion.domain.DiscussionLike;
 import kr.co.antoon.discussion.infrastructure.DiscussionLikeRepository;
+import kr.co.antoon.oauth.dto.AuthInfo;
+import kr.co.antoon.user.domain.vo.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -88,12 +91,14 @@ public class LikeServiceTest {
                 .discussionId(DISCUSSION_ID)
                 .build();
 
+        AuthInfo mockInfo = new AuthInfo(USER_ID, List.of(Role.USER));
+
         given(likeRepository.findByUserIdAndDiscussionId(anyLong(), anyLong())
         ).willReturn(
                 Optional.ofNullable(mockLike)
         );
 
-        Boolean result = likeService.isUserLike(USER_ID, DISCUSSION_ID);
+        Boolean result = likeService.isUserLike(mockInfo, DISCUSSION_ID);
         assertThat(result).isEqualTo(true);
     }
 
@@ -105,12 +110,14 @@ public class LikeServiceTest {
                 .discussionId(DISCUSSION_ID)
                 .build();
 
+        AuthInfo mockInfo = new AuthInfo(USER_ID, List.of(Role.USER));
+
         given(likeRepository.findByUserIdAndDiscussionId(anyLong(), anyLong())
         ).willReturn(
                 Optional.empty()
         );
 
-        Boolean result = likeService.isUserLike(USER_ID, DISCUSSION_ID);
+        Boolean result = likeService.isUserLike(mockInfo, DISCUSSION_ID);
         assertThat(result).isEqualTo(false);
     }
 }

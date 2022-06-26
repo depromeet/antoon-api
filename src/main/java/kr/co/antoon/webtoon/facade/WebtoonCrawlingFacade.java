@@ -1,6 +1,9 @@
 package kr.co.antoon.webtoon.facade;
 
+import kr.co.antoon.cache.webtoon.WebtoonRedisCacheService;
+import kr.co.antoon.cache.webtoon.WebtoonRedisKey;
 import kr.co.antoon.crawling.WebtoonCrawlingFactory;
+import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import kr.co.antoon.webtoon.application.WebtoonGenreService;
 import kr.co.antoon.webtoon.application.WebtoonPublishDayService;
 import kr.co.antoon.webtoon.application.WebtoonService;
@@ -18,7 +21,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static kr.co.antoon.webtoon.converter.WebtoonConverter.toWebtoon;
@@ -31,6 +36,7 @@ public class WebtoonCrawlingFacade {
     private final WebtoonSnapshotService webtoonSnapshotService;
     private final WebtoonGenreService webtoonGenreService;
     private final WebtoonWriterService webtoonWriterService;
+    private final WebtoonRedisCacheService webtoonRedisCacheService;
 
     @Transactional
     public void crawlingWebtoon(Platform platform) {
@@ -44,8 +50,14 @@ public class WebtoonCrawlingFacade {
 
         var webtoonCrawling = WebtoonCrawlingFactory.of(platform);
 
+        var aaa = webtoonCrawling.crawling().webtoons()
+                .parallelStream()
+                .collect(Collectors.toMap(WebtoonCrawlingDto.WebtoonCrawlingDetail::title, dd -> dd, (v1, v2) -> v1));
+
+        Set<WebtoonCrawlingDto.WebtoonCrawlingDetail> bbb = new HashSet<>(aaa.values());
+
         var webtoonSnapshots = new ArrayList<>(
-                webtoonCrawling.crawling().webtoons()
+                bbb
                         .parallelStream()
                         .map(crawlingWebtton -> {
                             Long webtoonId;
@@ -74,6 +86,7 @@ public class WebtoonCrawlingFacade {
 
                                 webtoonPublishDays.add(new WebtoonPublishDay(crawlingWebtton.day(), webtoonId));
                             }
+
                             return new WebtoonSnapshot(crawlingWebtton.score(), webtoonId);
                         }).toList());
 
@@ -81,5 +94,7 @@ public class WebtoonCrawlingFacade {
         webtoonWriterService.saveAll(webtoonWriters);
         webtoonPublishDayService.saveAll(webtoonPublishDays);
         webtoonSnapshotService.saveAll(webtoonSnapshots);
+
+        webtoonRedisCacheService.evict(WebtoonRedisKey.WEBTOON_SEARCH_KEY);
     }
 }

@@ -35,7 +35,6 @@ public class CharacterServiceTest {
         for(int i = 0; i < 30; i++) {
             expected.add(Character.builder()
                     .name("디프만 1번 출구")
-                    .thumbnail("test.png")
                     .type(CharacterType.PERSONA)
                     .webtoonId(1L)
                     .build()
@@ -56,16 +55,15 @@ public class CharacterServiceTest {
         // given
         var expected = Character.builder()
                 .name("디프만 1번 출구")
-                .thumbnail("test.png")
                 .type(CharacterType.PERSONA)
                 .webtoonId(1L)
                 .build();
 
-         Mockito.when(characterRepository.findById(anyLong()))
-                 .thenReturn(Optional.of(expected));
-         // when
-         Character actual = characterService.findById(JOINED_ITEM_ID);
-         // then
-         assertEquals(expected, actual);
+        Mockito.when(characterRepository.findById(anyLong()))
+                .thenReturn(Optional.of(expected));
+        // when
+        Character actual = characterService.findById(JOINED_ITEM_ID);
+        // then
+        assertEquals(expected, actual);
     }
 }

@@ -1,7 +1,7 @@
 package kr.co.antoon.discussion.application;
 
 import kr.co.antoon.discussion.domain.Discussion;
-import kr.co.antoon.discussion.dto.DiscussionCountDto;
+import kr.co.antoon.discussion.dto.query.DiscussionCountDto;
 import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.discussion.infrastructure.DiscussionRepository;
 import kr.co.antoon.error.dto.ErrorMessage;

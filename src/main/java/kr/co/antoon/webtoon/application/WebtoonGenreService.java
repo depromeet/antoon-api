@@ -23,7 +23,8 @@ public class WebtoonGenreService {
 
     @Transactional
     public List<WebtoonGenre> getGenre() {
-        return Arrays.stream(GenreCategory.values()).map(webtoonGenreRepository::findTop3ByGenreCategory)
+        return Arrays.stream(GenreCategory.values())
+                .map(webtoonGenreRepository::findTop3ByGenreCategory)
                 .flatMap(Collection::stream)
                 .toList();
     }
