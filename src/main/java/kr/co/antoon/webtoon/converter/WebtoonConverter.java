@@ -15,12 +15,14 @@ import static kr.co.antoon.criteria.BasicAllocateScore.getDifferencePercentage;
 import static kr.co.antoon.webtoon.dto.WebtoonDto.GenreDto;
 import static kr.co.antoon.webtoon.dto.WebtoonDto.PublishDayDto;
 import static kr.co.antoon.webtoon.dto.WebtoonDto.WriterDto;
+import static kr.co.antoon.webtoon.dto.WebtoonDto.CharacterDto;
 
 public class WebtoonConverter {
     public static WebtoonDto toWebtoonDto(List<WebtoonNativeDto> webtoon) {
         Set<GenreDto> genres = new HashSet<>();
         Set<PublishDayDto> days = new HashSet<>();
         Set<WriterDto> writers = new HashSet<>();
+        Set<CharacterDto> characters = new HashSet<>();
 
         webtoon.forEach(dto -> {
             genres.add(new GenreDto(
@@ -35,6 +37,11 @@ public class WebtoonConverter {
             writers.add(new WriterDto(
                     dto.getWebtoonWriterId(),
                     dto.getName()
+            ));
+            characters.add(new CharacterDto(
+                    dto.getCharacterId(),
+                    dto.getCharacterName(),
+                    dto.getCharacterImageUrl()
             ));
         });
 
@@ -58,7 +65,8 @@ public class WebtoonConverter {
                 webtoon.get(0).getScoreGap(),
                 getDifferencePercentage(webtoon.get(0).getGraphScore(), webtoon.get(0).getScoreGap()),
                 status(webtoon.get(0).getRecommendationStatus()),
-                webtoon.get(0).getRanking()
+                webtoon.get(0).getRanking(),
+                characters
         );
     }
 
