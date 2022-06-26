@@ -34,7 +34,7 @@ public class AntCoinWallet extends BaseEntity {
     private CoinRank coinRank;
 
     @Transient
-    private final static Long DEFAULT_COIN = 300L;
+    private final static Long DEFAULT_COIN = 0L;
 
     public AntCoinWallet(Long userId) {
         this.userId = userId;
