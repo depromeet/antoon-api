@@ -704,4 +704,63 @@ public class SwaggerNote {
                     Response Body
                     None
             """;
+    public static final String TOPIC_READ_ALL_NOTE = """
+            모든 토픽 조회
+            GET /api/v1/topics/{sortType}
+            Response Body
+            {
+              "data": [
+                {
+                  "topicId": 1,
+                  "topicCategory": "AB",
+                  "tags": [
+                    "연애혁명",
+                    "소년심판"
+                  ],
+                  "title": "이경우, 강효민 둘이 싸우면 누가 이길까?",
+                  "topicVoteEndTime": "2022-06-25T15:53:50",
+                  "joinCount": 2,
+                  "thumbnails": [
+                    "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/ANT_DEFAULT/blue.png",
+                    "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/ANT_DEFAULT/red.png"
+                  ]
+                },
+                {
+                  "topicId": 2,
+                  "topicCategory": "AB",
+                  "tags": [
+                    "연애혁명",
+                    "소년심판"
+                  ],
+                  "title": "주영, 자림 커플은 이대로 헤어질까?",
+                  "topicVoteEndTime": "2022-06-20T15:53:50",
+                  "joinCount": 2,
+                  "thumbnails": [
+                    "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/ANT_DEFAULT/blue.png",
+                    "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/ANT_DEFAULT/red.png"
+                  ]
+                },
+                {
+                  "topicId": 3,
+                  "topicCategory": "CHOICE",
+                  "tags": [
+                    "연애혁명"
+                  ],
+                  "title": "이경우는 고백한다?",
+                  "topicVoteEndTime": "2022-06-28T15:53:50",
+                  "joinCount": 1,
+                  "thumbnails": [
+                    "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/ANT_DEFAULT/blue.png",
+                    "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/ANT_DEFAULT/red.png"
+                  ]
+                }
+              ],
+              "page": 0,
+              "size": 5,
+              "totalPages": 1,
+              "totalElements": 3,
+              "firstPage": true,
+              "lastPage": true
+            }
+            """;
 }

@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.PageDto;
 import kr.co.antoon.common.dto.ResponseDto;
+import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.vote.domain.vo.SortType;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 public class TopicController {
     private final TopicFacade topicFacade;
 
-    @ApiOperation(value = "모든 토픽 목록 조회")
+    @ApiOperation(value = "모든 토픽 목록 조회", notes = SwaggerNote.TOPIC_READ_ALL_NOTE)
     @GetMapping("/{sortType}")
     public ResponseEntity<PageDto<TopicPageResponse>> getTopics(
             @PathVariable("sortType") SortType sortType,
