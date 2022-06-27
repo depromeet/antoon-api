@@ -9,10 +9,7 @@ import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.vote.domain.vo.SortType;
 import kr.co.antoon.vote.dto.request.TopicDiscussionCreateRequest;
 import kr.co.antoon.vote.dto.request.TopicDiscussionUpdateRequest;
-import kr.co.antoon.vote.dto.response.TopicAllResponse;
-import kr.co.antoon.vote.dto.response.TopicChoicesResponse;
-import kr.co.antoon.vote.dto.response.TopicDiscussionResponse;
-import kr.co.antoon.vote.dto.response.TopicResponse;
+import kr.co.antoon.vote.dto.response.*;
 import kr.co.antoon.vote.facade.TopicFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -33,11 +30,12 @@ public class TopicController {
 
     @ApiOperation(value = "모든 토픽 목록 조회")
     @GetMapping("/{sortType}")
-    public ResponseEntity<TopicAllResponse> getTopics(
-            @PathVariable("sortType") SortType sortType
+    public ResponseEntity<PageDto<TopicPageResponse>> getTopics(
+            @PathVariable("sortType") SortType sortType,
+            @PageableDefault(size = 5, page = 0) Pageable pageable
     ) {
-        var response = topicFacade.findAll(sortType);
-        return ResponseDto.ok(response);
+        var response = topicFacade.findAll(sortType, pageable);
+        return PageDto.ok(response);
     }
 
     @ApiOperation(value = "개미들의 선택 목록 조회")

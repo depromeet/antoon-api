@@ -6,6 +6,8 @@ import kr.co.antoon.vote.domain.Topic;
 import kr.co.antoon.vote.domain.vo.SortType;
 import kr.co.antoon.vote.infrastructure.TopicRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +20,11 @@ public class TopicService {
     private final TopicRepository topicRepository;
 
     @Transactional(readOnly = true)
-    public List<Topic> findAllTopics(SortType sortType) {
+    public Page<Topic> findAllTopics(SortType sortType, Pageable pageable) {
         return switch (sortType) {
-            case LATEST -> topicRepository.findAllByOrderByCreatedAtDesc();
-            case RANKS -> topicRepository.findAllByOrderByJoinCountDesc();
-            case CLOSES -> topicRepository.findAllByTopicVoteTimeLessThan(LocalDateTime.now());
+            case LATEST -> topicRepository.findAllByOrderByCreatedAtDesc(pageable);
+            case RANKS -> topicRepository.findAllByOrderByJoinCountDesc(pageable);
+            case CLOSES -> topicRepository.findAllByTopicVoteTimeLessThan(LocalDateTime.now(), pageable);
         };
     }
 
