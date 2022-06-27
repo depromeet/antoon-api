@@ -4,12 +4,10 @@ package kr.co.antoon.user.application;
 import com.amazonaws.services.s3.AmazonS3;
 
 import kr.co.antoon.coin.application.AntCoinService;
-import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.domain.User;
-import kr.co.antoon.user.dto.request.UserDetailImage;
 import kr.co.antoon.user.dto.request.UserDetailName;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
 
@@ -26,8 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final AntCoinService antCoinService;
     private final UserRepository userRepository;
-    private final AmazonS3 amazonS3;
-    public static final String SUFFIX = ".png";
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -72,13 +68,6 @@ public class UserService {
     public UserDetailResponse updateNameById(AuthInfo info, UserDetailName userDetailName) {
         var user = findOneById(info.userId()).updateName(userDetailName.name());
         return new UserDetailResponse(user);
-    }
-
-    @Transactional(readOnly = true)
-    public UserProfileResponse getDefaultProfileImage(String fileName) {
-        String fullFileName = fileName + SUFFIX;
-        var profileUrl = amazonS3.getUrl(bucket, fullFileName).toString();
-        return new UserProfileResponse(profileUrl);
     }
 
     @Transactional

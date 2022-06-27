@@ -11,15 +11,11 @@ import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.user.dto.request.UserDetailName;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
 
-import kr.co.antoon.user.dto.response.UserProfileResponse;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import kr.co.antoon.user.dto.response.GetUserDetailResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -75,15 +71,6 @@ public class UserController {
             @AuthUser AuthInfo info,
             @RequestBody UserDetailName userDetailName) {
         var response = userService.updateNameById(info, userDetailName);
-        return ResponseEntity.ok(response);
-    }
-
-    @ApiOperation(value = "프로필 기본 이미지 조회 API", notes = SwaggerNote.USER_DEFAULT_PROFILE_IMAGE)
-    @GetMapping( "/profiles")
-    public ResponseEntity<UserProfileResponse> getDefaultProfileImage(
-            @RequestParam("fileName") String fileName
-    ) {
-        var response = userService.getDefaultProfileImage(fileName);
         return ResponseEntity.ok(response);
     }
 }
