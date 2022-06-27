@@ -6,11 +6,12 @@ import kr.co.antoon.vote.domain.vo.TopicCategory;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public record TopicResponse(
         Long topicId,
         TopicCategory topicCategory,
-        String tags,
+        Set<String> tags,
         String title,
         LocalDateTime topicVoteEndTime,
         Integer joinCount,
@@ -21,7 +22,7 @@ public record TopicResponse(
         this(
                 topic.getId(),
                 topic.getTopicCategory(),
-                topic.getTags(),
+                Set.of(topic.getTags().split(",")),
                 topic.getTitle(),
                 topic.getTopicVoteTime(),
                 topic.getJoinCount(),

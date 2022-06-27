@@ -5,6 +5,7 @@ import kr.co.antoon.vote.domain.vo.TopicCategory;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public record TopicAllResponse (
         List<TopicResponse> topics
@@ -12,7 +13,7 @@ public record TopicAllResponse (
     public record TopicResponse(
             Long topicId,
             TopicCategory topicCategory,
-            String tags,
+            Set<String> tags,
             String title,
             LocalDateTime createdAt,
             LocalDateTime topicVoteEndTime,
@@ -23,7 +24,7 @@ public record TopicAllResponse (
             this(
                     topic.getId(),
                     topic.getTopicCategory(),
-                    topic.getTags(),
+                    Set.of(topic.getTags().split(",")),
                     topic.getTitle(),
                     topic.getCreatedAt(),
                     topic.getTopicVoteTime(),
