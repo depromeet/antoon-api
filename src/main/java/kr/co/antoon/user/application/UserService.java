@@ -1,5 +1,8 @@
 package kr.co.antoon.user.application;
 
+
+import com.amazonaws.services.s3.AmazonS3;
+
 import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.error.dto.ErrorMessage;
@@ -9,19 +12,26 @@ import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.dto.request.UserDetailImage;
 import kr.co.antoon.user.dto.request.UserDetailName;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
+
 import kr.co.antoon.user.dto.response.GetUserDetailResponse;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final UserRepository userRepository;
     private final AntCoinService antCoinService;
+    private final UserRepository userRepository;
+    private final AmazonS3 amazonS3;
+    public static final String SUFFIX = ".png";
 
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+    
     @Transactional(readOnly = true)
     public User findOneById(Long id) {
         return userRepository.findById(id)
@@ -62,6 +72,13 @@ public class UserService {
     public UserDetailResponse updateNameById(AuthInfo info, UserDetailName userDetailName) {
         var user = findOneById(info.userId()).updateName(userDetailName.name());
         return new UserDetailResponse(user);
+    }
+
+    @Transactional(readOnly = true)
+    public UserProfileResponse getDefaultProfileImage(String fileName) {
+        String fullFileName = fileName + SUFFIX;
+        var profileUrl = amazonS3.getUrl(bucket, fullFileName).toString();
+        return new UserProfileResponse(profileUrl);
     }
 
     @Transactional

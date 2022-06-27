@@ -471,6 +471,18 @@ public class SwaggerNote {
             }
             """;
 
+    public static final String USER_DEFAULT_PROFILE_IMAGE = """
+            사용자 기본 프로필 이미지 조회
+            GET /api/v1/users/profiles
+            Request Param 
+            fileName (value: blue/green/marine/mint/orange/purple/red/yellow) 
+            
+            Response Body
+            {
+              "defaultProfileImageUrl": "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/mint.png"
+            }
+            """;
+
     public final static String GET_COIN_HISTORY = """
                     코인 지급 히스토리 조회
                     GET /api/v1/coins/history    
