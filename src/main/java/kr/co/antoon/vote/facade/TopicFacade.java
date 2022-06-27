@@ -12,11 +12,8 @@ import kr.co.antoon.vote.domain.Candidate;
 import kr.co.antoon.vote.domain.vo.SortType;
 import kr.co.antoon.vote.dto.request.TopicDiscussionCreateRequest;
 import kr.co.antoon.vote.dto.request.TopicDiscussionUpdateRequest;
-import kr.co.antoon.vote.dto.response.TopicAllResponse;
-import kr.co.antoon.vote.dto.response.TopicChoicesResponse;
+import kr.co.antoon.vote.dto.response.*;
 
-import kr.co.antoon.vote.dto.response.TopicDiscussionResponse;
-import kr.co.antoon.vote.dto.response.TopicResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -40,20 +37,19 @@ public class TopicFacade {
     }
 
     @Transactional(readOnly = true)
-    public TopicAllResponse findAll(SortType sortType) {
-        var response = topicService.findAllTopics(sortType)
-                .stream()
+    public Page<TopicPageResponse> findAll(SortType sortType, Pageable pageable) {
+        Page<TopicPageResponse> topicPageResponses = topicService.findAllTopics(sortType, pageable)
                 .map(topic -> {
                     String[] thumbnails = candidateService.findAllByTopicId(topic.getId())
                             .stream()
                             .map(Candidate::getImageUrl)
                             .toArray(String[]::new);
-                    return new TopicAllResponse.TopicResponse(
+                    return new TopicPageResponse(
                             topic,
                             thumbnails
                     );
-                }).toList();
-        return new TopicAllResponse(response);
+                });
+        return topicPageResponses;
     }
 
     @Transactional(readOnly = true)

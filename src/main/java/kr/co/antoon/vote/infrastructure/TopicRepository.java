@@ -1,6 +1,8 @@
 package kr.co.antoon.vote.infrastructure;
 
 import kr.co.antoon.vote.domain.Topic;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,11 +11,11 @@ import java.util.List;
 
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Long> {
-    List<Topic> findAllByTopicVoteTimeLessThan(LocalDateTime now);
+    Page<Topic> findAllByTopicVoteTimeLessThan(LocalDateTime now, Pageable pageable);
 
-    List<Topic> findAllByOrderByCreatedAtDesc();
+    Page<Topic> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
-    List<Topic> findAllByOrderByJoinCountDesc();
+    Page<Topic> findAllByOrderByJoinCountDesc(Pageable pageable);
 
     List<Topic> findTop8ByOrderByJoinCountDesc();
 }
