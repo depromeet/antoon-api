@@ -1,8 +1,5 @@
 package kr.co.antoon.user.application;
 
-
-import com.amazonaws.services.s3.AmazonS3;
-
 import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.NotExistsException;
@@ -15,7 +12,6 @@ import kr.co.antoon.user.dto.response.GetUserDetailResponse;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import kr.co.antoon.user.infrastructure.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final AntCoinService antCoinService;
     private final UserRepository userRepository;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
     
     @Transactional(readOnly = true)
     public User findOneById(Long id) {
