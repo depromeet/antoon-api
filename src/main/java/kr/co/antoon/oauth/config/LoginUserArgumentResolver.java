@@ -15,11 +15,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Component
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
-
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean isLoginUserAnnotation = parameter.getParameterAnnotation(AuthUser.class) != null;
@@ -28,15 +26,18 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter,
-                                  ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest,
-                                  WebDataBinderFactory binderFactory) {
+    public Object resolveArgument(
+            MethodParameter parameter,
+            ModelAndViewContainer mavContainer,
+            NativeWebRequest webRequest,
+            WebDataBinderFactory binderFactory
+    ) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (Objects.equals(authentication.getPrincipal(), "anonymousUser")) {
             return null;
         }
+
         return new AuthInfo(
                 Long.valueOf(String.valueOf(authentication.getPrincipal())),
                 rolesFromAuthorities(authentication.getAuthorities())
@@ -46,6 +47,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     private List<Role> rolesFromAuthorities(Collection<? extends GrantedAuthority> authorities) {
         return authorities.stream()
                 .map(authority -> Role.of(authority.getAuthority()))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

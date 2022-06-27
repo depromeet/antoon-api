@@ -1,6 +1,8 @@
 package kr.co.antoon.webtoon.facade;
 
+import kr.co.antoon.common.util.TimeUtil;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
+import kr.co.antoon.webtoon.application.WebtoonGenreService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonWriterService;
 import kr.co.antoon.webtoon.domain.Webtoon;
@@ -13,16 +15,16 @@ import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonSearchResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static kr.co.antoon.webtoon.dto.response.WebtoonGenreAllResponse.WebtoonGenrePreviewResponse;
 
 @Component
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class WebtoonFacade {
     private final WebtoonService webtoonService;
     private final WebtoonWriterService webtoonWriterService;
     private final GraphScoreSnapshotService graphScoreSnapshotService;
+    private final WebtoonGenreService webtoonGenreService;
 
     @Transactional(readOnly = true)
     public Page<WebtoonDayResponse> getWebtoonByDay(Pageable pageable, String day) {
@@ -44,7 +47,7 @@ public class WebtoonFacade {
 
     @Transactional(readOnly = true)
     public Page<WebtoonGenreResponse> getWebtoonsGenreAndStatus(Pageable pageable, String genre) {
-        var end = LocalDateTime.now();
+        var end = TimeUtil.now();
         var start = end.minusHours(1);
 
         var genreCategory = GenreCategory.of(genre);
@@ -56,20 +59,6 @@ public class WebtoonFacade {
                             return new WebtoonGenreResponse(webtoon, writers, genreCategory);
                         }
                 );
-    }
-
-    @Transactional(readOnly = true)
-    public WebtoonGenreAllResponse getWebtoonsGenres() {
-        var end = LocalDateTime.now();
-        var start = end.minusHours(1);
-
-        var response = Arrays.stream(GenreCategory.values())
-                .map(category -> webtoonService.findGenre(start, end, category))
-                .flatMap(Collection::stream)
-                .map(WebtoonGenreAllResponse.WebtoonGenrePreviewResponse::new)
-                .toList();
-
-        return new WebtoonGenreAllResponse(response);
     }
 
     @Transactional(readOnly = true)
@@ -89,7 +78,10 @@ public class WebtoonFacade {
         return new WebtoonRankingAllResponse(response);
     }
 
-    // TODO : MOCK API
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::age"}
+    )
     @Transactional(readOnly = true)
     public WebtoonAgeResponse getAges() {
         var webtoons = webtoonService.findAll();
@@ -101,6 +93,10 @@ public class WebtoonFacade {
         return new WebtoonAgeResponse(response);
     }
 
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::search"}
+    )
     @Transactional(readOnly = true)
     public WebtoonSearchResponse search(WebtoonSearchRequest request) {
         var webtoons = request.webtoons()
@@ -109,5 +105,23 @@ public class WebtoonFacade {
                 .toList();
 
         return new WebtoonSearchResponse(webtoons);
+    }
+
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::genre::top3"}
+    )
+    @Transactional(readOnly = true)
+    public WebtoonGenreAllResponse getGenreAndThumbnail() {
+        var webtoons = webtoonService.findAll()
+                .parallelStream()
+                .collect(Collectors.toMap(Webtoon::getId, webtoon -> webtoon));
+
+        var responses = webtoonGenreService.getGenre()
+                .stream()
+                .map(g -> new WebtoonGenrePreviewResponse(g, webtoons.get(g.getWebtoonId())))
+                .toList();
+
+        return new WebtoonGenreAllResponse(responses);
     }
 }

@@ -2,6 +2,7 @@ package kr.co.antoon.discussion.application;
 
 import kr.co.antoon.discussion.domain.DiscussionLike;
 import kr.co.antoon.discussion.infrastructure.DiscussionLikeRepository;
+import kr.co.antoon.oauth.dto.AuthInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +26,11 @@ public class DiscussionLikeService {
     }
 
     @Transactional(readOnly = true)
-    public Boolean isUserLike(Long userId, Long discussionId) {
-        var like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId);
+    public Boolean isUserLike(AuthInfo info, Long discussionId) {
+        if (info == null) {
+            return false;
+        }
+        var like = likeRepository.findByUserIdAndDiscussionId(info.userId(), discussionId);
         if (like.isPresent()) {
             return like.get().getStatus();
         }

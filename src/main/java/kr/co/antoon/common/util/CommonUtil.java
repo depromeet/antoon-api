@@ -2,6 +2,11 @@ package kr.co.antoon.common.util;
 
 import java.util.Objects;
 
+/**
+ * CommonUtil
+ *
+ * @apiNote Common Util
+ **/
 public class CommonUtil {
     public final static String APPLICATION_JSON_UTF_8 = "application/json;charset=UTF-8";
 

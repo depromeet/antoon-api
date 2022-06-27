@@ -16,12 +16,10 @@ import org.springframework.web.cors.CorsUtils;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRedisCacheService userRedisCacheService;
-    private final SwaggerConfig swaggerConfig;
     private final CorsConfig corsConfig;
 
     @Override
@@ -36,9 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers(swaggerConfig.whiteListInSwagger()).permitAll()
+                .antMatchers(whiteListInSwagger()).permitAll()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/health").permitAll()
+                .antMatchers("/health", "/api/v1/admin/**").permitAll()
                 .antMatchers("/api/v1/**")
                 .permitAll()
                 .anyRequest().authenticated()
@@ -48,6 +46,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(customOAuth2UserService)
                 .and()
                 .successHandler(oAuth2SuccessHandler);
-        http.addFilterBefore(new JwtFilter(jwtTokenProvider, userRedisCacheService, swaggerConfig), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtFilter(jwtTokenProvider, userRedisCacheService), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    public String[] whiteListInSwagger() {
+        return new String[]{
+                "/swagger",
+                "/swagger-ui/springfox.css",
+                "/swagger-ui/swagger-ui-bundle.js",
+                "/swagger-ui/springfox.js",
+                "/swagger-ui/swagger-ui-standalone-preset.js",
+                "/swagger-ui/swagger-ui.css",
+                "/swagger-resources/configuration/ui",
+                "/swagger-ui/favicon-32x32.png",
+                "/swagger-resources/configuration/security",
+                "/swagger-resources",
+                "/v2/api-docs",
+                "/swagger-ui/index.html",
+                "/favicon.ico"
+        };
     }
 }
+

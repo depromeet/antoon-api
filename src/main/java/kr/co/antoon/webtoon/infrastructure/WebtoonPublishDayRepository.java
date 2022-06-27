@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WebtoonPublishDayRepository extends JpaRepository<WebtoonPublishDay, Long> {
-    boolean existsByWebtoonIdAndDay(Long wetoonId, String day);
 }

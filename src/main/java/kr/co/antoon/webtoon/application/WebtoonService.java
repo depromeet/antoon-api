@@ -7,12 +7,14 @@ import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
+import kr.co.antoon.webtoon.dto.query.WebtoonCharacterNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonDayNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonGenreBannerNativeDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonGenreNativeDto;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.infrastructure.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -75,6 +77,11 @@ public class WebtoonService {
         return webtoonRepository.findByGenreAndStatus(genre, status);
     }
 
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::detail"},
+            key = "#webtoonId"
+    )
     @Transactional(readOnly = true)
     public WebtoonDto findDetailWebtoon(Long webtoonId) {
         var end = LocalDateTime.now();
@@ -100,5 +107,12 @@ public class WebtoonService {
     @Transactional(readOnly = true)
     public Page<WebtoonGenreNativeDto> findAllByGenre(LocalDateTime start, LocalDateTime end, GenreCategory category, Pageable pageable) {
         return webtoonRepository.findAllByGenre(start.toString(), end.toString(), category.name(), pageable);
+    }
+  
+    @Transactional(readOnly = true)
+    public WebtoonCharacterNativeDto findPreviewWebtoon(Long webtoonId) {
+        var end = LocalDateTime.now();
+        var start = end.minusHours(1);
+        return webtoonRepository.findPreviewByWebtoonId(webtoonId, start.toString(), end.toString());
     }
 }

@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import kr.co.antoon.user.domain.User;
 
 public record UserDetailResponse(
+        @Schema(description = "사용자 인덱스")
+        Long id,
+
         @Schema(description = "이름")
         String name,
 
@@ -18,6 +21,7 @@ public record UserDetailResponse(
 ) {
     public UserDetailResponse(User user) {
         this(
+                user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getImageUrl(),

@@ -1,6 +1,9 @@
-# ANTOON-API GIT ACTION
-name: Antoon Api Server Git-Action for STAGING
+# ANTOON-API GIT ACTION WITH STAGING
+name: Antoon Api Server Git-Action
 
+# main push 작업 일어나면 git action 실행
+
+# staging push 작업 일어나면 git action 실행
 on:
   push:
     branches: [ staging ]
@@ -42,7 +45,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # Build Docker Container - Staging Branch
+      # Build Docker Container - main Branch
+
+      # Build Docker Container - staging Branch
       - name: Docker Image Build And Push
         if: github.ref == 'refs/heads/staging'
         uses: docker/build-push-action@v2

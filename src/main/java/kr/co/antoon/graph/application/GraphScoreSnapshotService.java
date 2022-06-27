@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -29,11 +28,6 @@ public class GraphScoreSnapshotService {
     @Transactional(readOnly = true)
     public List<GraphScoreSnapshot> findTop9BySnapshotTimeAfter(LocalDateTime localDateTime) {
         return graphScoreSnapshotRepository.findTop9BySnapshotTimeAfterOrderByGraphScoreDescScoreGapDesc(localDateTime);
-    }
-
-    @Transactional(readOnly = true)
-    public List<GraphScoreSnapshot> findAllByOrderByScoreGap() {
-        return graphScoreSnapshotRepository.findAllByOrderByScoreGapDesc();
     }
 
     @Transactional(readOnly = true)
@@ -89,6 +83,4 @@ public class GraphScoreSnapshotService {
 
         return graphScoreSnapshotRepository.findDistinctTop10BySnapshotTimeBetweenOrderByScoreGapDescGraphScoreDesc(start, end);
     }
-
-
 }

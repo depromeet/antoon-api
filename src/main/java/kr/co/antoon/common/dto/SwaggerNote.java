@@ -19,7 +19,8 @@ public class SwaggerNote {
                         "nickname" : "개미는 툰툰",  // 사용자 닉네임
                         "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
                         "likeCount" : 1,  // 좋아요 카운트
-                        "isUserLike": true   // 사용자 좋아요 여부
+                        "isUserLike": true   // 사용자 좋아요 여부,
+                        "time": "10분 전"
                     }            
             """;
 
@@ -36,7 +37,8 @@ public class SwaggerNote {
                         "nickname" : "개미는 툰툰",  // 사용자 닉네임
                         "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
                         "likeCount" : 1,  // 좋아요 카운트
-                        "isUserLike": true   // 사용자 좋아요 여부
+                        "isUserLike": true,   // 사용자 좋아요 여부
+                        "time": "1시간 전"
                     }
             """;
 
@@ -55,8 +57,20 @@ public class SwaggerNote {
                                 "nickname" : "개미는 툰툰",  // 사용자 닉네임
                                 "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
                                 "likeCount" : 1,  // 좋아요 카운트
-                                "isUserLike": true   // 사용자 좋아요 여부
-                            }...
+                                "isUserLike": true,   // 사용자 좋아요 여부
+                                "time": "3개월 전"
+                            },
+                            {
+                                "webtoonId" : 1,
+                                "discussionId" : 1,
+                                "content" :  "우앙 재밌다",
+                                "userId" : 1,
+                                "nickname" : "개미는 툰툰",
+                                "imageUrl" : "https://picture.jpg",
+                                "likeCount" : 0,
+                                "isUserLike": false,
+                                "time": "2019-06-12"  // 1년 이상된 댓글은 날짜로 보냄
+                            }, ...
                         ],
                         "page": 0,
                         "size": 20,
@@ -80,7 +94,8 @@ public class SwaggerNote {
                         "nickname" : "개미는 툰툰",  // 사용자 닉네임
                         "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
                         "likeCount" : 1,  // 좋아요 카운트
-                        "isUserLike": true   // 사용자 좋아요 여부
+                        "isUserLike": true,   // 사용자 좋아요 여부
+                        "time": "40초 전"
                     }          
             """;
 
@@ -292,13 +307,12 @@ public class SwaggerNote {
     public final static String AUTH_LOGOUT = """
                     로그아웃
                     POST /api/v1/auth/logout
-                    (헤더에 리프레시 토큰과 엑세스 토큰을 추가해서 api 요청해주세요!)
+                    (헤더에 엑세스 토큰만 추가해서 api 요청해주세요!)
                     (access Token 요청 시엔 "Bearer " + accessToken 으로 추가해서 요청해주세요!
                         
                     Request Header
                     {
                         "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2NTczMTI2MjZ9.oapnD4a2jvO4WqLprv4-1FeVpx3dWgNCDUtnrZT7-JA",
-                        "Refresh": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjU3MzEyNjI2fQ.iDsaEI9JN3YYEdsaUhP-EQJBhaz4llO-wNo8kpDhgGk"
                     }     
             """;
 
@@ -340,7 +354,7 @@ public class SwaggerNote {
                         
                     Request Body
                     {
-                        "imageUrl" : "https://image.jpg" // 프로필 이미지 url
+                        "file" : image.jpg // 업로드 할 이미지 파일
                     }
             """;
 
@@ -358,7 +372,7 @@ public class SwaggerNote {
     public static final String WEBTOON_READ_RANKING_NOTE = """
             현재 시간 기준으로 상승 중인 웹툰 조회
             GET /api/v1/webtoons/top-up
-            
+                        
             Response Body
             {
                "webtoons": [
@@ -379,7 +393,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORES_DAY_READ_NOTE = """
             1일 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/days
-            
+                        
             Response Body            
             {
               "count": 32,
@@ -399,7 +413,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORES_WEEKENDS_READ_NOTE = """
             1주일 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/weekends
-            
+                        
             Response Body
             {
               "count": 7,
@@ -419,7 +433,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORES_MONTHS_READ_NOTE = """
             1달 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/months
-            
+                        
             ResponseBody
             {
               "count": 0,
@@ -439,7 +453,7 @@ public class SwaggerNote {
     public static final String GRAPH_SCORE_THREE_MONTH_READ_NOTE = """
             3개월 기준 그래프 조회
             GET /api/v1/webtoons/{webtoonId}/graph-scores/three-months
-            
+                        
             ResponseBody
             {
               "count": 0,
@@ -456,6 +470,7 @@ public class SwaggerNote {
               ]
             }
             """;
+
     public static final String USER_DEFAULT_PROFILE_IMAGE = """
             사용자 기본 프로필 이미지 조회
             GET /api/v1/users/profiles
@@ -466,5 +481,239 @@ public class SwaggerNote {
             {
               "defaultProfileImageUrl": "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/mint.png"
             }
+            """;
+
+    public final static String GET_COIN_HISTORY = """
+                    코인 지급 히스토리 조회
+                    GET /api/v1/coins/history    
+                        
+                    Response Body
+                    {
+                        "userId" : "김테스트",
+                        "walletId" : 3,
+                        "createdAt" : "2022-06-18 13:51:40", 
+                        "amount" : 3 
+                        "remittanceStatus" : "PLUS"
+                        "remittanceType" : "JOINED_WEBTOON",
+                        "reason" : "WEBTOONID_3"
+                    }
+            """;
+
+    public final static String GET_CHARACTER_RANK = """
+                    인물 순위(실시간 차트) 조회
+                    GET /api/v1/top-ranks/characters?type=PERSONA
+                    
+                    Response Body
+                    {
+                        "characters": [
+                            {
+                                "names": "최푸름",
+                                "title": "연애혁명",
+                                "thumbnails": [
+                                    "test1.png"
+                                ],
+                                "coinAmount": 6,
+                                "isJoined": true
+                            },
+                            {
+                                "names": "이병현",
+                                "title": "연애혁명",
+                                "thumbnails": [
+                                    "test.png"
+                                ],
+                                "coinAmount": 0,
+                                "isJoined": false
+                            } ...
+                        ]
+                    }
+                    
+                    
+                    커플 순위(실시간 차트) 조회
+                    GET /api/v1/top-ranks/characters?type=COUPLE
+                    
+                    Response Body
+                    {
+                        "characters": [
+                            {
+                                "names": "푸름♥병현",
+                                "title": "연애혁명",
+                                "thumbnails": [
+                                    "test1.png",
+                                    "test2.png"
+                                ],
+                                "coinAmount": 0,
+                                "isJoined": false
+                            } ...
+                        ]
+                    }
+            """;
+
+    public final static String GET_CHARACTER_DETAIL = """
+                    인물 상세 조회 
+                    GET /api/v1/characters/{characterId}?type=PERSONA
+                    
+                    Response Body
+                    {
+                        "name": "최푸름",
+                        "characterThumbnail": "test1.png",
+                        "rank": 1,
+                        "content": "평범하면서 금사빠인 고등학생 순정남",
+                        "backGroundColor": "4E7F86",
+                        "coinAmount": 6,
+                        "webtoonId": 1,
+                        "webtoonThumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/792780/thumbnail/thumbnail_IMAG04_b0eeb63e-4f46-4747-b5e7-56f2299e0f7f.jpg",
+                        "title": "연애혁명",
+                        "score": 250,
+                        "isJoined": true,
+                        "joinedCount": 2
+                    }
+                    
+                    
+                    커플 상세조회 
+                    GET /api/v1/characters/{characterId}?type=COUPLE
+                    
+                    Response Body
+                    {
+                        "name": "푸름♥병현",
+                        "characterThumbnail": "test.png",
+                        "rank": 1,
+                        "content": "평범하면서 금사빠인 고등학생 순정남과 순정녀의 어마무시한 관계",
+                        "backGroundColor": "4E7F86",
+                        "coinAmount": 3,
+                        "webtoonId": 1,
+                        "webtoonThumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/792780/thumbnail/thumbnail_IMAG04_b0eeb63e-4f46-4747-b5e7-56f2299e0f7f.jpg",
+                        "title": "연애혁명",
+                        "score": 250,
+                        "isJoined": true,
+                        "joinedCount": 1
+                    }
+            
+            """;
+
+    public final static String JOINED_CHARACTER = """
+                    인물/커플 탑승하기
+                    PATCH /api/v1/characters/{characterId}
+                    
+                    Response Body
+                    None
+            """;
+
+    public final static String CHARACTER_DISCUSSION_CREATE_NOTE = """
+                    댓글 달기
+                    POST /api/v1/characters/{characterId}/discussions            
+                        
+                    Request Body
+                    {
+                        "content" : "이 웹툰 꿀잼" // 댓글 내용
+                    }
+                        
+                    Response Body
+                    {
+                        "characterId" : 1,  // 웹툰 Id
+                        "discussionId" : 1, // 종목토론 댓글 Id
+                        "content" :  "이 웹툰 꿀잼", // 댓글 내용
+                        "userId" : 1, // 사용자 Id
+                        "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                        "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                        "likeCount" : 1,  // 좋아요 카운트
+                        "isUserLike": true   // 사용자 좋아요 여부,
+                        "time": "10분 전"
+                    }            
+            """;
+
+    public final static String CHARACTER_DISCUSSION_READ_ONE_NOTE = """
+                    댓글 단건 조회
+                    POST /api/v1/characters/discussions/{characterId}           
+                        
+                    Response Body
+                    {
+                        "characterId" : 1,  // 웹툰 Id
+                        "discussionId" : 1, // 종목토론 댓글 Id
+                        "content" :  "이 웹툰 꿀잼", // 댓글 내용
+                        "userId" : 1, // 사용자 Id
+                        "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                        "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                        "likeCount" : 1,  // 좋아요 카운트
+                        "isUserLike": true,   // 사용자 좋아요 여부
+                        "time": "1시간 전"
+                    }
+            """;
+
+    public final static String CHARACTER_DISCUSSION_READL_ALL_NOTE = """
+                    댓글 페이지 조회
+                    GET /api/v1/characters/discussions
+                        
+                    Response Body
+                    {
+                        "data": [
+                            {
+                                "characterId" : 1,  // 웹툰 Id
+                                "discussionId" : 1, // 종목토론 댓글 Id
+                                "content" :  "이 웹툰 꿀잼", // 댓글 내용
+                                "userId" : 1, // 사용자 Id
+                                "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                                "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                                "likeCount" : 1,  // 좋아요 카운트
+                                "isUserLike": true,   // 사용자 좋아요 여부
+                                "time": "3개월 전"
+                            },
+                            {
+                                "characterId" : 1,
+                                "discussionId" : 1,
+                                "content" :  "우앙 재밌다",
+                                "userId" : 1,
+                                "nickname" : "개미는 툰툰",
+                                "imageUrl" : "https://picture.jpg",
+                                "likeCount" : 0,
+                                "isUserLike": false,
+                                "time": "2019-06-12"  // 1년 이상된 댓글은 날짜로 보냄
+                            }, ...
+                        ],
+                        "page": 0,
+                        "size": 20,
+                        "totalPages": 1,
+                        "totalElements": 1,
+                        "firstPage": true,
+                        "lastPage": true
+                    }
+            """;
+
+    public final static String CHARACTER_DISCUSSION_UPDATE_NOTE = """
+                    댓글 수정
+                    PATCH /api/v1/characters/discussions/{discussionId}
+                    
+                    Request Body
+                    {
+                        "content" : "이 웹툰 꿀잼" // 수정 내용
+                    }
+                        
+                    Response Body
+                    {
+                        "characterId" : 1,  // 웹툰 Id
+                        "discussionId" : 1, // 종목토론 댓글 Id
+                        "content" :  "이 웹툰 꿀잼", // 댓글 내용
+                        "userId" : 1, // 사용자 Id
+                        "nickname" : "개미는 툰툰",  // 사용자 닉네임
+                        "imageUrl" : "https://picture.jpg",  // 댓글 작성자 프로필 URL
+                        "likeCount" : 1,  // 좋아요 카운트
+                        "isUserLike": true,   // 사용자 좋아요 여부
+                        "time": "40초 전"
+                    }          
+            """;
+
+    public final static String CHARACTER_DISCUSSION_DELETE_NOTE = """
+                    댓글 삭제
+                    DELETE /api/v1/characters/discussions/{discussionId}
+                        
+                    Response Body
+                    None
+            """;
+
+    public final static String CHARACTER_DISCUSSION_LIKE_CREATE_NOTE = """
+                    종목토론방 좋아요
+                    PUT /api/v1/characters/discussions/{discussionId}/likes
+                        
+                    Response Body
+                    None
             """;
 }

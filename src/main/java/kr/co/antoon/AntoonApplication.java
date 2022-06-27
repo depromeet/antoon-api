@@ -24,10 +24,11 @@ public class AntoonApplication implements ApplicationListener<ApplicationReadyEv
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        log.info("Spring Server Profiles Status= {}", Arrays.toString(environment.getActiveProfiles()));
+        log.info("Spring Server Profiles Status : {}", Arrays.toString(environment.getActiveProfiles()));
     }
 
     public static void init() {
+        log.info("Spring Server TimeZone : Asia/Seoul");
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
     }
 }

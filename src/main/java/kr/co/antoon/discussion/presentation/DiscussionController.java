@@ -45,7 +45,7 @@ public class DiscussionController {
             @PathVariable Long webtoonId,
             @Validated @RequestBody DiscussionCreateRequest request,
             @AuthUser AuthInfo info
-            ) {
+    ) {
         var response = discussionFacade.register(info.userId(), webtoonId, request);
         return ResponseDto.created(response);
     }
@@ -78,7 +78,7 @@ public class DiscussionController {
             @Validated @RequestBody DiscussionUpdateRequest request,
             @AuthUser AuthInfo info
     ) {
-        var response = discussionFacade.update(info.userId(), discussionId, request);
+        var response = discussionFacade.update(info, discussionId, request);
         return ResponseDto.ok(response);
     }
 

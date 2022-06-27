@@ -1,5 +1,7 @@
 package kr.co.antoon.oauth.application;
 
+import kr.co.antoon.aws.application.AwsS3Service;
+import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.oauth.dto.OAuth2Attribute;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Gender;
@@ -17,12 +19,16 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
+    private final AntCoinService antCoinService;
+    private final AwsS3Service awsS3Service;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -43,30 +49,43 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         );
     }
 
-    private void saveOrUpdate(OAuth2Attribute attributes) {
-        User user = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(
-                        attributes.getName(),
-                        attributes.getImageUrl()
-                ))
-                .orElse(attributes.toEntity());
+    public Boolean checkExistEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 
-        user.updateAge(0);
-        user.updateGender(Gender.NONE);
+    public void saveOrUpdate(OAuth2User oAuth2User) {
+        log.info("Service OAuth2User : {}", oAuth2User);
+        var data = oAuth2User.getAttributes();
+        var email = data.get("email").toString();
+        String randomProfileImage = awsS3Service.randomProfileImage();
 
-        log.info("attributes : {}", attributes);
+        var user = userRepository.findByEmail(data.get("email").toString())
+                .orElse(User.buildUser(
+                        "",
+                        email,
+                        randomProfileImage,
+                        Gender.NONE,
+                        0));
 
-        String age = attributes.getAgeRange();
-        if (age != null) {
-            int ageRange = Integer.parseInt(age.split("~")[0]);
-            user.updateAge(ageRange);
-        }
+        if(data.containsKey("profile")) {
+            var profile = (HashMap<String, String>) data.get("profile");
+            user.updateName(profile.get("nickname"));
 
-        String gender = attributes.getGender();
-        if (gender != null) {
-            user.updateGender(Gender.of(gender));
+            if (data.containsKey("age_range")) {
+                String age = data.get("age_range").toString();
+                int ageRange = Integer.parseInt(age.toString().split("~")[0]);
+                user.updateAge(ageRange);
+            }
+
+            if(data.containsKey("gender")) {
+                user.updateGender(Gender.of(data.get("gender").toString()));
+            }
+
+        } else if(email.contains("gmail")) {
+            user.updateName(data.get("name").toString());
         }
 
         userRepository.save(user);
+        antCoinService.sign(user.getId());
     }
 }

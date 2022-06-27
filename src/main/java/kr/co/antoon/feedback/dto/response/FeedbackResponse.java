@@ -1,4 +1,4 @@
-package kr.co.antoon.feedback.dto;
+package kr.co.antoon.feedback.dto.response;
 
 import kr.co.antoon.feedback.domain.Feedback;
 import kr.co.antoon.feedback.domain.vo.Score;

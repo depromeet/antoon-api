@@ -22,11 +22,11 @@ class SwaggerControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
+/*    @Test
     public void 스웨거_정상작동_테스트() throws Exception {
         mockMvc.perform(get("/swagger"))
                 .andExpect(status().isFound())
                 .andExpect(content().string(""))
                 .andDo(print());
-    }
+    }*/
 }

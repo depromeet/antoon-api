@@ -17,9 +17,4 @@ public class WebtoonPublishDayService {
     public void saveAll(List<WebtoonPublishDay> webtoonPublishDays) {
         webtoonPublishDayRepository.saveAll(webtoonPublishDays);
     }
-
-    @Transactional(readOnly = true)
-    public boolean existsByWebtoonIdAndDay(Long webtoonId, String day) {
-        return webtoonPublishDayRepository.existsByWebtoonIdAndDay(webtoonId, day);
-    }
 }

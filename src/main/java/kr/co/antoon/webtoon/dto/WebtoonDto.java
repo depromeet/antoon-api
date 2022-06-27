@@ -1,5 +1,6 @@
 package kr.co.antoon.webtoon.dto;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
@@ -9,6 +10,7 @@ import kr.co.antoon.webtoon.domain.vo.Platform;
 import java.util.Set;
 
 @Schema(description = "Webtoon 상세 DTO")
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
 public record WebtoonDto(
         Long webtoonId,
         String title,
@@ -29,7 +31,8 @@ public record WebtoonDto(
         int scoreGap,
         double scoreGapPercent,
         RecommendationStatus recommendationStatus,
-        Integer ranking
+        Integer ranking,
+        Set<CharacterDto> characters
 ) {
     public record GenreDto(
             Long webtoonGenreId,
@@ -44,6 +47,12 @@ public record WebtoonDto(
 
     public record WriterDto(
             Long webtoonWriterId,
+            String name
+    ) { }
+
+    public record CharacterDto(
+            Long characterId,
+            String imageUrl,
             String name
     ) { }
 }

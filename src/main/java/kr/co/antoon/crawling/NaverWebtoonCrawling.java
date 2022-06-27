@@ -4,20 +4,19 @@ import kr.co.antoon.crawling.dto.WebtoonCrawlingDto;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class NaverWebtoonCrawling implements WebtoonCrawling {
-
     @Override
     public WebtoonCrawlingDto crawling() {
-
-        var bundle = new ArrayList<WebtoonCrawlingDto.WebtoonCrawlingDetail>();
+        var bundle = new HashSet<WebtoonCrawlingDto.WebtoonCrawlingDetail>();
 
         try {
             var naverWeekendWebtoonDocument = Jsoup.connect("https://comic.naver.com/webtoon/weekday").get();
@@ -43,8 +42,14 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
 
                     var thumbnail = webtoonDetailImageDocument.select("div.thumb img").attr("src");
 
+                    // TODO : 19금 이미지인 경우 교체 사진 필요
+                    if (!StringUtils.hasText(thumbnail)) {
+                        thumbnail = "https://www.easylaw.go.kr/CSP/template/2019/08/22/BIN000D[31].bmp";
+                    }
+
                     var innerElements = webtoonDetailDocument.select("div.comicinfo");
 
+                    String finalThumbnail = thumbnail;
                     bundle.addAll(innerElements
                             .parallelStream()
                             .map(innerElement -> {
@@ -57,14 +62,14 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                                         .map(g -> g.replace(" ", ""))
                                         .collect(Collectors.toList());
 
-                              //  log.info("[Naver Webtoon Crawling] title-> {} / url -> {}", title, url);
+                                //  log.info("[Naver Webtoon Crawling] title-> {} / url -> {}", title, url);
 
                                 return new WebtoonCrawlingDto.WebtoonCrawlingDetail(
                                         title,
                                         content,
                                         List.of(writer),
                                         url,
-                                        thumbnail,
+                                        finalThumbnail,
                                         genres,
                                         Double.parseDouble(score),
                                         day
