@@ -16,6 +16,7 @@ public record TopicResponse(
         LocalDateTime topicVoteEndTime,
         Integer joinCount,
         List<Candidate> candidates,
+        boolean topicCloseStatus,
         boolean topicVoteStatus
 ) {
     public TopicResponse(Topic topic, List<Candidate> candidates) {
@@ -27,6 +28,7 @@ public record TopicResponse(
                 topic.getTopicVoteTime(),
                 topic.getJoinCount(),
                 candidates,
+                topic.isTopicCloseStatus(),
                 topic.getTopicVoteStatus()
         );
     }

@@ -9,6 +9,7 @@ import kr.co.antoon.vote.application.TopicService;
 import kr.co.antoon.vote.converter.TopicDiscussionConverter;
 
 import kr.co.antoon.vote.domain.Candidate;
+import kr.co.antoon.vote.domain.Topic;
 import kr.co.antoon.vote.domain.vo.SortType;
 import kr.co.antoon.vote.dto.request.TopicDiscussionCreateRequest;
 import kr.co.antoon.vote.dto.request.TopicDiscussionUpdateRequest;
@@ -19,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
+
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -33,7 +36,14 @@ public class TopicFacade {
     public TopicResponse findTopicById(Long topicId) {
         var topic = topicService.findById(topicId);
         var candidates = candidateService.findAllByTopicId(topicId);
+        checkTopicCloseStatus(topic);
         return new TopicResponse(topic, candidates);
+    }
+
+    private void checkTopicCloseStatus(Topic topic) {
+        var currentTime = LocalDateTime.now();
+        var topicVoteEndTime = topic.getTopicVoteTime();
+        topic.updateCloseStatus(currentTime.isAfter(topicVoteEndTime));
     }
 
     @Transactional(readOnly = true)
