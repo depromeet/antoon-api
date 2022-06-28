@@ -19,6 +19,6 @@ public class VoteService {
 
     @Transactional(readOnly = true)
     public boolean existsByUserIdAndTopicId(Long userId, Long topicId) {
-        return voteRepository.existsByUserIdAndTopicId(topicId, userId);
+        return voteRepository.existsByUserIdAndTopicId(userId, topicId);
     }
 }
