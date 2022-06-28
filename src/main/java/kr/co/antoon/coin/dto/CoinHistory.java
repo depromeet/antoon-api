@@ -1,28 +1,42 @@
 package kr.co.antoon.coin.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import kr.co.antoon.coin.domain.AntCoinHistory;
+import kr.co.antoon.coin.domain.vo.RemittanceStatus;
+import kr.co.antoon.coin.domain.vo.RemittanceType;
+import lombok.Builder;
+import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record CoinHistory(
-        @Schema(description = "사용자 Id")
-        Long userId,
+        @Schema(description = "지급 날짜")
+        LocalDate date,
 
-        @Schema(description = "사용자 지갑 Id")
-        Long walletId,
-
-        @Schema(description = "히스토리 날짜")
-        LocalDateTime createdAt,
+        @Schema(description = "증가/감소")
+        String status,
 
         @Schema(description = "코인 추가/감소 값")
         Long amount,
 
-        @Schema(description = "증가/감소")
-        String remittanceStatus,
+        @Schema(description = "총 코인 양")
+        Long wallet,
 
         @Schema(description = "지급 종류")
         String remittanceType,
 
         @Schema(description = "지급 이유 / 웹툰 탑승 시 웹툰 id값")
         String reason
-) { }
+) {
+        public CoinHistory(LocalDateTime createdAt, RemittanceStatus remittanceStatus, Long amount, Long wallet, RemittanceType remittanceType, String reason) {
+                this(
+                        createdAt.toLocalDate(),
+                        remittanceStatus.toString(),
+                        amount,
+                        wallet,
+                        remittanceType.getDescription().toString(),
+                        reason
+                );
+        }
+}

@@ -473,17 +473,18 @@ public class SwaggerNote {
 
     public final static String GET_COIN_HISTORY = """
                     코인 지급 히스토리 조회
-                    GET /api/v1/coins/history    
+                    GET /api/v1/coins/history  
+                    
+                    RemittanceType : {"웹툰 탑승", "웹툰 하차", "회원가입", "인물 탑승", "커플 탑승", "투표 참여"}  
                         
                     Response Body
                     {
-                        "userId" : "김테스트",
-                        "walletId" : 3,
-                        "createdAt" : "2022-06-18 13:51:40", 
-                        "amount" : 3 
-                        "remittanceStatus" : "PLUS"
-                        "remittanceType" : "JOINED_WEBTOON",
-                        "reason" : "WEBTOONID_3"
+                        "date" : "2022-06-18", 
+                        "status" : "PLUS" (or "MINUS"),
+                        "amount" : 3,
+                        "wallet" : 305,
+                        "remittanceType" : "웹툰 탑승",
+                        "reason" : "유미의 세포들"
                     }
             """;
 
