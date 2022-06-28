@@ -2,6 +2,7 @@ package kr.co.antoon.coin.application;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
 import com.nimbusds.jose.shaded.json.parser.JSONParser;
+import kr.co.antoon.character.application.CharacterService;
 import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.domain.AntCoinHistory;
 import kr.co.antoon.coin.domain.AntCoinWallet;
@@ -30,6 +31,7 @@ public class AntCoinService implements AntCoinClient {
     private final AntCoinWalletService antCoinWalletService;
     private final WebtoonService webtoonService;
     private final CandidateService candidateService;
+    private final CharacterService characterService;
 
     @Override
     @Transactional
@@ -87,22 +89,17 @@ public class AntCoinService implements AntCoinClient {
                 JSONParser jsonParser = new JSONParser();
                 Object obj = jsonParser.parse(reason);
                 JSONObject jsonObj = (JSONObject) obj;
-                log.info("json : {}", jsonObj);
-
                 String key = jsonObj.keySet().iterator().next();
-                log.info("json key : {}",key);
 
+                Long id = Long.parseLong(String.valueOf(jsonObj.get(key)));
                 if(key.contains("WEBTOON")) {
-                    Long webtoonId = Long.parseLong(String.valueOf(jsonObj.get(key)));
-                    reason = webtoonService.findById(webtoonId).getTitle();
-
-
+                    reason = webtoonService.findById(id).getTitle();
                 } else if(key.contains("VOTE")) {
-                    Long candidateId = Long.parseLong(String.valueOf(jsonObj.get(key)));
-                    reason = candidateService.findById(candidateId).getContent();
+                    reason = candidateService.findById(id).getContent();
+                } else if(key.contains("CHARACTER")) {
+                    reason = characterService.findById(id).getName();
                 }
             }
-
 
             coinHistories.add(
                     new CoinHistory(
