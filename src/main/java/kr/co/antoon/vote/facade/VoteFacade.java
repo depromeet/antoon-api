@@ -1,12 +1,12 @@
 package kr.co.antoon.vote.facade;
 
-import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.coin.domain.vo.CoinUsageType;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
+import kr.co.antoon.error.dto.ErrorMessage;
+import kr.co.antoon.error.exception.common.AlreadyExistsException;
 import kr.co.antoon.vote.application.CandidateService;
 import kr.co.antoon.vote.application.TopicService;
-import kr.co.antoon.vote.application.CandidateService;
 import kr.co.antoon.vote.application.VoteService;
 import kr.co.antoon.vote.domain.Candidate;
 import kr.co.antoon.vote.domain.Topic;
@@ -27,22 +27,26 @@ public class VoteFacade {
         var candidate = candidateService.findById(candidateId);
         var topic = topicService.findById(candidate.getTopicId());
 
-        // 투표를 하면 사용자 코인을 차감
+        checkDuplicatedVote(userId, topic);
         useCoin(candidateId, userId);
 
-        // 투표 여부를 true로 변경
         createVote(userId, candidate, topic);
-
-        // 토픽의 총 참여 수, 토픽의 투표 완료 여부, 투표한 후보의 득표 수, 득표율, 투표 결과를 업데이트
         updateCandidateStatus(candidateId, topic);
     }
 
-    private void updateCandidateStatus(Long candidateId, Topic topic) {
-        candidateService.update(candidateId, topic);
+    @Transactional(readOnly = true)
+    public void checkDuplicatedVote(Long userId, Topic topic) {
+        if (voteService.existsByUserIdAndTopicId(userId, topic.getId())) {
+            throw new AlreadyExistsException(ErrorMessage.ALREADY_VOTE_ERROR);
+        }
     }
 
     private void createVote(Long userId, Candidate candidate, Topic topic) {
         voteService.save(userId, topic.getId(), candidate.getId(), true);
+    }
+
+    private void updateCandidateStatus(Long candidateId, Topic topic) {
+        candidateService.update(candidateId, topic);
     }
 
     private void useCoin(Long candidateId, Long userId) {
