@@ -1,4 +1,4 @@
-package kr.co.antoon.aws.presentation;
+package kr.co.antoon.admin.presentation;
 
 import kr.co.antoon.aws.application.AwsS3Service;
 import kr.co.antoon.aws.domain.vo.S3Category;
