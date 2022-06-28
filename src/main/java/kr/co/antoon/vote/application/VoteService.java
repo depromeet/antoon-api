@@ -16,4 +16,9 @@ public class VoteService {
         Vote vote = new Vote(userId, topicId, candidateId, voteStatus);
         voteRepository.save(vote);
     }
+
+    @Transactional(readOnly = true)
+    public boolean existsByUserIdAndTopicId(Long userId, Long topicId) {
+        return voteRepository.existsByUserIdAndTopicId(topicId, userId);
+    }
 }
