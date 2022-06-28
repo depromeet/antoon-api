@@ -52,7 +52,7 @@ public record WebtoonDto(
 
     public record CharacterDto(
             Long characterId,
-            String imageUrl,
-            String name
+            String name,
+            String imageUrl
     ) { }
 }

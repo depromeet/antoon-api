@@ -127,52 +127,70 @@ public class SwaggerNote {
                         
                     Response Body
                     {
-                       "webtoondId": 1,
-                       "title": "참교육",
-                       "content": "무너진 교권을 지키기 위해 교권보호국 소속 나화진의 참교육이 시작된다! <부활남> 채용택 작가 X <신석기녀> 한가람 작가의 신작!",
-                       "webtoonUrl": "https://comic.naver.com/webtoon/list?titleId=758037&weekday=mon",
-                       "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/758037/thumbnail/thumbnail_IMAG04_769073a7-06e5-42e2-90be-0801fa790f66.jpg", // 웹툰 썸네일
-                       "platform": "NAVER",
-                       "platformDescription": "네이버 웹툰",
-                       "status": "PUBLISH",
-                       "statusDescription": "연재",
-                       "genres": [
-                         {
-                           "webtoonGenreId": 2,
-                           "genreCategory": "ACTION",
-                           "genreCategoryDescription": "액션"
-                         },
-                         {
-                           "webtoonGenreId": 1,
-                           "genreCategory": "STORY",
-                           "genreCategoryDescription": "스토리"
-                         }
-                       ],
-                       "publishDays": [
-                         {
-                           "webtoonPublishDayId": 1,
-                           "day": "월"
-                         }
-                       ],
-                       "writers": [
-                         {
-                           "webtoonWriterId": 1,
-                           "name": "채용택"
-                         },
-                         {
-                           "webtoonWriterId": 2,
-                           "name": "한가람"
-                         }
-                       ],
-                       "recommendationCountId": 7,
-                       "joinCount": 0,
-                       "leaveCount": 0,
-                       "score": 650,
-                       "scoreGap": 0,
-                       "scoreGapPercent": 0,
-                       "recommendationStatus": "JOINED",
-                       "ranking": 2
-                     }
+                          "@class": "kr.co.antoon.webtoon.dto.WebtoonDto",
+                          "webtoonId": 1,
+                          "title": "엽총소년",
+                          "content": "약자에서 영웅이 될 수밖에 없었던 소년 '한규환', 그리고 그 소년을 영웅으로 만들어줄 엽총 한 자루가 눈앞에 있다. 글로벌 누적 조회수 12억 뷰를 기록한 <스위트홈>의 프리퀄 대공개!",
+                          "webtoonUrl": "https://comic.naver.com/webtoon/list?titleId=759925&weekday=tue",
+                          "thumbnail": "https://shared-comic.pstatic.net/thumb/webtoon/759925/thumbnail/thumbnail_IMAG04_5763c122-5372-441d-ad61-261e079ff561.jpg",
+                          "platform": "NAVER",
+                          "platformDescription": "네이버 웹툰",
+                          "status": "PUBLISH",
+                          "statusDescription": "연재",
+                          "genres": [
+                              {
+                                  "webtoonGenreId": 2,
+                                  "genreCategory": "THRILLER",
+                                  "genreCategoryDescription": "스릴러"
+                              },
+                              {
+                                  "webtoonGenreId": 1,
+                                  "genreCategory": "STORY",
+                                  "genreCategoryDescription": "스토리"
+                              }
+                          ],
+                          "publishDays": [
+                              {
+                                  "webtoonPublishDayId": 1,
+                                  "day": "화"
+                              }
+                          ],
+                          "writers": [
+                              {
+                                  "webtoonWriterId": 1,
+                                  "name": "김칸비"
+                              },
+                              {
+                                  "webtoonWriterId": 2,
+                                  "name": "홍필"
+                              }
+                          ],
+                          "recommendationCountId": 6,
+                          "joinCount": 1,
+                          "leaveCount": 1,
+                          "score": 648,
+                          "scoreGap": 0,
+                          "scoreGapPercent": 0.0,
+                          "recommendationStatus": "LEAVED",
+                          "ranking": 1,
+                          "characters": [
+                              {
+                                  "characterId": 3,
+                                  "name": "문서하",
+                                  "imageUrl": "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/%EC%9D%B8%EB%AC%BC%EC%B0%A8%ED%8A%B82.png"
+                              },
+                              {
+                                  "characterId": 1,
+                                  "name": "최푸름",
+                                  "imageUrl": "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/%EC%9D%B8%EB%AC%BC%EC%B0%A8%ED%8A%B8.png"
+                              },
+                              {
+                                  "characterId": 4,
+                                  "name": "공주영",
+                                  "imageUrl": "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/%EC%9D%B8%EB%AC%BC%EC%B0%A8%ED%8A%B83.png"
+                              }
+                          ]
+                      }
             """;
 
     public final static String DISCUSSION_LIKE_CREATE_NOTE = """
@@ -494,26 +512,29 @@ public class SwaggerNote {
                     
                     Response Body
                     {
-                        "characters": [
-                            {
-                                "names": "최푸름",
-                                "title": "연애혁명",
-                                "thumbnails": [
-                                    "test1.png"
-                                ],
-                                "coinAmount": 6,
-                                "isJoined": true
-                            },
-                            {
-                                "names": "이병현",
-                                "title": "연애혁명",
-                                "thumbnails": [
-                                    "test.png"
-                                ],
-                                "coinAmount": 0,
-                                "isJoined": false
-                            } ...
-                        ]
+                         "couples": [
+                             {
+                                 "id": 1,
+                                 "names": "최푸름",
+                                 "title": "엽총소년",
+                                 "thumbnails": [
+                                     "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/%EC%9D%B8%EB%AC%BC%EC%B0%A8%ED%8A%B8.png"
+                                 ],
+                                 "coinAmount": 6,
+                                 "isJoined": true
+                             },
+                             {
+                                 "id": 3,
+                                 "names": "문서하",
+                                 "title": "엽총소년",
+                                 "thumbnails": [
+                                     "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/%EC%9D%B8%EB%AC%BC%EC%B0%A8%ED%8A%B82.png"
+                                 ],
+                                 "coinAmount": 3,
+                                 "isJoined": true
+                             },
+                             ...
+                         ]
                     }
                     
                     
@@ -522,19 +543,31 @@ public class SwaggerNote {
                     
                     Response Body
                     {
-                        "characters": [
-                            {
-                                "names": "푸름♥병현",
-                                "title": "연애혁명",
-                                "thumbnails": [
-                                    "test1.png",
-                                    "test2.png"
-                                ],
-                                "coinAmount": 0,
-                                "isJoined": false
-                            } ...
-                        ]
-                    }
+                         "couples": [
+                             {
+                                 "id": 2,
+                                 "names": "병현♥푸름",
+                                 "title": "엽총소년",
+                                 "thumbnails": [
+                                     "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/%EC%BB%A4%ED%94%8C%EC%B0%A8%ED%8A%B81-1.png",
+                                     "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/%EC%BB%A4%ED%94%8C%EC%B0%A8%ED%8A%B81-2.png"
+                                 ],
+                                 "coinAmount": 5,
+                                 "isJoined": false
+                             },
+                             {
+                                 "id": 6,
+                                 "names": "혜린♥홍빈",
+                                 "title": "엽총소년",
+                                 "thumbnails": [
+                                     "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/%EC%BB%A4%ED%94%8C%EC%B0%A8%ED%8A%B82-1.png",
+                                     "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/%EC%BB%A4%ED%94%8C%EC%B0%A8%ED%8A%B82-2.png"
+                                 ],
+                                 "coinAmount": 3,
+                                 "isJoined": true
+                             },
+                             ...
+                     }
             """;
 
     public final static String GET_CHARACTER_DETAIL = """
