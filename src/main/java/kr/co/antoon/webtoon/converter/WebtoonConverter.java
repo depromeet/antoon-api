@@ -12,10 +12,10 @@ import java.util.Set;
 
 import static kr.co.antoon.crawling.dto.WebtoonCrawlingDto.WebtoonCrawlingDetail;
 import static kr.co.antoon.criteria.BasicAllocateScore.getDifferencePercentage;
+import static kr.co.antoon.webtoon.dto.WebtoonDto.CharacterDto;
 import static kr.co.antoon.webtoon.dto.WebtoonDto.GenreDto;
 import static kr.co.antoon.webtoon.dto.WebtoonDto.PublishDayDto;
 import static kr.co.antoon.webtoon.dto.WebtoonDto.WriterDto;
-import static kr.co.antoon.webtoon.dto.WebtoonDto.CharacterDto;
 
 public class WebtoonConverter {
     public static WebtoonDto toWebtoonDto(List<WebtoonNativeDto> webtoon) {

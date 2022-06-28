@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static kr.co.antoon.webtoon.converter.WebtoonConverter.toWebtoon;
@@ -50,14 +49,14 @@ public class WebtoonCrawlingFacade {
 
         var webtoonCrawling = WebtoonCrawlingFactory.of(platform);
 
-        var aaa = webtoonCrawling.crawling().webtoons()
-                .parallelStream()
-                .collect(Collectors.toMap(WebtoonCrawlingDto.WebtoonCrawlingDetail::title, dd -> dd, (v1, v2) -> v1));
-
-        Set<WebtoonCrawlingDto.WebtoonCrawlingDetail> bbb = new HashSet<>(aaa.values());
+        var webtoonCrawlingDtos = new HashSet<>(
+                webtoonCrawling.crawling().webtoons()
+                        .parallelStream()
+                        .collect(Collectors.toMap(WebtoonCrawlingDto.WebtoonCrawlingDetail::title, dd -> dd, (v1, v2) -> v1)).values()
+        );
 
         var webtoonSnapshots = new ArrayList<>(
-                bbb
+                webtoonCrawlingDtos
                         .parallelStream()
                         .map(crawlingWebtton -> {
                             Long webtoonId;
