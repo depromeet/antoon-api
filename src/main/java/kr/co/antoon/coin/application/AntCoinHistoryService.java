@@ -15,9 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Year;
-import java.time.ZoneId;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -26,7 +25,7 @@ public class AntCoinHistoryService {
     private final AntCoinHistoryRepository antCoinHistoryRepository;
 
     @Transactional
-    public void record(Long userId, Long walletId, Long amount, RemittanceStatus status, RemittanceType type, String reason) {
+    public void record(Long userId, Long walletId, Long amount, RemittanceStatus status, RemittanceType type, String reason, Long wallet) {
         var history = AntCoinHistory.builder()
                 .userId(userId)
                 .walletId(walletId)
@@ -34,6 +33,7 @@ public class AntCoinHistoryService {
                 .status(status)
                 .type(type)
                 .reason(reason)
+                .wallet(wallet)
                 .build();
 
         antCoinHistoryRepository.save(history);
@@ -60,8 +60,10 @@ public class AntCoinHistoryService {
     }
 
     @Transactional
-    public CoinHistory getCoinHistory(Long userId) {
-        return antCoinHistoryRepository.getAntCoinHistoryByUserId(userId);
+    public List<AntCoinHistory> getCoinHistory(Long userId) {
+        List<AntCoinHistory> antCoinHistory = antCoinHistoryRepository.getAntCoinHistoryByUserId(userId);
+
+        return antCoinHistory;
     }
 
     @Transactional

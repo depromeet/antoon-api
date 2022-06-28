@@ -37,13 +37,16 @@ public class AntCoinHistory extends BaseEntity {
 
     private String reason;
 
+    private Long wallet;
+
     @Builder
-    public AntCoinHistory(Long userId, Long walletId, Long amount, RemittanceStatus status, RemittanceType type, String reason) {
+    public AntCoinHistory(Long userId, Long walletId, Long amount, RemittanceStatus status, RemittanceType type, String reason, Long wallet) {
         this.userId = userId;
         this.walletId = walletId;
         this.amount = amount;
         this.remittanceStatus = status;
         this.remittanceType = type;
         this.reason = reason;
+        this.wallet = wallet;
     }
 }

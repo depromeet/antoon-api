@@ -5,6 +5,8 @@ import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistory;
 
+import java.util.List;
+
 /**
  * @apiNote coin module
  **/
@@ -32,8 +34,9 @@ public interface AntCoinClient {
 
     /**
      * @apiNote select user's coin add/sub
-     **/
-    CoinHistory getCoinHistory(Long userId);
+     *
+     * @return*/
+    List<CoinHistory> getCoinHistory(Long userId);
 
     /**
      * @apiNote add coin when sign up

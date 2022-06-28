@@ -1,6 +1,9 @@
 package kr.co.antoon.coin.application;
 
+import com.nimbusds.jose.shaded.json.JSONObject;
+import com.nimbusds.jose.shaded.json.parser.JSONParser;
 import kr.co.antoon.coin.AntCoinClient;
+import kr.co.antoon.coin.domain.AntCoinHistory;
 import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
@@ -8,10 +11,16 @@ import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistory;
 import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
+import kr.co.antoon.vote.application.CandidateService;
+import kr.co.antoon.webtoon.application.WebtoonService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -19,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AntCoinService implements AntCoinClient {
     private final AntCoinHistoryService antCoinHistoryService;
     private final AntCoinWalletService antCoinWalletService;
+    private final WebtoonService webtoonService;
+    private final CandidateService candidateService;
 
     @Override
     @Transactional
@@ -32,7 +43,8 @@ public class AntCoinService implements AntCoinClient {
                 coin,
                 RemittanceStatus.PLUS,
                 type,
-                reason
+                reason,
+                wallet.getWallet()
         );
     }
 
@@ -50,7 +62,8 @@ public class AntCoinService implements AntCoinClient {
                 coin,
                 RemittanceStatus.MINUS,
                 type,
-                reason
+                reason,
+                wallet.getWallet()
         );
     }
 
@@ -60,10 +73,49 @@ public class AntCoinService implements AntCoinClient {
         return antCoinWalletService.get(userId);
     }
 
+    @SneakyThrows
     @Override
     @Transactional(readOnly = true)
-    public CoinHistory getCoinHistory(Long userId) {
-        return antCoinHistoryService.getCoinHistory(userId);
+    public List<CoinHistory> getCoinHistory(Long userId) {
+        List<AntCoinHistory> antCoinHistories = antCoinHistoryService.getCoinHistory(userId);
+        List<CoinHistory> coinHistories = new ArrayList<>();
+        log.info("history of reason : {}", antCoinHistories.get(1).getReason());
+
+        for(AntCoinHistory history : antCoinHistories) {
+            String reason = history.getReason();
+            if(reason.startsWith("{")) {
+                JSONParser jsonParser = new JSONParser();
+                Object obj = jsonParser.parse(reason);
+                JSONObject jsonObj = (JSONObject) obj;
+                log.info("json : {}", jsonObj);
+
+                String key = jsonObj.keySet().iterator().next();
+                log.info("json key : {}",key);
+
+                if(key.contains("WEBTOON")) {
+                    Long webtoonId = Long.parseLong(String.valueOf(jsonObj.get(key)));
+                    reason = webtoonService.findById(webtoonId).getTitle();
+
+
+                } else if(key.contains("VOTE")) {
+                    Long candidateId = Long.parseLong(String.valueOf(jsonObj.get(key)));
+                    reason = candidateService.findById(candidateId).getContent();
+                }
+            }
+
+
+            coinHistories.add(
+                    new CoinHistory(
+                    history.getCreatedAt(),
+                    history.getRemittanceStatus(),
+                    history.getAmount(),
+                    history.getWallet(),
+                    history.getRemittanceType(),
+                    reason
+                    )
+            );
+        }
+        return coinHistories;
     }
 
     @Transactional
@@ -76,15 +128,6 @@ public class AntCoinService implements AntCoinClient {
                     CoinRewardType.DEFAULT_SIGN_COIN_BONUS.getAmount(),
                     "SIGNUP",
                     RemittanceType.SIGNED_SERVICE
-            );
-
-            antCoinHistoryService.record(
-                    userId,
-                    wallet.getId(),
-                    CoinRewardType.DEFAULT_SIGN_COIN_BONUS.getAmount(),
-                    RemittanceStatus.PLUS,
-                    RemittanceType.SIGNED_SERVICE,
-                    "SIGNUP"
             );
         }
     }
