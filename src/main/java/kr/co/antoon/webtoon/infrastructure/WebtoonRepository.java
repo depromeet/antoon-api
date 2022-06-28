@@ -123,7 +123,7 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, JpaSpec
     );
            
     @Query(nativeQuery = true, value = """
-            select w.id as webtoonId, w.title, w.thumbnail, gss.graph_score as score
+            select distinct w.id as webtoonId, w.title, w.thumbnail, gss.graph_score as score
             from webtoon as w
             left join graph_score_snapshot as gss
             on gss.webtoon_id = w.id
