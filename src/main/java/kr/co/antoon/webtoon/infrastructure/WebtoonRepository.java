@@ -53,7 +53,7 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, JpaSpec
                      		select c.id as id, c.webtoon_id as webtoon_id, c.name as name, ci.image_url as image_url
                      		from characters c
                      		left join character_image ci on c.id = ci.character_id
-                     		where ci.type = "PERSONA"
+                     		where ci.type = "PERSONADETAIL"
                      ) c on w.id = c.webtoon_id
                      where w.id = :webtoon_id and gss.snapshot_time between :start_time and :end_time
                      """, nativeQuery = true)
