@@ -13,8 +13,6 @@ public record CharacterDetailResponse(
         String characterThumbnail,
         @Schema(description = "인물/커플 순위")
         Integer rank,
-        @Schema(description = "인물/커플 상세내용")
-        String content,
         @Schema(description = "상세페이지 배경색")
         String backGroundColor,
         @Schema(description = "인물/커플 누적 안트코인")
@@ -39,7 +37,6 @@ public record CharacterDetailResponse(
                         character.getName(),
                         imageUrl,
                         rank,
-                        character.getContent(),
                         character.getColor(),
                         character.getCoinAmount(),
                         webtoon.getWebtoonId(),

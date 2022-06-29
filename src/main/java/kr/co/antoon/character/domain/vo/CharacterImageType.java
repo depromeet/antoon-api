@@ -23,4 +23,11 @@ public enum CharacterImageType {
             default -> throw new NotExistsException(ErrorMessage.NOT_EXISTS_CHARACTER_IMAGE);
         };
     }
+
+    public static CharacterImageType type(String type) {
+        return switch (CharacterImageType.valueOf(type)) {
+            case PERSONA -> PERSONADETAIL;
+            default -> COUPLE;
+        };
+    }
 }

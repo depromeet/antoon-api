@@ -26,8 +26,6 @@ public class Character extends BaseEntity {
 
     private String name;
 
-    private String content;
-
     private String color;
 
     @Enumerated(EnumType.STRING)
@@ -40,7 +38,6 @@ public class Character extends BaseEntity {
     @Builder
     public Character(String name, String content, String color, CharacterType type, Long webtoonId) {
         this.name = name;
-        this.content = content;
         this.color = color;
         this.type = type;
         this.webtoonId = webtoonId;
