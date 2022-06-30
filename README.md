@@ -10,9 +10,10 @@
 
 앙투앙을 통해 취향을 공유해요!!!
 ```
-<p align="center">
+
+
 ![main gif](/src/main/resources/static/main.gif)
-</p>
+
 
 ### Back End Developer 🙋
 
