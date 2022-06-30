@@ -10,9 +10,9 @@
 
 앙투앙을 통해 취향을 공유해요!!!
 ```
-<div align="center">
+<p align="center">
 ![main gif](/src/main/resources/static/main.gif)
-</div>
+</p>
 
 ### Back End Developer 🙋
 
