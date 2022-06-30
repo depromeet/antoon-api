@@ -1,6 +1,7 @@
 # ANTOON CORE API
 > 앙투앙~! 개미는 오늘도 열심히 툰툰!
 
+
 ### 😉 프로젝트 소개
 ```
 내 취향과 맞는 웹툰은 뭘까? 이런 고민을 하는 당신에게!
@@ -20,9 +21,11 @@
 | <img src="https://avatars.githubusercontent.com/u/50691225?v=4" width="250"/> |<img src="https://avatars.githubusercontent.com/u/17813930?v=4" width="250"/> |<img src="https://avatars.githubusercontent.com/u/50009240?v=4" width="250"/> |<img src="https://avatars.githubusercontent.com/u/79418036?v=4" width="250"/>|<img src="https://avatars.githubusercontent.com/u/37958836?v=4" width="250"/>|
 |   [김동건](https://github.com/DongGeon0908) |   [윤영](https://github.com/yunyoung1819) |   [이하늘](https://github.com/twoosky)   | [염지원](https://github.com/xx10222) | [김성민](https://github.com/devsungmin)|
 
+
 ### 🌐 서비스 주소
 - [Antoon Web](https://antoon.fun/)
 - [Antoon Api](https://api.antoon.fun/swagger)
+
 
 ### 🛠 기술스택
 <div align='center'>
