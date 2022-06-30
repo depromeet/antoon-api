@@ -46,7 +46,8 @@ public class CandidateService {
     }
 
     private double calculateVotingRate(Topic topic, Candidate candidate) {
-        return candidate.getVotingCount().doubleValue() / topic.getJoinCount().doubleValue();
+        double voteRate = candidate.getVotingCount().doubleValue() / topic.getJoinCount().doubleValue();
+        return Math.round(voteRate);
     }
 
     @Transactional(readOnly = true)
