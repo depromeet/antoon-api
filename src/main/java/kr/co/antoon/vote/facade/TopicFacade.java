@@ -33,10 +33,14 @@ public class TopicFacade {
     private final UserService userService;
 
     @Transactional(readOnly = true)
-    public TopicResponse findTopicById(Long topicId) {
+    public TopicResponse findTopicById(Long topicId, AuthInfo info) {
         var topic = topicService.findById(topicId);
         var candidates = candidateService.findAllByTopicId(topicId);
         checkTopicCloseStatus(topic);
+
+        if (info == null) {
+            topic.setTopicVoteStatus(false);
+        }
         return new TopicResponse(topic, candidates);
     }
 

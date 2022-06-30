@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.PageDto;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
+import kr.co.antoon.oauth.config.AuthUser;
+import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.vote.domain.vo.SortType;
 import kr.co.antoon.vote.dto.response.*;
 import kr.co.antoon.vote.facade.TopicFacade;
@@ -42,9 +44,10 @@ public class TopicController {
     @ApiOperation(value = "토픽 상세 페이지 조회")
     @GetMapping("/detail/{topicId}")
     public ResponseEntity<TopicResponse> getTopicById(
-            @PathVariable("topicId") Long topicId
-    ) {
-        var response = topicFacade.findTopicById(topicId);
+            @PathVariable("topicId") Long topicId,
+            @AuthUser AuthInfo info
+            ) {
+        var response = topicFacade.findTopicById(topicId, info);
         return ResponseDto.ok(response);
     }
 }
