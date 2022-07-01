@@ -61,6 +61,10 @@ public class WebtoonFacade {
                 );
     }
 
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::top::upper"}
+    )
     @Transactional(readOnly = true)
     public WebtoonRankingAllResponse getWebtoonsByTopUpper() {
         var webtoons = webtoonService.findAll()

@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static kr.co.antoon.cache.webtoon.WebtoonRedisKey.WEBTOON_TOP_RANK_KEY;
+import static kr.co.antoon.cache.webtoon.WebtoonRedisKey.WEBTOON_TOP_UPPER;
 
 @Component
 @RequiredArgsConstructor
@@ -111,5 +112,6 @@ public class GraphScoreFacade {
         var graphScoreSnapshots = graphScoreSnapshotService.findTop9BySnapshotTimeAfter(now);
         topRankService.saveAll(graphScoreSnapshots);
         webtoonRedisCacheService.evict(WEBTOON_TOP_RANK_KEY);
+        webtoonRedisCacheService.evict(WEBTOON_TOP_UPPER);
     }
 }

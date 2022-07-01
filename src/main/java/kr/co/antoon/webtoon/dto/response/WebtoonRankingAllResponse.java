@@ -1,12 +1,13 @@
 package kr.co.antoon.webtoon.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
 public record WebtoonRankingAllResponse(
         List<WebtoonRankingResponse> webtoons
 ) {
@@ -17,7 +18,7 @@ public record WebtoonRankingAllResponse(
             String title,
             int score,
             double scoreGapPercent,
-            LocalDateTime snapshotTime,
+            String snapshotTime,
             String activeStatus,
             Platform platform
     ) {
@@ -29,7 +30,7 @@ public record WebtoonRankingAllResponse(
                     webtoon.getTitle(),
                     graphScoreSnapshot.getGraphScore(),
                     graphScoreSnapshot.getScoreGapPercent(),
-                    graphScoreSnapshot.getSnapshotTime(),
+                    graphScoreSnapshot.getSnapshotTime().toString(),
                     webtoon.getStatus().getDescription(),
                     webtoon.getPlatform()
             );
