@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +23,7 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 @EnableRedisRepositories
-public class RedisConfig extends CachingConfigurerSupport {
+public class RedisConfig {
     private final RedisProperties redisProperties;
 
     @Bean
@@ -39,24 +38,6 @@ public class RedisConfig extends CachingConfigurerSupport {
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
         return redisTemplate;
-    }
-
-    @Bean
-    @Override
-    public CacheManager cacheManager() {
-        var stringSerializationPair = RedisSerializationContext
-                .SerializationPair.fromSerializer(new StringRedisSerializer());
-        var objectSerializationPair = RedisSerializationContext
-                .SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer());
-
-        var redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .serializeKeysWith(stringSerializationPair)
-                .serializeValuesWith(objectSerializationPair)
-                .entryTtl(CachingDuration.HOUR.duration);
-
-        return RedisCacheManager.RedisCacheManagerBuilder
-                .fromConnectionFactory(redisConnectionFactory())
-                .cacheDefaults(redisCacheConfiguration).build();
     }
 
     @Bean
@@ -75,7 +56,7 @@ public class RedisConfig extends CachingConfigurerSupport {
                 .fromConnectionFactory(redisConnectionFactory())
                 .cacheDefaults(redisCacheConfiguration).build();
     }
-    
+
     @Getter
     @RequiredArgsConstructor
     enum CachingDuration {
