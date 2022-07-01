@@ -2,7 +2,10 @@ package kr.co.antoon.vote.facade;
 
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
-import kr.co.antoon.vote.application.*;
+import kr.co.antoon.vote.application.CandidateService;
+import kr.co.antoon.vote.application.TopicDiscussionLikeService;
+import kr.co.antoon.vote.application.TopicDiscussionService;
+import kr.co.antoon.vote.application.TopicService;
 import kr.co.antoon.vote.converter.TopicDiscussionConverter;
 import kr.co.antoon.vote.domain.Candidate;
 import kr.co.antoon.vote.domain.Topic;
@@ -29,28 +32,32 @@ public class TopicFacade {
     private final TopicDiscussionService topicDiscussionService;
     private final TopicDiscussionLikeService topicDiscussionLikeService;
     private final UserService userService;
-    private final VoteService voteService;
 
     @Transactional(readOnly = true)
     public TopicResponse findTopicById(Long topicId, AuthInfo info) {
         var topic = topicService.findById(topicId);
         var candidates = candidateService.findAllByTopicId(topicId);
-        var currentTime = LocalDateTime.now();
-        var topicVoteEndTime = topic.getTopicVoteTime();
-
-        topic.updateCloseStatus(currentTime.isAfter(topicVoteEndTime));
+        checkTopicCloseStatus(topic);
 
         if (info == null) {
             topic.changeVoteStatus(false);
-            return new TopicResponse(topic, candidates);
         }
-
-        var existsUser = voteService.existsByUserIdAndTopicId(info.userId(), topicId);
-        if (!existsUser) {
-            topic.changeVoteStatus(false);
-        }
-
+        // TODO: 수정 필요
+        // checkExistsUser(topicId, info, topic);
         return new TopicResponse(topic, candidates);
+    }
+
+//    private void checkExistsUser(Long topicId, AuthInfo info, Topic topic) {
+//        var existsUser = voteService.existsByUserIdAndTopicId(info.userId(), topicId);
+//        if (!existsUser) {
+//            topic.changeVoteStatus(false);
+//        }
+//    }
+
+    private void checkTopicCloseStatus(Topic topic) {
+        var currentTime = LocalDateTime.now();
+        var topicVoteEndTime = topic.getTopicVoteTime();
+        topic.updateCloseStatus(currentTime.isAfter(topicVoteEndTime));
     }
 
     @Transactional(readOnly = true)
