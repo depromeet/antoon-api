@@ -42,7 +42,6 @@ public class TopicFacade {
 
         if (info == null) {
             topic.changeVoteStatus(false);
-            return new TopicResponse(topic, candidates);
         }
         // TODO: 수정 필요
         // checkExistsUser(topicId, info, topic);
