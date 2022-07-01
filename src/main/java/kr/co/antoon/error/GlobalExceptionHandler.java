@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorDto> handleBusinessException(
             final BusinessException e) {
-        log.error("[ERROR] BusinessException -> {}", e.getMessage());
+        log.error("[ERROR] BusinessException -> {}", e.getCause().toString());
         return ResponseEntity.status(e.getStatus())
                 .body(new ErrorDto(e.getMessage(), e.getCause().toString()));
     }
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorDto> handleException(final Exception e) {
-        log.error("[ERROR] Exception -> {}", e.getMessage());
+        log.error("[ERROR] Exception -> {}", e.getCause().toString());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorDto(e.getMessage(), e.getMessage()));
     }

@@ -29,8 +29,6 @@ public class JwtTokenProvider {
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
-
-        log.info("key : {}", secretKey);
     }
 
     public String createAccessToken(String userId, String role) {

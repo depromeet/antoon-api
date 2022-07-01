@@ -40,8 +40,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2Attribute oAuth2Attribute =
                 OAuth2Attribute.of(registrationId, oAuth2User.getAttributes());
 
-        log.info("OAuth2Attribute : {}", oAuth2Attribute);
-
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(Role.USER.getKey())),
                 oAuth2Attribute.getAttributes(),
@@ -54,7 +52,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     public void saveOrUpdate(OAuth2User oAuth2User) {
-        log.info("Service OAuth2User : {}", oAuth2User);
         var data = oAuth2User.getAttributes();
         var email = data.get("email").toString();
         String randomProfileImage = awsS3Service.randomProfileImage();
@@ -73,7 +70,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
             if (data.containsKey("age_range")) {
                 String age = data.get("age_range").toString();
-                int ageRange = Integer.parseInt(age.toString().split("~")[0]);
+                int ageRange = Integer.parseInt(age.split("~")[0]);
                 user.updateAge(ageRange);
             }
 
