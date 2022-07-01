@@ -2,7 +2,6 @@ package kr.co.antoon.vote.facade;
 
 import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
-import kr.co.antoon.coin.domain.vo.CoinUsageType;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.AlreadyExistsException;

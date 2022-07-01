@@ -6,21 +6,21 @@ import kr.co.antoon.vote.application.CandidateService;
 import kr.co.antoon.vote.application.TopicDiscussionLikeService;
 import kr.co.antoon.vote.application.TopicDiscussionService;
 import kr.co.antoon.vote.application.TopicService;
-import kr.co.antoon.vote.application.VoteService;
 import kr.co.antoon.vote.converter.TopicDiscussionConverter;
-
 import kr.co.antoon.vote.domain.Candidate;
 import kr.co.antoon.vote.domain.Topic;
 import kr.co.antoon.vote.domain.vo.SortType;
 import kr.co.antoon.vote.dto.request.TopicDiscussionCreateRequest;
 import kr.co.antoon.vote.dto.request.TopicDiscussionUpdateRequest;
-import kr.co.antoon.vote.dto.response.*;
-
+import kr.co.antoon.vote.dto.response.TopicChoicesResponse;
+import kr.co.antoon.vote.dto.response.TopicDiscussionResponse;
+import kr.co.antoon.vote.dto.response.TopicPageResponse;
+import kr.co.antoon.vote.dto.response.TopicResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +29,6 @@ import java.time.LocalDateTime;
 public class TopicFacade {
     private final TopicService topicService;
     private final CandidateService candidateService;
-    private final VoteService voteService;
     private final TopicDiscussionService topicDiscussionService;
     private final TopicDiscussionLikeService topicDiscussionLikeService;
     private final UserService userService;
@@ -63,7 +62,7 @@ public class TopicFacade {
 
     @Transactional(readOnly = true)
     public Page<TopicPageResponse> findAll(SortType sortType, Pageable pageable) {
-        Page<TopicPageResponse> topicPageResponses = topicService.findAllTopics(sortType, pageable)
+        return topicService.findAllTopics(sortType, pageable)
                 .map(topic -> {
                     String[] thumbnails = candidateService.findAllByTopicId(topic.getId())
                             .stream()
@@ -74,7 +73,6 @@ public class TopicFacade {
                             thumbnails
                     );
                 });
-        return topicPageResponses;
     }
 
     @Transactional(readOnly = true)
@@ -83,6 +81,7 @@ public class TopicFacade {
                 .stream()
                 .map(TopicChoicesResponse.TopicChoiceResponse::new)
                 .toList();
+
         return new TopicChoicesResponse(responses);
     }
 
