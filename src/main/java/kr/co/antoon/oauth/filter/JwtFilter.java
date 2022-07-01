@@ -51,7 +51,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (!Arrays.stream(whiteListInSwagger()).toList().contains(path) && !"/health".equals(path)) {
             String token = resolveToken(request);
-            log.info("filter access : " + token);
             // 정상 토큰이면 해당 토큰으로 Authentication을 가져와서 SecurityContext에 저장
             if (StringUtils.hasText(token) && jwtTokenProvider.validate(token)) {
                 String isLogout = userRedisCacheService.get(token);
