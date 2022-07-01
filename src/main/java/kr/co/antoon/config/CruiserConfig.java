@@ -1,7 +1,7 @@
 package kr.co.antoon.config;
 
 import kr.co.antoon.config.properties.SlackCruiserProperties;
-import kr.co.antoon.cruiser.domain.Cruiser;
+import kr.co.antoon.cruiser.domain.CruiserClient;
 import kr.co.antoon.cruiser.domain.SlackCruiser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ public class CruiserConfig {
     private final WebClient.Builder webclient;
 
     @Bean
-    public Cruiser SlackCruiser() {
+    public CruiserClient SlackCruiser() {
         return new SlackCruiser(slackCruiserProperties, webclient);
     }
 }

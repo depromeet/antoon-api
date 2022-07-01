@@ -12,7 +12,7 @@ import java.time.Duration;
 
 @Slf4j
 @RequiredArgsConstructor
-public class SlackCruiser implements Cruiser {
+public class SlackCruiser implements CruiserClient {
     private final SlackCruiserProperties slackCruiserProperties;
     private final WebClient.Builder webclient;
 

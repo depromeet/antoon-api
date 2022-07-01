@@ -1,7 +1,7 @@
 package kr.co.antoon.feedback.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kr.co.antoon.cruiser.domain.Cruiser;
+import kr.co.antoon.cruiser.domain.CruiserClient;
 import kr.co.antoon.feedback.domain.vo.Score;
 import kr.co.antoon.feedback.domain.vo.Status;
 import kr.co.antoon.feedback.dto.request.FeedbackRequest;
@@ -34,7 +34,7 @@ class FeedbackControllerTest {
     private FeedbackFacade feedbackFacade;
 
     @MockBean
-    private Cruiser cruiser;
+    private CruiserClient cruiser;
 
     @Autowired
     private ObjectMapper objectMapper;

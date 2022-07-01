@@ -1,6 +1,6 @@
 package kr.co.antoon.cruiser.domain;
 
-public interface Cruiser {
+public interface CruiserClient {
     /**
      * Cruiser For Message
      *

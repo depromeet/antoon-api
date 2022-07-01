@@ -1,6 +1,6 @@
 package kr.co.antoon.batch.cruiser;
 
-import kr.co.antoon.cruiser.domain.Cruiser;
+import kr.co.antoon.cruiser.domain.CruiserClient;
 import kr.co.antoon.cruiser.facade.CruiserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class CruiserHourJob {
-    private final Cruiser cruiser;
+    private final CruiserClient cruiser;
     private final CruiserFacade cruiserFacade;
 
     public void run() {
