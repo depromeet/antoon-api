@@ -35,27 +35,22 @@ public class TopicFacade {
     public TopicResponse findTopicById(Long topicId, AuthInfo info) {
         var topic = topicService.findById(topicId);
         var candidates = candidateService.findAllByTopicId(topicId);
-        checkTopicCloseStatus(topic);
+        var currentTime = LocalDateTime.now();
+        var topicVoteEndTime = topic.getTopicVoteTime();
+
+        topic.updateCloseStatus(currentTime.isAfter(topicVoteEndTime));
 
         if (info == null) {
             topic.changeVoteStatus(false);
             return new TopicResponse(topic, candidates);
         }
-        checkExistsUser(topicId, info, topic);
-        return new TopicResponse(topic, candidates);
-    }
 
-    private void checkExistsUser(Long topicId, AuthInfo info, Topic topic) {
         var existsUser = voteService.existsByUserIdAndTopicId(info.userId(), topicId);
         if (!existsUser) {
             topic.changeVoteStatus(false);
         }
-    }
 
-    private void checkTopicCloseStatus(Topic topic) {
-        var currentTime = LocalDateTime.now();
-        var topicVoteEndTime = topic.getTopicVoteTime();
-        topic.updateCloseStatus(currentTime.isAfter(topicVoteEndTime));
+        return new TopicResponse(topic, candidates);
     }
 
     @Transactional(readOnly = true)
