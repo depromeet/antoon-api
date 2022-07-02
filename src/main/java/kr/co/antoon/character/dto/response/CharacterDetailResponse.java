@@ -29,22 +29,21 @@ public record CharacterDetailResponse(
         Boolean isJoined,
         @Schema(description = "인물/커플 탑승 수")
         Integer joinedCount
-)
-{
-        public CharacterDetailResponse(Character character, Integer rank, String imageUrl, WebtoonCharacterNativeDto webtoon, Boolean isJoined, Integer joinedCount) {
-                this(
-                        character.getId(),
-                        character.getName(),
-                        imageUrl,
-                        rank,
-                        character.getColor(),
-                        character.getCoinAmount(),
-                        webtoon.getWebtoonId(),
-                        webtoon.getThumbnail(),
-                        webtoon.getTitle(),
-                        webtoon.getScore(),
-                        isJoined,
-                        joinedCount
-                );
-        }
+) {
+    public CharacterDetailResponse(Character character, Integer rank, String imageUrl, WebtoonCharacterNativeDto webtoon, Boolean isJoined, Integer joinedCount) {
+        this(
+                character.getId(),
+                character.getName(),
+                imageUrl,
+                rank,
+                character.getColor(),
+                character.getCoinAmount(),
+                webtoon.getWebtoonId(),
+                webtoon.getThumbnail(),
+                webtoon.getTitle(),
+                webtoon.getScore(),
+                isJoined,
+                joinedCount
+        );
+    }
 }

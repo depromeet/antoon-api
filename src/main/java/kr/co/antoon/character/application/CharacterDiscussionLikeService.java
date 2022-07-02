@@ -1,7 +1,7 @@
 package kr.co.antoon.character.application;
 
-import kr.co.antoon.character.infrastructure.CharacterDiscussionLikeRepository;
 import kr.co.antoon.character.domain.CharacterDiscussionLike;
+import kr.co.antoon.character.infrastructure.CharacterDiscussionLikeRepository;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,26 +14,31 @@ public class CharacterDiscussionLikeService {
 
     @Transactional
     public CharacterDiscussionLike saveOrUpdate(Long memberId, Long discussionId) {
-        return characterDiscussionLikeRepository.save(
-                characterDiscussionLikeRepository.findByUserIdAndDiscussionId(memberId, discussionId)
-                        .map(CharacterDiscussionLike::update)
-                        .orElse(CharacterDiscussionLike.builder()
-                                .userId(memberId)
-                                .discussionId(discussionId)
-                                .build()
-                        )
-        );
+        var charcterDiscussionLikeNewInstance = CharacterDiscussionLike.builder()
+                .userId(memberId)
+                .discussionId(discussionId)
+                .build();
+
+
+        var characterDiscussionLike = characterDiscussionLikeRepository.findByUserIdAndDiscussionId(memberId, discussionId)
+                .map(CharacterDiscussionLike::update)
+                .orElse(charcterDiscussionLikeNewInstance);
+
+        return characterDiscussionLikeRepository.save(characterDiscussionLike);
     }
 
+    // TODO : 수정 필요
     @Transactional(readOnly = true)
     public Boolean isUserLike(AuthInfo info, Long discussionId) {
         if (info == null) {
             return false;
         }
         var like = characterDiscussionLikeRepository.findByUserIdAndDiscussionId(info.userId(), discussionId);
+
         if (like.isPresent()) {
             return like.get().getStatus();
         }
+
         return false;
     }
 }

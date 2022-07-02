@@ -14,7 +14,7 @@ public class CharacterHistoryService {
 
     @Transactional
     public CharacterHistory save(Long characterId, Long userId) {
-        CharacterHistory characterHistory = new CharacterHistory(characterId, userId);
+        var characterHistory = new CharacterHistory(characterId, userId);
         return characterHistoryRepository.save(characterHistory);
     }
 
