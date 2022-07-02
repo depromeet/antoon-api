@@ -13,23 +13,25 @@ public class TopicDiscussionLikeService {
 
     @Transactional
     public TopicDiscussionLike SaveOrUpdate(Long userId, Long discussionId) {
-        return likeRepository.save(
-                likeRepository.findByUserIdAndDiscussionId(userId, discussionId)
-                        .map(TopicDiscussionLike::update)
-                        .orElse(TopicDiscussionLike.builder()
-                                .userId(userId)
-                                .discussionId(discussionId)
-                                .build()
-                        )
-        );
+        var topicDiscussionLike = likeRepository.findByUserIdAndDiscussionId(userId, discussionId)
+                .map(TopicDiscussionLike::update)
+                .orElse(TopicDiscussionLike.builder()
+                        .userId(userId)
+                        .discussionId(discussionId)
+                        .build()
+                );
+
+        return likeRepository.save(topicDiscussionLike);
     }
 
     @Transactional(readOnly = true)
     public Boolean isUserLike(Long userId, Long discussionId) {
         var like = likeRepository.findByUserIdAndDiscussionId(userId, discussionId);
+
         if (like.isPresent()) {
             return like.get().getStatus();
         }
+
         return false;
     }
 }

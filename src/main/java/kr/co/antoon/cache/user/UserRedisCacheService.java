@@ -1,27 +1,16 @@
 package kr.co.antoon.cache.user;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
-import static kr.co.antoon.cache.user.UserRedisCacheService.UserKey.USER_KEY;
+import static kr.co.antoon.cache.user.UserRedisKey.USER_KEY;
 
 @Service
 @RequiredArgsConstructor
 public class UserRedisCacheService {
-
-    @Getter
-    @RequiredArgsConstructor
-    enum UserKey {
-        USER_KEY("refresh:user_"),
-        ;
-
-        private final String value;
-    }
-
     private final RedisTemplate<String, String> redisTemplate;
 
     public String get(String token) {
@@ -29,14 +18,14 @@ public class UserRedisCacheService {
     }
 
     public String get(Long userId) {
-        return redisTemplate.opsForValue().get(USER_KEY.value + ":" + userId);
+        return redisTemplate.opsForValue().get(USER_KEY.getValue() + ":" + userId);
     }
 
     public void update(String key, String value, long expiredTime) {
-        redisTemplate.opsForValue().set(USER_KEY.value + ":" + key, value, expiredTime, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(USER_KEY.getValue() + ":" + key, value, expiredTime, TimeUnit.MILLISECONDS);
     }
 
     public void delete(Long userId) {
-        redisTemplate.delete(USER_KEY.value + ":" + userId);
+        redisTemplate.delete(USER_KEY.getValue() + ":" + userId);
     }
 }

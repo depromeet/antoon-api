@@ -1,11 +1,9 @@
 package kr.co.antoon.character.facade;
 
-import kr.co.antoon.character.application.CharacterService;
 import kr.co.antoon.character.application.CharacterHistoryService;
+import kr.co.antoon.character.application.CharacterService;
 import kr.co.antoon.coin.application.AntCoinService;
-import kr.co.antoon.coin.domain.AntCoinHistory;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
-import kr.co.antoon.coin.domain.vo.CoinUsageType;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.common.AlreadyExistsException;
@@ -36,8 +34,5 @@ public class CharacterHistoryFacade {
                 characterId.toString(),
                 RemittanceType.JOINED_CHARACTER
         );
-
-
-
     }
 }

@@ -79,36 +79,37 @@ public class AntCoinService implements AntCoinClient {
     @Override
     @Transactional(readOnly = true)
     public List<CoinHistory> getCoinHistory(Long userId) {
-        List<AntCoinHistory> antCoinHistories = antCoinHistoryService.getCoinHistory(userId);
+        var antCoinHistories = antCoinHistoryService.getCoinHistory(userId);
         List<CoinHistory> coinHistories = new ArrayList<>();
         log.info("history of reason : {}", antCoinHistories.get(1).getReason());
 
-        for(AntCoinHistory history : antCoinHistories) {
+        for (AntCoinHistory history : antCoinHistories) {
             String reason = history.getReason();
-            if(reason.startsWith("{")) {
-                JSONParser jsonParser = new JSONParser();
-                Object obj = jsonParser.parse(reason);
-                JSONObject jsonObj = (JSONObject) obj;
-                String key = jsonObj.keySet().iterator().next();
+            if (reason.startsWith("{")) {
+                var jsonParser = new JSONParser();
+                var obj = jsonParser.parse(reason);
+                var jsonObj = (JSONObject) obj;
+                var key = jsonObj.keySet().iterator().next();
 
-                Long id = Long.parseLong(String.valueOf(jsonObj.get(key)));
-                if(key.contains("WEBTOON")) {
+                var id = Long.parseLong(String.valueOf(jsonObj.get(key)));
+
+                if (key.contains("WEBTOON")) {
                     reason = webtoonService.findById(id).getTitle();
-                } else if(key.contains("VOTE")) {
+                } else if (key.contains("VOTE")) {
                     reason = candidateService.findById(id).getContent();
-                } else if(key.contains("CHARACTER")) {
+                } else if (key.contains("CHARACTER")) {
                     reason = characterService.findById(id).getName();
                 }
             }
 
             coinHistories.add(
                     new CoinHistory(
-                    history.getCreatedAt(),
-                    history.getRemittanceStatus(),
-                    history.getAmount(),
-                    history.getWallet(),
-                    history.getRemittanceType(),
-                    reason
+                            history.getCreatedAt(),
+                            history.getRemittanceStatus(),
+                            history.getAmount(),
+                            history.getWallet(),
+                            history.getRemittanceType(),
+                            reason
                     )
             );
         }
@@ -118,7 +119,7 @@ public class AntCoinService implements AntCoinClient {
     @Transactional
     public void sign(Long userId) {
         if (!antCoinWalletService.existsByUserId(userId)) {
-            var wallet = antCoinWalletService.save(userId);
+            antCoinWalletService.save(userId);
 
             plusCoin(
                     userId,
@@ -137,16 +138,14 @@ public class AntCoinService implements AntCoinClient {
         }
 
         log.info("count : {}", antCoinHistoryService.countJoinWebtoon(userId));
-        if(antCoinHistoryService.countJoinWebtoon(userId) >= rewardLimit) {
+        if (antCoinHistoryService.countJoinWebtoon(userId) >= rewardLimit) {
             log.info("ALREADY_OVER_COUNT_COIN: 금일 탑승/하차를 통한 코인 지급 횟수를 초과하였습니다.");
             return response;
         }
 
-        RemittanceType type = RemittanceType.joinOrLeave(status);
-//        var coinReason = new CoinReason(webtoonId);
-//        var reason = MapperUtil.write(coinReason);
-
-        String reason = antCoinHistoryService.rewardReasonToJson(type, webtoonId.toString());
+        var type = RemittanceType.joinOrLeave(status);
+        
+        var reason = antCoinHistoryService.rewardReasonToJson(type, webtoonId.toString());
 
         plusCoin(
                 userId,

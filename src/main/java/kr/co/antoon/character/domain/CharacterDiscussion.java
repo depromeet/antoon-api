@@ -38,6 +38,7 @@ public class CharacterDiscussion extends BaseEntity {
         this.content = content;
     }
 
+    // TODO : 수정 필요
     public void updateLikeCount(Boolean flag) {
         if (flag) {
             this.likeCount += 1;

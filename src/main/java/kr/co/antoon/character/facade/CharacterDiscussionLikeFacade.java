@@ -16,6 +16,7 @@ public class CharacterDiscussionLikeFacade {
     public void saveOrUpdate(Long memberId, Long discussionId) {
         var discussion = characterDiscussionService.findById(discussionId);
         var like = characterDiscussionLikeService.saveOrUpdate(memberId, discussionId);
+
         discussion.updateLikeCount(like.getStatus());
     }
 }

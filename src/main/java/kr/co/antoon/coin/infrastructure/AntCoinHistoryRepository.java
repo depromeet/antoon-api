@@ -2,8 +2,6 @@ package kr.co.antoon.coin.infrastructure;
 
 import kr.co.antoon.coin.domain.AntCoinHistory;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
-import kr.co.antoon.coin.dto.CoinHistory;
-import kr.co.antoon.discussion.dto.query.DiscussionCountDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,12 +17,12 @@ public interface AntCoinHistoryRepository extends JpaRepository<AntCoinHistory, 
     List<AntCoinHistory> getAntCoinHistoryByUserId(Long userId);
 
     @Query(value = """
-                select count(*) as count
-        from ant_coin_history 
-        where user_id = :userId and 
-        created_at like :today% and 
-        remittance_type like %:type
-            """, nativeQuery = true)
+                    select count(*) as count
+            from ant_coin_history 
+            where user_id = :userId and 
+            created_at like :today% and 
+            remittance_type like %:type
+                """, nativeQuery = true)
     Long countTodayWebtoonReward(
             @Param(value = "userId") Long userId,
             @Param(value = "today") String today,

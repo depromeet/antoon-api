@@ -17,10 +17,11 @@ public enum AntDefaultImageName {
     red("빨강 개미"),
     yellow("노랑 개미"),
     ;
+
     private final String description;
 
     public static AntDefaultImageName getRandomAnt() {
-        Random random = new Random();
-        return values()[random.nextInt(values().length)];
+        var random = new Random().nextInt(values().length);
+        return values()[random];
     }
 }

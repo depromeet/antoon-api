@@ -8,13 +8,18 @@ import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.vote.domain.vo.SortType;
-import kr.co.antoon.vote.dto.response.*;
+import kr.co.antoon.vote.dto.response.TopicChoicesResponse;
+import kr.co.antoon.vote.dto.response.TopicPageResponse;
+import kr.co.antoon.vote.dto.response.TopicResponse;
 import kr.co.antoon.vote.facade.TopicFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @Api(tags = "커뮤니티 페이지 API")
@@ -46,7 +51,7 @@ public class TopicController {
     public ResponseEntity<TopicResponse> getTopicById(
             @PathVariable("topicId") Long topicId,
             @AuthUser AuthInfo info
-            ) {
+    ) {
         var response = topicFacade.findTopicById(topicId, info);
         return ResponseDto.ok(response);
     }

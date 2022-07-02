@@ -1,8 +1,8 @@
 package kr.co.antoon.character.facade;
 
+import kr.co.antoon.character.application.CharacterHistoryService;
 import kr.co.antoon.character.application.CharacterImageService;
 import kr.co.antoon.character.application.CharacterService;
-import kr.co.antoon.character.application.CharacterHistoryService;
 import kr.co.antoon.character.domain.vo.CharacterImageType;
 import kr.co.antoon.character.domain.vo.CharacterType;
 import kr.co.antoon.character.dto.response.CharacterDetailResponse;

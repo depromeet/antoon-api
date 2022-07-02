@@ -13,7 +13,7 @@ public class VoteService {
 
     @Transactional
     public void save(Long userId, Long topicId, Long candidateId, boolean voteStatus) {
-        Vote vote = new Vote(userId, topicId, candidateId, voteStatus);
+        var vote = new Vote(userId, topicId, candidateId, voteStatus);
         voteRepository.save(vote);
     }
 

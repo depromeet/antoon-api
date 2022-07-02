@@ -12,5 +12,6 @@ public enum S3Category {
     TEST("업로드 테스트용"),
     ANT_DEFAULT("기본 개미 이미지"),
     ;
+    
     private final String description;
 }

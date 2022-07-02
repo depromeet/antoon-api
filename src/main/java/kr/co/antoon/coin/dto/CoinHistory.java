@@ -1,11 +1,8 @@
 package kr.co.antoon.coin.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import kr.co.antoon.coin.domain.AntCoinHistory;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
-import lombok.Builder;
-import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,14 +26,14 @@ public record CoinHistory(
         @Schema(description = "지급 이유 / 웹툰 탑승 시 웹툰 id값")
         String reason
 ) {
-        public CoinHistory(LocalDateTime createdAt, RemittanceStatus remittanceStatus, Long amount, Long wallet, RemittanceType remittanceType, String reason) {
-                this(
-                        createdAt.toLocalDate(),
-                        remittanceStatus.toString(),
-                        amount,
-                        wallet,
-                        remittanceType.getDescription().toString(),
-                        reason
-                );
-        }
+    public CoinHistory(LocalDateTime createdAt, RemittanceStatus remittanceStatus, Long amount, Long wallet, RemittanceType remittanceType, String reason) {
+        this(
+                createdAt.toLocalDate(),
+                remittanceStatus.toString(),
+                amount,
+                wallet,
+                remittanceType.getDescription(),
+                reason
+        );
+    }
 }
