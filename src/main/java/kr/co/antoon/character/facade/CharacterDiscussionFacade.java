@@ -5,8 +5,6 @@ import kr.co.antoon.character.application.CharacterDiscussionService;
 import kr.co.antoon.character.application.CharacterService;
 import kr.co.antoon.character.dto.reqeust.CharacterDiscussionRequest;
 import kr.co.antoon.character.dto.response.CharacterDiscussionResponse;
-import kr.co.antoon.discussion.dto.request.DiscussionCreateRequest;
-import kr.co.antoon.discussion.dto.request.DiscussionUpdateRequest;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +29,7 @@ public class CharacterDiscussionFacade {
                 characterId,
                 request.content()
         );
+
         var user = userService.findById(discussion.getUserId());
 
         return new CharacterDiscussionResponse(
@@ -47,6 +46,7 @@ public class CharacterDiscussionFacade {
         var discussion = characterDiscussionService.findById(discussionId);
         var user = userService.findById(discussion.getUserId());
         var isUserLike = characterDiscussionLikeService.isUserLike(info, discussionId);
+
         return new CharacterDiscussionResponse(
                 discussion.getCharacterId(),
                 discussion,
@@ -62,6 +62,7 @@ public class CharacterDiscussionFacade {
                 .map(discussion -> {
                     var user = userService.findById(discussion.getUserId());
                     var userLike = characterDiscussionLikeService.isUserLike(info, discussion.getId());
+
                     return new CharacterDiscussionResponse(
                             characterId,
                             discussion,
