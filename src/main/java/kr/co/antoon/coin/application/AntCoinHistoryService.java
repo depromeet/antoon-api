@@ -3,7 +3,6 @@ package kr.co.antoon.coin.application;
 import kr.co.antoon.coin.domain.AntCoinHistory;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
-import kr.co.antoon.coin.dto.CoinHistory;
 import kr.co.antoon.coin.dto.CoinReason;
 import kr.co.antoon.coin.infrastructure.AntCoinHistoryRepository;
 import kr.co.antoon.common.util.MapperUtil;
@@ -61,9 +60,7 @@ public class AntCoinHistoryService {
 
     @Transactional
     public List<AntCoinHistory> getCoinHistory(Long userId) {
-        List<AntCoinHistory> antCoinHistory = antCoinHistoryRepository.getAntCoinHistoryByUserId(userId);
-
-        return antCoinHistory;
+        return antCoinHistoryRepository.getAntCoinHistoryByUserId(userId);
     }
 
     @Transactional
@@ -73,8 +70,9 @@ public class AntCoinHistoryService {
     }
 
     public String rewardReasonToJson(RemittanceType remittanceType, String id) {
-        JSONObject jsonObject = new JSONObject();
+        var jsonObject = new JSONObject();
         jsonObject.put(String.valueOf(remittanceType), id);
+
         return jsonObject.toString();
     }
 }

@@ -33,9 +33,9 @@ public interface AntCoinClient {
     AntCoinWallet getWallet(Long userId);
 
     /**
+     * @return
      * @apiNote select user's coin add/sub
-     *
-     * @return*/
+     */
     List<CoinHistory> getCoinHistory(Long userId);
 
     /**

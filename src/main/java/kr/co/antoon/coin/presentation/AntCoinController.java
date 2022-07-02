@@ -3,9 +3,7 @@ package kr.co.antoon.coin.presentation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.coin.application.AntCoinService;
-import kr.co.antoon.coin.domain.AntCoinHistory;
 import kr.co.antoon.coin.dto.CoinHistory;
-import kr.co.antoon.coin.dto.CoinReason;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
@@ -28,7 +26,7 @@ public class AntCoinController {
 
     @ApiOperation(value = "코인 히스토리 조회 API", notes = SwaggerNote.GET_COIN_HISTORY)
     @GetMapping("/history")
-    public ResponseEntity<List<CoinHistory>>getHistory(@AuthUser AuthInfo info) {
+    public ResponseEntity<List<CoinHistory>> getHistory(@AuthUser AuthInfo info) {
         var response = antCoinService.getCoinHistory(info.userId());
         return ResponseEntity.ok(response);
     }
