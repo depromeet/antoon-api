@@ -5,7 +5,6 @@ import kr.co.antoon.error.exception.common.NotExistsException;
 import kr.co.antoon.error.exception.oauth.NotValidRoleException;
 import kr.co.antoon.vote.domain.TopicDiscussion;
 import kr.co.antoon.vote.dto.request.TopicDiscussionUpdateRequest;
-import kr.co.antoon.vote.dto.response.TopicDiscussionResponse;
 import kr.co.antoon.vote.infrastructure.TopicDiscussionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

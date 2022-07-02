@@ -2,7 +2,11 @@ package kr.co.antoon.vote.facade;
 
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
-import kr.co.antoon.vote.application.*;
+import kr.co.antoon.vote.application.CandidateService;
+import kr.co.antoon.vote.application.TopicDiscussionLikeService;
+import kr.co.antoon.vote.application.TopicDiscussionService;
+import kr.co.antoon.vote.application.TopicService;
+import kr.co.antoon.vote.application.VoteService;
 import kr.co.antoon.vote.converter.TopicDiscussionConverter;
 import kr.co.antoon.vote.domain.Candidate;
 import kr.co.antoon.vote.domain.vo.SortType;
@@ -151,6 +155,7 @@ public class TopicFacade {
     public void saveOrUpdateLikes(Long userId, Long discussionId) {
         var topicDiscussion = topicDiscussionService.findById(discussionId);
         var like = topicDiscussionLikeService.SaveOrUpdate(userId, discussionId);
+
         topicDiscussion.updateLikeCount(like.getStatus());
     }
 }
