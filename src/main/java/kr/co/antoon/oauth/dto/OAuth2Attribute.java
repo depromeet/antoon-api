@@ -23,8 +23,8 @@ public class OAuth2Attribute {
     private String gender;
     private String ageRange;
 
-    public static OAuth2Attribute of(String provider,
-                                     Map<String, Object> attributes) {
+    // Platform enum으로 분기 해결 가능
+    public static OAuth2Attribute of(String provider, Map<String, Object> attributes) {
         return switch (provider) {
             case "kakao" -> ofKakao("email", attributes);
             case "google" -> ofGoogle("sub", attributes);
