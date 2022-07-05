@@ -40,4 +40,4 @@ out/
 .vscode/
 
 ### TEST ###
-src/test/java/kr/co/antoon/webtoon/crawling/KakaoWebtoonCrawlingTest.java:
+src/test/java/kr/co/antoon/webtoon/crawling/KakaoWebtoonCrawlingTest.java
