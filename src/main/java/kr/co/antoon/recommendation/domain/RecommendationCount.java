@@ -19,7 +19,6 @@ import javax.persistence.Table;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = @Index(name = "i_webtoon_id", columnList = "webtoonId", unique = true))
 public class RecommendationCount extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

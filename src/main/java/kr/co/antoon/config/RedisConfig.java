@@ -22,7 +22,7 @@ import java.time.Duration;
 @RequiredArgsConstructor
 @Configuration
 @EnableCaching
-@EnableRedisRepositories
+@EnableRedisRepositories // TODO : 불필요
 public class RedisConfig {
     private final RedisProperties redisProperties;
 
