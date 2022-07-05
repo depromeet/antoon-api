@@ -21,13 +21,9 @@ public class RecommendationService {
 
     @Transactional
     public void save(Long userId, Long webtoonId, RecommendationStatus status) {
-        recommendationRepository.save(
-                new Recommendation(
-                        userId,
-                        webtoonId,
-                        status
-                )
-        );
+        var recommendation = new Recommendation(userId, webtoonId, status);
+
+        recommendationRepository.save(recommendation);
     }
 
     @Transactional(readOnly = true)

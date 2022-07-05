@@ -3,9 +3,9 @@ package kr.co.antoon.coin;
 
 import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
-import kr.co.antoon.coin.dto.CoinHistory;
-
-import java.util.List;
+import kr.co.antoon.coin.dto.CoinHistoryResponse;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
+import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 
 /**
  * @apiNote coin module
@@ -36,15 +36,17 @@ public interface AntCoinClient {
      * @return
      * @apiNote select user's coin add/sub
      */
-    List<CoinHistory> getCoinHistory(Long userId);
+    CoinHistoryResponse getCoinHistory(Long userId);
 
     /**
      * @apiNote add coin when sign up
      **/
-    void sign(Long userId);
+    void create(Long userId);
 
     /**
      * @apiNote limit of coin reward for join webtoon
      **/
     Long rewardLimit = Long.valueOf(10);
+
+    RecommendationResponse joinWebtoon(Long userId, Long webtoonId, RecommendationResponse response, RecommendationStatus status);
 }

@@ -2,6 +2,7 @@ package kr.co.antoon.recommendation.presentation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
@@ -26,7 +27,7 @@ import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequiredArgsConstructor
 public class RecommendationController {
     private final RecommendationFacade recommendationFacade;
-    private final AntCoinService antCoinService;
+    private final AntCoinClient antCoinClient;
 
     @ApiOperation(value = "탑승/하차", notes = SwaggerNote.RECOMMENDATION)
     @PatchMapping("/{webtoonId}")
@@ -36,7 +37,7 @@ public class RecommendationController {
             @RequestParam("status") RecommendationStatus status
     ) {
         var response = recommendationFacade.saveOrUpdate(status, info.userId(), webtoonId);
-        response = antCoinService.joinWebtoon(info.userId(), webtoonId, response, status);
+        response = antCoinClient.joinWebtoon(info.userId(), webtoonId, response, status);
         return ResponseDto.ok(response);
     }
 }

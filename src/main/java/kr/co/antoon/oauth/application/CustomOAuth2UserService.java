@@ -1,7 +1,9 @@
 package kr.co.antoon.oauth.application;
 
 import kr.co.antoon.aws.application.AwsS3Service;
-import kr.co.antoon.coin.application.AntCoinService;
+import kr.co.antoon.coin.AntCoinClient;
+import kr.co.antoon.coin.domain.vo.CoinRewardType;
+import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.oauth.dto.OAuth2Attribute;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Gender;
@@ -20,14 +22,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
-    private final AntCoinService antCoinService;
+    private final AntCoinClient antCoinClient;
     private final AwsS3Service awsS3Service;
 
     @Override
@@ -64,7 +65,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                         Gender.NONE,
                         0));
 
-        if(data.containsKey("profile")) {
+        if (data.containsKey("profile")) {
             var profile = (HashMap<String, String>) data.get("profile");
             user.updateName(profile.get("nickname"));
 
@@ -74,15 +75,22 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 user.updateAge(ageRange);
             }
 
-            if(data.containsKey("gender")) {
+            if (data.containsKey("gender")) {
                 user.updateGender(Gender.of(data.get("gender").toString()));
             }
 
-        } else if(email.contains("gmail")) {
+        } else if (email.contains("gmail")) {
             user.updateName(data.get("name").toString());
         }
 
         userRepository.save(user);
-        antCoinService.sign(user.getId());
+        
+        antCoinClient.create(user.getId());
+        antCoinClient.plusCoin(
+                user.getId(),
+                CoinRewardType.DEFAULT_SIGN_COIN_BONUS.getAmount(),
+                "SIGNUP",
+                RemittanceType.SIGNED_SERVICE
+        );
     }
 }

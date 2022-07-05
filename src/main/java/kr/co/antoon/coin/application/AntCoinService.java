@@ -9,7 +9,7 @@ import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
-import kr.co.antoon.coin.dto.CoinHistory;
+import kr.co.antoon.coin.dto.CoinHistoryResponse;
 import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import kr.co.antoon.vote.application.CandidateService;
@@ -36,7 +36,7 @@ public class AntCoinService implements AntCoinClient {
     @Override
     @Transactional
     public void plusCoin(Long userId, Long coin, String reason, RemittanceType type) {
-        var wallet = getWallet(userId);
+        var wallet = antCoinWalletService.findByUserId(userId);
         wallet.plus(coin);
 
         antCoinHistoryService.record(
@@ -53,7 +53,7 @@ public class AntCoinService implements AntCoinClient {
     @Override
     @Transactional
     public void minusCoin(Long userId, Long coin, String reason, RemittanceType type) {
-        var wallet = getWallet(userId);
+        var wallet = antCoinWalletService.findByUserId(userId);
         wallet.minus(coin);
 
         reason = antCoinHistoryService.rewardReasonToJson(type, reason);
@@ -70,18 +70,16 @@ public class AntCoinService implements AntCoinClient {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public AntCoinWallet getWallet(Long userId) {
-        return antCoinWalletService.get(userId);
+        return antCoinWalletService.findByUserId(userId);
     }
 
     @SneakyThrows
     @Override
     @Transactional(readOnly = true)
-    public List<CoinHistory> getCoinHistory(Long userId) {
+    public CoinHistoryResponse getCoinHistory(Long userId) {
         var antCoinHistories = antCoinHistoryService.getCoinHistory(userId);
-        List<CoinHistory> coinHistories = new ArrayList<>();
-        log.info("history of reason : {}", antCoinHistories.get(1).getReason());
+        List<CoinHistoryResponse.CoinHistory> coinHistories = new ArrayList<>();
 
         for (AntCoinHistory history : antCoinHistories) {
             String reason = history.getReason();
@@ -103,7 +101,7 @@ public class AntCoinService implements AntCoinClient {
             }
 
             coinHistories.add(
-                    new CoinHistory(
+                    new CoinHistoryResponse.CoinHistory(
                             history.getCreatedAt(),
                             history.getRemittanceStatus(),
                             history.getAmount(),
@@ -113,23 +111,18 @@ public class AntCoinService implements AntCoinClient {
                     )
             );
         }
-        return coinHistories;
+        return new CoinHistoryResponse(coinHistories);
     }
 
     @Transactional
-    public void sign(Long userId) {
+    public void create(Long userId) {
         if (!antCoinWalletService.existsByUserId(userId)) {
             antCoinWalletService.save(userId);
-
-            plusCoin(
-                    userId,
-                    CoinRewardType.DEFAULT_SIGN_COIN_BONUS.getAmount(),
-                    "SIGNUP",
-                    RemittanceType.SIGNED_SERVICE
-            );
         }
     }
 
+    // TODO : plus, minus, get, exists 등 아주 기본적인 것들만 antclient에 있어야함 -> 해당 로직과 같은 것들은 여기 있으면 않됨
+    @Override
     @Transactional
     public RecommendationResponse joinWebtoon(Long userId, Long webtoonId, RecommendationResponse response, RecommendationStatus status) {
         if (antCoinHistoryService.checkTodayJoinWebtoon(userId, webtoonId)) {
@@ -144,7 +137,7 @@ public class AntCoinService implements AntCoinClient {
         }
 
         var type = RemittanceType.joinOrLeave(status);
-        
+
         var reason = antCoinHistoryService.rewardReasonToJson(type, webtoonId.toString());
 
         plusCoin(

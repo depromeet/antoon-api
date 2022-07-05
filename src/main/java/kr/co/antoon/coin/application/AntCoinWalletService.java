@@ -2,6 +2,8 @@ package kr.co.antoon.coin.application;
 
 import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.coin.infrastructure.AntCoinWalletRepository;
+import kr.co.antoon.error.dto.ErrorMessage;
+import kr.co.antoon.error.exception.common.NotExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +27,9 @@ public class AntCoinWalletService {
     }
 
     @Transactional(readOnly = true)
-    public AntCoinWallet get(Long userId) {
-        return antCoinWalletRepository.getAntCoinWalletByUserId(userId);
+    public AntCoinWallet findByUserId(Long userId) {
+        return antCoinWalletRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_ANT_COIN_WALLET));
     }
 
     @Transactional(readOnly = true)
