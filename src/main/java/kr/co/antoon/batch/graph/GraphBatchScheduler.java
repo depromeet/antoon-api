@@ -14,7 +14,7 @@ public class GraphBatchScheduler {
     /**
      * 1시간 마다 그래프 score를 업데이트
      **/
-    @Scheduled(cron = "0 59 * * * *")
+    //@Scheduled(cron = "0 59 * * * *")
     public void runHourJob() {
         graphHourJob.run();
     }

@@ -14,7 +14,7 @@ public class CruiserBatchScheduler {
     /**
      * 1시간 마다 데이터 통계를 Sender한다.
      **/
-    @Scheduled(cron = "0 0 0/1 * * *")
+    //@Scheduled(cron = "0 0 0/1 * * *")
     public void runHourJob() {
         cruiserHourJob.run();
     }
