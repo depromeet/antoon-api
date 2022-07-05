@@ -64,5 +64,5 @@ images:
   - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
 availableSecrets:
   secretManager:
-    - versionName: projects/brave-reason-355108/secrets/github_ssh/versions/latest
+    - versionName: projects/$PROJECT_ID/secrets/github_ssh/versions/latest
       env: "SSH_KEY"
