@@ -4,6 +4,8 @@ package kr.co.antoon.coin;
 import kr.co.antoon.coin.domain.AntCoinWallet;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistoryResponse;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
+import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 
 /**
  * @apiNote coin module
@@ -45,4 +47,6 @@ public interface AntCoinClient {
      * @apiNote limit of coin reward for join webtoon
      **/
     Long rewardLimit = Long.valueOf(10);
+
+    RecommendationResponse joinWebtoon(Long userId, Long webtoonId, RecommendationResponse response, RecommendationStatus status);
 }
