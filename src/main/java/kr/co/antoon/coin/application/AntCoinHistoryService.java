@@ -1,15 +1,16 @@
 package kr.co.antoon.coin.application;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import kr.co.antoon.coin.domain.AntCoinHistory;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
-import kr.co.antoon.coin.dto.CoinReason;
+import kr.co.antoon.coin.dto.CoinReasonResponse;
+import kr.co.antoon.coin.dto.Request;
 import kr.co.antoon.coin.infrastructure.AntCoinHistoryRepository;
 import kr.co.antoon.common.util.MapperUtil;
 import kr.co.antoon.common.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,7 @@ public class AntCoinHistoryService {
 
     @Transactional
     public boolean checkTodayJoinWebtoon(Long userId, Long webtoonId) {
-        var coinReason = new CoinReason(webtoonId);
+        var coinReason = new CoinReasonResponse(webtoonId);
 
         var reason = MapperUtil.write(coinReason);
 
@@ -65,14 +66,18 @@ public class AntCoinHistoryService {
 
     @Transactional
     public Long countJoinWebtoon(Long userId) {
-        String today = LocalDate.now().toString();
+        var today = LocalDate.now().toString();
         return antCoinHistoryRepository.countTodayWebtoonReward(userId, today, "WEBTOON");
     }
 
     public String rewardReasonToJson(RemittanceType remittanceType, String id) {
-        var jsonObject = new JSONObject();
-        jsonObject.put(String.valueOf(remittanceType), id);
+        var request = new Request.RewardReasonRequest(remittanceType, id);
 
-        return jsonObject.toString();
+        try {
+            return MapperUtil.mapper().writeValueAsString(request);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

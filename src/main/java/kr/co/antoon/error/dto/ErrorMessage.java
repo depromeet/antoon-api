@@ -28,6 +28,7 @@ public enum ErrorMessage {
     NOT_EXISTS_CANDIDATE("존재하지 않는 후보입니다."),
     MAPPER_JSON_ERROR("mapper error가 발생했습니다."),
     ALREADY_VOTE_ERROR("이미 투표했습니다"),
+    NOT_EXISTS_ANT_COIN_WALLET("안트코인 지갑이 존재하지 않습니다."),
     ;
 
     private final String description;
