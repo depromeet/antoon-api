@@ -1,5 +1,8 @@
 package kr.co.antoon.feedback.facade;
 
+import kr.co.antoon.cruiser.domain.CruiserClient;
+import kr.co.antoon.cruiser.dto.slack.CruiserRequest;
+import kr.co.antoon.cruiser.dto.slack.SlackCruiserResponse;
 import kr.co.antoon.feedback.application.FeedbackService;
 import kr.co.antoon.feedback.dto.request.FeedbackRequest;
 import kr.co.antoon.feedback.dto.response.FeedbackResponse;
@@ -14,13 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedbackFacade {
     private final FeedbackService feedbackService;
     private final UserService userService;
+    private final CruiserClient cruiser;
 
     @Transactional
-    public FeedbackResponse create(FeedbackRequest request, AuthInfo info) {
+    public void create(FeedbackRequest request, AuthInfo info) {
         var user = userService.findById(info.userId());
 
         var feedback = feedbackService.create(request, info.userId());
 
-        return new FeedbackResponse(feedback, user);
+        var feedbackResponse = new FeedbackResponse(feedback, user);
+
+        var response = SlackCruiserResponse.feedback(feedbackResponse);
+
+        cruiser.send(new CruiserRequest(response));
     }
 }

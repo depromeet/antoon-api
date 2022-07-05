@@ -3,8 +3,6 @@ package kr.co.antoon.feedback.presentation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.common.dto.ResponseDto;
-import kr.co.antoon.cruiser.domain.CruiserClient;
-import kr.co.antoon.cruiser.dto.slack.SlackCruiserResponse;
 import kr.co.antoon.feedback.dto.request.FeedbackRequest;
 import kr.co.antoon.feedback.facade.FeedbackFacade;
 import kr.co.antoon.oauth.config.AuthUser;
@@ -24,7 +22,6 @@ import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequiredArgsConstructor
 public class FeedbackController {
     private final FeedbackFacade feedbackFacade;
-    private final CruiserClient cruiser;
 
     @ApiOperation(value = "Feedback 생성 API", notes = "*Slack Message 전송*")
     @PostMapping
@@ -32,10 +29,7 @@ public class FeedbackController {
             @RequestBody FeedbackRequest request,
             @AuthUser AuthInfo info
     ) {
-        var response = feedbackFacade.create(request, info);
-        var message = SlackCruiserResponse.feedback(response);
-
-        cruiser.send(message);
+        feedbackFacade.create(request, info);
 
         return ResponseDto.noContent();
     }

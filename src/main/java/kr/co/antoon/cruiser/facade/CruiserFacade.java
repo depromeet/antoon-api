@@ -2,6 +2,7 @@ package kr.co.antoon.cruiser.facade;
 
 import kr.co.antoon.coin.application.AntCoinWalletService;
 import kr.co.antoon.coin.domain.AntCoinWallet;
+import kr.co.antoon.cruiser.dto.slack.CruiserRequest;
 import kr.co.antoon.cruiser.dto.slack.SlackCruiserResponse;
 import kr.co.antoon.discussion.application.DiscussionService;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
@@ -26,7 +27,7 @@ public class CruiserFacade {
     private final AntCoinWalletService antCoinWalletService;
 
     @Transactional(readOnly = true)
-    public String statistics() {
+    public CruiserRequest statistics() {
         var userCount = userService.count();
         var discussionCount = discussionService.count();
         var publishWebtoonCount = webtoonService.countByStatus(ActiveStatus.PUBLISH);
@@ -37,7 +38,7 @@ public class CruiserFacade {
         var totalCoin = antCoinWalletService.findAll()
                 .stream().mapToLong(AntCoinWallet::getWallet).sum();
 
-        return SlackCruiserResponse.dataStatistics(
+        var response = SlackCruiserResponse.dataStatistics(
                 userCount,
                 discussionCount,
                 discussionLikeCount,
@@ -47,10 +48,12 @@ public class CruiserFacade {
                 graphScoreSnapshotCount,
                 totalCoin
         );
+
+        return new CruiserRequest(response);
     }
 
     @Transactional(readOnly = true)
-    public String topRanks() {
+    public CruiserRequest topRanks() {
         var topRanks = topRankService.findTopRank()
                 .parallelStream()
                 .map(rank -> {
@@ -58,6 +61,9 @@ public class CruiserFacade {
                             return "\n*" + rank.getRanking() + "위* : " + webtoon.getTitle();
                         }
                 ).toList();
-        return SlackCruiserResponse.topRanks(topRanks);
+        
+        var response = SlackCruiserResponse.topRanks(topRanks);
+
+        return new CruiserRequest(response);
     }
 }
