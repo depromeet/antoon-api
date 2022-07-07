@@ -29,7 +29,7 @@ public class CharacterFacade {
                     var webtoon = webtoonService.findById(character.getWebtoonId());
                     var characterImage = characterImageService.findByCharacterIdAndType(
                             character.getId(),
-                            CharacterImageType.type(type)
+                            CharacterImageType.valueOf(type)
                     );
                     return new CharacterResponse.CharacterDetailResponse(
                             character,
