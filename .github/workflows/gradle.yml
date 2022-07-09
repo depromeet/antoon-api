@@ -6,7 +6,7 @@ name: Antoon Api Server Git-Action
 # staging push 작업 일어나면 git action 실행
 on:
   push:
-    branches: [ staging ]
+    branches: [staging]
 
 jobs:
   build:
@@ -55,6 +55,7 @@ jobs:
           context: .
           push: true
           tags: antoonapi/antoon-core-api:staging
+          build-args: STAGE=batch
 
       # Build Docker Container - Main Branch
       - name: Docker Image Build And Push
@@ -64,6 +65,7 @@ jobs:
           context: .
           push: true
           tags: antoonapi/antoon-core-api:prod
+          build-args: STAGE=batch
 
       # Login AWS
       - name: Login Aws
@@ -76,6 +78,6 @@ jobs:
       # Code Deploy
       - name: Deploy Docker Image
         run: aws deploy create-deployment --application-name antoon-core-api
-          --deployment-config-name CodeDeployDefault.OneAtATime 
-          --deployment-group-name antoon-core-api-group 
+          --deployment-config-name CodeDeployDefault.OneAtATime
+          --deployment-group-name antoon-core-api-group
           --github-location repository=depromeet/antoon-api,commitId=${GITHUB_SHA}

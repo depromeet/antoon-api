@@ -24,6 +24,11 @@ configurations {
         extendsFrom developmentOnly
     }
 }
+
+jar {
+    enabled = false
+}
+
 repositories {
     mavenCentral()
 }

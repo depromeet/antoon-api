@@ -20,7 +20,7 @@ public class FeedbackFacade {
     private final CruiserClient cruiser;
 
     @Transactional
-    public void create(FeedbackRequest request, AuthInfo info) {
+    public FeedbackResponse create(FeedbackRequest request, AuthInfo info) {
         var user = userService.findById(info.userId());
 
         var feedback = feedbackService.create(request, info.userId());
@@ -30,5 +30,7 @@ public class FeedbackFacade {
         var response = SlackCruiserResponse.feedback(feedbackResponse);
 
         cruiser.send(new CruiserRequest(response));
+
+        return feedbackResponse;
     }
 }

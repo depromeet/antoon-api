@@ -31,7 +31,7 @@ class FeedbackFacadeTest {
     @InjectMocks
     private FeedbackFacade feedbackFacade;
 
-    @Test
+//     @Test
     void 피드백_생성() {
         AuthInfo authInfo = new AuthInfo(1L, List.of(Role.USER));
 
