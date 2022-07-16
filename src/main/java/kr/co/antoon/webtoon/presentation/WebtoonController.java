@@ -6,15 +6,7 @@ import kr.co.antoon.common.dto.PageDto;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.webtoon.application.WebtoonService;
-import kr.co.antoon.webtoon.dto.WebtoonDto;
 import kr.co.antoon.webtoon.dto.request.WebtoonSearchRequest;
-import kr.co.antoon.webtoon.dto.response.WebtoonAgeResponse;
-import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
-import kr.co.antoon.webtoon.dto.response.WebtoonDayResponse;
-import kr.co.antoon.webtoon.dto.response.WebtoonGenreAllResponse;
-import kr.co.antoon.webtoon.dto.response.WebtoonGenreResponse;
-import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
-import kr.co.antoon.webtoon.dto.response.WebtoonSearchResponse;
 import kr.co.antoon.webtoon.facade.WebtoonFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +32,7 @@ public class WebtoonController {
 
     @ApiOperation(value = "웹툰 상세 조회 API", notes = SwaggerNote.WEBTOON_READ_DETAIL)
     @GetMapping(value = "/{webtoonId}")
-    public ResponseEntity<WebtoonDto> getWebtoonById(
+    public ResponseEntity<?> getWebtoonById(
             @PathVariable("webtoonId") Long webtoonId
     ) {
         var response = webtoonService.findDetailWebtoon(webtoonId);
@@ -49,7 +41,7 @@ public class WebtoonController {
 
     @ApiOperation(value = "연재 웹툰 요일별 조회 API", notes = SwaggerNote.WEBTOON_DAY_READ_NOTE)
     @GetMapping("/days/{day}")
-    public ResponseEntity<PageDto<WebtoonDayResponse>> getWebtoonByDay(
+    public ResponseEntity<?> getWebtoonByDay(
             @PathVariable String day,
             @PageableDefault(size = 12) Pageable pageable
     ) {
@@ -59,14 +51,14 @@ public class WebtoonController {
 
     @ApiOperation(value = "웹툰 전체 조회 API", notes = SwaggerNote.WEBTOON_SEARCH)
     @GetMapping
-    public ResponseEntity<WebtoonAllResponse> getWebtoons() {
+    public ResponseEntity<?> getWebtoons() {
         var response = webtoonService.searchAll();
         return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "장르별 활성화된 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_GENRE)
     @GetMapping(value = "/genres")
-    public ResponseEntity<PageDto<WebtoonGenreResponse>> getWebtoonsByGenreAndStatus(
+    public ResponseEntity<?> getWebtoonsByGenreAndStatus(
             @RequestParam("genre") String genre,
             @PageableDefault(size = 12) Pageable pageable
     ) {
@@ -76,14 +68,14 @@ public class WebtoonController {
 
     @ApiOperation(value = "장르별 top3 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_GENRES)
     @GetMapping(value = "/genres/top3")
-    public ResponseEntity<WebtoonGenreAllResponse> getWebtoonsByGenres() {
+    public ResponseEntity<?> getWebtoonsByGenres() {
         var response = webtoonFacade.getGenreAndThumbnail();
         return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "현재 기준으로 상승 중인 TOP 10 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_RANKING_NOTE)
     @GetMapping(value = "/top-upper")
-    public ResponseEntity<WebtoonRankingAllResponse> getWebtoonsByTopUpper() {
+    public ResponseEntity<?> getWebtoonsByTopUpper() {
         var response = webtoonFacade.getWebtoonsByTopUpper();
         return ResponseDto.ok(response);
     }
@@ -91,14 +83,14 @@ public class WebtoonController {
     // TODO : 연령대 알고리즘 추가 필요
     @ApiOperation(value = "연령대별 인기 웹툰 조회 API [MOCK UP]")
     @GetMapping("/ages")
-    public ResponseEntity<WebtoonAgeResponse> age() {
+    public ResponseEntity<?> age() {
         var response = webtoonFacade.getAges();
         return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "seach용 웹툰 조회")
     @PostMapping("/search")
-    public ResponseEntity<WebtoonSearchResponse> search(@RequestBody WebtoonSearchRequest request) {
+    public ResponseEntity<?> search(@RequestBody WebtoonSearchRequest request) {
         var response = webtoonFacade.search(request);
         return ResponseDto.ok(response);
     }
