@@ -18,7 +18,7 @@ public class SlackCruiserResponse {
             long totalCoin
     ) {
         return String.format("""
-                        :deal-with-it: *%s 개미는 오늘도 알림!* :deal-with-it:
+                        :raised_hands: *%s 개미는 오늘도 알림!* :raised_hands:
                                         
                         - 사용자 : %d건
                         - 종목토론 : %d건
@@ -49,14 +49,14 @@ public class SlackCruiserResponse {
         return topRanks.stream()
                 .collect(Collectors.joining(
                         "",
-                        ":fast-parrot: *개미가 좋아하는 웹툰* :fast-parrot:",
+                        ":raised_hands: *개미가 좋아하는 웹툰* :raised_hands:",
                         ""
                 ));
     }
 
     public static String feedback(FeedbackResponse response) {
         return String.format("""
-                        :crying-pepe: *개미의 피드백!!* :crying-pepe:
+                        :raised_hands: *개미의 피드백!!* :raised_hands:
                                         
                         - 사용자 uid : %d
                         - 사용자 이름 : %s
