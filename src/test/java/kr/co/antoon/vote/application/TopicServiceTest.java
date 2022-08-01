@@ -13,8 +13,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
 
 @ExtendWith(MockitoExtension.class)
 public class TopicServiceTest {
@@ -27,7 +29,7 @@ public class TopicServiceTest {
 
     @DisplayName("개미들의 선택 목록 조회")
     @Test
-    public void findAllChoiceTopics() {
+    public void find_all_choice_topics() {
         // given
         var expected = new ArrayList<Topic>();
         for (int i = 0; i < 8; i++) {
@@ -42,10 +44,28 @@ public class TopicServiceTest {
         }
         Mockito.when(topicRepository.findTop8ByOrderByJoinCountDesc())
                 .thenReturn(expected);
-
         // when
         List<Topic> actual = topicService.findAllChoiceTopics();
+        // then
+        assertEquals(expected, actual);
+    }
+    
+    @DisplayName("토픽 상세 조회")
+    @Test
+    public void find_by_id() {
+        // given
+        Topic expected = Topic.builder()
+                .title("삼국지여포전")
+                .topicCategory(TopicCategory.AB)
+                .joinCount(0)
+                .topicVoteStatus(false)
+                .tags("#삼국지")
+                .build();
 
+        Mockito.when(topicRepository.findById(anyLong()))
+                .thenReturn(Optional.of(expected));
+        // when
+        Topic actual = topicService.findById(1L);
         // then
         assertEquals(expected, actual);
     }
