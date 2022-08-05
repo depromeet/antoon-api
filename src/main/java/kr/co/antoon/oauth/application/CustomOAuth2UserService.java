@@ -2,6 +2,7 @@ package kr.co.antoon.oauth.application;
 
 import kr.co.antoon.aws.application.AwsS3Service;
 import kr.co.antoon.coin.AntCoinClient;
+import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.oauth.dto.OAuth2Attribute;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
     private final AntCoinClient antCoinClient;
+    private final AntCoinService antCoinService;
     private final AwsS3Service awsS3Service;
 
     @Override
@@ -85,12 +87,15 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         userRepository.save(user);
         
-        antCoinClient.create(user.getId());
-        antCoinClient.plusCoin(
-                user.getId(),
-                CoinRewardType.DEFAULT_SIGN_COIN_BONUS.getAmount(),
-                "SIGNUP",
-                RemittanceType.SIGNED_SERVICE
-        );
+        antCoinService.create(user.getId());
+
+        if(!antCoinService.isFirstSignedReward(user.getId())) {
+            antCoinService.plusCoin(
+                    user.getId(),
+                    CoinRewardType.DEFAULT_SIGN_COIN_BONUS.getAmount(),
+                    "SIGNUP",
+                    RemittanceType.SIGNED_SERVICE
+            );
+        }
     }
 }

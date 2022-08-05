@@ -147,4 +147,9 @@ public class AntCoinService implements AntCoinClient {
 
         return response.update(true);
     }
+
+    @Transactional
+    public boolean isFirstSignedReward(Long userId) {
+        return antCoinHistoryService.isFirstSignedReward(userId);
+    }
 }
