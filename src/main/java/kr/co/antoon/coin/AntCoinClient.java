@@ -48,5 +48,4 @@ public interface AntCoinClient {
      **/
     Long rewardLimit = Long.valueOf(10);
 
-    RecommendationResponse joinWebtoon(Long userId, Long webtoonId, RecommendationResponse response, RecommendationStatus status);
 }
