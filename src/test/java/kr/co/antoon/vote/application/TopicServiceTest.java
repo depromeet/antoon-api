@@ -27,9 +27,9 @@ public class TopicServiceTest {
     @InjectMocks
     private TopicService topicService;
 
-    @DisplayName("개미들의 선택 목록 조회")
     @Test
-    public void find_all_choice_topics() {
+    @DisplayName("개미들의 선택 목록 조회")
+    public void findAllChoiceTopics() {
         // given
         var expected = new ArrayList<Topic>();
         for (int i = 0; i < 8; i++) {
@@ -42,19 +42,20 @@ public class TopicServiceTest {
                     .build()
             );
         }
+
         Mockito.when(topicRepository.findTop8ByOrderByJoinCountDesc())
                 .thenReturn(expected);
         // when
-        List<Topic> actual = topicService.findAllChoiceTopics();
+        var actual = topicService.findAllChoiceTopics();
         // then
         assertEquals(expected, actual);
     }
     
     @DisplayName("토픽 상세 조회")
     @Test
-    public void find_by_id() {
+    public void findById() {
         // given
-        Topic expected = Topic.builder()
+        var expected = Topic.builder()
                 .title("삼국지여포전")
                 .topicCategory(TopicCategory.AB)
                 .joinCount(0)
@@ -67,6 +68,9 @@ public class TopicServiceTest {
         // when
         Topic actual = topicService.findById(1L);
         // then
-        assertEquals(expected, actual);
+        assertEquals(
+                expected.getTitle(),
+                actual.getTitle()
+        );
     }
 }
