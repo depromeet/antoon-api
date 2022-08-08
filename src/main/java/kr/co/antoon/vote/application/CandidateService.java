@@ -27,14 +27,23 @@ public class CandidateService {
         var candidate = candidateRepository.findById(candidateId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_CANDIDATE));
 
+        changeVotingStatus(topic);
+        changeVotingRate(topic, candidate);
+        updateWinner(topic);
+    }
+
+    private void changeVotingStatus(Topic topic) {
         topic.updateJoinCount();
         topic.changeVoteStatus(true);
+    }
 
+    private void changeVotingRate(Topic topic, Candidate candidate) {
         candidate.plusVotingCount();
-        var votingRate = calculateVotingRate(topic, candidate);
-        candidate.updateVotingRate(votingRate);
-
-        updateWinner(topic);
+        var candidates = candidateRepository.findAllByTopicId(topic.getId());
+        for (Candidate c : candidates) {
+            var votingRate = calculateVotingRate(topic, c);
+            candidate.updateVotingRate(votingRate);
+        }
     }
 
     private void updateWinner(Topic topic) {
