@@ -37,9 +37,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorDto> handleException(final Exception e) {
-        log.error("[ERROR] Exception -> {}", e.getCause().toString());
-
         var errorMessage = e.getCause().toString() + "\n" + e.getLocalizedMessage() + Arrays.toString(e.getStackTrace());
+
+        log.error("[ERROR] Exception -> {} | {}", e.getMessage(), errorMessage);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorDto(e.getMessage(), errorMessage));
