@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Arrays;
+
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -36,7 +38,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorDto> handleException(final Exception e) {
         log.error("[ERROR] Exception -> {}", e.getCause().toString());
+
+        var errorMessage = e.getCause().toString() + "\n" + e.getLocalizedMessage() + Arrays.toString(e.getStackTrace());
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorDto(e.getMessage(), e.getMessage()));
+                .body(new ErrorDto(e.getMessage(), errorMessage));
     }
 }
