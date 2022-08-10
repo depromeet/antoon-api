@@ -14,18 +14,11 @@ import java.util.Arrays;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    // TODO : 임시로 추가
-    @ExceptionHandler(NullPointerException.class)
-    protected ResponseEntity<ErrorDto> handleNullPointException(final NullPointerException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new ErrorDto(e.getMessage(), "null exception"));
-    }
-
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorDto> handleBusinessException(final BusinessException e) {
         log.error("[ERROR] BusinessException -> {}", "Business Exception");
         return ResponseEntity.status(e.getStatus())
-                .body(new ErrorDto(e.getMessage(), "Business Exception"));
+                .body(new ErrorDto(e.getErrorMessage().name(), e.getErrorMessage().getDescription()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
