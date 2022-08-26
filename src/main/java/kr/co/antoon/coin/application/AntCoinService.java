@@ -121,8 +121,6 @@ public class AntCoinService implements AntCoinClient {
         }
     }
 
-    // TODO : plus, minus, get, exists 등 아주 기본적인 것들만 antclient에 있어야함 -> 해당 로직과 같은 것들은 여기 있으면 않됨
-    @Override
     @Transactional
     public RecommendationResponse joinWebtoon(Long userId, Long webtoonId, RecommendationResponse response, RecommendationStatus status) {
         if (antCoinHistoryService.checkTodayJoinWebtoon(userId, webtoonId)) {
@@ -148,5 +146,10 @@ public class AntCoinService implements AntCoinClient {
         );
 
         return response.update(true);
+    }
+
+    @Transactional
+    public boolean isFirstSignedReward(Long userId) {
+        return antCoinHistoryService.isFirstSignedReward(userId);
     }
 }

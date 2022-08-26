@@ -80,4 +80,8 @@ public class AntCoinHistoryService {
             return null;
         }
     }
+
+    public boolean isFirstSignedReward(Long userId) {
+        return antCoinHistoryRepository.existsByUserIdAndRemittanceType(userId, RemittanceType.SIGNED_SERVICE);
+    }
 }

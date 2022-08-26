@@ -28,4 +28,6 @@ public interface AntCoinHistoryRepository extends JpaRepository<AntCoinHistory, 
             @Param(value = "today") String today,
             @Param(value = "type") String type
     );
+
+    boolean existsByUserIdAndRemittanceType(Long userId, RemittanceType remittanceType);
 }
