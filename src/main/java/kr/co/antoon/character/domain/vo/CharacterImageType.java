@@ -1,7 +1,6 @@
 package kr.co.antoon.character.domain.vo;
 
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.error.exception.character.NotExistsCharacterImageException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +19,7 @@ public enum CharacterImageType {
         return switch (CharacterImageType.valueOf(type)) {
             case PERSONA -> PERSONADETAIL;
             case COUPLE -> COUPLEDETAIL;
-            default -> throw new NotExistsException(ErrorMessage.NOT_EXISTS_CHARACTER_IMAGE);
+            default -> throw new NotExistsCharacterImageException();
         };
     }
 

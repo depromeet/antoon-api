@@ -2,7 +2,7 @@ package kr.co.antoon.vote.presentation;
 
 import io.swagger.annotations.Api;
 import kr.co.antoon.common.dto.ResponseDto;
-import kr.co.antoon.error.exception.common.AlreadyExistsException;
+import kr.co.antoon.error.exception.vote.AlreadyExistsVoteException;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.vote.facade.VoteFacade;
@@ -28,7 +28,7 @@ public class VoteController {
         try {
             voteFacade.create(candidateId, info.userId());
             return ResponseDto.noContent();
-        } catch (AlreadyExistsException e) {
+        } catch (AlreadyExistsVoteException e) {
             return ResponseDto.conflict();
         }
     }

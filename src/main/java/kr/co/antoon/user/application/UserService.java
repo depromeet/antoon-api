@@ -1,8 +1,7 @@
 package kr.co.antoon.user.application;
 
 import kr.co.antoon.coin.AntCoinClient;
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.error.exception.user.NotExistsUserException;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.dto.request.UserDetailName;
@@ -23,7 +22,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public User findOneById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
+                .orElseThrow(NotExistsUserException::new);
     }
 
     @Transactional(readOnly = true)
@@ -65,6 +64,6 @@ public class UserService {
     @Transactional
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USER));
+                .orElseThrow(NotExistsUserException::new);
     }
 }

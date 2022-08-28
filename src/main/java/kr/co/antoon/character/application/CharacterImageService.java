@@ -3,9 +3,7 @@ package kr.co.antoon.character.application;
 import kr.co.antoon.character.domain.CharacterImage;
 import kr.co.antoon.character.domain.vo.CharacterImageType;
 import kr.co.antoon.character.infrastructure.CharacterImageRepository;
-import kr.co.antoon.error.dto.ErrorDto;
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.error.exception.character.NotExistsCharacterImageException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +17,7 @@ public class CharacterImageService {
     @Transactional(readOnly = true)
     public CharacterImage findByCharacterIdAndType(Long characterId, CharacterImageType type) {
         return characterImageRepository.findByCharacterIdAndType(characterId, type)
-                .orElseThrow(()-> new NotExistsException(ErrorMessage.NOT_EXISTS_CHARACTER_IMAGE));
+                .orElseThrow(NotExistsCharacterImageException::new);
     }
 
     @Transactional

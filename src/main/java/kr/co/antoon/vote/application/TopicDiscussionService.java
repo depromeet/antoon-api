@@ -1,8 +1,7 @@
 package kr.co.antoon.vote.application;
 
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
-import kr.co.antoon.error.exception.oauth.NotValidRoleException;
+import kr.co.antoon.error.exception.discussion.NotExistsDiscussionException;
+import kr.co.antoon.error.exception.user.InvalidUserRoleException;
 import kr.co.antoon.vote.domain.TopicDiscussion;
 import kr.co.antoon.vote.dto.request.TopicDiscussionUpdateRequest;
 import kr.co.antoon.vote.infrastructure.TopicDiscussionRepository;
@@ -63,15 +62,15 @@ public class TopicDiscussionService {
     @Transactional(readOnly = true)
     public TopicDiscussion findById(Long discussionId) {
         return topicDiscussionRepository.findById(discussionId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
+                .orElseThrow(NotExistsDiscussionException::new);
     }
 
     @Transactional
     public TopicDiscussion update(Long discussionId, Long userId, TopicDiscussionUpdateRequest request) {
         var topicDiscussion = topicDiscussionRepository.findById(discussionId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
+                .orElseThrow(NotExistsDiscussionException::new);
         if (!topicDiscussion.getUserId().equals(userId)) {
-            throw new NotValidRoleException(ErrorMessage.NOT_VALID_ROLE_ERROR);
+            throw new InvalidUserRoleException();
         }
         topicDiscussion.update(request.content());
         return topicDiscussion;
@@ -80,9 +79,9 @@ public class TopicDiscussionService {
     @Transactional
     public void delete(Long discussionId, Long userId) {
         var topicDiscussion = topicDiscussionRepository.findById(discussionId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
+                .orElseThrow(NotExistsDiscussionException::new);
         if (!topicDiscussion.getUserId().equals(userId)) {
-            throw new NotValidRoleException(ErrorMessage.NOT_VALID_ROLE_ERROR);
+            throw new InvalidUserRoleException();
         }
         topicDiscussionRepository.deleteById(discussionId);
     }

@@ -4,7 +4,7 @@ import kr.co.antoon.error.dto.ErrorMessage;
 import kr.co.antoon.error.exception.BusinessException;
 
 public class TokenExpiredException extends BusinessException {
-    public TokenExpiredException(ErrorMessage message) {
-        super(message);
+    public TokenExpiredException() {
+        super(ErrorMessage.EXPIRED_TOKEN);
     }
 }

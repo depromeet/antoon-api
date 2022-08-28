@@ -1,7 +1,6 @@
 package kr.co.antoon.webtoon.application;
 
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.error.exception.webtoon.NotExistsWebtoonException;
 import kr.co.antoon.webtoon.converter.WebtoonConverter;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
@@ -42,7 +41,7 @@ public class WebtoonService {
     @Transactional(readOnly = true)
     public void existsById(Long id) {
         if (!webtoonRepository.existsById(id)) {
-            throw new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_ERROR);
+            throw new NotExistsWebtoonException();
         }
     }
 
@@ -64,7 +63,7 @@ public class WebtoonService {
     @Transactional(readOnly = true)
     public Webtoon findById(Long id) {
         return webtoonRepository.findById(id)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_ERROR));
+                .orElseThrow(NotExistsWebtoonException::new);
     }
 
     @Transactional(readOnly = true)
@@ -89,7 +88,7 @@ public class WebtoonService {
         var webtoon = webtoonRepository.findOneByWebtoonId(webtoonId, start.toString(), end.toString());
 
         if (webtoon.size() == 0) {
-            throw new NotExistsException(ErrorMessage.NOT_EXISTS_WEBTOON_ERROR);
+            throw new NotExistsWebtoonException();
         }
         return WebtoonConverter.toWebtoonDto(webtoon);
     }

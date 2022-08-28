@@ -1,7 +1,6 @@
 package kr.co.antoon.oauth.dto;
 
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.error.exception.oauth.NotExistsOauthInfoException;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Role;
 import lombok.AccessLevel;
@@ -28,7 +27,7 @@ public class OAuth2Attribute {
         return switch (provider) {
             case "kakao" -> ofKakao("email", attributes);
             case "google" -> ofGoogle("sub", attributes);
-            default -> throw new NotExistsException(ErrorMessage.NOT_EXISTS_OAUTH_INFO);
+            default -> throw new NotExistsOauthInfoException();
         };
     }
 

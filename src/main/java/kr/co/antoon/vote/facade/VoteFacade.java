@@ -3,8 +3,7 @@ package kr.co.antoon.vote.facade;
 import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.AlreadyExistsException;
+import kr.co.antoon.error.exception.vote.AlreadyExistsVoteException;
 import kr.co.antoon.vote.application.CandidateService;
 import kr.co.antoon.vote.application.TopicService;
 import kr.co.antoon.vote.application.VoteService;
@@ -37,7 +36,7 @@ public class VoteFacade {
     @Transactional(readOnly = true)
     public void checkDuplicatedVote(Long userId, Topic topic) {
         if (voteService.existsByUserIdAndTopicId(userId, topic.getId())) {
-            throw new AlreadyExistsException(ErrorMessage.ALREADY_VOTE_ERROR);
+            throw new AlreadyExistsVoteException();
         }
     }
 

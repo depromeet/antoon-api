@@ -1,7 +1,6 @@
 package kr.co.antoon.graph.domain.vo;
 
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.error.exception.graph.NotExistsGraphPeriodTypeException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +22,6 @@ public enum Period {
         return Arrays.stream(Period.values())
                 .filter(c -> c.getDescription().equals(description))
                 .findAny()
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_PERIOD_TYPE));
+                .orElseThrow(NotExistsGraphPeriodTypeException::new);
     }
 }

@@ -4,9 +4,8 @@ import kr.co.antoon.character.domain.CharacterDiscussion;
 import kr.co.antoon.character.dto.reqeust.CharacterDiscussionRequest;
 import kr.co.antoon.character.infrastructure.CharacterDiscussionRepository;
 import kr.co.antoon.common.util.TimeUtil;
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
-import kr.co.antoon.error.exception.oauth.NotValidRoleException;
+import kr.co.antoon.error.exception.discussion.NotExistsDiscussionException;
+import kr.co.antoon.error.exception.user.InvalidUserRoleException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -55,7 +54,7 @@ public class CharacterDiscussionService {
     @Transactional(readOnly = true)
     public CharacterDiscussion findById(Long id) {
         return characterDiscussionRepository.findById(id)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
+                .orElseThrow(NotExistsDiscussionException::new);
     }
 
     @Transactional(readOnly = true)
@@ -71,9 +70,9 @@ public class CharacterDiscussionService {
     @Transactional
     public CharacterDiscussion update(Long discussionId, Long userId, CharacterDiscussionRequest request) {
         var discussion = characterDiscussionRepository.findById(discussionId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
+                .orElseThrow(NotExistsDiscussionException::new);
         if (!discussion.getUserId().equals(userId)) {
-            throw new NotValidRoleException(ErrorMessage.NOT_VALID_ROLE_ERROR);
+            throw new InvalidUserRoleException();
         }
         discussion.update(request.content());
         return discussion;
@@ -82,9 +81,9 @@ public class CharacterDiscussionService {
     @Transactional
     public void delete(Long discussionId, Long userId) {
         var discussion = characterDiscussionRepository.findById(discussionId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_DISCUSSION_ERROR));
+                .orElseThrow(NotExistsDiscussionException::new);
         if (!discussion.getUserId().equals(userId)) {
-            throw new NotValidRoleException(ErrorMessage.NOT_VALID_ROLE_ERROR);
+            throw new InvalidUserRoleException();
         }
         characterDiscussionRepository.deleteById(discussionId);
     }

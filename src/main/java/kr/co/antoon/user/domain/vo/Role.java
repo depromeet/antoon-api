@@ -1,7 +1,6 @@
 package kr.co.antoon.user.domain.vo;
 
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.oauth.NotValidRoleException;
+import kr.co.antoon.error.exception.user.InvalidUserRoleException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +20,6 @@ public enum Role {
         return Arrays.stream(Role.values())
                 .filter(role -> role.getKey().equals(key))
                 .findAny()
-                .orElseThrow(() -> new NotValidRoleException(ErrorMessage.NOT_VALID_ROLE_ERROR));
+                .orElseThrow(InvalidUserRoleException::new);
     }
 }

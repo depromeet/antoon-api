@@ -6,8 +6,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import kr.co.antoon.aws.domain.vo.AntDefaultImageName;
 import kr.co.antoon.aws.domain.vo.S3Category;
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.error.exception.aws.FileUploadInvalidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +43,7 @@ public class AwsS3Service {
                 amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
             } catch (IOException e) {
-                throw new NotExistsException(ErrorMessage.FILE_UPLOAD_ERROR);
+                throw new FileUploadInvalidException();
             }
             urls.add(amazonS3Client.getUrl(bucketName, fileName).toString());
         }

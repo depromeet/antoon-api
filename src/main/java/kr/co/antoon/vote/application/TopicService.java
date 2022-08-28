@@ -1,7 +1,6 @@
 package kr.co.antoon.vote.application;
 
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.error.exception.vote.NotExistsTopicException;
 import kr.co.antoon.vote.domain.Topic;
 import kr.co.antoon.vote.domain.vo.SortType;
 import kr.co.antoon.vote.infrastructure.TopicRepository;
@@ -31,18 +30,18 @@ public class TopicService {
     @Transactional(readOnly = true)
     public Topic findById(Long topicId) {
         return topicRepository.findById(topicId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_TOPIC));
+                .orElseThrow(NotExistsTopicException::new);
     }
 
     @Transactional(readOnly = true)
     public List<Topic> findAllChoiceTopics() {
         return topicRepository.findTop8ByOrderByJoinCountDesc();
     }
-  
+
     @Transactional(readOnly = true)
     public void existsById(Long id) {
         if (!topicRepository.existsById(id)) {
-            throw new NotExistsException(ErrorMessage.NOT_EXIST_TOPIC);
+            throw new NotExistsTopicException();
         }
     }
 }

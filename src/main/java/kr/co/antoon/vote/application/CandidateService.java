@@ -1,7 +1,6 @@
 package kr.co.antoon.vote.application;
 
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.NotExistsException;
+import kr.co.antoon.error.exception.vote.NotExistsCandidateException;
 import kr.co.antoon.vote.domain.Candidate;
 import kr.co.antoon.vote.domain.Topic;
 import kr.co.antoon.vote.infrastructure.CandidateRepository;
@@ -25,7 +24,7 @@ public class CandidateService {
     @Transactional
     public void update(Long candidateId, Topic topic) {
         var candidate = candidateRepository.findById(candidateId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_CANDIDATE));
+                .orElseThrow(NotExistsCandidateException::new);
 
         changeVotingStatus(topic);
         changeVotingRate(topic, candidate);
@@ -62,6 +61,6 @@ public class CandidateService {
     @Transactional(readOnly = true)
     public Candidate findById(Long id) {
         return candidateRepository.findById(id)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXISTS_CANDIDATE));
+                .orElseThrow(NotExistsCandidateException::new);
     }
 }

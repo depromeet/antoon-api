@@ -1,7 +1,7 @@
 package kr.co.antoon.recommendation.facade;
 
-import kr.co.antoon.error.dto.ErrorMessage;
-import kr.co.antoon.error.exception.common.AlreadyExistsException;
+import kr.co.antoon.error.exception.recommendation.AlreadyJoinedException;
+import kr.co.antoon.error.exception.recommendation.AlreadyLeavedException;
 import kr.co.antoon.recommendation.application.RecommendationCountService;
 import kr.co.antoon.recommendation.application.RecommendationService;
 import kr.co.antoon.recommendation.domain.RecommendationCount;
@@ -35,10 +35,10 @@ public class RecommendationFacade {
     @Transactional(readOnly = true)
     public void statusCheck(Long userId, Long webtoonId) {
         if (recommendationService.existsByUserIdAndWebtoonIdAndStatus(userId, webtoonId, RecommendationStatus.LEAVED)) {
-            throw new AlreadyExistsException(ErrorMessage.ALREADY_LEAVED_ERROR);
+            throw new AlreadyLeavedException();
         }
         if (recommendationService.existsByUserIdAndWebtoonIdAndStatus(userId, webtoonId, RecommendationStatus.JOINED)) {
-            throw new AlreadyExistsException(ErrorMessage.ALREADY_JOINED_ERROR);
+            throw new AlreadyJoinedException();
         }
     }
 
