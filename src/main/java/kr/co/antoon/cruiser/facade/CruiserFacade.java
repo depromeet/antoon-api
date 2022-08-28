@@ -38,7 +38,7 @@ public class CruiserFacade {
         var totalCoin = antCoinWalletService.findAll()
                 .stream().mapToLong(AntCoinWallet::getWallet).sum();
 
-        var response = SlackCruiserResponse.dataStatistics(
+        var response = new SlackCruiserResponse.DataStatisticsResponse(
                 userCount,
                 discussionCount,
                 discussionLikeCount,
@@ -49,7 +49,7 @@ public class CruiserFacade {
                 totalCoin
         );
 
-        return new CruiserRequest(response);
+        return new CruiserRequest(response.message());
     }
 
     @Transactional(readOnly = true)
@@ -61,9 +61,9 @@ public class CruiserFacade {
                             return "\n*" + rank.getRanking() + "위* : " + webtoon.getTitle();
                         }
                 ).toList();
-        
-        var response = SlackCruiserResponse.topRanks(topRanks);
 
-        return new CruiserRequest(response);
+        var response = new SlackCruiserResponse.TopRanksResponse(topRanks);
+
+        return new CruiserRequest(response.message());
     }
 }

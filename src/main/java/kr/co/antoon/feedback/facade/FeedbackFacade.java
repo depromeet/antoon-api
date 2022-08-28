@@ -27,9 +27,9 @@ public class FeedbackFacade {
 
         var feedbackResponse = new FeedbackResponse(feedback, user);
 
-        var response = SlackCruiserResponse.feedback(feedbackResponse);
+        var response = new SlackCruiserResponse.FeedbackStaticsResponse(feedbackResponse);
 
-        cruiser.send(new CruiserRequest(response));
+        cruiser.send(new CruiserRequest(response.message()));
 
         return feedbackResponse;
     }
