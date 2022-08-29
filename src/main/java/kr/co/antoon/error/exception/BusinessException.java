@@ -11,4 +11,14 @@ public abstract class BusinessException extends RuntimeException {
         super(message.getDescription());
         this.errorMessage = message;
     }
+
+    public BusinessException(ErrorMessage message, String reason) {
+        super(reason);
+        this.errorMessage = message;
+    }
+
+    public BusinessException(String reason) {
+        super(reason);
+        this.errorMessage = ErrorMessage.CONFLICT_ERROR;
+    }
 }
