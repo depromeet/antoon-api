@@ -1,5 +1,6 @@
 package kr.co.antoon.webtoon.facade;
 
+import kr.co.antoon.common.dto.PageDto;
 import kr.co.antoon.common.util.TimeUtil;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.webtoon.application.WebtoonGenreService;
@@ -34,15 +35,21 @@ public class WebtoonFacade {
     private final GraphScoreSnapshotService graphScoreSnapshotService;
     private final WebtoonGenreService webtoonGenreService;
 
-    @Transactional(readOnly = true)
-    public Page<WebtoonDayResponse> getWebtoonByDay(Pageable pageable, String day) {
-        return webtoonService.findAllByDay(day, pageable)
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::day"},
+            key = "{#pageable, #day}"
+    )
+    public PageDto<WebtoonDayResponse> getWebtoonByDay(Pageable pageable, String day) {
+        var response = webtoonService.findAllByDay(day, pageable)
                 .map(webtoon -> {
                             var writers = webtoonWriterService.findNameByWebtoonId(webtoon.getWebtoonId());
 
                             return new WebtoonDayResponse(webtoon, writers);
                         }
                 );
+
+        return PageDto.of(response);
     }
 
     @Transactional(readOnly = true)

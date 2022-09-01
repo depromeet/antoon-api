@@ -46,7 +46,7 @@ public class WebtoonController {
             @PageableDefault(size = 12) Pageable pageable
     ) {
         var response = webtoonFacade.getWebtoonByDay(pageable, day);
-        return PageDto.ok(response);
+        return ResponseEntity.ok(response);
     }
 
     @ApiOperation(value = "웹툰 전체 조회 API", notes = SwaggerNote.WEBTOON_SEARCH)
