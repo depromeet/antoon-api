@@ -14,7 +14,7 @@ import java.util.List;
 public interface AntCoinHistoryRepository extends JpaRepository<AntCoinHistory, Long> {
     boolean existsByRemittanceTypeAndUserIdAndReasonAndCreatedAtAfter(RemittanceType remittanceType, Long userId, String reason, LocalDateTime now);
 
-    List<AntCoinHistory> getAntCoinHistoryByUserId(Long userId);
+    List<AntCoinHistory> getAntCoinHistoryByUserIdOrderByCreatedAtDesc(Long userId);
 
     @Query(value = """
                     select count(*) as count
