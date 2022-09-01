@@ -2,7 +2,6 @@ package kr.co.antoon.webtoon.presentation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import kr.co.antoon.common.dto.PageDto;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.webtoon.application.WebtoonService;
@@ -63,7 +62,7 @@ public class WebtoonController {
             @PageableDefault(size = 12) Pageable pageable
     ) {
         var response = webtoonFacade.getWebtoonsGenreAndStatus(pageable, genre);
-        return PageDto.ok(response);
+        return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "장르별 top3 웹툰 조회 API", notes = SwaggerNote.WEBTOON_READ_GENRES)

@@ -17,7 +17,6 @@ import kr.co.antoon.webtoon.dto.response.WebtoonRankingAllResponse;
 import kr.co.antoon.webtoon.dto.response.WebtoonSearchResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,20 +51,26 @@ public class WebtoonFacade {
         return PageDto.of(response);
     }
 
-    @Transactional(readOnly = true)
-    public Page<WebtoonGenreResponse> getWebtoonsGenreAndStatus(Pageable pageable, String genre) {
+    @Cacheable(
+            cacheManager = "webtoonCacheManager",
+            value = {"webtoon::genre"},
+            key = "{#pageable, #genre}"
+    )
+    public PageDto<WebtoonGenreResponse> getWebtoonsGenreAndStatus(Pageable pageable, String genre) {
         var end = TimeUtil.now();
         var start = end.minusHours(1);
 
         var genreCategory = GenreCategory.of(genre);
 
-        return webtoonService.findAllByGenre(start, end, genreCategory, pageable)
+        var response = webtoonService.findAllByGenre(start, end, genreCategory, pageable)
                 .map(webtoon -> {
                             var writers = webtoonWriterService.findNameByWebtoonId(webtoon.getWebtoonId());
 
                             return new WebtoonGenreResponse(webtoon, writers, genreCategory);
                         }
                 );
+
+        return PageDto.of(response);
     }
 
     @Cacheable(
