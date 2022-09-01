@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum RemittanceType {
-    SIGNED_SERVICE("회원가입"),
+    SIGNED_SERVICE("가입 리워드"),
     JOINED_WEBTOON("웹툰 탑승"),
     LEAVED_WEBTOON("웹툰 하차"),
     JOINED_CHARACTER("인물/커플 탑승"),

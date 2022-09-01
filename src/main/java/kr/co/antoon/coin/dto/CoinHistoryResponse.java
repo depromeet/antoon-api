@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record CoinHistoryResponse(
+        LocalDate date,
         List<CoinHistory> history
 ) {
     public record CoinHistory(
@@ -40,6 +41,10 @@ public record CoinHistoryResponse(
                     reason
             );
         }
+    }
+    public CoinHistoryResponse(LocalDate date, List<CoinHistory> history) {
+        this.date = date;
+        this.history = history;
     }
 }
 

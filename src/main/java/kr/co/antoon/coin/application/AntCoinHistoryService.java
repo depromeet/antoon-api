@@ -61,7 +61,7 @@ public class AntCoinHistoryService {
 
     @Transactional
     public List<AntCoinHistory> getCoinHistory(Long userId) {
-        return antCoinHistoryRepository.getAntCoinHistoryByUserId(userId);
+        return antCoinHistoryRepository.getAntCoinHistoryByUserIdOrderByCreatedAtDesc(userId);
     }
 
     @Transactional

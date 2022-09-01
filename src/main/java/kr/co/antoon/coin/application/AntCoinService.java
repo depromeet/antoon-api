@@ -10,6 +10,7 @@ import kr.co.antoon.coin.domain.vo.CoinRewardType;
 import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistoryResponse;
+import kr.co.antoon.coin.dto.CoinHistoryResponseByDate;
 import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
 import kr.co.antoon.vote.application.CandidateService;
@@ -20,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,11 +79,21 @@ public class AntCoinService implements AntCoinClient {
     @SneakyThrows
     @Override
     @Transactional(readOnly = true)
-    public CoinHistoryResponse getCoinHistory(Long userId) {
-        var antCoinHistories = antCoinHistoryService.getCoinHistory(userId);
+    public CoinHistoryResponseByDate getCoinHistory(Long userId) {
+        var antCoinHistories = antCoinHistoryService.getCoinHistory(userId); //최신순 정렬 데이터
+        // 날짜별로 그룹핑해서 리스트 반환
+        List<CoinHistoryResponse> coinHistoryResponses = new ArrayList<>();
         List<CoinHistoryResponse.CoinHistory> coinHistories = new ArrayList<>();
 
+        LocalDate beforeDate = antCoinHistories.get(0).getCreatedAt().toLocalDate();
         for (AntCoinHistory history : antCoinHistories) {
+            LocalDate coinDate = history.getCreatedAt().toLocalDate();
+            if(!beforeDate.toString().equals(coinDate.toString())) {
+                coinHistoryResponses.add(new CoinHistoryResponse(beforeDate, coinHistories));
+                beforeDate = coinDate;
+                coinHistories = new ArrayList<>();
+            }
+
             String reason = history.getReason();
             if (reason.startsWith("{")) {
                 var jsonParser = new JSONParser();
@@ -93,7 +105,7 @@ public class AntCoinService implements AntCoinClient {
 
                 if (key.contains("WEBTOON")) {
                     reason = webtoonService.findById(id).getTitle();
-                } else if (key.contains("VOTE")) {
+                } else if (reason.contains("VOTE")) {
                     reason = candidateService.findById(id).getContent();
                 } else if (key.contains("CHARACTER")) {
                     reason = characterService.findById(id).getName();
@@ -111,7 +123,7 @@ public class AntCoinService implements AntCoinClient {
                     )
             );
         }
-        return new CoinHistoryResponse(coinHistories);
+        return new CoinHistoryResponseByDate(coinHistoryResponses);
     }
 
     @Transactional
