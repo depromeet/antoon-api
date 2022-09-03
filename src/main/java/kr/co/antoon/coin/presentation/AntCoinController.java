@@ -3,9 +3,8 @@ package kr.co.antoon.coin.presentation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.coin.AntCoinClient;
-import kr.co.antoon.coin.application.AntCoinService;
-import kr.co.antoon.coin.dto.CoinHistoryResponse;
 import kr.co.antoon.coin.dto.CoinHistoryResponseByDate;
+import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
+
 @Slf4j
 @Api(tags = "코인 API")
 @RestController
@@ -29,6 +29,6 @@ public class AntCoinController {
     @GetMapping("/history")
     public ResponseEntity<CoinHistoryResponseByDate> getHistory(@AuthUser AuthInfo info) {
         var response = antCoinClient.getCoinHistory(info.userId());
-        return ResponseEntity.ok(response);
+        return ResponseDto.ok(response);
     }
 }

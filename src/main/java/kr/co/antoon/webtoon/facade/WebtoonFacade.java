@@ -133,11 +133,11 @@ public class WebtoonFacade {
                 .parallelStream()
                 .collect(Collectors.toMap(Webtoon::getId, webtoon -> webtoon));
 
-        var responses = webtoonGenreService.getGenre()
+        var response = webtoonGenreService.getGenre()
                 .stream()
                 .map(g -> new WebtoonGenrePreviewResponse(g, webtoons.get(g.getWebtoonId())))
                 .toList();
 
-        return new WebtoonGenreAllResponse(responses);
+        return new WebtoonGenreAllResponse(response);
     }
 }

@@ -14,15 +14,11 @@ public class CharacterDiscussionLikeService {
 
     @Transactional
     public CharacterDiscussionLike saveOrUpdate(Long memberId, Long discussionId) {
-        var charcterDiscussionLikeNewInstance = CharacterDiscussionLike.builder()
-                .userId(memberId)
-                .discussionId(discussionId)
-                .build();
-
-
-        var characterDiscussionLike = characterDiscussionLikeRepository.findByUserIdAndDiscussionId(memberId, discussionId)
-                .map(CharacterDiscussionLike::update)
-                .orElse(charcterDiscussionLikeNewInstance);
+        var characterDiscussionLike = characterDiscussionLikeRepository.findByUserIdAndDiscussionId(
+                        memberId,
+                        discussionId
+                ).map(CharacterDiscussionLike::update)
+                .orElse(new CharacterDiscussionLike(memberId, discussionId));
 
         return characterDiscussionLikeRepository.save(characterDiscussionLike);
     }

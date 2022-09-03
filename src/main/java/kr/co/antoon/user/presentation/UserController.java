@@ -4,18 +4,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.antoon.aws.application.AwsS3Service;
 import kr.co.antoon.aws.domain.vo.S3Category;
+import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.application.UserService;
 import kr.co.antoon.user.dto.request.UserDetailName;
 import kr.co.antoon.user.dto.request.UserDetailRequest;
-
+import kr.co.antoon.user.dto.response.GetUserDetailResponse;
 import kr.co.antoon.user.dto.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-
-import kr.co.antoon.user.dto.response.GetUserDetailResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +39,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<GetUserDetailResponse> getUser(@AuthUser AuthInfo info) {
         var response = userService.findByIdWithWallet(info.userId());
-        return ResponseEntity.ok(response);
+        return ResponseDto.ok(response);
     }
 
     @Deprecated
@@ -51,7 +50,7 @@ public class UserController {
             @RequestBody UserDetailRequest request
     ) {
         var response = userService.updateById(info.userId(), request);
-        return ResponseEntity.ok(response);
+        return ResponseDto.ok(response);
     }
 
 
@@ -59,18 +58,20 @@ public class UserController {
     @PatchMapping("/images")
     public ResponseEntity<UserDetailResponse> updateProfileImage(
             @AuthUser AuthInfo info,
-            @RequestPart(value="file") List<MultipartFile> multipartFiles) {
+            @RequestPart(value = "file") List<MultipartFile> multipartFiles
+    ) {
         List<String> imageUrls = awsS3Service.uploadImageToS3(S3Category.PROFILE, multipartFiles);
         var response = userService.updateImgaeUrlById(info, imageUrls.get(0));
-        return ResponseEntity.ok(response);
+        return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "사용자 마이페이지 이름 수정 API", notes = SwaggerNote.USER_NAME_UPDATE_DETAIL)
     @PatchMapping("/names")
     public ResponseEntity<UserDetailResponse> updateName(
             @AuthUser AuthInfo info,
-            @RequestBody UserDetailName userDetailName) {
+            @RequestBody UserDetailName userDetailName
+    ) {
         var response = userService.updateNameById(info, userDetailName);
-        return ResponseEntity.ok(response);
+        return ResponseDto.ok(response);
     }
 }

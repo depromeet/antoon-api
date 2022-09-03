@@ -25,6 +25,7 @@ public class VoteController {
             @PathVariable Long candidateId,
             @AuthUser AuthInfo info
     ) {
+        // TODO : Controller에서 try-catch 작업을 사용하는 건 지양해야 합니다
         try {
             voteFacade.create(candidateId, info.userId());
             return ResponseDto.noContent();

@@ -2,7 +2,6 @@ package kr.co.antoon.character.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +24,6 @@ public class CharacterDiscussionLike extends BaseEntity {
 
     private Long discussionId;
 
-    @Builder
     public CharacterDiscussionLike(Long userId, Long discussionId) {
         this.userId = userId;
         this.discussionId = discussionId;

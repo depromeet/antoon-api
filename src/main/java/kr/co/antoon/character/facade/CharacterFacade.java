@@ -31,6 +31,7 @@ public class CharacterFacade {
                             character.getId(),
                             CharacterImageType.valueOf(type)
                     );
+
                     return new CharacterResponse.CharacterDetailResponse(
                             character,
                             characterImage.getImageUrl(),
@@ -38,6 +39,7 @@ public class CharacterFacade {
                             characterHistoryService.isUserJoin(character.getId(), info)
                     );
                 }).toList();
+        
         return new CharacterResponse(responses);
     }
 

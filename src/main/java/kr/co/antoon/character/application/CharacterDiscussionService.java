@@ -94,6 +94,7 @@ public class CharacterDiscussionService {
         LocalDateTime now = TimeUtil.now();
         long diffTime = time.until(now, ChronoUnit.SECONDS);
 
+        // TODO : 별도의 클래스로 분리 작업 진행
         if (diffTime < SEC.value) {
             return diffTime + "초전";
         }

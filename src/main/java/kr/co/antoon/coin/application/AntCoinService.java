@@ -88,12 +88,13 @@ public class AntCoinService implements AntCoinClient {
         LocalDate beforeDate = antCoinHistories.get(0).getCreatedAt().toLocalDate();
         for (AntCoinHistory history : antCoinHistories) {
             LocalDate coinDate = history.getCreatedAt().toLocalDate();
-            if(!beforeDate.toString().equals(coinDate.toString())) {
+            if (!beforeDate.toString().equals(coinDate.toString())) {
                 coinHistoryResponses.add(new CoinHistoryResponse(beforeDate, coinHistories));
                 beforeDate = coinDate;
                 coinHistories = new ArrayList<>();
             }
 
+            // TODO : 별도의 클래스를 통해 기능 분리 필요
             String reason = history.getReason();
             if (reason.startsWith("{")) {
                 var jsonParser = new JSONParser();

@@ -36,6 +36,7 @@ public class RecommendationController {
             @AuthUser AuthInfo info,
             @RequestParam("status") RecommendationStatus status
     ) {
+        // TODO 해당 로직 처리는 여기서 하는게 이상해보이네요 response가 두번 사용되는 것도...
         var response = recommendationFacade.saveOrUpdate(status, info.userId(), webtoonId);
         response = antCoinService.joinWebtoon(info.userId(), webtoonId, response, status);
         return ResponseDto.ok(response);

@@ -26,6 +26,7 @@ public class RecommendationFacade {
 
         status = RecommendationStatus.of(status);
         recommendationService.save(webtoonId, userId, status);
+
         return new RecommendationResponse(
                 recommendationCount,
                 status
