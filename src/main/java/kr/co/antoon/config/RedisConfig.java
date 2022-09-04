@@ -2,6 +2,7 @@ package kr.co.antoon.config;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -18,6 +19,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 
+@Slf4j
 @RequiredArgsConstructor
 @Configuration
 @EnableCaching
@@ -26,11 +28,13 @@ public class RedisConfig {
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
+        log.info("Registered redisConnectionFactory");
         return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
     }
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
+        log.info("Registered redisTemplate");
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
@@ -40,6 +44,7 @@ public class RedisConfig {
 
     @Bean
     public CacheManager webtoonCacheManager() {
+        log.info("Registered webtoonCacheManager");
         var stringSerializationPair = RedisSerializationContext
                 .SerializationPair.fromSerializer(new StringRedisSerializer());
         var objectSerializationPair = RedisSerializationContext
@@ -65,4 +70,3 @@ public class RedisConfig {
         private final Duration duration;
     }
 }
-
