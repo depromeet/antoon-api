@@ -6,6 +6,7 @@ import kr.co.antoon.oauth.application.JwtTokenProvider;
 import kr.co.antoon.oauth.filter.JwtFilter;
 import kr.co.antoon.oauth.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -73,18 +74,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    @ConditionalOnMissingBean(HttpFirewall.class)
     public HttpFirewall configureFirewall() {
         var strictHttpFirewall = new StrictHttpFirewall();
 
         strictHttpFirewall.setAllowedHttpMethods(
-                Arrays.asList(
-                        "GET",
-                        "POST",
-                        "DELETE",
-                        "OPTIONS",
-                        "PATCH",
-                        "PUT"
-                )
+                Arrays.asList("DELETE", "POST", "GET", "OPTIONS", "PATCH", "PUT")
         );
 
         return strictHttpFirewall;
