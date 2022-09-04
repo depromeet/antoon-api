@@ -11,6 +11,7 @@ public enum S3Category {
     VOTE("투표"),
     TEST("업로드 테스트용"),
     ANT_DEFAULT("기본 개미 이미지"),
+    ADULT_THUMBNAIL("성인용 웹툰 썸네일")
     ;
     
     private final String description;
