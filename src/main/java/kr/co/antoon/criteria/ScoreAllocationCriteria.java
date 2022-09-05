@@ -19,17 +19,17 @@ public interface ScoreAllocationCriteria {
     int discussionScore(long count);
 
     /**
-     * @param count webtoon status count
-     * @apiNote webtoon status count to score
+     * @param count webtoon recommendation count
+     * @apiNote webtoon recommendation count to score
      * max score 300
      **/
-    int webtoonStatusScore(int count);
+    int recommendationScore(int count);
 
     /**
      * @param webtoonScore        50% 500
      * @param discussionScore     20% 200
-     * @param webtoonStatusScore 30% 300
+     * @param recommendationScore 30% 300
      * @apiNote graph score max 1000
      **/
-    int graphScore(int discussionScore, int webtoonStatusScore, int webtoonScore);
+    int graphScore(int discussionScore, int recommendationScore, int webtoonScore);
 }

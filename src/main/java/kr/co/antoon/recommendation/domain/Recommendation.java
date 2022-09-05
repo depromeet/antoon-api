@@ -1,7 +1,7 @@
-package kr.co.antoon.webtoon.domain;
+package kr.co.antoon.recommendation.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
-import kr.co.antoon.webtoon.domain.vo.WebtoonStatusType;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,7 @@ import javax.persistence.Id;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class WebtoonStatus extends BaseEntity {
+public class Recommendation extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,16 +28,16 @@ public class WebtoonStatus extends BaseEntity {
     private Long userId;
 
     @Enumerated(EnumType.STRING)
-    private WebtoonStatusType status;
+    private RecommendationStatus status;
 
     @Builder
-    public WebtoonStatus(Long webtoonId, Long userId, WebtoonStatusType status) {
+    public Recommendation(Long webtoonId, Long userId, RecommendationStatus status) {
         this.webtoonId = webtoonId;
         this.userId = userId;
         this.status = status;
     }
 
-    public void updateStatus(WebtoonStatusType status) {
+    public void updateStatus(RecommendationStatus status) {
         this.status = status;
     }
 }

@@ -34,9 +34,9 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, JpaSpec
                      wg.id as webtoonGenreId, wg.genre_category as genreCategory,
                      wpd.id as webtoonPublishDayId, wpd.day,
                      ww.id as webtoonWriterId, ww.name,
-                     wsc.id as webtoonStatusCountId, wsc.join_count as joinCount, wsc.leave_count as leaveCount,
+                     rc.id as recommendationCountId, rc.join_count as joinCount, rc.leave_count as leaveCount,
                      gss.graph_score as graphScore, gss.score_gap as scoreGap,
-                     ws.status as webtoonStatus,
+                     r.status as recommendationStatus,
                      tr.ranking as ranking,
                      c.id as characterId,
                      c.name as characterName,
@@ -47,8 +47,8 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, JpaSpec
                      left join webtoon_writer ww on w.id = ww.webtoon_id
                      left join graph_score_snapshot gss on w.id = gss.webtoon_id
                      left join top_rank tr on w.id = tr.webtoon_id
-                     left join webtoon_status_count wsc on w.id = wsc.webtoon_id
-                     left join webtoon_status ws on w.id = ws.webtoon_id
+                     left join recommendation_count rc on w.id = rc.webtoon_id
+                     left join recommendation r on w.id = r.webtoon_id
                      left join (
                      		select c.id as id, c.webtoon_id as webtoon_id, c.name as name, ci.image_url as image_url
                      		from characters c
