@@ -1,10 +1,7 @@
 package kr.co.antoon.oauth.application;
 
 import kr.co.antoon.aws.application.AwsS3Service;
-import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.application.AntCoinService;
-import kr.co.antoon.coin.domain.vo.CoinRewardType;
-import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.oauth.dto.OAuth2Attribute;
 import kr.co.antoon.user.domain.User;
 import kr.co.antoon.user.domain.vo.Gender;
@@ -29,7 +26,6 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
-    private final AntCoinClient antCoinClient;
     private final AntCoinService antCoinService;
     private final AwsS3Service awsS3Service;
 
@@ -50,20 +46,15 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         );
     }
 
-    public Boolean checkExistEmail(String email) {
-        return userRepository.existsByEmail(email);
-    }
-
     public void saveOrUpdate(OAuth2User oAuth2User) {
         var data = oAuth2User.getAttributes();
         var email = data.get("email").toString();
-        String randomProfileImage = awsS3Service.randomProfileImage();
 
-        var user = userRepository.findByEmail(data.get("email").toString())
+        var user = userRepository.findByEmail(email)
                 .orElse(User.buildUser(
                         "",
                         email,
-                        randomProfileImage,
+                        awsS3Service.randomProfileImage(),
                         Gender.NONE,
                         0));
 
@@ -86,16 +77,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         }
 
         userRepository.save(user);
-        
         antCoinService.create(user.getId());
-
-        if(!antCoinService.isFirstSignedReward(user.getId())) {
-            antCoinService.plusCoin(
-                    user.getId(),
-                    CoinRewardType.DEFAULT_SIGN_COIN_BONUS.getAmount(),
-                    "SIGNUP",
-                    RemittanceType.SIGNED_SERVICE
-            );
-        }
     }
 }
