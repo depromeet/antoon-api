@@ -2,6 +2,7 @@ package kr.co.antoon.graph.presentation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
 import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.graph.domain.vo.Period;
@@ -28,7 +29,7 @@ public class GraphScoreController {
             @PathVariable("webtoonId") Long webtoonId
     ) {
         var response = graphScoreSnapshotService.graphByDays(webtoonId, Period.of("day"));
-        return ResponseEntity.ok(response);
+        return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "주 단위 그래프 API", notes = SwaggerNote.GRAPH_SCORES_WEEKENDS_READ_NOTE)
@@ -37,7 +38,7 @@ public class GraphScoreController {
             @PathVariable("webtoonId") Long webtoonId
     ) {
         var response = graphScoreSnapshotService.graphByMoreThanWeek(webtoonId, Period.of("weekend"));
-        return ResponseEntity.ok(response);
+        return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "월 단위 그래프 API", notes = SwaggerNote.GRAPH_SCORES_MONTHS_READ_NOTE)
@@ -46,7 +47,7 @@ public class GraphScoreController {
             @PathVariable("webtoonId") Long webtoonId
     ) {
         var response = graphScoreSnapshotService.graphByMoreThanWeek(webtoonId, Period.of("month"));
-        return ResponseEntity.ok(response);
+        return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "3개월 단위 그래프 API", notes = SwaggerNote.GRAPH_SCORE_THREE_MONTH_READ_NOTE)
@@ -55,6 +56,6 @@ public class GraphScoreController {
             @PathVariable("webtoonId") Long webtoonId
     ) {
         var response = graphScoreSnapshotService.graphByMoreThanWeek(webtoonId, Period.of("three-month"));
-        return ResponseEntity.ok(response);
+        return ResponseDto.ok(response);
     }
 }

@@ -25,7 +25,6 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
             var kakaoWebtoonDocument = Jsoup.connect("https://page.kakao.com/main?categoryUid=10&subCategoryUid=10000").get();
             var contentListElements = kakaoWebtoonDocument.select("div.css-19y0ur2");
 
-            // TODO: for -> Map, Reduce로 수정할 예정입니다
             for (Element contentElement : contentListElements) {
                 var aElements = contentElement.select("a");
                 for (Element aElement : aElements) {

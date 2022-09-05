@@ -42,9 +42,8 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
 
                     var thumbnail = webtoonDetailImageDocument.select("div.thumb img").attr("src");
 
-                    // TODO : 19금 이미지인 경우 교체 사진 필요
                     if (!StringUtils.hasText(thumbnail)) {
-                        thumbnail = "https://www.easylaw.go.kr/CSP/template/2019/08/22/BIN000D[31].bmp";
+                        thumbnail = "https://antoon-api-bucket.s3.ap-northeast-2.amazonaws.com/adult-type-1.png";
                     }
 
                     var innerElements = webtoonDetailDocument.select("div.comicinfo");

@@ -21,7 +21,7 @@ public class BasicAllocateScore implements ScoreAllocationCriteria {
         }
     }
 
-    public int recommendationScore(int count) {
+    public int webtoonStatusScore(int count) {
         if (count > 10) {
             return 300;
         } else if (count > 8) {
@@ -37,8 +37,8 @@ public class BasicAllocateScore implements ScoreAllocationCriteria {
         }
     }
 
-    public int graphScore(int discussionScore, int recommendationScore, int webtoonScore) {
-        var graphScore = discussionScore + recommendationScore + webtoonScore;
+    public int graphScore(int discussionScore, int webtoonStatusScore, int webtoonScore) {
+        var graphScore = discussionScore + webtoonStatusScore + webtoonScore;
 
         return Math.max(graphScore, 250);
     }

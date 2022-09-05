@@ -29,12 +29,14 @@ public class UserService {
     public GetUserDetailResponse findByIdWithWallet(Long id) {
         var user = findOneById(id);
         var wallet = antCoinClient.getWallet(id);
+
         return new GetUserDetailResponse(user, wallet);
     }
 
     @Transactional(readOnly = true)
     public UserDetailResponse findById(Long id) {
         var user = findOneById(id);
+
         return new UserDetailResponse(user);
     }
 
@@ -52,12 +54,14 @@ public class UserService {
     @Transactional
     public UserDetailResponse updateImgaeUrlById(AuthInfo info, String userDetailImage) {
         var user = findOneById(info.userId()).updateImageUrl(userDetailImage);
+
         return new UserDetailResponse(user);
     }
 
     @Transactional
     public UserDetailResponse updateNameById(AuthInfo info, UserDetailName userDetailName) {
         var user = findOneById(info.userId()).updateName(userDetailName.name());
+
         return new UserDetailResponse(user);
     }
 

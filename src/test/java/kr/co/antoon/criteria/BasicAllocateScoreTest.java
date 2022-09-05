@@ -67,7 +67,7 @@ class BasicAllocateScoreTest {
             "1"
     })
     void 추천_점수_합은_300점을_초과할_수_없음(String score) {
-        int actual = basicAllocateScore.recommendationScore(Integer.parseInt(score));
+        int actual = basicAllocateScore.webtoonStatusScore(Integer.parseInt(score));
 
         int expected = 300;
 
@@ -81,8 +81,8 @@ class BasicAllocateScoreTest {
             "0, 100, 100",
             "0, 0, 0"
     })
-    void 그래프_점수는_최소_250점을_넘는다(int discussionScore, int recommendationScore, int webtoonScore) {
-        int actual = basicAllocateScore.graphScore(discussionScore, recommendationScore, webtoonScore);
+    void 그래프_점수는_최소_250점을_넘는다(int discussionScore, int webtoonStatusScore, int webtoonScore) {
+        int actual = basicAllocateScore.graphScore(discussionScore, webtoonStatusScore, webtoonScore);
 
         assertTrue((actual >= 250));
     }

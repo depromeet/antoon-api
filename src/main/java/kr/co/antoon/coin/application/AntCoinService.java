@@ -12,8 +12,8 @@ import kr.co.antoon.coin.domain.vo.RemittanceStatus;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
 import kr.co.antoon.coin.dto.CoinHistoryResponse;
 import kr.co.antoon.coin.dto.CoinHistoryResponseByDate;
-import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
-import kr.co.antoon.recommendation.dto.response.RecommendationResponse;
+import kr.co.antoon.webtoon.domain.vo.WebtoonStatusType;
+import kr.co.antoon.webtoon.dto.response.WebtoonStatusResponse;
 import kr.co.antoon.vote.application.CandidateService;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import lombok.RequiredArgsConstructor;
@@ -89,12 +89,13 @@ public class AntCoinService implements AntCoinClient {
         LocalDate beforeDate = antCoinHistories.get(0).getCreatedAt().toLocalDate();
         for (AntCoinHistory history : antCoinHistories) {
             LocalDate coinDate = history.getCreatedAt().toLocalDate();
-            if(!beforeDate.toString().equals(coinDate.toString())) {
+            if (!beforeDate.toString().equals(coinDate.toString())) {
                 coinHistoryResponses.add(new CoinHistoryResponse(beforeDate, coinHistories));
                 beforeDate = coinDate;
                 coinHistories = new ArrayList<>();
             }
 
+            // TODO : 별도의 클래스를 통해 기능 분리 필요
             String reason = history.getReason();
             if (reason.startsWith("{")) {
                 var jsonParser = new JSONParser();
@@ -144,7 +145,7 @@ public class AntCoinService implements AntCoinClient {
     }
 
     @Transactional
-    public RecommendationResponse joinWebtoon(Long userId, Long webtoonId, RecommendationResponse response, RecommendationStatus status) {
+    public WebtoonStatusResponse joinWebtoon(Long userId, Long webtoonId, WebtoonStatusResponse response, WebtoonStatusType status) {
         if (antCoinHistoryService.checkTodayJoinWebtoon(userId, webtoonId)) {
             log.info("ALREADY_GET_COIN: 이미 탑승/하차를 통한 코인 지급이 완료되었습니다.");
             return response;

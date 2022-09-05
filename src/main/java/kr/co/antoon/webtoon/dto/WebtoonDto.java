@@ -2,7 +2,7 @@ package kr.co.antoon.webtoon.dto;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
-import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
+import kr.co.antoon.webtoon.domain.vo.WebtoonStatusType;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.domain.vo.Platform;
@@ -24,13 +24,13 @@ public record WebtoonDto(
         Set<GenreDto> genres,
         Set<PublishDayDto> publishDays,
         Set<WriterDto> writers,
-        Long recommendationCountId,
+        Long webtoonStatusCountId,
         Integer joinCount,
         Integer leaveCount,
         int score,
         int scoreGap,
         double scoreGapPercent,
-        RecommendationStatus recommendationStatus,
+        WebtoonStatusType webtoonStatusType,
         Integer ranking,
         Set<CharacterDto> characters
 ) {

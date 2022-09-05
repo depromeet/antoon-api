@@ -24,6 +24,7 @@ public class CharacterDiscussionFacade {
     @Transactional
     public CharacterDiscussionResponse register(Long userId, Long characterId, CharacterDiscussionRequest request) {
         characterService.existsById(characterId);
+
         var discussion = characterDiscussionService.save(
                 userId,
                 characterId,

@@ -53,9 +53,11 @@ public class DiscussionService {
     public Discussion update(Long discussionId, Long userId, DiscussionUpdateRequest request) {
         var discussion = discussionRepository.findById(discussionId)
                 .orElseThrow(NotExistsDiscussionException::new);
+
         if (!discussion.getUserId().equals(userId)) {
             throw new InvalidUserRoleException();
         }
+
         discussion.update(request.content());
         return discussion;
     }
@@ -64,9 +66,11 @@ public class DiscussionService {
     public void delete(Long discussionId, Long userId) {
         var discussion = discussionRepository.findById(discussionId)
                 .orElseThrow(NotExistsDiscussionException::new);
+
         if (!discussion.getUserId().equals(userId)) {
             throw new InvalidUserRoleException();
         }
+
         discussionRepository.deleteById(discussionId);
     }
 
@@ -88,10 +92,12 @@ public class DiscussionService {
                 .sum();
     }
 
+    // TODO : 별도의 로직을 사용하여 수정 필요
     @Transactional(readOnly = true)
     public String getTime(LocalDateTime time) {
-        LocalDateTime now = LocalDateTime.now();
-        long diffTime = time.until(now, ChronoUnit.SECONDS);
+        var now = LocalDateTime.now();
+
+        var diffTime = time.until(now, ChronoUnit.SECONDS);
 
         if (diffTime < SEC) {
             return diffTime + "초전";

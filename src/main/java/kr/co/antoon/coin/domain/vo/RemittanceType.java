@@ -1,6 +1,6 @@
 package kr.co.antoon.coin.domain.vo;
 
-import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
+import kr.co.antoon.webtoon.domain.vo.WebtoonStatusType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,7 @@ public enum RemittanceType {
 
     private final String description;
 
-    public static RemittanceType joinOrLeave(RecommendationStatus status) {
+    public static RemittanceType joinOrLeave(WebtoonStatusType status) {
         if(status.toString().startsWith("JOIN")) {
             return JOINED_WEBTOON;
         }
