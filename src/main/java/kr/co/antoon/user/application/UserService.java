@@ -66,4 +66,9 @@ public class UserService {
         return userRepository.findByEmail(email)
                 .orElseThrow(NotExistsUserException::new);
     }
+
+    @Transactional
+    public Boolean checkExistEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }

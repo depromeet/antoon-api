@@ -1,5 +1,6 @@
 package kr.co.antoon.coin.application;
 
+import com.google.gson.JsonParser;
 import com.nimbusds.jose.shaded.json.JSONObject;
 import com.nimbusds.jose.shaded.json.parser.JSONParser;
 import kr.co.antoon.character.application.CharacterService;
@@ -130,6 +131,15 @@ public class AntCoinService implements AntCoinClient {
     public void create(Long userId) {
         if (!antCoinWalletService.existsByUserId(userId)) {
             antCoinWalletService.save(userId);
+        }
+
+        if(!isFirstSignedReward(userId)) {
+            plusCoin(
+                    userId,
+                    CoinRewardType.DEFAULT_SIGN_COIN_BONUS.getAmount(),
+                    "SIGNUP",
+                    RemittanceType.SIGNED_SERVICE
+            );
         }
     }
 

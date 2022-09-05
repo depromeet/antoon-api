@@ -49,7 +49,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         var oAuth2User = (OAuth2User) authentication.getPrincipal();
         var email = (String) oAuth2User.getAttributes().get("email");
 
-        var checkUserExist = customOAuth2UserService.checkExistEmail(email);
+        var checkUserExist = userService.checkExistEmail(email);
         var status = Status.of(checkUserExist);
 
         customOAuth2UserService.saveOrUpdate(oAuth2User);
