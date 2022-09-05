@@ -2,14 +2,8 @@ package kr.co.antoon.webtoon.presentation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import kr.co.antoon.coin.application.AntCoinService;
 import kr.co.antoon.common.dto.ResponseDto;
 import kr.co.antoon.common.dto.SwaggerNote;
-import kr.co.antoon.oauth.config.AuthUser;
-import kr.co.antoon.oauth.dto.AuthInfo;
-import kr.co.antoon.webtoon.domain.vo.WebtoonStatusType;
-import kr.co.antoon.webtoon.dto.response.WebtoonStatusResponse;
-import kr.co.antoon.webtoon.facade.WebtoonStatusFacade;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.dto.request.WebtoonSearchRequest;
 import kr.co.antoon.webtoon.facade.WebtoonFacade;
@@ -18,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,9 +27,7 @@ import static kr.co.antoon.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequestMapping(value = "/api/v1/webtoons", produces = APPLICATION_JSON_UTF_8)
 public class WebtoonController {
     private final WebtoonFacade webtoonFacade;
-    private final WebtoonStatusFacade webtoonStatusFacade;
     private final WebtoonService webtoonService;
-    private final AntCoinService antCoinService;
 
     @ApiOperation(value = "웹툰 상세 조회 API", notes = SwaggerNote.WEBTOON_READ_DETAIL)
     @GetMapping(value = "/{webtoonId}")
@@ -100,19 +91,6 @@ public class WebtoonController {
     @PostMapping("/search")
     public ResponseEntity<?> search(@RequestBody WebtoonSearchRequest request) {
         var response = webtoonFacade.search(request);
-        return ResponseDto.ok(response);
-    }
-
-    @ApiOperation(value = "웹툰 탑승/하차", notes = SwaggerNote.WEBTOON_JOIN)
-    @PatchMapping("/{webtoonId}/join")
-    public ResponseEntity<WebtoonStatusResponse> createWebtoonStatus(
-            @PathVariable Long webtoonId,
-            @AuthUser AuthInfo info,
-            @RequestParam("status") WebtoonStatusType status
-    ) {
-        // TODO 해당 로직 처리는 여기서 하는게 이상해보이네요 response가 두번 사용되는 것도...
-        var response = webtoonStatusFacade.saveOrUpdate(status, info.userId(), webtoonId);
-        response = antCoinService.joinWebtoon(info.userId(), webtoonId, response, status);
         return ResponseDto.ok(response);
     }
 }

@@ -1,7 +1,7 @@
-package kr.co.antoon.webtoon.domain;
+package kr.co.antoon.recommendation.domain;
 
 import kr.co.antoon.common.domain.BaseEntity;
-import kr.co.antoon.webtoon.domain.vo.WebtoonStatusType;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = @Index(name = "i_webtoon_id", columnList = "webtoonId", unique = true))
-public class WebtoonStatusCount extends BaseEntity {
+public class RecommendationCount extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +30,7 @@ public class WebtoonStatusCount extends BaseEntity {
     private int leaveCount;
 
     @Builder
-    public WebtoonStatusCount(Long webtoonId) {
+    public RecommendationCount(Long webtoonId) {
         this.webtoonId = webtoonId;
         this.joinCount = 0;
         this.leaveCount = 0;
@@ -40,7 +40,7 @@ public class WebtoonStatusCount extends BaseEntity {
         return joinCount - leaveCount;
     }
 
-    public void updateCount(WebtoonStatusType status) {
+    public void updateCount(RecommendationStatus status) {
         switch (status) {
             case JOIN -> joinCount += 1;
             case LEAVE -> leaveCount += 1;

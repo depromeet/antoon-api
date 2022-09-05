@@ -79,7 +79,7 @@ CREATE TABLE `graph_score_snapshot`
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
-CREATE TABLE `webtoon_status`
+CREATE TABLE `recommendation`
 (
     `id`          bigint NOT NULL AUTO_INCREMENT,
     `created_at`  datetime                                DEFAULT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE `webtoon_status`
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
-CREATE TABLE `webtoon_status_count`
+CREATE TABLE `recommendation_count`
 (
     `id`          bigint NOT NULL AUTO_INCREMENT,
     `created_at`  datetime DEFAULT NULL,

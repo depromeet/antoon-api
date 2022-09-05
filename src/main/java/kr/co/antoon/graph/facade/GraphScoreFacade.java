@@ -9,8 +9,8 @@ import kr.co.antoon.graph.application.GraphScoreSnapshotService;
 import kr.co.antoon.graph.application.TopRankService;
 import kr.co.antoon.graph.domain.GraphScoreSnapshot;
 import kr.co.antoon.graph.domain.vo.GraphStatus;
-import kr.co.antoon.webtoon.application.WebtoonStatusCountService;
-import kr.co.antoon.webtoon.domain.WebtoonStatusCount;
+import kr.co.antoon.recommendation.application.RecommendationCountService;
+import kr.co.antoon.recommendation.domain.RecommendationCount;
 import kr.co.antoon.webtoon.application.WebtoonService;
 import kr.co.antoon.webtoon.application.WebtoonSnapshotService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class GraphScoreFacade {
     private final DiscussionService discussionService;
     private final WebtoonService webtoonService;
     private final TopRankService topRankService;
-    private final WebtoonStatusCountService webtoonStatusCountService;
+    private final RecommendationCountService recommendationCountService;
     private final ScoreAllocationCriteria scoreAllocationCriteria;
     private final WebtoonRedisCacheService webtoonRedisCacheService;
 
@@ -44,12 +44,12 @@ public class GraphScoreFacade {
     @Transactional
     public void snapshot() {
         var webtoons = webtoonService.findAll();
-        var webtoonStatusCounts = webtoonStatusCountService.findAll()
+        var recommendationCounts = recommendationCountService.findAll()
                 .parallelStream()
                 .collect(Collectors.toMap(
-                                WebtoonStatusCount::getWebtoonId,
-                                ws -> ws,
-                                (ws1, ws2) -> ws1
+                                RecommendationCount::getWebtoonId,
+                                rc -> rc,
+                                (rc1, rc2) -> rc1
                         )
                 );
         var now = TimeUtil.now();
@@ -82,12 +82,12 @@ public class GraphScoreFacade {
                     discussionScore = scoreAllocationCriteria.discussionScore(discussionScore);
 
                     var count = 0;
-                    if (webtoonStatusCounts.containsKey(webtoonId)) {
-                        count = webtoonStatusCounts.get(webtoonId).count();
+                    if (recommendationCounts.containsKey(webtoonId)) {
+                        count = recommendationCounts.get(webtoonId).count();
                     }
-                    var webtoonStatusScore = scoreAllocationCriteria.webtoonStatusScore(count);
+                    var recommendationScore = scoreAllocationCriteria.recommendationScore(count);
 
-                    var graphScore = scoreAllocationCriteria.graphScore((int) discussionScore, webtoonStatusScore, webtoonScore);
+                    var graphScore = scoreAllocationCriteria.graphScore((int) discussionScore, recommendationScore, webtoonScore);
 
                     var graphScoreSnapshots = graphScoreSnapshotService.findTop1ByWebtoonIdOrderBySnapshotTimeDesc(webtoonId);
 

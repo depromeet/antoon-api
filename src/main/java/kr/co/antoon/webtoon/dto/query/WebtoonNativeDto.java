@@ -1,6 +1,6 @@
 package kr.co.antoon.webtoon.dto.query;
 
-import kr.co.antoon.webtoon.domain.vo.WebtoonStatusType;
+import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
 import kr.co.antoon.webtoon.domain.vo.ActiveStatus;
 import kr.co.antoon.webtoon.domain.vo.GenreCategory;
 import kr.co.antoon.webtoon.domain.vo.Platform;
@@ -32,7 +32,7 @@ public interface WebtoonNativeDto {
 
     String getName();
 
-    Long getWebtoonStatusCountId();
+    Long getRecommendationCountId();
 
     Integer getJoinCount();
 
@@ -42,7 +42,7 @@ public interface WebtoonNativeDto {
 
     int getScoreGap();
 
-    WebtoonStatusType getWebtoonStatus();
+    RecommendationStatus getRecommendationStatus();
 
     Integer getRanking();
 
