@@ -3,7 +3,7 @@ package kr.co.antoon.common.dto;
 public class SwaggerNote {
     public final static String DISCUSSION_CREATE_NOTE = """
                     종목토론방에 댓글 달기
-                    POST /api/v1/webtoons/{webtoonId}/discussions            
+                    POST /api/v1/webtoons/{webtoonId}/discussions          
                         
                     Request Body
                     {
@@ -26,7 +26,7 @@ public class SwaggerNote {
 
     public final static String DISCUSSION_READ_ONE_NOTE = """
                     종목토론방에 댓글 단건 조회
-                    POST /api/v1/webtoons/discussions/discussionId            
+                    POST /api/v1/webtoons/discussions/discussionId           
                         
                     Response Body
                     {
@@ -107,10 +107,10 @@ public class SwaggerNote {
                     None
             """;
 
-    public final static String RECOMMENDATION = """
+    public final static String WEBTOON_JOIN = """
                     웹툰 상세페이지 > 탑승/하차 API
                     status값 : JOIN, LEAVE
-                    PATCH /api/v1/recommendations/{webtonId}?status={status}
+                    PATCH /api/v1/webtoons/{webtonId}/join?status={status}
                     
                     Response Body
                     {
@@ -165,13 +165,13 @@ public class SwaggerNote {
                                   "name": "홍필"
                               }
                           ],
-                          "recommendationCountId": 6,
+                          "webtoonStatusCountId": 6,
                           "joinCount": 1,
                           "leaveCount": 1,
                           "score": 648,
                           "scoreGap": 0,
                           "scoreGapPercent": 0.0,
-                          "recommendationStatus": "LEAVED",
+                          "webtoonStatus": "LEAVED",
                           "ranking": 1,
                           "characters": [
                               {

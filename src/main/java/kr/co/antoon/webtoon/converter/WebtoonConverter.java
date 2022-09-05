@@ -1,11 +1,22 @@
 package kr.co.antoon.webtoon.converter;
 
-import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
+import kr.co.antoon.common.domain.BaseEntity;
+import kr.co.antoon.webtoon.domain.vo.WebtoonStatusType;
 import kr.co.antoon.webtoon.domain.Webtoon;
 import kr.co.antoon.webtoon.domain.vo.Platform;
 import kr.co.antoon.webtoon.dto.WebtoonDto;
 import kr.co.antoon.webtoon.dto.query.WebtoonNativeDto;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,21 +69,21 @@ public class WebtoonConverter {
                 genres,
                 days,
                 writers,
-                webtoon.get(0).getRecommendationCountId(),
+                webtoon.get(0).getWebtoonStatusCountId(),
                 webtoon.get(0).getJoinCount(),
                 webtoon.get(0).getLeaveCount(),
                 webtoon.get(0).getGraphScore(),
                 webtoon.get(0).getScoreGap(),
                 getDifferencePercentage(webtoon.get(0).getGraphScore(), webtoon.get(0).getScoreGap()),
-                status(webtoon.get(0).getRecommendationStatus()),
+                status(webtoon.get(0).getWebtoonStatus()),
                 webtoon.get(0).getRanking(),
                 characters
         );
     }
 
-    private static RecommendationStatus status(RecommendationStatus status) {
+    private static WebtoonStatusType status(WebtoonStatusType status) {
         if (status == null) {
-            return RecommendationStatus.NONE;
+            return WebtoonStatusType.NONE;
         }
         return status;
     }
@@ -85,5 +96,32 @@ public class WebtoonConverter {
                 .thumbnail(crawlingWebtton.thumbnail())
                 .platform(platform)
                 .build();
+    }
+
+    @Getter
+    @Entity
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class WebtoonStatus extends BaseEntity {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+
+        private Long webtoonId;
+
+        private Long userId;
+
+        @Enumerated(EnumType.STRING)
+        private WebtoonStatusType status;
+
+        @Builder
+        public WebtoonStatus(Long webtoonId, Long userId, WebtoonStatusType status) {
+            this.webtoonId = webtoonId;
+            this.userId = userId;
+            this.status = status;
+        }
+
+        public void updateStatus(WebtoonStatusType status) {
+            this.status = status;
+        }
     }
 }

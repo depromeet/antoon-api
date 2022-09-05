@@ -1,36 +1,27 @@
-package kr.co.antoon.recommendation.presentation;
+package kr.co.antoon.webtoon.presentation;
 
-import kr.co.antoon.error.exception.BusinessException;
-import kr.co.antoon.recommendation.domain.Recommendation;
-import kr.co.antoon.recommendation.domain.vo.RecommendationStatus;
-import kr.co.antoon.recommendation.infrastructure.RecommendationRepository;
-import kr.co.antoon.webtoon.domain.Webtoon;
-import kr.co.antoon.webtoon.domain.vo.Platform;
+import kr.co.antoon.webtoon.infrastructure.WebtoonStatusRepository;
 import kr.co.antoon.webtoon.infrastructure.WebtoonRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RecommendationControllerTest {
+public class WebtoonControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private RecommendationRepository recommendationRepository;
+    private WebtoonStatusRepository webtoonStatusRepository;
 
     @Autowired
     private WebtoonRepository webtoonRepository;
