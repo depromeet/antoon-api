@@ -1,5 +1,6 @@
 package kr.co.antoon.oauth.config;
 
+import kr.co.antoon.error.exception.oauth.NotExistsOauthInfoException;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.domain.vo.Role;
 import org.springframework.core.MethodParameter;
@@ -35,7 +36,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (Objects.equals(authentication.getPrincipal(), "anonymousUser")) {
-            return null;
+            throw new NotExistsOauthInfoException();
         }
 
         return new AuthInfo(
