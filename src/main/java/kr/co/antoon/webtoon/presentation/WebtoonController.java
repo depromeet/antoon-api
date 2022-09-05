@@ -36,7 +36,7 @@ public class WebtoonController {
     private final WebtoonFacade webtoonFacade;
     private final WebtoonStatusFacade webtoonStatusFacade;
     private final WebtoonService webtoonService;
-    private final AntCoinService antCoinService;
+
 
     @ApiOperation(value = "웹툰 상세 조회 API", notes = SwaggerNote.WEBTOON_READ_DETAIL)
     @GetMapping(value = "/{webtoonId}")
@@ -110,9 +110,8 @@ public class WebtoonController {
             @AuthUser AuthInfo info,
             @RequestParam("status") WebtoonStatusType status
     ) {
-        // TODO 해당 로직 처리는 여기서 하는게 이상해보이네요 response가 두번 사용되는 것도...
+
         var response = webtoonStatusFacade.saveOrUpdate(status, info.userId(), webtoonId);
-        response = antCoinService.joinWebtoon(info.userId(), webtoonId, response, status);
         return ResponseDto.ok(response);
     }
 }
