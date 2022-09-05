@@ -5,7 +5,7 @@ import kr.co.antoon.character.application.CharacterService;
 import kr.co.antoon.coin.AntCoinClient;
 import kr.co.antoon.coin.domain.vo.CoinRewardType;
 import kr.co.antoon.coin.domain.vo.RemittanceType;
-import kr.co.antoon.error.exception.recommendation.AlreadyJoinedException;
+import kr.co.antoon.error.exception.webtoon.AlreadyJoinedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
