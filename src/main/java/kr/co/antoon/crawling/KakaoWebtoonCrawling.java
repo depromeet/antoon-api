@@ -58,7 +58,8 @@ public class KakaoWebtoonCrawling implements WebtoonCrawling {
                                         thumbnail,
                                         genres,
                                         Double.parseDouble(score),
-                                        day
+                                        day,
+                                        0
                                 )
                         );
                         // log.info("[Kakao Webtoon Crawling] title-> {} / score -> {}", title, score);

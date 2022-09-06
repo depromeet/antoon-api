@@ -32,7 +32,8 @@ public record WebtoonDto(
         double scoreGapPercent,
         RecommendationStatus recommendationStatus,
         Integer ranking,
-        Set<CharacterDto> characters
+        Set<CharacterDto> characters,
+        int age
 ) {
     public record GenreDto(
             Long webtoonGenreId,

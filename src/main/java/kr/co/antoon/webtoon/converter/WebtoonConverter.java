@@ -66,7 +66,8 @@ public class WebtoonConverter {
                 getDifferencePercentage(webtoon.get(0).getGraphScore(), webtoon.get(0).getScoreGap()),
                 status(webtoon.get(0).getRecommendationStatus()),
                 webtoon.get(0).getRanking(),
-                characters
+                characters,
+                webtoon.get(0).get
         );
     }
 

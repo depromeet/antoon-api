@@ -65,7 +65,7 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
 
                                 // TODO: 18세 연령가, 12세 연령가, 전체 연령가 이렇게 저장되는데 숫자만 저장하도록 split
                                 // TODO: 여기서 성인용 웹툰 썸네일을 19금 썸네일로 대체할지, 아님 기존 썸네일 저장하고, 조회할 때 19금 썸네일로 할지
-                                var age = innerElement.select("span.age").text();
+                                var age = innerElement.select("span.age").text().split("연령가")[0].split("세")[0];
                                 return new WebtoonCrawlingDto.WebtoonCrawlingDetail(
                                         title,
                                         content,
@@ -74,7 +74,8 @@ public class NaverWebtoonCrawling implements WebtoonCrawling {
                                         finalThumbnail,
                                         genres,
                                         Double.parseDouble(score),
-                                        day
+                                        day,
+                                        Integer.parseInt(age)
                                 );
                             }).toList());
                 }
