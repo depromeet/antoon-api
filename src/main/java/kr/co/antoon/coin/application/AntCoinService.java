@@ -1,6 +1,5 @@
 package kr.co.antoon.coin.application;
 
-import com.google.gson.JsonParser;
 import com.nimbusds.jose.shaded.json.JSONObject;
 import com.nimbusds.jose.shaded.json.parser.JSONParser;
 import kr.co.antoon.character.application.CharacterService;

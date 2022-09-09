@@ -2,7 +2,6 @@ package kr.co.antoon.vote.presentation;
 
 import io.swagger.annotations.Api;
 import kr.co.antoon.common.dto.ResponseDto;
-import kr.co.antoon.error.exception.vote.AlreadyExistsVoteException;
 import kr.co.antoon.oauth.config.AuthUser;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.vote.facade.VoteFacade;
@@ -25,12 +24,7 @@ public class VoteController {
             @PathVariable Long candidateId,
             @AuthUser AuthInfo info
     ) {
-        // TODO : Controller에서 try-catch 작업을 사용하는 건 지양해야 합니다
-        try {
-            voteFacade.create(candidateId, info.userId());
-            return ResponseDto.noContent();
-        } catch (AlreadyExistsVoteException e) {
-            return ResponseDto.conflict();
-        }
+        voteFacade.create(candidateId, info.userId());
+        return ResponseDto.noContent();
     }
 }
