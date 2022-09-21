@@ -1,4 +1,4 @@
-package kr.co.antoon.config;
+package kr.co.antoon.config.swagger;
 
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;

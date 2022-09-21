@@ -1,4 +1,4 @@
-package kr.co.antoon.config;
+package kr.co.antoon.config.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

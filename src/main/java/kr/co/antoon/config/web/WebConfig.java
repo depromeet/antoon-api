@@ -1,4 +1,4 @@
-package kr.co.antoon.config;
+package kr.co.antoon.config.web;
 
 import kr.co.antoon.oauth.config.LoginUserArgumentResolver;
 import lombok.RequiredArgsConstructor;

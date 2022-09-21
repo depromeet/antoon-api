@@ -1,4 +1,4 @@
-package kr.co.antoon.config;
+package kr.co.antoon.config.criteria;
 
 import kr.co.antoon.criteria.BasicAllocateScore;
 import kr.co.antoon.criteria.ScoreAllocationCriteria;

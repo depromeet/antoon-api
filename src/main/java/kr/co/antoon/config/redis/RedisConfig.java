@@ -1,4 +1,4 @@
-package kr.co.antoon.config;
+package kr.co.antoon.config.redis;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

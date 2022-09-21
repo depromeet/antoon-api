@@ -1,6 +1,7 @@
-package kr.co.antoon.config;
+package kr.co.antoon.config.security;
 
 import kr.co.antoon.cache.user.UserRedisCacheService;
+import kr.co.antoon.config.web.CorsConfig;
 import kr.co.antoon.oauth.application.CustomOAuth2UserService;
 import kr.co.antoon.oauth.application.JwtTokenProvider;
 import kr.co.antoon.oauth.filter.JwtFilter;

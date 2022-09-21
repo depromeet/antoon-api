@@ -1,4 +1,4 @@
-package kr.co.antoon.config;
+package kr.co.antoon.config.cruiser;
 
 import kr.co.antoon.config.properties.SlackCruiserProperties;
 import kr.co.antoon.cruiser.domain.CruiserClient;
