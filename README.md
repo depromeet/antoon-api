@@ -26,6 +26,7 @@
 ### 🌐 서비스 주소
 - [Antoon Web](https://antoon.fun/)
 - [Antoon Api](https://api.antoon.fun/swagger)
+- [Antoon PlayStore] (https://play.google.com/store/apps/details?id=com.antoon_app)
 
 
 ### 🛠 기술스택
