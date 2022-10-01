@@ -27,12 +27,12 @@ public class JwtTokenProvider {
     private static final long REFRESH_TOKEN_EXPIRE_TIME = ((60 * 60 * 1000L) * 24) * 60;  // 60일
 
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        var keyBytes = Decoders.BASE64.decode(secretKey);
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String createAccessToken(String userId, String role) {
-        Date now = new Date();
+        var now = new Date();
         return Jwts.builder()
                 .setSubject(userId)
                 .claim("role", role)
@@ -42,7 +42,7 @@ public class JwtTokenProvider {
     }
 
     public String createRefreshToken(String userId) {
-        Date now = new Date();
+        var now = new Date();
         return Jwts.builder()
                 .setSubject(userId)
                 .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_EXPIRE_TIME))
@@ -81,7 +81,7 @@ public class JwtTokenProvider {
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities(String token) {
-        Claims claims = getClaims(token);
+        var claims = getClaims(token);
         return Collections.singletonList(
                 new SimpleGrantedAuthority(claims.get("role").toString())
         );
@@ -92,12 +92,12 @@ public class JwtTokenProvider {
     }
 
     public Long getExpiration(String accessToken) {
-        Claims claims = getClaims(accessToken);
+        var claims = getClaims(accessToken);
 
         // accessToken 남은 유효시간
-        Date expiration = claims.getExpiration();
+        var expiration = claims.getExpiration();
         // 현재 시간
-        long now = new Date().getTime();
+        var now = new Date().getTime();
         return (expiration.getTime() - now);
     }
 }

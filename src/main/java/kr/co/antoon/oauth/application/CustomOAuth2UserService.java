@@ -31,13 +31,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
-        OAuth2User oAuth2User = oAuth2UserService.loadUser(userRequest);
+        var oAuth2UserService = new DefaultOAuth2UserService();
+        var oAuth2User = oAuth2UserService.loadUser(userRequest);
 
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        var registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-        OAuth2Attribute oAuth2Attribute =
-                OAuth2Attribute.of(registrationId, oAuth2User.getAttributes());
+        var oAuth2Attribute = OAuth2Attribute.of(registrationId, oAuth2User.getAttributes());
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(Role.USER.getKey())),

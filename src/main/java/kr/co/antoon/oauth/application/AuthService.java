@@ -61,7 +61,7 @@ public class AuthService {
             throw new TokenInvalidException();
         }
 
-        Long userId = jwtTokenProvider.getUserId(access);
+        var userId = jwtTokenProvider.getUserId(access);
         if (!userRepository.existsById(userId)) {
             throw new NotExistsUserException();
         }

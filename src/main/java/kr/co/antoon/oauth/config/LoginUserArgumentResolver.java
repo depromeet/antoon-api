@@ -4,7 +4,6 @@ import kr.co.antoon.error.exception.oauth.NotExistsOauthInfoException;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.domain.vo.Role;
 import org.springframework.core.MethodParameter;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -21,8 +20,9 @@ import java.util.Objects;
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean isLoginUserAnnotation = parameter.getParameterAnnotation(AuthUser.class) != null;
-        boolean isAuthInfo = parameter.getParameterType().equals(AuthInfo.class);
+        var isLoginUserAnnotation = parameter.getParameterAnnotation(AuthUser.class) != null;
+        var isAuthInfo = parameter.getParameterType().equals(AuthInfo.class);
+
         return isLoginUserAnnotation && isAuthInfo;
     }
 
@@ -33,8 +33,8 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
             NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory
     ) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (Objects.equals(authentication.getPrincipal(), "anonymousUser")) {
             throw new NotExistsOauthInfoException();
         }
