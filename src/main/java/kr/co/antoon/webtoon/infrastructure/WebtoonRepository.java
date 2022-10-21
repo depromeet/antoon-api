@@ -30,7 +30,7 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, JpaSpec
     long countByStatus(ActiveStatus status);
 
     @Query(value = """
-                     select w.id as webtoonId, w.title, w.content, w.webtoon_url as webtoonUrl, w.thumbnail, w.platform, w.status,
+                     select w.id as webtoonId, w.title, w.content, w.webtoon_url as webtoonUrl, w.thumbnail, w.platform, w.status, w.age
                      wg.id as webtoonGenreId, wg.genre_category as genreCategory,
                      wpd.id as webtoonPublishDayId, wpd.day,
                      ww.id as webtoonWriterId, ww.name,

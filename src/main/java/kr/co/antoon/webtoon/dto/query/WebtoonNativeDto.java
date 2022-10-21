@@ -51,4 +51,6 @@ public interface WebtoonNativeDto {
     String getCharacterName();
 
     String getCharacterImageUrl();
+
+    int getAge();
 }

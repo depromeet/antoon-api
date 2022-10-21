@@ -50,13 +50,18 @@ public class Webtoon extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ActiveStatus status;
 
+    @Column(nullable = false)
+    private int age;
+
+
     @Builder
-    public Webtoon(String title, String content, String webtoonUrl, String thumbnail, Platform platform) {
+    public Webtoon(String title, String content, String webtoonUrl, String thumbnail, Platform platform, int age) {
         this.title = title;
         this.content = content;
         this.webtoonUrl = webtoonUrl;
         this.thumbnail = thumbnail;
         this.platform = platform;
+        this.age = age;
         publish();
     }
 
