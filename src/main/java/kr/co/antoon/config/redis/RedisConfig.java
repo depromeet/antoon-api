@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
@@ -29,7 +30,11 @@ public class RedisConfig {
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         log.info("Registered redisConnectionFactory");
-        return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
+
+        var config = new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort());
+        config.setPassword(redisProperties.getPassword());
+
+        return new LettuceConnectionFactory(config);
     }
 
     @Bean
@@ -45,10 +50,10 @@ public class RedisConfig {
     @Bean
     public CacheManager webtoonCacheManager() {
         log.info("Registered webtoonCacheManager");
-        var stringSerializationPair = RedisSerializationContext
-                .SerializationPair.fromSerializer(new StringRedisSerializer());
-        var objectSerializationPair = RedisSerializationContext
-                .SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer());
+        var stringSerializationPair = RedisSerializationContext.SerializationPair
+                .fromSerializer(new StringRedisSerializer());
+        var objectSerializationPair = RedisSerializationContext.SerializationPair
+                .fromSerializer(new GenericJackson2JsonRedisSerializer());
 
         var redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(stringSerializationPair)
