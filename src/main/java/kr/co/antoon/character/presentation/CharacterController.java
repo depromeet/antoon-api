@@ -22,13 +22,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class CharacterController {
+
     private final CharacterFacade characterFacade;
 
+    /**
+     * Require auth info, but also anonymous user can get data
+     *
+     * @see kr.co.antoon.oauth.config.LoginUserArgumentResolver#resolveArgument(MethodParameter,
+     *      ModelAndViewContainer,
+     *      NativeWebRequest, WebDataBinderFactory)
+     */
     @ApiOperation(value = "인물/커플 실시간 차트 조회 API", notes = SwaggerNote.GET_CHARACTER_RANK)
     @GetMapping("/top-ranks/characters")
     public ResponseEntity<CharacterResponse> getCharacterTopUpper(
-            @RequestParam("type") String type,
-            @AuthUser AuthInfo info
+        @RequestParam("type") String type,
+        @AuthUser AuthInfo info
     ) {
         var response = characterFacade.getTopUpper(type, info);
         return ResponseDto.ok(response);
@@ -37,15 +45,11 @@ public class CharacterController {
     @ApiOperation(value = "인물/커플 상세조회 API", notes = SwaggerNote.GET_CHARACTER_DETAIL)
     @GetMapping("/characters/{characterId}")
     public ResponseEntity<CharacterDetailResponse> getCharacter(
-            @PathVariable Long characterId,
-            @RequestParam("type") String type,
-            @AuthUser AuthInfo info
+        @PathVariable Long characterId,
+        @RequestParam("type") String type,
+        @AuthUser AuthInfo info
     ) {
-        var response = characterFacade.getCharacterDetail(
-                characterId,
-                type,
-                info
-        );
+        var response = characterFacade.getCharacterDetail(characterId, type, info);
         return ResponseDto.ok(response);
     }
 }
