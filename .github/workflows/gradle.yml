@@ -6,7 +6,7 @@ name: Antoon Api Server Git-Action
 # staging push 작업 일어나면 git action 실행
 on:
   push:
-    branches: [staging]
+    branches: [staging, hotfix/**]
 
 jobs:
   build:
