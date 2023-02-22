@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
+/** @NOTICE not applied in real DB so set directly  */
 @Table(indexes = @Index(name = "i_snapshot_time", columnList = "snapshotTime"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GraphScoreSnapshot extends BaseEntity {
