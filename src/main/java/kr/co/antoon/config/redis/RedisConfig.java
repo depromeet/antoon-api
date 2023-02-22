@@ -58,7 +58,7 @@ public class RedisConfig {
         var redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(stringSerializationPair)
                 .serializeValuesWith(objectSerializationPair)
-                .entryTtl(CachingDuration.HOUR.duration);;
+                .entryTtl(CachingDuration.HOUR.duration);
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(redisConnectionFactory())
