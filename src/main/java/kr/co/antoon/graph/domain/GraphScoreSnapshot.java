@@ -12,10 +12,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
+
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@Table(indexes = @Index(name = "i_snapshot_time", columnList = "snapshotTime"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GraphScoreSnapshot extends BaseEntity {
     @Id

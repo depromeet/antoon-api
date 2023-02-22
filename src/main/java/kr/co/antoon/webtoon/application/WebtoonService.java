@@ -13,6 +13,8 @@ import kr.co.antoon.webtoon.dto.query.WebtoonGenreNativeDto;
 import kr.co.antoon.webtoon.dto.response.WebtoonAllResponse;
 import kr.co.antoon.webtoon.infrastructure.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class WebtoonService {
@@ -87,7 +90,8 @@ public class WebtoonService {
         var start = end.minusHours(1);
         var webtoon = webtoonRepository.findOneByWebtoonId(webtoonId, start.toString(), end.toString());
 
-        if (webtoon.size() == 0) {
+        if (webtoon.isEmpty()) {
+            log.error("Followed webtoon id doesn't exist: " + webtoonId);
             throw new NotExistsWebtoonException();
         }
         return WebtoonConverter.toWebtoonDto(webtoon);
