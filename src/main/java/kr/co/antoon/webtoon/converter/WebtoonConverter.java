@@ -25,11 +25,14 @@ public class WebtoonConverter {
         Set<CharacterDto> characters = new HashSet<>();
 
         webtoon.forEach(dto -> {
-            genres.add(new GenreDto(
+            if (dto.getWebtoonGenreId() != null) {
+                genres.add(new GenreDto(
                     dto.getWebtoonGenreId(),
                     dto.getGenreCategory(),
                     dto.getGenreCategory().getDescription()
-            ));
+                ));
+            }
+                
             days.add(new PublishDayDto(
                     dto.getWebtoonPublishDayId(),
                     dto.getDay()
