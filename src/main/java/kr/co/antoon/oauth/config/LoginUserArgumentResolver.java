@@ -1,8 +1,10 @@
 package kr.co.antoon.oauth.config;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+
 import kr.co.antoon.error.exception.oauth.NotExistsOauthInfoException;
 import kr.co.antoon.oauth.dto.AuthInfo;
 import kr.co.antoon.user.domain.vo.Role;
@@ -40,14 +42,14 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         WebDataBinderFactory binderFactory
     ) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-
+        
         Boolean isAnonymousUser = Objects.equals(authentication.getPrincipal(), "anonymousUser");
-
-        /* @TODO Whitelist check should be refactor for scale out the whitelists. */
-        String whiteListPattern = ".+/top-ranks/characters$";
-        Boolean isWhiteList = webRequest.getDescription(false).matches(whiteListPattern);
-
-        if (Boolean.TRUE.equals(isAnonymousUser) && Boolean.TRUE.equals(isWhiteList)) {
+        
+        var uri = webRequest.getDescription(false);
+        String[] whitelists = {".+/top-ranks/characters$",".+/webtoons/.*/discussions$"};
+        Boolean isWhitelist = Arrays.stream(whitelists).anyMatch(uri::matches);
+        
+        if (Boolean.TRUE.equals(isAnonymousUser) && Boolean.TRUE.equals(isWhitelist)) {
             return null;
         }
 
